@@ -3,756 +3,1113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wayang AI - AI Agent Workflow Platform | Wayang AI</title>
-  <meta name="description" content="Wayang AI documentation and platform guides for building agentic workflows.">
+  <title>Gollek - One Stop AI/ML Platform for Java | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
   <script>
     (function () {
       try {
-        var stored = localStorage.getItem('wayang-theme');
-        var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-        var theme = stored || (prefersLight ? 'light' : 'dark');
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', theme);
       } catch (e) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.setAttribute('data-theme', 'light');
       }
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/site.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
   <script src="/assets/js/site.js" defer></script>
 </head>
 <body>
-  <div class="site-bg" aria-hidden="true"></div>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="brand">Wayang AI</a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="/docs/">Docs</a>
-        <a href="/javadoc/">Javadoc</a>
-        <a href="/features/">Features</a>
-        <a href="/about/">About</a>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">Theme</button>
-        <a href="https://github.com/wayang-ai/wayang-platform">GitHub</a>
-      </nav>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
     </div>
-  </header>
 
-  <main class="container content-shell">
-    <section class="hero">
-  <p class="eyebrow">Agentic Workflow Platform</p>
-  <h1>Design, execute, and scale multi-agent workflows with Wayang.</h1>
-  <p class="lead">Wayang combines a visual workflow designer, multi-agent orchestration, and a hardened runtime so teams can ship AI automation faster without sacrificing control.</p>
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Gollek - One Stop AI/ML Platform for Java</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <section class="hero">
+  <div class="hero-logo-container">
+    <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek03%404x.png" alt="Gollek SDK" class="hero-logo" />
+  </div>
+  <p class="eyebrow">One Platform. Three Ways to Build AI/ML Applications.</p>
+  <h1>Build, Train, and Serve AI Models in Java</h1>
+  <p class="lead">Gollek is a unified platform that works as a <strong>High-Performance Serving Engine</strong>, a <strong>PyTorch-like ML Framework</strong>, and a <strong>Universal Inference Runtime</strong>. Build, train, and deploy with native Java speed.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="/docs/">Get Started</a>
-    <a class="btn btn-ghost" href="/features/">Features</a>
-    <a class="btn btn-ghost" href="/docs/wayang-assistant">Wayang Assistant</a>
-    <a class="btn btn-ghost" href="https://github.com/wayang-ai/wayang-platform">GitHub</a>
+    <a class="btn btn-primary" href="#three-paths">Get Started</a>
+    <a class="btn btn-ghost" href="/docs/setup/jbang-examples">Examples</a>
+    <a class="btn btn-ghost" href="https://github.com/bhangun/gollek">GitHub</a>
   </div>
   <div class="hero-stats">
-    <span>Visual Designer</span>
-    <span>Orchestrator Loops</span>
-    <span>Production Runtime</span>
+    <span>PyTorch-like API</span>
+    <span>GPU Accelerated</span>
+    <span>Agent Integration APIs</span>
+    <span>ONNX Audio/TTS</span>
+    <span>WAV/FLAC/MP3</span>
+    <span>Native Java ML</span>
+  </div>
+</section>
+
+<section id="three-paths" class="three-paths-section">
+  <div class="content-container">
+    <h2>Choose Your Path</h2>
+    <p class="lead">Gollek adapts to your needs—whether you're a developer who wants quick CLI commands, a researcher building models, or an enterprise deploying production inference services.</p>
+       <div class="paths-grid">
+      <!-- Path 1: CLI -->
+      <div class="path-card">
+        <div class="path-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5" />
+            <line x1="12" y1="19" x2="20" y2="19" />
+          </svg>
+        </div>
+        <h3>1. Dual-Mode CLI</h3>
+        <p class="path-description">Unified distribution that runs as an interactive CLI or a high-performance REST/Web server. Pull, list, run, and inspect local models, including ONNX image and audio pipelines, from one tool.</p>
+
+        <div class="path-features">
+          <span class="feature-tag">Dual-Mode (CLI/REST)</span>
+          <span class="feature-tag">GraalVM Native</span>
+          <span class="feature-tag">GGUF Quantizer</span>
+          <span class="feature-tag">MOSS TTS ONNX</span>
+          <span class="feature-tag">Live Audio</span>
+        </div>
+
+        <div class="path-example">
+          <div class="example-label">Example:</div>
+          <pre><code class="language-bash">gollek pull OpenMOSS-Team/MOSS-TTS-Nano-100M-ONNX
+gollek run --model 71e8f7 --prompt "hello" \
+  --voice "en Trump" --audio-quality balanced \
+  --live-audio --output hello.mp3
+gollek run --model 71e8f7 --list-voices</code></pre>
+        </div>
+
+        <div class="path-actions">
+          <a href="/docs/setup/cli-installation#install-chooser" class="btn btn-sm btn-primary">Install CLI</a>
+          <a href="/docs/setup/cli-reference" class="btn btn-sm btn-ghost">View Commands</a>
+        </div>
+      </div>
+
+      <!-- Path 2: Framework -->
+      <div class="path-card path-card-highlighted">
+        <div class="path-badge">Core Engine</div>
+        <div class="path-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5" />
+            <path d="M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <h3>2. ML Framework</h3>
+        <p class="path-description">Build and train neural networks with a native Java API. Tensors with autograd, 118+ modules, and advanced indexing for complex architectures.</p>
+
+        <div class="path-features">
+          <span class="feature-tag feature-tag-highlighted">118+ NN Layers</span>
+          <span class="feature-tag feature-tag-highlighted">Autograd v2</span>
+          <span class="feature-tag feature-tag-highlighted">Vision/NLP Transforms</span>
+          <span class="feature-tag">Metal/CUDA Accelerated</span>
+          <span class="feature-tag">JBang/Jupyter Integration</span>
+        </div>
+
+        <div class="path-example">
+          <div class="example-label">Example (Pure Java):</div>
+          <pre><code class="language-java">// Build a Transformer Block
+Sequential block = new Sequential(
+    new MultiHeadAttention(512, 8),
+    new LayerNorm(512),
+    new Linear(512, 2048),
+    new ReLU(),
+    new Linear(2048, 512)
+);</code></pre>
+        </div>
+
+        <div class="path-actions">
+          <a href="/docs/framework/framework" class="btn btn-sm btn-primary">Framework Guide</a>
+          <a href="/docs/tutorials/basic/" class="btn btn-sm btn-ghost">Tutorials</a>
+        </div>
+      </div>
+
+      <!-- Path 3: Serving Runtime -->
+      <div class="path-card">
+        <div class="path-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--multimodal-primary);">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M12 22l10-5-10-5-10 5 10 5z" />
+          </svg>
+        </div>
+        <h3>3. Serving Runtime</h3>
+        <p class="path-description">High-performance inference engine with vLLM-style continuous batching, OpenAI-compatible APIs, embeddings, MCP discovery, RAG context injection, and multi-backend support.</p>
+
+        <div class="path-features">
+          <span class="feature-tag" style="border-color: var(--multimodal-primary);">Continuous Batching</span>
+          <span class="feature-tag" style="border-color: var(--multimodal-primary);">PagedAttention</span>
+          <span class="feature-tag" style="border-color: var(--multimodal-primary);">Multi-Backend (GGUF/PT)</span>
+          <span class="feature-tag">Chat / Responses / Embeddings</span>
+          <span class="feature-tag">MCP + RAG Contracts</span>
+          <span class="feature-tag">REST / Web UI</span>
+        </div>
+
+        <div class="path-example">
+          <div class="example-label">Example (Server API):</div>
+          <pre><code class="language-java">// Submit Inference Request to Runtime
+ScheduledRequest request = new ScheduledRequest(
+    "req-123",
+    "Explain quantum computing",
+    512  // maxTokens
+);
+scheduler.submit(request);</code></pre>
+        </div>
+
+        <div class="path-actions">
+          <a href="/docs/agent-integration-boundary" class="btn btn-sm btn-primary" style="background: var(--multimodal-gradient);">Agent Boundary</a>
+          <a href="/docs/runtime/core-api" class="btn btn-sm btn-ghost">SDK Reference</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-container" style="padding: 80px 0;">
+  <h2 class="section-title-alt">Why Gollek?</h2>
+  <div class="feature-grid-v2">
+  <!-- CLI -->
+  <div class="feature-v2-card">
+    <div class="feature-v2-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="4,17 10,11 4,5" /><line x1="12" y1="19" x2="20" y2="19" />
+      </svg>
+    </div>
+    <h3>As a CLI Tool</h3>
+    <ul class="feature-v2-list">
+      <li><strong>Quick Inference</strong>: Multi-provider chat</li>
+      <li><strong>Model Mgmt</strong>: List, pull, and verify</li>
+      <li><strong>Audio Generation</strong>: MOSS TTS ONNX to WAV/FLAC/MP3</li>
+      <li><strong>Quantization</strong>: GPTQ, AWQ, INT8, FP8</li>
+    </ul>
+  </div>
+
+  <!-- Framework -->
+  <div class="feature-v2-card">
+    <div class="feature-v2-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
+      </svg>
+    </div>
+    <h3>As an ML Framework</h3>
+    <ul class="feature-v2-list">
+      <li><strong>GradTensor</strong>: Autograd v2 engine</li>
+      <li><strong>118+ Layers</strong>: Linear to Transformers</li>
+      <li><strong>Hardware</strong>: CUDA, Metal, ROCm kernels</li>
+      <li><strong>Distributed</strong>: Cluster-wide training</li>
+    </ul>
+  </div>
+
+  <!-- Runtime -->
+  <div class="feature-v2-card">
+    <div class="feature-v2-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    </div>
+    <h3>As a Serving Runtime</h3>
+    <ul class="feature-v2-list">
+      <li><strong>Dual-Mode</strong>: CLI and REST/Web Server</li>
+      <li><strong>Optimization</strong>: Continuous Batching</li>
+      <li><strong>Enterprise</strong>: Metrics, Health, Tracing</li>
+      <li><strong>High Perf</strong>: PagedAttention KV-Cache</li>
+    </ul>
+  </div>
   </div>
 </section>
 
 <section class="quick-grid">
-  <a class="quick-card" href="/docs/">
-    <h3>Start a Project</h3>
-    <p>Bootstrap a workflow and learn the WayangSpec + WorkflowSpec layout.</p>
+  <a class="quick-card" href="/docs/framework/framework">
+    <h3>🧠 ML Framework</h3>
+    <p>PyTorch-like API: Tensors, Autograd, 118+ NN modules, Advanced Tensor Ops, and Multimodal layers.</p>
   </a>
-  <a class="quick-card" href="/features/">
-    <h3>Explore Features</h3>
-    <p>See orchestration, RAG, triggers, guardrails, and HITL coverage.</p>
+  <a class="quick-card" href="/docs/framework/diffusion-opd">
+    <h3>🌀 DiffusionOPD</h3>
+    <p>Java-first on-policy distillation for diffusion models, integrated as native Gollek training modules.</p>
   </a>
-  <a class="quick-card" href="/docs/wayang-assistant">
-    <h3>Ask Wayang Assistant</h3>
-    <p>Generate projects, ask questions, and troubleshoot errors fast.</p>
+  <a class="quick-card" href="/docs/framework/byte-latent">
+    <h3>🔤 Byte-Latent Models</h3>
+    <p>Fast Byte Latent Transformer style architecture work, mapped to dedicated Gollek language-model modules.</p>
+  </a>
+  <a class="quick-card" href="/docs/setup/cli-installation#install-chooser">
+    <h3>💻 CLI Tool</h3>
+    <p>Install via brew, choco, or curl. Chat, convert, generate audio, and manage models.</p>
+  </a>
+  <a class="quick-card" href="/docs/runtime/moss-tts-onnx">
+    <h3>ONNX Text-to-Speech</h3>
+    <p>MOSS TTS Nano support with voice presets, Suling WAV/FLAC/MP3 output, live preview, quality presets, and audio run metrics.</p>
+  </a>
+  <a class="quick-card" href="/docs/runtime/core-api">
+    <h3>🚀 Inference Runtime</h3>
+    <p>High-performance serving with GPU acceleration and unified Multimodal SDK.</p>
+  </a>
+  <a class="quick-card" href="/docs/agent-integration-api">
+    <h3>Agent Integration</h3>
+    <p>Use Gollek as the serving substrate for Wayang-Gollek with endpoints, validation, MCP tools, embeddings, and RAG context.</p>
+  </a>
+  <a class="quick-card" href="/docs/extensions/">
+    <h3>Extensions</h3>
+    <p>Scaffold and install pipeline or adapter packages for OCR, TTS, training, quantization, optimization, backends, datasets, and evaluators.</p>
+  </a>
+  <a class="quick-card" href="/docs/setup/jbang-examples">
+    <h3>📚 Examples</h3>
+    <p>23+ ready-to-run scripts: from Hello World to Transformer classifiers.</p>
+  </a>
+  <a class="quick-card" href="/docs/runtime/gpu-kernels">
+    <h3>⚡ GPU Kernels</h3>
+    <p>CUDA, Metal, ROCm with FlashAttention 2/3/4 and FP8/FP4 precision.</p>
+  </a>
+  <a class="quick-card" href="/blog/">
+    <h3>📝 Blog</h3>
+    <p>Release notes, architecture updates, and implementation progress.</p>
   </a>
 </section>
 
-<section class="subtle-panel">
-  <strong>Latest update:</strong> Wayang Assistant is live with project generation and troubleshooting endpoints.
-  <a href="/docs/wayang-assistant">Learn more</a>
+<section class="content-container">
+  <div class="milestone-grid">
+    <!-- Milestone 1: v0.2 -->
+    <div class="milestone-card">
+      <div class="milestone-title">
+        <span class="milestone-tag">Latest Release</span>
+        SDK v0.2 Stable
+      </div>
+      <p>Achieved 75% PyTorch parity with 118+ NN modules, advanced tensor indexing (broadcasting), and native vision/NLP transforms.</p>
+      <a href="/docs/release-notes-v0.2" class="milestone-link">
+        View Release Notes
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+
+    <!-- Milestone 2: JBang -->
+    <div class="milestone-card">
+      <div class="milestone-title">
+        <span class="milestone-tag">Ecosystem</span>
+        JBang Examples
+      </div>
+      <p>23+ verified scripts covering everything from raw tensor math to complex Transformer training and LangChain4j integrations.</p>
+      <a href="/docs/setup/jbang-examples" class="milestone-link">
+        Browse Catalog
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+
+    <!-- Milestone 3: Quantization -->
+    <div class="milestone-card">
+      <div class="milestone-title">
+        <span class="milestone-tag">Optimization</span>
+        Advanced Quantization
+      </div>
+      <p>Native support for GPTQ, AWQ, and TurboQuant. Achieve 8x model compression with minimal quality loss for edge deployment.</p>
+      <a href="/docs/plugins/quantization" class="milestone-link">
+        Explore Quantization
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+
+    <!-- Milestone 4: ONNX Audio -->
+    <div class="milestone-card">
+      <div class="milestone-title">
+        <span class="milestone-tag">Audio Runtime</span>
+        MOSS TTS ONNX
+      </div>
+      <p>Local text-to-speech now runs through a multi-session ONNX pipeline with voice presets, companion codec discovery, Suling WAV/FLAC/MP3 output, live PCM preview, and realtime-factor reporting.</p>
+      <a href="/docs/runtime/moss-tts-onnx" class="milestone-link">
+        Read TTS Guide
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+
+    <!-- Milestone 5: GGUF -->
+    <div class="milestone-card">
+      <div class="milestone-title">
+        <span class="milestone-tag">Compatibility</span>
+        Universal GGUF Engine
+      </div>
+      <p>Support for 40+ model families including Llama 3.2, DeepSeek, and Grok with optimized K-quantization kernels.</p>
+      <a href="/docs/gguf-enhancements" class="milestone-link">
+        Learn More
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+      </a>
+    </div>
+  </div>
 </section>
 
 <section class="terminal-demo">
-  <h2>Try the CLI Experience</h2>
-  <p>Spin up a dev runtime and iterate on workflows quickly.</p>
-  <div id="terminal" class="terminal-box" role="img" aria-label="Typing demo showing wayang dev command">
-    <span class="prompt">$</span>
-    <span id="typing-effect" data-command="wayang dev" data-result="Starting Wayang runtime...&#10;✓ Runtime ready on http://localhost:31713&#10;Designer connected">wayang dev</span>
+  <div class="content-container">
+    <h2>Try the CLI Experience</h2>
+    <p>Experience the speed of Gollek's automated hardware detection and local inference.</p>
+    <div id="terminal" class="terminal-box" role="img" aria-label="Typing demo showing gollek audio generation">
+      <div class="terminal-header">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <span class="terminal-title">gollek-cli — zsh</span>
+      </div>
+      <div class="terminal-body">
+        <span class="prompt">$</span>
+        <span id="typing-effect" data-command="gollek run --model 71e8f7 --prompt &quot;hello&quot; --voice &quot;en Trump&quot; --audio-quality balanced --output hello.mp3" data-result="Resolved local model index entry: ~/.gollek/models/safetensors/OpenMOSS-Team/MOSS-TTS-Nano-100M-ONNX&#10;Provider: onnx&#10;&#10;✓ Audio saved to: hello.mp3&#10;Audio details: 2.08s, 48000 Hz, 1ch, 26 frames, 128 kbps, voice EN Trump, seed 1234, mono collapsed, polished peak&#10;[Audio: 2.08s, Generation: 2.91s, Speed: 0.71x realtime, RTF: 1.40]">gollek run --model 71e8f7 --prompt "hello" --voice "en Trump" --audio-quality balanced --output hello.mp3</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="subtle-panel hero-compact">
-  <strong>Light mode QA:</strong> check hero text, quick cards, tables, and code blocks for contrast and readability.
+<section class="content-container" style="padding: 60px 0;">
+
+  <h2 class="section-title-alt">Quick Start</h2>
+
+  <h3 id="install-cli">1. Install CLI</h3>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># MacOS / Linux / Windows</span>
+curl <span class="nt">-sSL</span> https://raw.githubusercontent.com/bhangun/gollek/main/scripts/install.sh | bash
+</code></pre></div>  </div>
+
+  <h3 id="add-sdk-dependency">2. Add SDK Dependency</h3>
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>tech.kayys.gollek<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>gollek-sdk-ml<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.2.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>  </div>
+
+  <h3 id="run-inference-local-gguf">3. Run Inference (Local GGUF)</h3>
+  <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GollekLocalClient</span> <span class="n">client</span> <span class="o">=</span> <span class="nc">GollekSdkFactory</span><span class="o">.</span><span class="na">createLocalSdk</span><span class="o">();</span>
+<span class="kt">var</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="nc">InferenceRequest</span><span class="o">.</span><span class="na">on</span><span class="o">(</span><span class="s">"llama-3.2-3b"</span><span class="o">).</span><span class="na">prompt</span><span class="o">(</span><span class="s">"Hi!"</span><span class="o">));</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">text</span><span class="o">());</span>
+</code></pre></div>  </div>
+
+</section>
+
+<section class="content-container" style="padding: 60px 0; border-top: 1px solid var(--border-color);">
+
+  <h2 class="section-title-alt">Key Features</h2>
+
+  <div class="table-wrapper" style="margin-top: 30px;">
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left">Category</th>
+          <th style="text-align: center">CLI</th>
+          <th style="text-align: center">ML/Training</th>
+          <th style="text-align: center">Serving Engine</th>
+          <th style="text-align: center">Wayang-Gollek</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left"><strong>Inference</strong></td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">Consumes</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>Audio/TTS</strong></td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">Consumes</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>Training</strong></td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">Uses models</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>GPU Acceleration</strong></td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">Consumes</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>Continuous Batching</strong></td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">Consumes</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>Embeddings</strong></td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">Uses for RAG</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>RAG Context Injection</strong></td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">✅</td>
+          <td style="text-align: center">Supplies context</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>MCP / Tool Schemas</strong></td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">Exposes contracts</td>
+          <td style="text-align: center">Executes tools</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>Agent Orchestration</strong></td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">Owns</td>
+        </tr>
+        <tr>
+          <td style="text-align: left"><strong>Memory, HITL, Workflows</strong></td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">❌</td>
+          <td style="text-align: center">Owns</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</section>
+
+<section class="content-container" style="padding: 60px 0; border-top: 1px solid var(--border-color);">
+  <h2 class="section-title-alt">Supported Providers &amp; Runtimes</h2>
+  <div class="provider-group">
+    <h3>Cloud AI</h3>
+    <div class="chip-grid">
+      <span class="provider-chip">OpenAI (o1/GPT-4)</span>
+      <span class="provider-chip">Anthropic (Claude 3.5)</span>
+      <span class="provider-chip">Google Gemini 1.5</span>
+      <span class="provider-chip">Cerebras (Llama 3.1)</span>
+      <span class="provider-chip">Mistral / Mixtral</span>
+    </div>
+  </div>
+  <div class="provider-group">
+    <h3>Local Engines &amp; Formats</h3>
+    <div class="chip-grid">
+      <span class="provider-chip">GGUF (llama.cpp)</span>
+      <span class="provider-chip">SafeTensors (LibTorch)</span>
+      <span class="provider-chip">ONNX Runtime</span>
+      <span class="provider-chip">MOSS TTS ONNX</span>
+      <span class="provider-chip">MOSS Audio Tokenizer ONNX</span>
+      <span class="provider-chip">Stable Diffusion ONNX</span>
+      <span class="provider-chip">PyTorch JIT (.pt)</span>
+      <span class="provider-chip">Whisper (STT)</span>
+    </div>
+  </div>
+  <div class="provider-group">
+    <h3>Extensions &amp; Plugins</h3>
+    <div class="chip-grid">
+      <span class="provider-chip">Installable Extensions</span>
+      <span class="provider-chip">Feature Adapters</span>
+      <span class="provider-chip">Inference Pipelines</span>
+      <span class="provider-chip">Built-in Runtime Plugins</span>
+      <span class="provider-chip">Training / Quantization / Backend Capabilities</span>
+    </div>
+  </div>
+</section>
+
+<section class="content-container" style="padding: 60px 0; border-top: 1px solid var(--border-color);">
+
+  <h2 class="section-title-alt">Architecture Overview</h2>
+
+  <div class="arch-diagram">
+
+<div class="mermaid">
+graph TD
+    Wayang["Wayang-Gollek Agent System"] --&gt; AgentPolicy["Planning, memory, tools, approvals"]
+    User["User Application"] --&gt; Unified["Gollek Unified Runtime"]
+    AgentPolicy --&gt; SDKAPI["Gollek SDK / OpenAI-compatible API"]
+    SDKAPI --&gt; Unified
+
+    subgraph Interface_Layer ["Interface Layer"]
+        Unified --&gt; CLI["Dual-Mode CLI (Management/Chat)"]
+        Unified --&gt; REST["Production REST / Web API"]
+        Unified --&gt; SDK["Native Java SDK"]
+        Unified --&gt; AgentAPI["Agent Integration Contracts"]
+    end
+
+    subgraph Serving_Layer ["Inference &amp; Serving Engine"]
+        Unified --&gt; Engine["Universal Inference Core"]
+        Engine --&gt; Batch["Continuous Batching Scheduler"]
+        Engine --&gt; Cache["PagedAttention KV-Cache"]
+        Engine --&gt; Optim["15+ Optimization Plugins"]
+    end
+
+    subgraph Framework_Layer ["ML Framework (Training)"]
+        Unified --&gt; FW["PyTorch-like Framework"]
+        FW --&gt; Tensor["GradTensor (Autograd v2)"]
+        FW --&gt; NN["118+ Neural Network Layers"]
+        FW --&gt; Data["Vision/NLP Preprocessing"]
+    end
+
+    subgraph Core_Engine ["Compute Backend Layer"]
+        Engine --&gt; Backends{"Compute Dispatcher"}
+        FW --&gt; Backends
+
+        Backends --&gt; CUDA("CUDA / NV")
+        Backends --&gt; Metal("Metal / Apple")
+        Backends --&gt; ROCm("ROCm / AMD")
+        Backends --&gt; CPU("Pure Java / Vector")
+    end
+</div>
+
+</div>
+
+</section>
+
+<section class="content-container" style="padding: 80px 0; border-top: 1px solid var(--border-color);">
+
+  <h2 class="section-title-alt">🌟 Gollek Platform Roadmap</h2>
+
+  <p class="lead" style="text-align: center; margin-bottom: 40px;">Gollek is the AI platform foundation. Wayang-Gollek runs on top as the agentic system engine.</p>
+
+  <div class="milestone-grid">
+
+    <div class="milestone-card">
+      <div class="milestone-title">Phases 1-3: Deep Learning</div>
+      <p>118+ layers, Tensor Autograd v2, Metal/CUDA stabilization. ✨ <strong>COMPLETED</strong></p>
+    </div>
+
+    <div class="milestone-card">
+      <div class="milestone-title">Phases 4-7: Wayang-Gollek Agent System</div>
+      <p>Agent planning, memory, tools, HITL, prompts, RAG policy, MCP execution, and low-code orchestration live above Gollek. ✨ <strong>COMPLETED</strong></p>
+    </div>
+
+    <div class="milestone-card">
+      <div class="milestone-title">Phases 8-9: Production</div>
+      <p>85% size reduction, OpenTelemetry integration, 118+ tests. ✨ <strong>COMPLETED</strong></p>
+    </div>
+
+  </div>
+
+  <div class="hero-actions" style="justify-content: center; margin-top: 60px;">
+  <a class="btn btn-primary" href="/docs/setup/cli-installation#install-chooser">Start Building Now</a>
+  <a class="btn btn-ghost" href="/docs/tutorials/basic/">View Tutorials</a>
+</div>
+
 </section>
 
 <hr />
 
-<h2 id="why-wayang-ai">Why Wayang AI?</h2>
+<section class="content-container" style="padding: 40px 0;">
 
-<p>Wayang AI empowers developers and teams to create sophisticated AI-driven automation systems without the complexity. Our platform combines the power of large language models with intuitive workflow orchestration.</p>
+  <h2 class="section-title-alt">Community and Support</h2>
 
-<h3 id="visual-workflow-designer">Visual Workflow Designer</h3>
-
-<p>Drag-and-drop interface for designing complex agent workflows. No coding required for basic setups, full extensibility for advanced users.</p>
-
-<h3 id="multi-agent-collaboration">Multi-Agent Collaboration</h3>
-
-<p>Design systems where multiple specialized agents work together, share context, and achieve complex goals through coordinated execution.</p>
-
-<h3 id="real-time-execution-engine">Real-Time Execution Engine</h3>
-
-<p>High-performance runtime with support for parallel execution, error handling, and seamless integration with external APIs and services.</p>
-
-<h3 id="wayang-assistant">Wayang Assistant</h3>
-
-<p>An internal assistant that helps users build Wayang projects, answer questions about the platform, and troubleshoot errors. See the <a href="/docs/wayang-assistant">Wayang Assistant docs</a>.</p>
-
-<h3 id="native-vector-memory">Native Vector Memory</h3>
-
-<p>Built-in high-performance FAISS vector search engine powered by JDK 25 Foreign Function Memory (FFM). Provides zero-dependency semantic memory for RAG and autonomous agents out of the box with no external databases required.</p>
-
-<h3 id="extensible-architecture">Extensible Architecture</h3>
-
-<p>Build custom agents, tools, and connectors. Our plugin system makes it easy to extend functionality and integrate with your existing stack.</p>
-
-<hr />
-
-<h2 id="quick-start">Quick Start</h2>
-
-<p>Get up and running in minutes:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Wayang AI</span>
-npm <span class="nb">install</span> <span class="nt">-g</span> @wayang-ai/cli
-
-<span class="c"># Create a new project</span>
-wayang create my-agent-flow
-
-<span class="c"># Start the development server</span>
-wayang dev
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="use-cases">Use Cases</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Domain</th>
-      <th>Application</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Customer Support</td>
-      <td>Automated ticket routing, intelligent responses, escalation handling</td>
-    </tr>
-    <tr>
-      <td>Data Processing</td>
-      <td>ETL pipelines, data validation, transformation workflows</td>
-    </tr>
-    <tr>
-      <td>Research</td>
-      <td>Literature review, data extraction, summarization pipelines</td>
-    </tr>
-    <tr>
-      <td>DevOps</td>
-      <td>Incident response, monitoring alerts, automated remediation</td>
-    </tr>
-    <tr>
-      <td>Content Creation</td>
-      <td>Multi-stage content generation, review workflows, localization</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<h2 id="community--support">Community &amp; Support</h2>
-
-<ul>
-  <li><a href="/docs/">Documentation</a> - Comprehensive guides and API references</li>
-  <li><a href="https://github.com/wayang-ai/wayang-platform/discussions">Discussions</a> - Ask questions and share ideas</li>
-  <li><a href="https://github.com/wayang-ai/wayang-platform/issues">Issues</a> - Report bugs and request features</li>
+  <ul class="milestone-list" style="list-style: none; padding: 0;">
+  <li><strong><a href="/docs/">Platform Hub</a></strong> - Access all documentation for Gollek runtime, ML framework, training, and production hardening.</li>
+  <li><strong><a href="/docs/agent-integration-api">Agent Integration API</a></strong> - Use Gollek's serving contract from Wayang-Gollek or another agent runtime.</li>
+  <li><strong><a href="/docs/agent-integration-boundary">Agent Integration Boundary</a></strong> - Understand how Gollek supports Wayang-Gollek without owning orchestration.</li>
+  <li><strong><a href="/docs/phases-overview">9-Phase Roadmap</a></strong> - Detailed look at the Gollek and Wayang-Gollek roadmap.</li>
+  <li><strong><a href="/docs/setup/cli-reference">CLI Reference</a></strong> - Complete list of terminal commands.</li>
+  <li><strong><a href="/docs/setup/jbang-examples">JBang Examples</a></strong> - 23+ ready-to-run Java scripts.</li>
+  <li><strong><a href="https://github.com/bhangun/gollek/discussions">Discussions</a></strong> - Join the community on GitHub.</li>
+  <li><strong><a href="https://github.com/bhangun/gollek/issues">Issues</a></strong> - Report bugs or request features.</li>
 </ul>
 
-<hr />
-
-<h2 id="ready-to-build">Ready to Build?</h2>
-
-<p>Join teams building the future of AI automation.</p>
-
-<p><a href="/docs/">Get Started Now</a>   <a href="https://github.com/wayang-ai/wayang-platform">Star on GitHub</a></p>
+</section>
 
 <hr />
 
-<p>Wayang AI is open source and available under the <a href="https://github.com/wayang-ai/wayang-platform/blob/main/LICENSE">Apache 2.0 License</a>.</p>
+<p>Gollek AI is open source and available under the Apache 2.0 License.</p>
 
-  </main>
+      </div>
+    </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <span>Wayang AI Docs</span>
-      <a href="https://github.com/wayang-ai/wayang-platform">wayang-ai/wayang-platform</a>
-    </div>
-    <div class="container footer-links">
-      <a href="/cookies-policy.html">Cookies Policy</a>
-      <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="/terms-of-service.html">Terms of Service</a>
-    </div>
-  </footer>
-
-  <!-- Cookie Consent Banner -->
-<div id="cookie-consent-banner" class="cookie-consent-banner" style="display: none;">
-  <div class="cookie-consent-content">
-    <div class="cookie-consent-text">
-      <h3>🍪 We Use Cookies</h3>
-      <p>
-        We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. 
-        By continuing to use this site, you consent to our use of cookies.
-      </p>
-      <p class="cookie-consent-link">
-        <a href="/cookies-policy.html">Learn more</a> about our cookies policy.
-      </p>
-    </div>
-    <div class="cookie-consent-buttons">
-      <button id="cookie-reject" class="btn-cookie-reject">Reject Non-Essential</button>
-      <button id="cookie-customize" class="btn-cookie-customize">Customize</button>
-      <button id="cookie-accept" class="btn-cookie-accept">Accept All</button>
-    </div>
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
   </div>
-</div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
 
-<!-- Cookie Preferences Modal -->
-<div id="cookie-preferences-modal" class="cookie-modal" style="display: none;">
-  <div class="cookie-modal-content">
-    <div class="cookie-modal-header">
-      <h2>Cookie Preferences</h2>
-      <button id="cookie-modal-close" class="cookie-modal-close">&times;</button>
-    </div>
-    <div class="cookie-modal-body">
-      <p class="cookie-modal-description">
-        Manage your cookie preferences below. Note that essential cookies cannot be disabled 
-        as they are necessary for the site to function properly.
-      </p>
-      
-      <div class="cookie-category">
-        <div class="cookie-category-header">
-          <div class="cookie-category-info">
-            <h4>Essential Cookies</h4>
-            <p>Required for basic site functionality and security</p>
-          </div>
-          <div class="cookie-category-toggle">
-            <input type="checkbox" id="cookie-essential" checked disabled>
-            <label for="cookie-essential" class="cookie-toggle-label">Always Active</label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="cookie-category">
-        <div class="cookie-category-header">
-          <div class="cookie-category-info">
-            <h4>Performance & Analytics Cookies</h4>
-            <p>Help us understand how visitors use our site</p>
-          </div>
-          <div class="cookie-category-toggle">
-            <input type="checkbox" id="cookie-analytics">
-            <label for="cookie-analytics" class="cookie-toggle-label"></label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="cookie-category">
-        <div class="cookie-category-header">
-          <div class="cookie-category-info">
-            <h4>Functionality Cookies</h4>
-            <p>Remember your preferences and settings</p>
-          </div>
-          <div class="cookie-category-toggle">
-            <input type="checkbox" id="cookie-functionality">
-            <label for="cookie-functionality" class="cookie-toggle-label"></label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="cookie-modal-footer">
-      <button id="cookie-save-preferences" class="btn-cookie-save">Save Preferences</button>
-    </div>
-  </div>
-</div>
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
 
-<style>
-/* Cookie Consent Banner Styles */
-.cookie-consent-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: #ffffff;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
-  border-top: 3px solid #0f3460;
-  animation: slideUp 0.3s ease-out;
-}
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
 
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
 
-.cookie-consent-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.cookie-consent-text {
-  flex: 1;
-  min-width: 300px;
-}
-
-.cookie-consent-text h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-  color: #e94560;
-  font-weight: 600;
-}
-
-.cookie-consent-text p {
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #e0e0e0;
-}
-
-.cookie-consent-link a {
-  color: #0f3460;
-  background: #e94560;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.cookie-consent-link a:hover {
-  background: #ff6b6b;
-}
-
-.cookie-consent-buttons {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.cookie-consent-buttons button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-cookie-accept {
-  background: #e94560;
-  color: white;
-}
-
-.btn-cookie-accept:hover {
-  background: #ff6b6b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
-}
-
-.btn-cookie-reject {
-  background: transparent;
-  color: #e0e0e0;
-  border: 2px solid #e0e0e0;
-}
-
-.btn-cookie-reject:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
-.btn-cookie-customize {
-  background: #0f3460;
-  color: white;
-}
-
-.btn-cookie-customize:hover {
-  background: #1a4a7a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(15, 52, 96, 0.4);
-}
-
-/* Cookie Modal Styles */
-.cookie-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  animation: fadeIn 0.2s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.cookie-modal-content {
-  background: white;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.cookie-modal-header {
-  padding: 1.5rem 2rem;
-  border-bottom: 2px solid #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: white;
-  border-radius: 12px 12px 0 0;
-}
-
-.cookie-modal-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #e94560;
-}
-
-.cookie-modal-close {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #e0e0e0;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s;
-}
-
-.cookie-modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.cookie-modal-body {
-  padding: 2rem;
-}
-
-.cookie-modal-description {
-  margin-bottom: 1.5rem;
-  color: #555;
-  line-height: 1.6;
-}
-
-.cookie-category {
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  overflow: hidden;
-  transition: all 0.2s;
-}
-
-.cookie-category:hover {
-  border-color: #0f3460;
-}
-
-.cookie-category-header {
-  padding: 1rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  background: #f8f9fa;
-}
-
-.cookie-category-info h4 {
-  margin: 0 0 0.25rem 0;
-  color: #1a1a2e;
-  font-size: 1rem;
-}
-
-.cookie-category-info p {
-  margin: 0;
-  color: #666;
-  font-size: 0.85rem;
-}
-
-.cookie-category-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cookie-category-toggle input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: #e94560;
-}
-
-.cookie-category-toggle input:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.cookie-toggle-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #e94560;
-  cursor: pointer;
-}
-
-.cookie-modal-footer {
-  padding: 1.5rem 2rem;
-  border-top: 2px solid #e0e0e0;
-  background: #f8f9fa;
-  border-radius: 0 0 12px 12px;
-  text-align: right;
-}
-
-.btn-cookie-save {
-  padding: 0.75rem 2rem;
-  background: #e94560;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-cookie-save:hover {
-  background: #ff6b6b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .cookie-consent-content {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .cookie-consent-buttons {
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .cookie-consent-buttons button {
-    flex: 1;
-    min-width: 120px;
-  }
-  
-  .cookie-modal-content {
-    width: 95%;
-    max-height: 90vh;
-  }
-  
-  .cookie-category-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-</style>
-
-<script>
-// Cookie Consent Management
-(function() {
-  const COOKIE_CONSENT_KEY = 'wayang_cookie_consent';
-  const COOKIE_VERSION = '1.0';
-  
-  // DOM Elements
-  const banner = document.getElementById('cookie-consent-banner');
-  const modal = document.getElementById('cookie-preferences-modal');
-  const acceptBtn = document.getElementById('cookie-accept');
-  const rejectBtn = document.getElementById('cookie-reject');
-  const customizeBtn = document.getElementById('cookie-customize');
-  const modalClose = document.getElementById('cookie-modal-close');
-  const savePrefsBtn = document.getElementById('cookie-save-preferences');
-  const analyticsCheckbox = document.getElementById('cookie-analytics');
-  const functionalityCheckbox = document.getElementById('cookie-functionality');
-  
-  // Check if consent already given
-  function getConsent() {
-    const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-    return consent ? JSON.parse(consent) : null;
-  }
-  
-  // Save consent preferences
-  function saveConsent(preferences) {
-    const consent = {
-      version: COOKIE_VERSION,
-      timestamp: new Date().toISOString(),
-      preferences: preferences
-    };
-    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
-    
-    // Apply cookie settings
-    applyCookieSettings(preferences);
-  }
-  
-  // Apply cookie settings
-  function applyCookieSettings(preferences) {
-    // Analytics cookies
-    if (!preferences.analytics) {
-      // Disable Google Analytics if rejected
-      if (window.ga) {
-        window.ga('set', 'anonymizeIp', true);
-        window.gaOptout = true;
-      }
-    }
-    
-    // Functionality cookies
-    if (!preferences.functionality) {
-      // Clear functionality cookies
-      document.cookie.split(";").forEach(function(c) {
-        if (c.trim().startsWith('_preferred_') || c.trim().startsWith('_theme_')) {
-          document.cookie = c.split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-        }
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
       });
-    }
-  }
-  
-  // Show banner if no consent
-  function showBanner() {
-    const consent = getConsent();
-    if (!consent) {
-      setTimeout(function() {
-        banner.style.display = 'block';
-      }, 1000);
-    }
-  }
-  
-  // Show modal
-  function showModal() {
-    const consent = getConsent();
-    if (consent) {
-      analyticsCheckbox.checked = consent.preferences.analytics || false;
-      functionalityCheckbox.checked = consent.preferences.functionality || false;
-    }
-    modal.style.display = 'flex';
-  }
-  
-  // Hide modal
-  function hideModal() {
-    modal.style.display = 'none';
-  }
-  
-  // Accept all cookies
-  acceptBtn.addEventListener('click', function() {
-    saveConsent({
-      essential: true,
-      analytics: true,
-      functionality: true
-    });
-    banner.style.display = 'none';
-  });
-  
- // Reject non-essential cookies
-  rejectBtn.addEventListener('click', function() {
-    saveConsent({
-      essential: true,
-      analytics: false,
-      functionality: false
-    });
-    banner.style.display = 'none';
-  });
-  
-  // Customize cookies
-  customizeBtn.addEventListener('click', function() {
-    showModal();
-  });
-  
-  // Close modal
-  modalClose.addEventListener('click', hideModal);
-  
-  // Save preferences
-  savePrefsBtn.addEventListener('click', function() {
-    saveConsent({
-      essential: true,
-      analytics: analyticsCheckbox.checked,
-      functionality: functionalityCheckbox.checked
-    });
-    hideModal();
-    banner.style.display = 'none';
-  });
-  
-  // Close modal on outside click
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      hideModal();
-    }
-  });
-  
-  // Keyboard navigation
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modal.style.display === 'flex') {
-      hideModal();
-    }
-  });
-  
-  // Initialize
-  showBanner();
-  
-  // Expose function to reopen preferences
-  window.openCookiePreferences = showModal;
-})();
-</script>
-
+    </script>
 </body>
 </html>

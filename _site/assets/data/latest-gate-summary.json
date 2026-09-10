@@ -1,0 +1,10 @@
+{
+  "gate_status": "UNKNOWN",
+  "matrix_name": "not-published",
+  "generated_at_utc": "unknown",
+  "hybrid_req_delta_pct": "n/a",
+  "hybrid_tokens_delta_pct": "n/a",
+  "hybrid_latency_p95_delta_pct": "n/a",
+  "hybrid_error_delta_abs": "n/a",
+  "source": "publish from strict run artifacts"
+}

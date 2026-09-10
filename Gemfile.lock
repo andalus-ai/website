@@ -157,8 +157,8 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  jekyll (~> 4.3)
-  webrick (~> 1.8)
+  jekyll (~> 4.4)
+  webrick (~> 1.9)
 
 CHECKSUMS
   addressable (2.8.9) sha256=cc154fcbe689711808a43601dee7b980238ce54368d23e127421753e46895485
@@ -230,4 +230,4 @@ CHECKSUMS
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
 
 BUNDLED WITH
-  4.0.3
+  4.0.8

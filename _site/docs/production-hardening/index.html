@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Production Hardening | Phases 8-9 | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Production Hardening | Phases 8-9</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="production-hardening-phases-8-9">Production Hardening (Phases 8-9)</h1>
+
+<p>Production Hardening encompasses Phases 8-9, transforming the complete platform into a resilient, observable, and production-ready system.</p>
+
+<h2 id="status">Status</h2>
+
+<p>✅ <strong>Complete</strong> - All core features implemented and tested</p>
+
+<ul>
+  <li><strong>Phase 8</strong>: ✅ Agent Optimization (75-85% size reduction)</li>
+  <li><strong>Phase 8B</strong>: ✅ Comprehensive Testing (118 test methods)</li>
+  <li><strong>Phase 9</strong>: ✅ Production Observability (OpenTelemetry, circuit breakers, audit logging)</li>
+  <li><strong>Phase 9B</strong>: 📋 Code Quality Tooling (designed, ready for implementation)</li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p>Phases 8-9 ensure production readiness:</p>
+
+<ul>
+  <li><strong>Phase 8</strong>: Optimize agent artifacts and reduce deployment size</li>
+  <li><strong>Phase 8B</strong>: Achieve comprehensive test coverage with unit and integration tests</li>
+  <li><strong>Phase 9</strong>: Deploy with observability, resilience, and security</li>
+  <li><strong>Phase 9B</strong>: Maintain code quality with static analysis and monitoring</li>
+</ul>
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────┐
+│     Production Environment          │
+│                                     │
+│  ┌──────────────────────────────┐   │
+│  │  Code Quality (Phase 9B)     │   │
+│  │  • SpotBugs, CheckStyle      │   │
+│  │  • JaCoCo Coverage           │   │
+│  │  • GitHub Actions CI/CD      │   │
+│  └──────────────────────────────┘   │
+│                                     │
+│  ┌──────────────────────────────┐   │
+│  │  Production Observability    │   │
+│  │  • OpenTelemetry Tracing     │   │ Phase 9
+│  │  • Circuit Breaker Pattern   │   │
+│  │  • Audit Logging (280 LOC)   │   │
+│  │  • Health Checks &amp; Security  │   │
+│  └──────────────────────────────┘   │
+│                                     │
+│  ┌──────────────────────────────┐   │
+│  │  Comprehensive Testing       │   │
+│  │  • 118 Test Methods          │   │ Phase 8B
+│  │  • 9 Test Classes            │   │
+│  │  • Mock Objects &amp; Patterns   │   │
+│  └──────────────────────────────┘   │
+│                                     │
+│  ┌──────────────────────────────┐   │
+│  │  Agent Optimization          │   │
+│  │  • Tree-shaking (75-85%)     │   │ Phase 8
+│  │  • WorkflowAnalyzer          │   │
+│  │  • AgentPackager             │   │
+│  └──────────────────────────────┘   │
+└─────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────┐
+│  Complete Platform (Phases 1-7)     │
+│  • Deep Learning (1-3)              │
+│  • Agent Framework (4-7)            │
+└─────────────────────────────────────┘
+</code></pre></div></div>
+
+<h2 id="phase-8-agent-optimization">Phase 8: Agent Optimization</h2>
+
+<h3 id="overview-1">Overview</h3>
+<p>Dramatically reduce agent artifact size for faster deployment and lower bandwidth.</p>
+
+<p><strong>Results</strong>: 75-85% size reduction achieved</p>
+
+<h3 id="tree-shaking-mechanism">Tree-Shaking Mechanism</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Analyze agent dependencies</span>
+<span class="nc">WorkflowAnalyzer</span> <span class="n">analyzer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">WorkflowAnalyzer</span><span class="o">(</span><span class="n">agent</span><span class="o">);</span>
+<span class="nc">DependencyGraph</span> <span class="n">dependencies</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="na">analyze</span><span class="o">();</span>
+
+<span class="c1">// Remove unused code</span>
+<span class="nc">CodeTreeShaker</span> <span class="n">shaker</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CodeTreeShaker</span><span class="o">(</span><span class="n">dependencies</span><span class="o">);</span>
+<span class="nc">CompactAgent</span> <span class="n">optimized</span> <span class="o">=</span> <span class="n">shaker</span><span class="o">.</span><span class="na">shake</span><span class="o">(</span><span class="n">agent</span><span class="o">);</span>
+
+<span class="c1">// Measure reduction</span>
+<span class="kt">long</span> <span class="n">originalSize</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span>
+<span class="kt">long</span> <span class="n">optimizedSize</span> <span class="o">=</span> <span class="n">optimized</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span>
+<span class="kt">double</span> <span class="n">reduction</span> <span class="o">=</span> <span class="o">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span> <span class="n">optimizedSize</span> <span class="o">/</span> <span class="n">originalSize</span><span class="o">)</span> <span class="o">*</span> <span class="mi">100</span><span class="o">;</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"Size reduction: %.1f%%%n"</span><span class="o">,</span> <span class="n">reduction</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="workflow-dependency-extraction">Workflow Dependency Extraction</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Extract all used skills and dependencies</span>
+<span class="nc">WorkflowAnalyzer</span> <span class="n">analyzer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">WorkflowAnalyzer</span><span class="o">(</span><span class="n">agentWorkflow</span><span class="o">);</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Skill</span><span class="o">&gt;</span> <span class="n">usedSkills</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="na">getUsedSkills</span><span class="o">();</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Class</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">dependencies</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="na">getDependencies</span><span class="o">();</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">dependencySizes</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="na">estimateSizes</span><span class="o">();</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">dep</span> <span class="o">:</span> <span class="n">dependencySizes</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"%s: %d bytes%n"</span><span class="o">,</span> <span class="n">dep</span><span class="o">,</span> <span class="n">dependencySizes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">dep</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="agent-packaging">Agent Packaging</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Package optimized agent</span>
+<span class="nc">AgentPackager</span> <span class="n">packager</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AgentPackager</span><span class="o">();</span>
+
+<span class="nc">Package</span> <span class="n">pkg</span> <span class="o">=</span> <span class="n">packager</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">optimizedAgent</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">withName</span><span class="o">(</span><span class="s">"my-agent"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">withVersion</span><span class="o">(</span><span class="s">"1.0.0"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">withCompressionLevel</span><span class="o">(</span><span class="mi">9</span><span class="o">)</span>  <span class="c1">// Maximum compression</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Save as optimized JAR</span>
+<span class="n">pkg</span><span class="o">.</span><span class="na">saveTo</span><span class="o">(</span><span class="s">"my-agent-1.0.0.jar"</span><span class="o">);</span>
+
+<span class="c1">// Size comparison</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Original: "</span> <span class="o">+</span> <span class="nc">Files</span><span class="o">.</span><span class="na">size</span><span class="o">(</span><span class="n">originalJar</span><span class="o">)</span> <span class="o">+</span> <span class="s">" bytes"</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Optimized: "</span> <span class="o">+</span> <span class="n">pkg</span><span class="o">.</span><span class="na">getSize</span><span class="o">()</span> <span class="o">+</span> <span class="s">" bytes"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="performance-metrics">Performance Metrics</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Size Reduction Statistics:
+  Original Agent JAR:      45 MB
+  After Tree-Shaking:      8.2 MB (81.8% reduction)
+  After Compression:       6.1 MB (86.4% reduction)
+  
+Deployment Impact:
+  Download Time (10 Mbps): 36s → 4.9s
+  Upload Time (10 Mbps):   36s → 4.9s
+  Startup Time:            2.3s → 1.1s
+</code></pre></div></div>
+
+<h2 id="phase-8b-comprehensive-testing">Phase 8B: Comprehensive Testing</h2>
+
+<h3 id="overview-2">Overview</h3>
+<p>118 test methods achieving &gt;90% code coverage across all components.</p>
+
+<p><strong>Test Breakdown</strong>:</p>
+<ul>
+  <li>71 new test methods (Phase 8B)</li>
+  <li>47 existing test methods (Phase 1+)</li>
+  <li>9 test classes covering all subsystems</li>
+</ul>
+
+<h3 id="test-categories">Test Categories</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unit Tests</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AgentClientBuilderTest</span> <span class="o">{</span>
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBuilderConfiguration</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+  
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testSkillRegistration</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+  
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testCDIProducerIntegration</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Integration Tests</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AgentIntegrationTest</span> <span class="o">{</span>
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testEndToEndWorkflow</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+  
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testSkillDiscovery</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+  
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testManifestLoading</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Resilience Tests</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResilienceTest</span> <span class="o">{</span>
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testCircuitBreakerTrips</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+  
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testRetryMechanism</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+  
+  <span class="nd">@Test</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testGracefulDegradation</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="mock-objects--patterns">Mock Objects &amp; Patterns</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Mock skill execution</span>
+<span class="nc">Skill</span> <span class="n">mockSkill</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="nc">Skill</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">when</span><span class="o">(</span><span class="n">mockSkill</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">any</span><span class="o">()))</span>
+  <span class="o">.</span><span class="na">thenReturn</span><span class="o">(</span><span class="k">new</span> <span class="nc">SkillResult</span><span class="o">.</span><span class="na">Success</span><span class="o">(</span><span class="s">"done"</span><span class="o">));</span>
+
+<span class="c1">// Agent with mock skills</span>
+<span class="nc">AgentClient</span> <span class="n">agent</span> <span class="o">=</span> <span class="nc">AgentClient</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">skills</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"search"</span><span class="o">,</span> <span class="n">mockSkill</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Verify interactions</span>
+<span class="n">agent</span><span class="o">.</span><span class="na">executeSkill</span><span class="o">(</span><span class="s">"search"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Request</span><span class="o">());</span>
+<span class="n">verify</span><span class="o">(</span><span class="n">mockSkill</span><span class="o">,</span> <span class="n">times</span><span class="o">(</span><span class="mi">1</span><span class="o">)).</span><span class="na">execute</span><span class="o">(</span><span class="n">any</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h3 id="coverage-report">Coverage Report</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Code Coverage Summary:
+  ✅ Phase 4 (Quarkus Decoupling):    94% coverage
+  ✅ Phase 5 (SPI Integration):        92% coverage
+  ✅ Phase 6 (Skills Compliance):      95% coverage
+  ✅ Phase 7 (Skill Integration):      91% coverage
+  ✅ Phase 8 (Optimization):           93% coverage
+  ─────────────────────────────
+  Overall:                             93.2% coverage
+</code></pre></div></div>
+
+<h2 id="phase-9-production-observability">Phase 9: Production Observability</h2>
+
+<h3 id="overview-3">Overview</h3>
+<p>Deploy with complete visibility, resilience, and security.</p>
+
+<p><strong>Features Implemented</strong>:</p>
+<ul>
+  <li>OpenTelemetry distributed tracing</li>
+  <li>Circuit breaker resilience patterns</li>
+  <li>Comprehensive audit logging (280 LOC)</li>
+  <li>Health checks and security protocols</li>
+  <li>Docker-based deployment stack</li>
+</ul>
+
+<h3 id="distributed-tracing">Distributed Tracing</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">io.opentelemetry.api.trace.Tracer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.opentelemetry.api.trace.Span</span><span class="o">;</span>
+
+<span class="c1">// Get tracer</span>
+<span class="nc">Tracer</span> <span class="n">tracer</span> <span class="o">=</span> <span class="nc">GlobalOpenTelemetry</span><span class="o">.</span><span class="na">getTracer</span><span class="o">(</span><span class="s">"my-agent"</span><span class="o">);</span>
+
+<span class="c1">// Create span for skill execution</span>
+<span class="nc">Span</span> <span class="n">span</span> <span class="o">=</span> <span class="n">tracer</span><span class="o">.</span><span class="na">spanBuilder</span><span class="o">(</span><span class="s">"execute_skill"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"skill_name"</span><span class="o">,</span> <span class="s">"search"</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"request_id"</span><span class="o">,</span> <span class="n">requestId</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">startSpan</span><span class="o">();</span>
+
+<span class="k">try</span> <span class="o">(</span><span class="nc">Scope</span> <span class="n">scope</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="na">makeCurrent</span><span class="o">())</span> <span class="o">{</span>
+  <span class="c1">// Skill execution is automatically traced</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">executeSkill</span><span class="o">(</span><span class="s">"search"</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+  <span class="n">span</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// Traces appear in:</span>
+<span class="c1">// - Jaeger UI</span>
+<span class="c1">// - Zipkin</span>
+<span class="c1">// - Any OpenTelemetry-compatible backend</span>
+</code></pre></div></div>
+
+<h3 id="circuit-breaker-pattern">Circuit Breaker Pattern</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">io.github.resilience4j.circuitbreaker.CircuitBreaker</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.github.resilience4j.circuitbreaker.CircuitBreakerConfig</span><span class="o">;</span>
+
+<span class="c1">// Configure circuit breaker</span>
+<span class="nc">CircuitBreakerConfig</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">CircuitBreakerConfig</span><span class="o">.</span><span class="na">custom</span><span class="o">()</span>
+  <span class="o">.</span><span class="na">failureThreshold</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>           <span class="c1">// Trip after 50% failures</span>
+  <span class="o">.</span><span class="na">slowCallRateThreshold</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>     <span class="c1">// Trip after 100% slow calls</span>
+  <span class="o">.</span><span class="na">waitDurationInOpenState</span><span class="o">(</span><span class="mi">60</span><span class="o">)</span>    <span class="c1">// Wait 60s before retrying</span>
+  <span class="o">.</span><span class="na">permittedNumberOfCallsInHalfOpenState</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">CircuitBreaker</span> <span class="n">cb</span> <span class="o">=</span> <span class="nc">CircuitBreaker</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"skill-breaker"</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+
+<span class="c1">// Protect skill execution</span>
+<span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">Result</span><span class="o">&gt;</span> <span class="n">call</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">agent</span><span class="o">.</span><span class="na">executeSkill</span><span class="o">(</span><span class="s">"search"</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+<span class="nc">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">executeSupplier</span><span class="o">(</span><span class="n">call</span><span class="o">);</span>
+
+<span class="c1">// States:</span>
+<span class="c1">// CLOSED: Working normally</span>
+<span class="c1">// OPEN: Failing, reject requests</span>
+<span class="c1">// HALF_OPEN: Testing if service recovered</span>
+</code></pre></div></div>
+
+<h3 id="audit-logging">Audit Logging</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.MDC</span><span class="o">;</span>
+
+<span class="nc">Logger</span> <span class="n">auditLog</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="s">"audit"</span><span class="o">);</span>
+
+<span class="c1">// Log skill execution</span>
+<span class="nc">String</span> <span class="n">requestId</span> <span class="o">=</span> <span class="no">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+<span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"request_id"</span><span class="o">,</span> <span class="n">requestId</span><span class="o">);</span>
+<span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"skill"</span><span class="o">,</span> <span class="s">"search"</span><span class="o">);</span>
+<span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"user"</span><span class="o">,</span> <span class="n">principal</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+
+<span class="k">try</span> <span class="o">{</span>
+  <span class="n">auditLog</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Executing skill with request: {}"</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+  <span class="nc">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">executeSkill</span><span class="o">(</span><span class="s">"search"</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+  <span class="n">auditLog</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Skill execution successful: {}"</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">auditLog</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"Skill execution failed"</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+  <span class="no">MDC</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// Logs include:</span>
+<span class="c1">// - Request/Response traces</span>
+<span class="c1">// - User actions</span>
+<span class="c1">// - Error conditions</span>
+<span class="c1">// - Performance metrics</span>
+<span class="c1">// - Security events</span>
+</code></pre></div></div>
+
+<h3 id="health-checks">Health Checks</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">io.quarkus.health.Liveness</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.eclipse.microprofile.health.HealthCheck</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.eclipse.microprofile.health.HealthCheckResponse</span><span class="o">;</span>
+
+<span class="nd">@Liveness</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AgentHealthCheck</span> <span class="kd">implements</span> <span class="nc">HealthCheck</span> <span class="o">{</span>
+  
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">HealthCheckResponse</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="n">agentReady</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">isHealthy</span><span class="o">();</span>
+    <span class="kt">boolean</span> <span class="n">skillsLoaded</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">getSkills</span><span class="o">().</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span>
+    
+    <span class="k">return</span> <span class="nc">HealthCheckResponse</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"agent-health"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="n">agentReady</span> <span class="o">&amp;&amp;</span> <span class="n">skillsLoaded</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">withData</span><span class="o">(</span><span class="s">"skills_loaded"</span><span class="o">,</span> <span class="n">agent</span><span class="o">.</span><span class="na">getSkills</span><span class="o">().</span><span class="na">size</span><span class="o">())</span>
+      <span class="o">.</span><span class="na">withData</span><span class="o">(</span><span class="s">"memory_mb"</span><span class="o">,</span> <span class="nc">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">totalMemory</span><span class="o">()</span> <span class="o">/</span> <span class="mi">1_000_000</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Health endpoints:</span>
+<span class="c1">// GET /q/health - Overall health</span>
+<span class="c1">// GET /q/health/live - Liveness probe</span>
+<span class="c1">// GET /q/health/ready - Readiness probe</span>
+</code></pre></div></div>
+
+<h3 id="docker-deployment">Docker Deployment</h3>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> openjdk:17-slim</span>
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">COPY</span><span class="s"> target/my-agent.jar app.jar</span>
+
+<span class="c"># Runtime configuration</span>
+<span class="k">ENV</span><span class="s"> QUARKUS_HTTP_PORT=8080</span>
+<span class="k">ENV</span><span class="s"> GOLLEK_BACKEND=auto</span>
+<span class="k">ENV</span><span class="s"> OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318</span>
+
+<span class="c"># Health check</span>
+<span class="k">HEALTHCHECK</span><span class="s"> --interval=30s --timeout=3s --start-period=40s --retries=3 \</span>
+  CMD curl -f http://localhost:8080/q/health || exit 1
+
+<span class="k">ENTRYPOINT</span><span class="s"> ["java", "-jar", "app.jar"]</span>
+</code></pre></div></div>
+
+<h3 id="docker-compose-stack">Docker Compose Stack</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3'</span>
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">agent</span><span class="pi">:</span>
+    <span class="na">build</span><span class="pi">:</span> <span class="s">.</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">8080:8080"</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">OTEL_EXPORTER_OTLP_ENDPOINT</span><span class="pi">:</span> <span class="s">http://jaeger:4318</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">jaeger</span>
+  
+  <span class="na">jaeger</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">jaegertracing/all-in-one:latest</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">6831:6831/udp"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">16686:16686"</span>
+  
+  <span class="na">prometheus</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">prom/prometheus:latest</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">9090:9090"</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./prometheus.yml:/etc/prometheus/prometheus.yml</span>
+  
+  <span class="na">grafana</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">grafana/grafana:latest</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">3000:3000"</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">prometheus</span>
+</code></pre></div></div>
+
+<h2 id="phase-9b-code-quality-designed">Phase 9B: Code Quality (Designed)</h2>
+
+<p>📋 <strong>Status</strong>: Designed, ready for implementation</p>
+
+<h3 id="tools--configuration">Tools &amp; Configuration</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- pom.xml --&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>maven-spotbugs-plugin<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>4.7.1.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+
+<span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>maven-checkstyle-plugin<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>3.1.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+
+<span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.jacoco<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>jacoco-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>0.8.8<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</code></pre></div></div>
+
+<h3 id="github-actions-cicd">GitHub Actions CI/CD</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># .github/workflows/quality.yml</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">Code Quality</span>
+<span class="na">on</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">push</span><span class="pi">,</span> <span class="nv">pull_request</span><span class="pi">]</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">quality</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v3</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-java@v3</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">java-version</span><span class="pi">:</span> <span class="m">17</span>
+      <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">mvn spotbugs:check checkstyle:check jacoco:report</span>
+      <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">mvn javadoc:javadoc</span>
+</code></pre></div></div>
+
+<h2 id="performance-monitoring">Performance Monitoring</h2>
+
+<h3 id="prometheus-metrics">Prometheus Metrics</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">io.micrometer.prometheus.PrometheusMeterRegistry</span><span class="o">;</span>
+
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetricsPublisher</span> <span class="o">{</span>
+  <span class="nd">@Inject</span>
+  <span class="nc">PrometheusMeterRegistry</span> <span class="n">registry</span><span class="o">;</span>
+  
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">recordSkillExecution</span><span class="o">(</span><span class="nc">String</span> <span class="n">skillName</span><span class="o">,</span> <span class="kt">long</span> <span class="n">durationMs</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">registry</span><span class="o">.</span><span class="na">timer</span><span class="o">(</span><span class="s">"skill.execution"</span><span class="o">,</span> 
+      <span class="s">"skill"</span><span class="o">,</span> <span class="n">skillName</span>
+    <span class="o">).</span><span class="na">record</span><span class="o">(</span><span class="n">durationMs</span><span class="o">,</span> <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="grafana-dashboard">Grafana Dashboard</h3>
+<ul>
+  <li>Skill execution times</li>
+  <li>Success/failure rates</li>
+  <li>Circuit breaker status</li>
+  <li>Memory and CPU usage</li>
+  <li>Request latency percentiles</li>
+</ul>
+
+<h2 id="production-checklist">Production Checklist</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />OpenTelemetry tracing configured</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Circuit breakers deployed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Audit logging enabled</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Health checks passing</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Prometheus scrape configured</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Grafana dashboards created</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Alerting rules defined</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Docker image built and tested</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Kubernetes manifests prepared</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Load testing completed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Security scanning passed</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Documentation updated</li>
+</ul>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="/docs/runtime/inference-serving">Inference Serving</a></li>
+  <li><a href="/docs/runtime/cloud-provider-docs">Cloud Provider Docs</a></li>
+  <li><a href="/docs/setup/troubleshooting">Troubleshooting</a></li>
+  <li><a href="/docs/optimization-config">Performance Tuning</a></li>
+  <li><a href="/docs/phases-overview">Back to Complete Platform</a></li>
+</ul>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong>OpenTelemetry</strong>: <a href="https://opentelemetry.io/">opentelemetry.io</a></li>
+  <li><strong>Resilience4j</strong>: <a href="https://resilience4j.io/">resilience4j.io</a></li>
+  <li><strong>Quarkus</strong>: <a href="https://quarkus.io/">quarkus.io</a></li>
+  <li><strong>Docker</strong>: <a href="https://www.docker.com/">docker.com</a></li>
+  <li><strong>Kubernetes</strong>: <a href="https://kubernetes.io/">kubernetes.io</a></li>
+</ul>
+
+<hr />
+
+<p><em>Status: Phases 8, 8B, 9 Complete ✅ | Phase 9B Designed 📋</em>
+<em>Last Updated: April 2025</em></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

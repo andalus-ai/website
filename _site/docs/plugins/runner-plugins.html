@@ -1,0 +1,1543 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runner Plugins | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Runner Plugins</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="runner-plugin-system">Runner Plugin System</h1>
+
+<p>Model format runner plugins for flexible, modular AI inference support.</p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>The Runner Plugin system provides a modular architecture for supporting different model formats, enabling:</p>
+
+<ul>
+  <li><strong>Hot-Reload</strong>: Add/remove model format support without restarting</li>
+  <li><strong>Selective Deployment</strong>: Include only needed runners in your deployment</li>
+  <li><strong>Performance</strong>: Optimized runners for specific formats</li>
+  <li><strong>Extensibility</strong>: Create custom runners for proprietary formats</li>
+</ul>
+
+<hr />
+
+<h2 id="available-runner-plugins">Available Runner Plugins</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Runner</th>
+      <th>Format</th>
+      <th>Backend</th>
+      <th>GPU Support</th>
+      <th>Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>GGUF</strong></td>
+      <td>.gguf</td>
+      <td>llama.cpp</td>
+      <td>✅ CUDA/Metal</td>
+      <td>~500 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Safetensor</strong></td>
+      <td>.safetensors</td>
+      <td>Direct/GGUF</td>
+      <td>✅ CUDA/MPS</td>
+      <td>~20 GB</td>
+    </tr>
+    <tr>
+      <td><strong>ONNX</strong></td>
+      <td>.onnx</td>
+      <td>ONNX Runtime</td>
+      <td>✅ Multi</td>
+      <td>~800 MB</td>
+    </tr>
+    <tr>
+      <td><strong>TensorRT</strong></td>
+      <td>.engine</td>
+      <td>TensorRT</td>
+      <td>✅ NVIDIA</td>
+      <td>~2 GB</td>
+    </tr>
+    <tr>
+      <td><strong>LibTorch</strong></td>
+      <td>.pt/.bin</td>
+      <td>PyTorch</td>
+      <td>✅ CUDA</td>
+      <td>~3 GB</td>
+    </tr>
+    <tr>
+      <td><strong>TFLite</strong></td>
+      <td>.litertlm</td>
+      <td>TensorFlow Lite</td>
+      <td>✅ GPU</td>
+      <td>~500 MB</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│              Application Layer                          │
+│  InferenceRequest → Runner Selection                    │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│           RunnerPluginManager                           │
+│  - Plugin discovery                                     │
+│  - Format-based routing                                 │
+│  - Session management                                   │
+│  - Lifecycle management                                 │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│              Runner Plugins                             │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │  GGUF    │ │ Safetensor│ │   ONNX   │ │TensorRT  │  │
+│  │ (llama)  │ │  (HF)    │ │ (onnx)   │ │  (TRT)   │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│           Feature Plugins (Optional)                    │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐                │
+│  │  Audio   │ │  Vision  │ │   Text   │                │
+│  │ Feature  │ │ Feature  │ │ Feature  │                │
+│  └──────────┘ └──────────┘ └──────────┘                │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│           Native Backends                               │
+│  libllama.so | libonnxruntime.so | libnvinfer.so       │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="quick-start">Quick Start</h2>
+
+<h3 id="installation">Installation</h3>
+
+<h4 id="option-1-build-from-source">Option 1: Build from Source</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Build runner plugin core</span>
+<span class="nb">cd </span>inference-gollek/core/gollek-plugin-runner-core
+mvn clean <span class="nb">install</span>
+
+<span class="c"># Build specific runner plugin</span>
+<span class="nb">cd </span>inference-gollek/plugins/runner/gguf/gollek-plugin-runner-gguf
+mvn clean <span class="nb">install</span> <span class="nt">-Pinstall-plugin</span>
+
+<span class="c"># Build all runner plugins</span>
+<span class="nb">cd </span>inference-gollek/plugins/runner
+mvn clean <span class="nb">install</span> <span class="nt">-Pinstall-plugin</span>
+</code></pre></div></div>
+
+<p>This installs runner plugins to <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/runners/</code></p>
+
+<h4 id="option-2-download-pre-built-jars">Option 2: Download Pre-built JARs</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download specific runner</span>
+wget https://github.com/gollek-ai/gollek/releases/download/v1.0.0/gollek-plugin-runner-gguf-1.0.0.jar
+
+<span class="c"># Copy to runners directory</span>
+<span class="nb">cp </span>gollek-plugin-runner-gguf-1.0.0.jar ~/.gollek/plugins/runners/
+</code></pre></div></div>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>Create <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/runners/runner-config.json</code>:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"gguf-runner"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"n_gpu_layers"</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"n_ctx"</span><span class="p">:</span><span class="w"> </span><span class="mi">4096</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"flash_attention"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"safetensor-runner"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"backend"</span><span class="p">:</span><span class="w"> </span><span class="s2">"direct"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"device"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cuda"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"dtype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f16"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"onnx-runner"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"execution_provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CUDAExecutionProvider"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="usage-examples">Usage Examples</h2>
+
+<h3 id="cli-auto-runner-explicit-runner-and-provider">CLI: Auto Runner, Explicit Runner, And Provider</h3>
+
+<p>For production inference, treat <code class="language-plaintext highlighter-rouge">--runner</code> as the model-artifact execution lane and
+<code class="language-plaintext highlighter-rouge">--provider</code> as the lower-level provider override. Omit <code class="language-plaintext highlighter-rouge">--runner</code> for auto detection:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="se">\</span>
+  <span class="nt">--model</span> google/gemma-4-E2B-it <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span>
+</code></pre></div></div>
+
+<p>Use an explicit runner when a deployment image should only exercise one runtime family:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="se">\</span>
+  <span class="nt">--runner</span> gguf <span class="se">\</span>
+  <span class="nt">--model</span> google/gemma-4-E2B-it <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span>
+
+gollek run <span class="se">\</span>
+  <span class="nt">--runner</span> litert <span class="se">\</span>
+  <span class="nt">--model</span> google/gemma-4-E2B-it <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span>
+
+gollek run <span class="se">\</span>
+  <span class="nt">--runner</span> safetensor <span class="se">\</span>
+  <span class="nt">--model</span> google/gemma-4-E2B-it <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">--provider</code> only when you need to force the concrete provider implementation,
+for example during debugging, benchmarking, or a controlled fallback test:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="se">\</span>
+  <span class="nt">--provider</span> gguf <span class="se">\</span>
+  <span class="nt">--model</span> /models/gemma-4-E2B-it-Q4_K_M.gguf <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--runner hybrid</code> keeps auto provider selection enabled while allowing Gollek to
+prefer a faster compatible runtime artifact when one is available:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="se">\</span>
+  <span class="nt">--runner</span> hybrid <span class="se">\</span>
+  <span class="nt">--model</span> google/gemma-4-E2B-it <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span>
+</code></pre></div></div>
+
+<h3 id="route-report-json-for-plugins">Route Report JSON For Plugins</h3>
+
+<p>Runner plugins and release automation can inspect routing without invoking the model:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="se">\</span>
+  <span class="nt">--model</span> google/gemma-4-E2B-it <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span> <span class="se">\</span>
+  <span class="nt">--route-report-json</span> <span class="se">\</span>
+  | jq <span class="s1">'{
+      provider,
+      format,
+      route_runner,
+      route_selection_source,
+      route_redirected,
+      route_redirect_reason,
+      route_artifact_cache_hit,
+      route_artifact_cache_state,
+      route_artifact_cache_kind,
+      route_profile_status,
+      route_profile_source,
+      route_profile_provider,
+      route_profile_advice,
+      runner: .runner_route.normalized_runner,
+      redirected: .runner_route.runtime_redirected,
+      redirect_to: .runner_route.runtime_redirect_to_provider
+    }'</span>
+</code></pre></div></div>
+
+<p>The top-level route artifact cache summary is stable for plugin consumers:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_runner</code></td>
+      <td>Normalized runner route: <code class="language-plaintext highlighter-rouge">auto</code>, <code class="language-plaintext highlighter-rouge">hybrid</code>, <code class="language-plaintext highlighter-rouge">safetensor</code>, <code class="language-plaintext highlighter-rouge">gguf</code>, or <code class="language-plaintext highlighter-rouge">litert</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_selection_source</code></td>
+      <td>Selection source for the route: <code class="language-plaintext highlighter-rouge">auto</code>, <code class="language-plaintext highlighter-rouge">runner_cli</code>, <code class="language-plaintext highlighter-rouge">provider_cli</code>, or <code class="language-plaintext highlighter-rouge">format_cli</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_redirected</code></td>
+      <td><code class="language-plaintext highlighter-rouge">true</code> when runtime routing redirected to a different provider/format artifact.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_redirect_reason</code></td>
+      <td>Human-readable redirect reason. Present only when a reason is known.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_artifact_cache_hit</code></td>
+      <td><code class="language-plaintext highlighter-rouge">true</code> when an alternate runtime artifact came from the route artifact cache.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_artifact_cache_state</code></td>
+      <td><code class="language-plaintext highlighter-rouge">hit</code>, <code class="language-plaintext highlighter-rouge">miss</code>, or <code class="language-plaintext highlighter-rouge">not_applicable</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_artifact_cache_kind</code></td>
+      <td>Cache lane such as <code class="language-plaintext highlighter-rouge">gemma4_text_gguf</code>, <code class="language-plaintext highlighter-rouge">community_text_gguf</code>, or <code class="language-plaintext highlighter-rouge">gemma4_mobile_qat_litert</code>. Present only when a cache lane is known.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_profile_status</code></td>
+      <td>Performance profile status: <code class="language-plaintext highlighter-rouge">selected</code>, <code class="language-plaintext highlighter-rouge">redirected</code>, <code class="language-plaintext highlighter-rouge">candidate</code>, or <code class="language-plaintext highlighter-rouge">unavailable</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_profile_source</code></td>
+      <td>Signal source: <code class="language-plaintext highlighter-rouge">selected_route</code>, <code class="language-plaintext highlighter-rouge">runtime_redirect</code>, <code class="language-plaintext highlighter-rouge">artifact_cache</code>, <code class="language-plaintext highlighter-rouge">heuristic</code>, <code class="language-plaintext highlighter-rouge">benchmark_cache</code>, or <code class="language-plaintext highlighter-rouge">none</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_profile_provider</code></td>
+      <td>Preferred provider from the route profile, such as <code class="language-plaintext highlighter-rouge">gguf</code> or <code class="language-plaintext highlighter-rouge">litert</code>. Present only when known.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">route_profile_advice</code></td>
+      <td>Human-readable next step for keeping the route production-efficient. Present only when useful.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Use the state to separate routing behavior:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">hit</code></td>
+      <td>Gollek reused a previously discovered compatible runtime artifact.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">miss</code></td>
+      <td>Gollek redirected to an alternate artifact, but this route was cold and may populate the cache.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">not_applicable</code></td>
+      <td>No alternate runtime artifact cache participated in the route.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The nested <code class="language-plaintext highlighter-rouge">runner_route</code> object remains the source of truth for detailed routing
+decisions. The top-level route summary fields are a convenience contract for
+dashboards, smoke tests, and plugin installers that only need to know who selected
+the route and whether the current run is warm, cold, or unrelated to route
+artifact caching.</p>
+
+<p>Route profile fields are intentionally separate from routing behavior. They
+summarize selected routes, runtime redirects, cached alternate artifacts,
+heuristic advice for safetensor direct routes, and measured local throughput
+from the route benchmark cache. The <code class="language-plaintext highlighter-rouge">benchmark_cache</code> source means Gollek has
+seen a successful text generation for the same local artifact/provider/format
+route and can surface observed throughput/TTFT advice without invoking the model.</p>
+
+<p>Benchmark observations are stored under <code class="language-plaintext highlighter-rouge">~/.gollek/cache/route-benchmark-profiles.tsv</code>
+by default. For hermetic tests or production images, set
+<code class="language-plaintext highlighter-rouge">-Dgollek.cli.route_benchmark_cache_enabled=false</code> to disable writes/reads, or
+<code class="language-plaintext highlighter-rouge">-Dgollek.cli.route_benchmark_cache_dir=/path/to/cache</code> to point the cache at a
+deployment-controlled directory. Gollek treats measurements older than 30 days
+as stale in health reports by default; override that with
+<code class="language-plaintext highlighter-rouge">-Dgollek.cli.route_benchmark_cache_stale_days=7</code> when production hosts change
+frequently. Stale measurements remain visible in <code class="language-plaintext highlighter-rouge">route-benchmarks</code> and
+<code class="language-plaintext highlighter-rouge">modules --json</code>, but they do not become <code class="language-plaintext highlighter-rouge">route_profile_source=benchmark_cache</code>
+unless diagnostics explicitly opt in with
+<code class="language-plaintext highlighter-rouge">-Dgollek.cli.route_benchmark_cache_allow_stale=true</code>.</p>
+
+<p>Inspect the measured route cache without reading the TSV directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek route-benchmarks
+gollek route-benchmarks <span class="nt">--json</span>
+gollek route-benchmarks list <span class="nt">--provider</span> gguf <span class="nt">--model</span> gemma
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.runnerPlugins.routeBenchmarkCache'</span>
+</code></pre></div></div>
+
+<p>Check freshness and prune stale measurements explicitly when a runner plugin,
+kernel backend, or host profile changes:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek route-benchmarks doctor
+gollek route-benchmarks doctor <span class="nt">--json</span>
+gollek route-benchmarks prune <span class="nt">--dry-run</span> <span class="nt">--older-than-days</span> 30
+gollek route-benchmarks prune <span class="nt">--yes</span> <span class="nt">--older-than-days</span> 30
+</code></pre></div></div>
+
+<p>Clear all measurements explicitly when a deployment image should start with a
+cold benchmark profile:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek route-benchmarks clear <span class="nt">--yes</span>
+</code></pre></div></div>
+
+<h3 id="example-1-auto-select-runner">Example 1: Auto-Select Runner</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">RunnerPluginRegistry</span> <span class="n">runnerRegistry</span><span class="o">;</span>
+
+<span class="c1">// Runner automatically selected based on file extension</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">session</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"models/llama-3-8b.gguf"</span><span class="o">,</span>  <span class="c1">// .gguf → GGUF runner</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"n_ctx"</span><span class="o">,</span> <span class="mi">4096</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="nc">InferenceResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">get</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">infer</span><span class="o">(</span><span class="n">request</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">await</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">atMost</span><span class="o">(</span><span class="nc">Duration</span><span class="o">.</span><span class="na">ofSeconds</span><span class="o">(</span><span class="mi">30</span><span class="o">));</span>
+</code></pre></div></div>
+
+<h3 id="example-2-specific-runner">Example 2: Specific Runner</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Get specific runner plugin</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerPlugin</span><span class="o">&gt;</span> <span class="n">ggufRunner</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">getPlugin</span><span class="o">(</span><span class="s">"gguf-runner"</span><span class="o">);</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">ggufRunner</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">RunnerSession</span> <span class="n">session</span> <span class="o">=</span> <span class="n">ggufRunner</span><span class="o">.</span><span class="na">get</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">createSession</span><span class="o">(</span><span class="s">"models/llama-3-8b.gguf"</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+    
+    <span class="nc">InferenceResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">infer</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">await</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="example-3-with-feature-plugins">Example 3: With Feature Plugins</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Enable specific features</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"features"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="s">"text"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+            <span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span>
+            <span class="s">"temperature"</span><span class="o">,</span> <span class="mf">0.7</span>
+        <span class="o">),</span>
+        <span class="s">"vision"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="o">)</span>
+<span class="o">);</span>
+
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">session</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"llama-3-8b.gguf"</span><span class="o">,</span>
+    <span class="n">config</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="example-4-multi-format-service">Example 4: Multi-Format Service</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// GGUF model</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">ggufSession</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"llama-3-8b.gguf"</span><span class="o">,</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">()</span>
+<span class="o">);</span>
+
+<span class="c1">// ONNX model</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">onnxSession</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"bert-base.onnx"</span><span class="o">,</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">()</span>
+<span class="o">);</span>
+
+<span class="c1">// Safetensor model</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">stSession</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"clip-vit.safetensors"</span><span class="o">,</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">()</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="runner-plugin-details">Runner Plugin Details</h2>
+
+<h3 id="gguf-runner">GGUF Runner</h3>
+
+<p><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">.gguf</code> (llama.cpp)</p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>✅ Full llama.cpp support</li>
+  <li>✅ GPU acceleration (CUDA, Metal, ROCm)</li>
+  <li>✅ Quantization support (Q2_K - Q8_0)</li>
+  <li>✅ LoRA adapter support</li>
+  <li>✅ Flash Attention</li>
+  <li>✅ Context up to 128K</li>
+</ul>
+
+<p><strong>Supported Models</strong>:</p>
+<ul>
+  <li>Llama 2/3</li>
+  <li>Mistral</li>
+  <li>Mixtral MoE</li>
+  <li>Qwen</li>
+  <li>Falcon</li>
+  <li>Gemma</li>
+  <li>Phi</li>
+</ul>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">gguf-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">n_gpu_layers</span><span class="pi">:</span> <span class="s">-1</span>      <span class="c1"># All layers on GPU</span>
+      <span class="na">n_ctx</span><span class="pi">:</span> <span class="m">4096</span>           <span class="c1"># Context size</span>
+      <span class="na">n_batch</span><span class="pi">:</span> <span class="m">512</span>          <span class="c1"># Batch size</span>
+      <span class="na">flash_attention</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="safetensor-runner">Safetensor Runner</h3>
+
+<p><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">.safetensors</code>, <code class="language-plaintext highlighter-rouge">.gguf</code> (via conversion)</p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>✅ Direct Safetensor inference</li>
+  <li>✅ GGUF conversion support</li>
+  <li>✅ Multi-device support (CPU, CUDA, MPS)</li>
+  <li>✅ Flash Attention</li>
+  <li>✅ LoRA adapters</li>
+  <li>✅ Quantization (FP8, INT8, GPTQ)</li>
+</ul>
+
+<p><strong>Feature Plugins</strong>:</p>
+<ul>
+  <li>Audio (Whisper, SpeechT5)</li>
+  <li>Vision (CLIP, ViT, DETR, LLaVA)</li>
+  <li>Text (Llama, Mistral, BERT)</li>
+</ul>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">backend</span><span class="pi">:</span> <span class="s">direct</span>       <span class="c1"># or "gguf-conversion"</span>
+      <span class="na">device</span><span class="pi">:</span> <span class="s">cuda</span>
+      <span class="na">dtype</span><span class="pi">:</span> <span class="s">f16</span>
+      <span class="na">features</span><span class="pi">:</span>
+        <span class="na">audio</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">vision</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+        <span class="na">text</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="onnx-runner">ONNX Runner</h3>
+
+<p><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">.onnx</code>, <code class="language-plaintext highlighter-rouge">.onnxruntime</code></p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>✅ ONNX Runtime backend</li>
+  <li>✅ Multi-device (CPU, CUDA, DirectML, CoreML)</li>
+  <li>✅ Quantization support</li>
+  <li>✅ Batch processing</li>
+  <li>✅ Cross-platform</li>
+</ul>
+
+<p><strong>Supported Models</strong>:</p>
+<ul>
+  <li>BERT</li>
+  <li>RoBERTa</li>
+  <li>DistilBERT</li>
+  <li>Whisper</li>
+  <li>CLIP</li>
+  <li>YOLO</li>
+  <li>ViT</li>
+</ul>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">onnx-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">execution_provider</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CUDAExecutionProvider"</span>
+      <span class="na">intra_op_num_threads</span><span class="pi">:</span> <span class="m">4</span>
+      <span class="na">inter_op_num_threads</span><span class="pi">:</span> <span class="m">2</span>
+      <span class="na">gpu_mem_limit</span><span class="pi">:</span> <span class="m">4294967296</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="tensorrt-runner">TensorRT Runner</h3>
+
+<p><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">.engine</code>, <code class="language-plaintext highlighter-rouge">.plan</code></p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>✅ TensorRT backend</li>
+  <li>✅ FP16/INT8 optimization</li>
+  <li>✅ Layer fusion</li>
+  <li>✅ Kernel auto-tuning</li>
+  <li>✅ NVIDIA GPU optimized</li>
+</ul>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">tensorrt-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">max_workspace_size</span><span class="pi">:</span> <span class="m">4294967296</span>
+      <span class="na">fp16_mode</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">int8_mode</span><span class="pi">:</span> <span class="kc">false</span>
+      <span class="na">max_batch_size</span><span class="pi">:</span> <span class="m">32</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="libtorch-runner">LibTorch Runner</h3>
+
+<p><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">.pt</code>, <code class="language-plaintext highlighter-rouge">.bin</code>, <code class="language-plaintext highlighter-rouge">.pth</code></p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>✅ PyTorch LibTorch backend</li>
+  <li>✅ CUDA support</li>
+  <li>✅ JIT compilation</li>
+  <li>✅ Custom operators</li>
+  <li>✅ Training support</li>
+</ul>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">libtorch-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">device</span><span class="pi">:</span> <span class="s">cuda</span>
+      <span class="na">dtype</span><span class="pi">:</span> <span class="s">float16</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="tflite-runner">TFLite Runner</h3>
+
+<p><strong>Format</strong>: <code class="language-plaintext highlighter-rouge">.litertlm</code></p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>✅ TensorFlow Lite backend</li>
+  <li>✅ GPU delegate support</li>
+  <li>✅ NNAPI support (Android)</li>
+  <li>✅ Quantization support</li>
+  <li>✅ Edge device optimized</li>
+</ul>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">litert-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">device</span><span class="pi">:</span> <span class="s">GPU</span>
+      <span class="na">num_threads</span><span class="pi">:</span> <span class="m">4</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="deployment-scenarios">Deployment Scenarios</h2>
+
+<h3 id="scenario-1-edge-device-cpu-only">Scenario 1: Edge Device (CPU Only)</h3>
+
+<p><strong>Use Case</strong>: Raspberry Pi, Jetson Nano</p>
+
+<p><strong>Runners</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">onnx-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">execution_provider</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CPUExecutionProvider"</span>
+    <span class="na">litert-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">device</span><span class="pi">:</span> <span class="s">CPU</span>
+</code></pre></div></div>
+
+<p><strong>Size</strong>: ~200 MB</p>
+
+<hr />
+
+<h3 id="scenario-2-nvidia-gpu-server">Scenario 2: NVIDIA GPU Server</h3>
+
+<p><strong>Use Case</strong>: Production inference service</p>
+
+<p><strong>Runners</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">gguf-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">n_gpu_layers</span><span class="pi">:</span> <span class="s">-1</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">backend</span><span class="pi">:</span> <span class="s">direct</span>
+    <span class="na">tensorrt-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">fp16_mode</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p><strong>Size</strong>: ~1.5 GB</p>
+
+<hr />
+
+<h3 id="scenario-3-development-machine">Scenario 3: Development Machine</h3>
+
+<p><strong>Use Case</strong>: Model development and testing</p>
+
+<p><strong>Runners</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">gguf-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="na">onnx-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="na">libtorch-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p><strong>Size</strong>: ~2.5 GB</p>
+
+<hr />
+
+<h2 id="performance-comparison">Performance Comparison</h2>
+
+<h3 id="inference-speed-a100-8b-model">Inference Speed (A100, 8B Model)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Runner</th>
+      <th>Quantization</th>
+      <th>Tokens/s</th>
+      <th>VRAM</th>
+      <th>Latency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GGUF</td>
+      <td>Q4_K_M</td>
+      <td>220</td>
+      <td>6 GB</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td>GGUF</td>
+      <td>Q8_0</td>
+      <td>180</td>
+      <td>10 GB</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td>Safetensor</td>
+      <td>FP16</td>
+      <td>150</td>
+      <td>16 GB</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td>TensorRT</td>
+      <td>FP16</td>
+      <td>250</td>
+      <td>16 GB</td>
+      <td>Lowest</td>
+    </tr>
+    <tr>
+      <td>ONNX</td>
+      <td>FP32</td>
+      <td>80</td>
+      <td>20 GB</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td>LibTorch</td>
+      <td>FP16</td>
+      <td>140</td>
+      <td>16 GB</td>
+      <td>Medium</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="memory-efficiency">Memory Efficiency</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>7B Model</th>
+      <th>13B Model</th>
+      <th>70B Model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GGUF (Q4)</td>
+      <td>4 GB</td>
+      <td>8 GB</td>
+      <td>40 GB</td>
+    </tr>
+    <tr>
+      <td>GGUF (Q8)</td>
+      <td>8 GB</td>
+      <td>14 GB</td>
+      <td>70 GB</td>
+    </tr>
+    <tr>
+      <td>Safetensor (FP16)</td>
+      <td>14 GB</td>
+      <td>26 GB</td>
+      <td>140 GB</td>
+    </tr>
+    <tr>
+      <td>TensorRT (FP16)</td>
+      <td>14 GB</td>
+      <td>26 GB</td>
+      <td>140 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="creating-custom-runner-plugins">Creating Custom Runner Plugins</h2>
+
+<h3 id="step-1-implement-runnerplugin-interface">Step 1: Implement RunnerPlugin Interface</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomRunnerPlugin</span> <span class="kd">implements</span> <span class="nc">RunnerPlugin</span> <span class="o">{</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"custom-runner"</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Custom Format Runner"</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedFormats</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">".custom"</span><span class="o">,</span> <span class="s">".mdl"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsModel</span><span class="o">(</span><span class="nc">String</span> <span class="n">modelPath</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">modelPath</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">().</span><span class="na">endsWith</span><span class="o">(</span><span class="s">".custom"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isAvailable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Check if native library is loaded</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">loadLibrary</span><span class="o">(</span><span class="s">"custom-inference"</span><span class="o">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">UnsatisfiedLinkError</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">RunnerSession</span> <span class="nf">createSession</span><span class="o">(</span><span class="nc">String</span> <span class="n">modelPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">CustomRunnerSession</span><span class="o">(</span><span class="n">modelPath</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="step-2-create-runnersession">Step 2: Create RunnerSession</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomRunnerSession</span> <span class="kd">implements</span> <span class="nc">RunnerSession</span> <span class="o">{</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Uni</span><span class="o">&lt;</span><span class="nc">InferenceResponse</span><span class="o">&gt;</span> <span class="nf">infer</span><span class="o">(</span><span class="nc">InferenceRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Implement inference logic</span>
+        <span class="k">return</span> <span class="nc">Uni</span><span class="o">.</span><span class="na">createFrom</span><span class="o">().</span><span class="na">item</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Multi</span><span class="o">&lt;</span><span class="nc">StreamingInferenceChunk</span><span class="o">&gt;</span> <span class="nf">stream</span><span class="o">(</span><span class="nc">InferenceRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Implement streaming logic</span>
+        <span class="k">return</span> <span class="nc">Multi</span><span class="o">.</span><span class="na">createFrom</span><span class="o">().</span><span class="na">items</span><span class="o">(</span><span class="n">chunks</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// ... other methods</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="step-3-create-pom">Step 3: Create POM</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;project&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>gollek-plugin-runner-custom<span class="nt">&lt;/artifactId&gt;</span>
+    
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>tech.kayys.gollek<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>gollek-plugin-runner-core<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+    
+    <span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;archive&gt;</span>
+                        <span class="nt">&lt;manifestEntries&gt;</span>
+                            <span class="nt">&lt;Plugin-Id&gt;</span>custom-runner<span class="nt">&lt;/Plugin-Id&gt;</span>
+                            <span class="nt">&lt;Plugin-Class&gt;</span>tech.kayys.plugin.CustomRunnerPlugin<span class="nt">&lt;/Plugin-Class&gt;</span>
+                            <span class="nt">&lt;Plugin-Type&gt;</span>runner<span class="nt">&lt;/Plugin-Type&gt;</span>
+                        <span class="nt">&lt;/manifestEntries&gt;</span>
+                    <span class="nt">&lt;/archive&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></div></div>
+
+<h3 id="step-4-build-and-deploy">Step 4: Build and Deploy</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean package
+<span class="nb">cp </span>target/gollek-plugin-runner-custom-1.0.0.jar ~/.gollek/plugins/runners/
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="monitoring">Monitoring</h2>
+
+<h3 id="health-checks">Health Checks</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get runner health status</span>
+curl http://localhost:8080/api/v1/runners/health
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"gguf-runner"</span>: <span class="o">{</span>
+    <span class="s2">"healthy"</span>: <span class="nb">true</span>,
+    <span class="s2">"available"</span>: <span class="nb">true</span>
+  <span class="o">}</span>,
+  <span class="s2">"safetensor-runner"</span>: <span class="o">{</span>
+    <span class="s2">"healthy"</span>: <span class="nb">true</span>,
+    <span class="s2">"available"</span>: <span class="nb">true</span>
+  <span class="o">}</span>,
+  <span class="s2">"onnx-runner"</span>: <span class="o">{</span>
+    <span class="s2">"healthy"</span>: <span class="nb">false</span>,
+    <span class="s2">"available"</span>: <span class="nb">false</span>,
+    <span class="s2">"error"</span>: <span class="s2">"ONNX Runtime not found"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="metrics">Metrics</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get runner statistics</span>
+curl http://localhost:8080/api/v1/runners/stats
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"initialized"</span>: <span class="nb">true</span>,
+  <span class="s2">"total_runners"</span>: 3,
+  <span class="s2">"available_runners"</span>: 2,
+  <span class="s2">"active_sessions"</span>: 5,
+  <span class="s2">"runners"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"id"</span>: <span class="s2">"gguf-runner"</span>,
+      <span class="s2">"name"</span>: <span class="s2">"GGUF Runner"</span>,
+      <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+      <span class="s2">"available"</span>: <span class="nb">true</span>,
+      <span class="s2">"formats"</span>: <span class="o">[</span><span class="s2">".gguf"</span><span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="runner-not-loading">Runner Not Loading</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check if plugin JAR is in correct directory</span>
+<span class="nb">ls</span> <span class="nt">-la</span> ~/.gollek/plugins/runners/<span class="k">*</span>.jar
+
+<span class="c"># Check plugin manifest</span>
+unzip <span class="nt">-p</span> gollek-plugin-runner-gguf.jar META-INF/MANIFEST.MF
+
+<span class="c"># Check logs for errors</span>
+<span class="nb">tail</span> <span class="nt">-f</span> ~/.gollek/logs/gollek.log | <span class="nb">grep </span>runner
+</code></pre></div></div>
+
+<h3 id="native-library-not-found">Native Library Not Found</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set library path</span>
+<span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/path/to/native/libs:<span class="nv">$LD_LIBRARY_PATH</span>
+
+<span class="c"># Or copy to system directory</span>
+<span class="nb">sudo cp </span>libllama.so /usr/local/lib/
+<span class="nb">sudo </span>ldconfig
+</code></pre></div></div>
+
+<h3 id="model-format-not-supported">Model Format Not Supported</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Check which runner supports the model</span>
+<span class="nc">RunnerPluginManager</span> <span class="n">manager</span> <span class="o">=</span> <span class="nc">RunnerPluginManager</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerPlugin</span><span class="o">&gt;</span> <span class="n">plugin</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="na">findPluginForModel</span><span class="o">(</span><span class="s">"model.gguf"</span><span class="o">);</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">plugin</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Supported by: "</span> <span class="o">+</span> <span class="n">plugin</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">name</span><span class="o">());</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"No runner supports this model format"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong>Runner Plugin Core</strong>: <code class="language-plaintext highlighter-rouge">inference-gollek/core/gollek-plugin-runner-core/</code></li>
+  <li><strong>GGUF Runner</strong>: <code class="language-plaintext highlighter-rouge">inference-gollek/plugins/runner/gguf/</code></li>
+  <li><strong>Safetensor Runner</strong>: <code class="language-plaintext highlighter-rouge">inference-gollek/plugins/runner/safetensor/</code></li>
+  <li><a href="/docs/plugins/feature-plugins">Feature Plugin System</a></li>
+  <li><a href="/docs/plugins/optimization-plugins">Optimization Plugins</a></li>
+  <li><a href="/docs/runtime/architecture">Architecture</a></li>
+</ul>
+
+<hr />
+
+<p><a href="/docs/plugins/optimization-plugins">Back to Optimization Plugins</a>   <a href="/docs/plugins/feature-plugins">Feature Plugins</a>   <a href="/docs/runtime/architecture">View Architecture</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

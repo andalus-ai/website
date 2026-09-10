@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Training Fast Gate | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Training Fast Gate</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="training-fast-gate">Training Fast Gate</h1>
+
+<p>Gollek training modules can move from advisory coverage into the hard CI gate
+through a fast metadata path. The fast gate reads checked-in Gradle settings,
+training module build files, the Gradle training gate registry, and the two
+training metadata locks. It does not configure the Gradle project, so it is
+suited for quick CI preflight and review automation.</p>
+
+<p>Use this page when you need to:</p>
+
+<ul>
+  <li>inspect which training modules are hard-gated</li>
+  <li>find tested modules that are still advisory candidates</li>
+  <li>promote selected advisory candidates into the hard gate</li>
+  <li>validate promotion-plan artifacts in CI or review tooling</li>
+  <li>archive machine-readable receipts for training gate changes</li>
+</ul>
+
+<h2 id="commands">Commands</h2>
+
+<p>Run the fast metadata gate from <code class="language-plaintext highlighter-rouge">gollek/</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/verify-training-advisory-gates-fast.py
+</code></pre></div></div>
+
+<p>Run the contract test for the fast gate itself:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/test-training-fast-gate.sh
+</code></pre></div></div>
+
+<p>Compare the fast metadata reports against the Gradle-generated reports:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash scripts/test-training-fast-gradle-parity.sh
+</code></pre></div></div>
+
+<p>The parity script normalizes the shared JSON reports from both paths and diffs
+them. It also checks one selected-candidate case.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash scripts/test-training-fast-gradle-parity.sh <span class="se">\</span>
+  <span class="nt">--candidate</span> audio,vision <span class="se">\</span>
+  <span class="nt">--artifact-dir</span> /tmp/gollek-training-gradle-parity
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--artifact-dir</code> keeps raw Gradle/Fast reports, normalized JSON, diff files,
+logs, <code class="language-plaintext highlighter-rouge">training-gradle-parity-summary.json</code>, and a human-readable <code class="language-plaintext highlighter-rouge">README.md</code>.
+If <code class="language-plaintext highlighter-rouge">--candidate</code> is omitted, the script uses
+<code class="language-plaintext highlighter-rouge">GOLLEK_TRAINING_PARITY_CANDIDATES</code> or the first available advisory candidates
+from coverage. If <code class="language-plaintext highlighter-rouge">--artifact-dir</code> is omitted, it uses
+<code class="language-plaintext highlighter-rouge">GOLLEK_TRAINING_PARITY_ARTIFACT_DIR</code> when set.</p>
+
+<p>CI keeps the fast metadata check and Gradle parity check separate:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.github/workflows/training-fast-gate.yml</code> runs the Gradle-free metadata gate
+for quick registry, lock, and training project preflight.</li>
+  <li><code class="language-plaintext highlighter-rouge">.github/workflows/training-gradle-parity.yml</code> sets up JDK 25, generates both
+Gradle and fast reports, writes a concise Actions step summary, and uploads
+the parity artifact bundle for review.</li>
+</ul>
+
+<p>Generate reports in a custom directory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/verify-training-advisory-gates-fast.py <span class="se">\</span>
+  <span class="nt">--output-dir</span> /tmp/gollek-training-fast-gate
+</code></pre></div></div>
+
+<p>Select advisory candidates by label:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/verify-training-advisory-gates-fast.py <span class="se">\</span>
+  <span class="nt">--candidate</span> audio,vision <span class="se">\</span>
+  <span class="nt">--output-dir</span> /tmp/gollek-training-fast-gate
+</code></pre></div></div>
+
+<h2 id="promotion-workflow">Promotion Workflow</h2>
+
+<p>Generate a dry-run promotion plan without changing the registry or locks:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/verify-training-advisory-gates-fast.py <span class="se">\</span>
+  <span class="nt">--candidate</span> audio <span class="se">\</span>
+  <span class="nt">--promote-selected</span> <span class="se">\</span>
+  <span class="nt">--dry-run</span>
+</code></pre></div></div>
+
+<p>Validate an existing promotion plan:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/verify-training-advisory-gates-fast.py <span class="se">\</span>
+  <span class="nt">--validate-promotion-plan</span> build/reports/gollek/training-module-promotion-plan.json
+</code></pre></div></div>
+
+<p>Write a validation report for CI artifacts:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/verify-training-advisory-gates-fast.py <span class="se">\</span>
+  <span class="nt">--validate-promotion-plan</span> build/reports/gollek/training-module-promotion-plan.json <span class="se">\</span>
+  <span class="nt">--promotion-plan-validation-report-file</span> build/reports/gollek/training-module-promotion-plan-validation.json
+</code></pre></div></div>
+
+<p>Apply an intentional selected-candidate promotion:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/verify-training-advisory-gates-fast.py <span class="se">\</span>
+  <span class="nt">--candidate</span> audio <span class="se">\</span>
+  <span class="nt">--promote-selected</span>
+</code></pre></div></div>
+
+<p>Apply mode snapshots the training gate registry plus both training metadata
+locks first. If validation or report writing fails after mutation begins, the
+script restores those files before exiting.</p>
+
+<h2 id="promotion-rules">Promotion Rules</h2>
+
+<p>Promotion is intentionally narrow:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--promote-selected</code> requires concrete <code class="language-plaintext highlighter-rouge">--candidate</code> labels.</li>
+  <li>Empty selection, <code class="language-plaintext highlighter-rouge">all</code>, and <code class="language-plaintext highlighter-rouge">*</code> are rejected for promotion.</li>
+  <li>Dry-run mode writes a promotion plan but does not edit files.</li>
+  <li>Apply mode updates the registry and refreshes both metadata locks.</li>
+  <li>Promotion plans include a stable SHA-256 <code class="language-plaintext highlighter-rouge">promotionFingerprint</code>.</li>
+  <li>Validation mode recomputes the fingerprint and rejects stale or edited plans.</li>
+</ul>
+
+<p>The fingerprint is root-independent. It covers:</p>
+
+<ul>
+  <li>the selected advisory candidate rows</li>
+  <li>the candidate selection property and value</li>
+  <li>the logical mutation targets for the registry and both locks</li>
+</ul>
+
+<p>It does not depend on the absolute checkout path, so the same planned promotion
+can be compared across local machines and CI fixtures.</p>
+
+<h2 id="artifacts">Artifacts</h2>
+
+<p>The fast gate writes these JSON artifacts by default under
+<code class="language-plaintext highlighter-rouge">gollek/build/reports/gollek/</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>File</th>
+      <th>Format</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-checks.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.module-checks.v2</code></td>
+      <td>Hard-gated training checks and registry fingerprint</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-checks-lock-drift.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.module-checks.lock-drift.v1</code></td>
+      <td>Drift between the hard-check registry and checked-in lock</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-coverage.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.module-coverage.v2</code></td>
+      <td>Training project coverage and advisory candidate discovery</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-candidate-selection.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.module-candidate-selection.v2</code></td>
+      <td>Selected advisory candidates and follow-up commands</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-candidates-lock-drift.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.module-candidates.lock-drift.v1</code></td>
+      <td>Drift between advisory candidates and checked-in candidate lock</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-fast-gate-summary.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.fast-gate-summary.v1</code></td>
+      <td>Aggregate pass/fail summary for CI</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-promotion-plan.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.promotion-plan.v1</code></td>
+      <td>Selected promotion details, snippets, commands, mutation files, and fingerprint</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training-module-promotion-plan-validation.json</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek.training.promotion-plan-validation.v1</code></td>
+      <td>Validation receipt for an existing promotion plan</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Checked-in locks live in:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/gradle/training-module-checks.lock.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/gradle/training-module-candidates.lock.json</code></li>
+</ul>
+
+<p>The source registry lives in:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/buildSrc/src/main/kotlin/gollek.training-gates.gradle.kts</code></li>
+</ul>
+
+<h2 id="promotion-plan-contract">Promotion Plan Contract</h2>
+
+<p><code class="language-plaintext highlighter-rouge">gollek.training.promotion-plan.v1</code> contains:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">promotionFingerprintAlgorithm</code></td>
+      <td>Currently <code class="language-plaintext highlighter-rouge">SHA-256</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">promotionFingerprint</code></td>
+      <td>Root-independent hash of the selected promotion</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">selectedLabels</code></td>
+      <td>Advisory labels being promoted</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">selectedTaskPaths</code></td>
+      <td>Gradle test task paths for the selected candidates</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">candidateCount</code></td>
+      <td>Number of selected candidates</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dryRun</code></td>
+      <td><code class="language-plaintext highlighter-rouge">true</code> when the plan did not edit files</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">applied</code></td>
+      <td><code class="language-plaintext highlighter-rouge">true</code> when apply mode completed</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">transactional</code></td>
+      <td><code class="language-plaintext highlighter-rouge">true</code> for applied plans protected by rollback snapshots</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mutationFiles</code></td>
+      <td>Registry and lock files that apply mode may mutate</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">promotionSnippets</code></td>
+      <td>Copy-pasteable <code class="language-plaintext highlighter-rouge">TrainingModuleCheck</code> entries</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">commands</code></td>
+      <td>Follow-up validation and Gradle verification commands</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Validation recomputes labels, task paths, snippets, mutation files, and the
+fingerprint from the candidate rows. If any of those drift, the plan is
+rejected.</p>
+
+<h2 id="validation-report-contract">Validation Report Contract</h2>
+
+<p><code class="language-plaintext highlighter-rouge">gollek.training.promotion-plan-validation.v1</code> is a small receipt for an
+existing promotion plan. It contains:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">passed</code></td>
+      <td>Whether the plan passed contract validation</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">planFile</code></td>
+      <td>Validated plan path</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">planFormat</code></td>
+      <td>Format from the plan when available</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">promotionFingerprint</code></td>
+      <td>Validated plan fingerprint when available</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">candidateCount</code></td>
+      <td>Candidate count from the plan when available</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">selectedLabels</code></td>
+      <td>Selected labels from the plan when available</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dryRun</code> / <code class="language-plaintext highlighter-rouge">applied</code> / <code class="language-plaintext highlighter-rouge">transactional</code></td>
+      <td>Promotion state flags from the plan</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">error</code></td>
+      <td>Empty on success, validation failure text on failure</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>When the validation report flag is supplied, failed validation still writes a
+report with <code class="language-plaintext highlighter-rouge">passed=false</code> and an <code class="language-plaintext highlighter-rouge">error</code>, which is useful for CI artifact
+upload.</p>
+
+<h2 id="related-docs">Related Docs</h2>
+
+<ul>
+  <li><a href="/docs/framework/training">Training Docs</a></li>
+  <li><a href="/docs/setup/trainer-jbang-docs">Trainer JBang Docs</a></li>
+  <li><a href="/docs/framework/recursive-reasoning-docs">Recursive Reasoning Docs</a></li>
+  <li><a href="/docs/framework/diffusion-opd-docs">DiffusionOPD Docs</a></li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

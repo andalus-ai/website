@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Core Runtime Architecture | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Core Runtime Architecture</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="gollek-core-runtime-architecture">Gollek Core Runtime Architecture</h1>
+
+<p>The Gollek runtime is built as a layered, modular engine that evolves from
+basic tensor operations to production-grade LLM inference with continuous
+batching, prefix caching, and multi-tenant scheduling.</p>
+
+<h2 id="module-structure">Module Structure</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek/core/
+├── gollek-runtime-tensor     ← Foundation: Tensor SPI, Backend, Pool
+├── gollek-runtime-graph      ← Computation Graph, Fusion, Memory Planner
+└── gollek-runtime-inference  ← KV Cache, Batching, Scheduling, Speculative Decoding
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="phase-1--tensor-spi--backend-abstraction">Phase 1 — Tensor SPI &amp; Backend Abstraction</h2>
+
+<h3 id="universal-tensor-interface">Universal Tensor Interface</h3>
+
+<p>All inference engines (LibTorch, GGML, ONNX, LiteRT) produce tensors through
+a single interface:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Tensor</span> <span class="kd">extends</span> <span class="nc">AutoCloseable</span> <span class="o">{</span>
+    <span class="kt">long</span><span class="o">[]</span> <span class="nf">shape</span><span class="o">();</span>
+    <span class="nc">DType</span> <span class="nf">dtype</span><span class="o">();</span>
+    <span class="nc">Device</span> <span class="nf">device</span><span class="o">();</span>
+    <span class="nc">BackendType</span> <span class="nf">backend</span><span class="o">();</span>
+
+    <span class="nc">Tensor</span> <span class="nf">add</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">other</span><span class="o">,</span> <span class="nc">ExecutionContext</span> <span class="n">ctx</span><span class="o">);</span>
+    <span class="nc">Tensor</span> <span class="nf">matmul</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">other</span><span class="o">,</span> <span class="nc">ExecutionContext</span> <span class="n">ctx</span><span class="o">);</span>
+    <span class="nc">Tensor</span> <span class="nf">relu</span><span class="o">(</span><span class="nc">ExecutionContext</span> <span class="n">ctx</span><span class="o">);</span>
+
+    <span class="nc">Tensor</span> <span class="nf">reshape</span><span class="o">(</span><span class="kt">long</span><span class="o">...</span> <span class="n">newShape</span><span class="o">);</span>      <span class="c1">// zero-copy</span>
+    <span class="nc">Tensor</span> <span class="nf">slice</span><span class="o">(</span><span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="kt">long</span> <span class="n">s</span><span class="o">,</span> <span class="kt">long</span> <span class="n">e</span><span class="o">);</span> <span class="c1">// zero-copy</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="supported-data-types-dtype">Supported Data Types (<code class="language-plaintext highlighter-rouge">DType</code>)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Bytes</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FLOAT32</td>
+      <td>4</td>
+      <td>Standard precision</td>
+    </tr>
+    <tr>
+      <td>FLOAT16</td>
+      <td>2</td>
+      <td>GPU inference</td>
+    </tr>
+    <tr>
+      <td>BFLOAT16</td>
+      <td>2</td>
+      <td>Training</td>
+    </tr>
+    <tr>
+      <td>INT8</td>
+      <td>1</td>
+      <td>Quantized inference</td>
+    </tr>
+    <tr>
+      <td>INT4</td>
+      <td>~0.5</td>
+      <td>GGML-style quantization</td>
+    </tr>
+    <tr>
+      <td>QINT8</td>
+      <td>1</td>
+      <td>Per-tensor quantized</td>
+    </tr>
+    <tr>
+      <td>QINT4</td>
+      <td>1</td>
+      <td>Per-group quantized</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="pluggable-backends">Pluggable Backends</h3>
+
+<p>Backends register at startup and operations dispatch transparently:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Register</span>
+<span class="nc">BackendRegistry</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="k">new</span> <span class="nc">LibTorchBackend</span><span class="o">());</span>
+
+<span class="c1">// Use — backend selected automatically</span>
+<span class="nc">Tensor</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">ctx</span><span class="o">);</span>  <span class="c1">// → dispatches to LibTorch</span>
+</code></pre></div></div>
+
+<h3 id="memory-pooling-tensorpool">Memory Pooling (<code class="language-plaintext highlighter-rouge">TensorPool</code>)</h3>
+
+<p>Eliminates malloc/free overhead during graph execution:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">TensorPool</span> <span class="n">pool</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TensorPool</span><span class="o">();</span>
+<span class="nc">MemorySegment</span> <span class="n">seg</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="na">acquire</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">backend</span><span class="o">,</span> <span class="n">ctx</span><span class="o">);</span>
+<span class="c1">// ... use tensor ...</span>
+<span class="n">pool</span><span class="o">.</span><span class="na">release</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">seg</span><span class="o">);</span>  <span class="c1">// returns to pool, not freed</span>
+
+<span class="n">pool</span><span class="o">.</span><span class="na">hitRate</span><span class="o">();</span>  <span class="c1">// e.g. 0.85 (85% reuse)</span>
+</code></pre></div></div>
+
+<h3 id="execution-context">Execution Context</h3>
+
+<p>Scoped lifecycle for temporary tensors:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span> <span class="o">(</span><span class="kt">var</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ExecutionContext</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">Tensor</span> <span class="n">a</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="na">createTensor</span><span class="o">(</span><span class="n">shape</span><span class="o">,</span> <span class="nc">DType</span><span class="o">.</span><span class="na">FLOAT16</span><span class="o">,</span> <span class="nc">Device</span><span class="o">.</span><span class="na">CUDA</span><span class="o">,</span> <span class="n">ctx</span><span class="o">);</span>
+    <span class="nc">Tensor</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">other</span><span class="o">,</span> <span class="n">ctx</span><span class="o">);</span>
+    <span class="c1">// all temps cleaned up here</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="phase-2--computation-graph-engine">Phase 2 — Computation Graph Engine</h2>
+
+<h3 id="lazy-execution">Lazy Execution</h3>
+
+<p>Record operations without executing, then optimize the full graph:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ComputationGraph</span> <span class="n">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ComputationGraph</span><span class="o">();</span>
+<span class="nc">LazyTensor</span> <span class="n">a</span> <span class="o">=</span> <span class="nc">LazyTensor</span><span class="o">.</span><span class="na">input</span><span class="o">(</span><span class="n">graph</span><span class="o">,</span> <span class="s">"a"</span><span class="o">,</span> <span class="n">shape</span><span class="o">,</span> <span class="n">dtype</span><span class="o">,</span> <span class="n">device</span><span class="o">,</span> <span class="n">backend</span><span class="o">);</span>
+<span class="nc">LazyTensor</span> <span class="n">b</span> <span class="o">=</span> <span class="nc">LazyTensor</span><span class="o">.</span><span class="na">input</span><span class="o">(</span><span class="n">graph</span><span class="o">,</span> <span class="s">"b"</span><span class="o">,</span> <span class="n">shape</span><span class="o">,</span> <span class="n">dtype</span><span class="o">,</span> <span class="n">device</span><span class="o">,</span> <span class="n">backend</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="kc">null</span><span class="o">).</span><span class="na">relu</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+<span class="c1">// Nothing executed — graph recorded</span>
+</code></pre></div></div>
+
+<h3 id="operator-fusion">Operator Fusion</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">FusionOptimizer</code> merges adjacent operations:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Fused Op</th>
+      <th>Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">add</code> + <code class="language-plaintext highlighter-rouge">relu</code></td>
+      <td><code class="language-plaintext highlighter-rouge">add_relu</code></td>
+      <td>1 kernel launch instead of 2</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">matmul</code> + <code class="language-plaintext highlighter-rouge">relu</code></td>
+      <td><code class="language-plaintext highlighter-rouge">matmul_relu</code></td>
+      <td>Reduced memory traffic</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">matmul</code> + <code class="language-plaintext highlighter-rouge">add</code></td>
+      <td><code class="language-plaintext highlighter-rouge">matmul_add</code></td>
+      <td>Bias fusion</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="lifetime-based-memory-planning">Lifetime-Based Memory Planning</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">LifetimeAnalyzer</code> computes when tensors are produced and last used.
+The <code class="language-plaintext highlighter-rouge">GraphMemoryPlanner</code> reuses memory blocks whose lifetimes don’t overlap:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Before: O(n_nodes) memory allocations
+After:  O(max_concurrent_tensors) — typically 3-5x reduction
+</code></pre></div></div>
+
+<h3 id="full-pipeline">Full Pipeline</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">GraphExecutor</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">graph</span><span class="o">,</span> <span class="n">backend</span><span class="o">,</span> <span class="n">pool</span><span class="o">,</span> <span class="n">ctx</span><span class="o">);</span>
+<span class="c1">// 1. Topological sort (GraphPlanner)</span>
+<span class="c1">// 2. Operator fusion (FusionOptimizer)</span>
+<span class="c1">// 3. Lifetime analysis (LifetimeAnalyzer)</span>
+<span class="c1">// 4. Memory-planned execution (GraphMemoryPlanner)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="phase-3--llm-inference-runtime">Phase 3 — LLM Inference Runtime</h2>
+
+<h3 id="multi-backend-routing">Multi-Backend Routing</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">HeuristicRouter</code> selects backends per-operation:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Large matmul → GPU (LibTorch)</span>
+<span class="c1">// Small attention → CPU quantized (GGML)</span>
+<span class="c1">// Softmax → GPU for FP precision</span>
+</code></pre></div></div>
+
+<h3 id="paged-kv-cache">Paged KV Cache</h3>
+
+<p>vLLM-style paged memory for transformer attention:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">PagedKVCache</span> <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PagedKVCache</span><span class="o">(</span><span class="mi">128</span><span class="o">);</span> <span class="c1">// 128 tokens per page</span>
+<span class="n">cache</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">layer</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">);</span>                  <span class="c1">// auto-allocates new pages</span>
+<span class="n">cache</span><span class="o">.</span><span class="na">getPages</span><span class="o">(</span><span class="n">layer</span><span class="o">);</span>                      <span class="c1">// for PagedAttention kernel</span>
+</code></pre></div></div>
+
+<h3 id="continuous-batching">Continuous Batching</h3>
+
+<p>Dynamic request scheduling (vLLM-style):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ContinuousBatchScheduler</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ContinuousBatchScheduler</span><span class="o">(</span><span class="mi">32</span><span class="o">);</span>
+<span class="n">scheduler</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="k">new</span> <span class="nc">BatchRequest</span><span class="o">(</span><span class="n">tokens</span><span class="o">,</span> <span class="n">cache</span><span class="o">,</span> <span class="n">streamer</span><span class="o">,</span> <span class="mi">512</span><span class="o">));</span>
+<span class="n">scheduler</span><span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="n">batch</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="c1">// Execute one decode step for all active requests</span>
+<span class="o">});</span>
+</code></pre></div></div>
+
+<p>Requests enter and leave the batch dynamically:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>t0: [A, B]        — 2 requests
+t1: [A, B, C]     — C joins mid-flight
+t2: [B, C]        — A finishes
+t3: [B, C, D, E]  — D, E join
+</code></pre></div></div>
+
+<h3 id="prefix-cache">Prefix Cache</h3>
+
+<p>Reuses KV cache state for shared prompt prefixes (30-90% compute savings):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">PrefixCache</span> <span class="n">prefixCache</span> <span class="o">=</span> <span class="nc">PrefixCache</span><span class="o">.</span><span class="na">createDefault</span><span class="o">();</span>
+<span class="nc">KVCache</span> <span class="n">cached</span> <span class="o">=</span> <span class="n">prefixCache</span><span class="o">.</span><span class="na">findLongestPrefix</span><span class="o">(</span><span class="n">tokens</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">cached</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Skip prefill for shared prefix — massive speedup</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="speculative-decoding">Speculative Decoding</h3>
+
+<p>Draft+verify for 2x-5x inference speedup:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">SpeculativeDecoder</span> <span class="n">decoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SpeculativeDecoder</span><span class="o">(</span>
+    <span class="n">draftModel</span><span class="o">,</span>   <span class="c1">// small, fast</span>
+    <span class="n">targetModel</span><span class="o">,</span>  <span class="c1">// large, accurate</span>
+    <span class="mi">4</span>             <span class="c1">// 4 speculative steps</span>
+<span class="o">);</span>
+<span class="n">decoder</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="n">tokens</span><span class="o">,</span> <span class="n">cache</span><span class="o">,</span> <span class="mi">512</span><span class="o">,</span> <span class="n">eosToken</span><span class="o">,</span> <span class="n">streamer</span><span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="phase-4--multi-tenant-production-scheduling">Phase 4 — Multi-Tenant Production Scheduling</h2>
+
+<h3 id="tenant-tiers">Tenant Tiers</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>DRR Quantum</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FREE</td>
+      <td>1</td>
+      <td>Community access</td>
+    </tr>
+    <tr>
+      <td>PRO</td>
+      <td>3</td>
+      <td>3x compute priority</td>
+    </tr>
+    <tr>
+      <td>ENTERPRISE</td>
+      <td>10</td>
+      <td>10x compute, dedicated quotas</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="drr-fair-scheduler">DRR Fair Scheduler</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">MultiTenantScheduler</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MultiTenantScheduler</span><span class="o">();</span>
+<span class="n">scheduler</span><span class="o">.</span><span class="na">registerTenant</span><span class="o">(</span><span class="k">new</span> <span class="nc">TenantContext</span><span class="o">(</span>
+    <span class="s">"tenant-1"</span><span class="o">,</span> <span class="nc">TenantTier</span><span class="o">.</span><span class="na">ENTERPRISE</span><span class="o">,</span>
+    <span class="mi">50</span><span class="o">,</span>   <span class="c1">// max concurrent requests</span>
+    <span class="mi">1000</span><span class="o">,</span> <span class="c1">// max KV blocks</span>
+    <span class="mi">1000</span>  <span class="c1">// max tokens/sec</span>
+<span class="o">));</span>
+
+<span class="n">scheduler</span><span class="o">.</span><span class="na">submitDecode</span><span class="o">(</span><span class="n">batchRequest</span><span class="o">);</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">BatchRequest</span><span class="o">&gt;</span> <span class="n">batch</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="na">nextDecodeBatch</span><span class="o">(</span><span class="mi">32</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="kv-quota-enforcement">KV Quota Enforcement</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">KVQuotaManager</span> <span class="n">quotas</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">KVQuotaManager</span><span class="o">(</span><span class="n">scheduler</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">quotas</span><span class="o">.</span><span class="na">tryAllocate</span><span class="o">(</span><span class="s">"tenant-1"</span><span class="o">,</span> <span class="mi">10</span><span class="o">))</span> <span class="o">{</span>
+    <span class="c1">// Allocate 10 KV blocks</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="architecture-diagram">Architecture Diagram</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────┐
+│              Multi-Tenant Scheduler             │
+│   ┌──────────┐  ┌──────────┐  ┌──────────┐    │
+│   │  FREE    │  │   PRO    │  │ENTERPRISE│    │
+│   │ quantum=1│  │ quantum=3│  │quantum=10│    │
+│   └────┬─────┘  └────┬─────┘  └────┬─────┘    │
+│        └──────────────┼─────────────┘          │
+│                       ▼                         │
+│         ┌──────────────────────┐                │
+│         │ ContinuousBatchScheduler │            │
+│         └──────────┬───────────┘                │
+│                    ▼                            │
+│        ┌───────────────────────┐                │
+│        │    GraphExecutor      │                │
+│        │  ┌─────────────────┐  │                │
+│        │  │ FusionOptimizer │  │                │
+│        │  │ MemoryPlanner   │  │                │
+│        │  └─────────────────┘  │                │
+│        └──────────┬────────────┘                │
+│                   ▼                             │
+│   ┌────────┬──────────┬──────────┬────────┐    │
+│   │LibTorch│   GGML   │   ONNX   │ LiteRT │    │
+│   │Backend │ Backend  │ Backend  │Backend │    │
+│   └────────┴──────────┴──────────┴────────┘    │
+│                                                 │
+│   ┌─────────────────────────────────────────┐  │
+│   │          TensorPool + NativeMemory       │  │
+│   └─────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

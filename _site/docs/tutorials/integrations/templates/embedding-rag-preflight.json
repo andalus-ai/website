@@ -1,0 +1,25 @@
+{
+  "model": "demo-embed",
+  "surface": "embeddings",
+  "feature_profile": "embedding_rag",
+  "preflight_policy": {
+    "profile": "requested_route"
+  },
+  "discover_mcp_tools": false,
+  "mcp_discovery_required": false,
+  "validate_tools": false,
+  "tool_validation_required": false,
+  "validate_request": true,
+  "request_validation_required": true,
+  "request": {
+    "model": "demo-embed",
+    "input": [
+      "Find context for this task."
+    ],
+    "dimensions": 768,
+    "encoding_format": "float",
+    "metadata": {
+      "tenant": "agent-project"
+    }
+  }
+}

@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DiffusionOPD Reporting Workflow | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item active">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">DiffusionOPD Reporting Workflow</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="diffusionopd-reporting-workflow">DiffusionOPD Reporting Workflow</h1>
+
+<p>This tutorial walks through the full Java-side DiffusionOPD reporting lane:</p>
+
+<ol>
+  <li>train a run and persist artifacts</li>
+  <li>load <code class="language-plaintext highlighter-rouge">diffusion-opd-report.json</code></li>
+  <li>inspect typed status and campaign views</li>
+  <li>inspect an exported bundle manifest</li>
+</ol>
+
+<p>The goal is to show how Gollek’s OPD work is meant to be consumed after
+training, not just how the trainer is configured.</p>
+
+<hr />
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>You should already be familiar with:</p>
+
+<ul>
+  <li><a href="/docs/framework/diffusion-opd">DiffusionOPD in Gollek</a></li>
+  <li><a href="/docs/framework/diffusion-opd-reporting">DiffusionOPD Reporting and Inspection</a></li>
+</ul>
+
+<p>This tutorial assumes you already have:</p>
+
+<ul>
+  <li>a configured DiffusionOPD trainer</li>
+  <li>a writable checkpoint directory</li>
+  <li>a baseline report and a current report when you want campaign comparisons</li>
+</ul>
+
+<h3 id="see-also">See also</h3>
+
+<ul>
+  <li><a href="/docs/framework/diffusion-opd-docs">DiffusionOPD Docs</a></li>
+  <li><a href="/docs/tutorials/advanced/diffusion-opd-jbang-inspector">DiffusionOPD JBang Inspector Workflow</a></li>
+  <li><a href="/docs/framework/diffusion-opd-selector-reference">DiffusionOPD Selector Reference</a></li>
+  <li><a href="/docs/framework/diffusion-opd-baseline-strategy">DiffusionOPD Baseline Strategy</a></li>
+</ul>
+
+<hr />
+
+<h2 id="step-1-persist-a-normalized-report">Step 1: Persist a normalized report</h2>
+
+<p>Start by configuring the trainer with a checkpoint directory so the OPD lane
+emits its report artifacts.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">trainer</span> <span class="o">=</span> <span class="nc">Gollek</span><span class="o">.</span><span class="na">DL</span><span class="o">.</span><span class="na">diffusionOpdTrainer</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">student</span><span class="o">(</span><span class="n">studentDenoiser</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">teacher</span><span class="o">(</span><span class="s">"ocr-early"</span><span class="o">,</span> <span class="n">ocrEarlyTeacher</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">teacher</span><span class="o">(</span><span class="s">"ocr-late"</span><span class="o">,</span> <span class="n">ocrLateTeacher</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="n">diffusionScheduler</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">task</span><span class="o">(</span><span class="n">ocrTask</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">checkpointDir</span><span class="o">(</span><span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"artifacts/opd-run"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">runtimeObservers</span><span class="o">(</span>
+        <span class="nc">DiffusionOpdDiagnosticsPacks</span><span class="o">.</span><span class="na">standardTaskDiagnostics</span><span class="o">(</span>
+            <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">ocrTask</span><span class="o">),</span>
+            <span class="s">"local-fixtures"</span>
+        <span class="o">)</span>
+    <span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="na">fit</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>After the run completes, you should have:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">artifacts/opd-run/diffusion-opd-summary.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">artifacts/opd-run/diffusion-opd-history.csv</code></li>
+  <li><code class="language-plaintext highlighter-rouge">artifacts/opd-run/diffusion-opd-report.json</code></li>
+</ul>
+
+<p>The normalized report is the main artifact we will use below.</p>
+
+<hr />
+
+<h2 id="step-2-load-the-report">Step 2: Load the report</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Path</span> <span class="n">reportPath</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"artifacts/opd-run/diffusion-opd-report.json"</span><span class="o">);</span>
+<span class="nc">DiffusionOpdReport</span> <span class="n">report</span> <span class="o">=</span> <span class="nc">DiffusionOpdReports</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">reportPath</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>At this point you have a typed report model instead of an unstructured map.
+That gives you access to both:</p>
+
+<ul>
+  <li>compact selector-style reads through <code class="language-plaintext highlighter-rouge">DiffusionOpdReports.select(...)</code></li>
+  <li>richer typed analysis through <code class="language-plaintext highlighter-rouge">DiffusionOpdReportQueries</code></li>
+</ul>
+
+<p>For example:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Object</span> <span class="n">latestOcrLoss</span> <span class="o">=</span> <span class="nc">DiffusionOpdReports</span><span class="o">.</span><span class="na">select</span><span class="o">(</span>
+    <span class="n">report</span><span class="o">,</span>
+    <span class="s">"roundHistory:task=ocr:lastLoss"</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>That is handy in scripts, but the typed queries are usually the better choice
+ for applications.</p>
+
+<hr />
+
+<h2 id="step-3-inspect-round-history-status">Step 3: Inspect round-history status</h2>
+
+<p>A small first step is to compute one task-facing status and recommendation
+view.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">ocrStatus</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskStatus</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="s">"ocr"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">ocrRecommendation</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskRecommendation</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="s">"ocr"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">ocrPlaybook</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskPlaybook</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="s">"ocr"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>This is the layer to use when you need:</p>
+
+<ul>
+  <li>one task’s current health</li>
+  <li>trend/stability judgments over a trailing window</li>
+  <li>an action-oriented recommendation</li>
+</ul>
+
+<p>If you want ranked rollups instead of one filtered slice, move up to the
+portfolio helpers:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">taskPortfolio</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskPortfolio</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">taskSummaries</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskSummaries</span><span class="o">(</span><span class="n">report</span><span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="step-4-compare-a-baseline-and-a-regressed-run">Step 4: Compare a baseline and a regressed run</h2>
+
+<p>The campaign/workflow lane is built from two reports:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">baselineReport</code></li>
+  <li><code class="language-plaintext highlighter-rouge">currentReport</code></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiffusionOpdReport</span> <span class="n">baselineReport</span> <span class="o">=</span>
+    <span class="nc">DiffusionOpdReports</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"artifacts/opd-baseline/diffusion-opd-report.json"</span><span class="o">));</span>
+
+<span class="nc">DiffusionOpdReport</span> <span class="n">currentReport</span> <span class="o">=</span>
+    <span class="nc">DiffusionOpdReports</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"artifacts/opd-run/diffusion-opd-report.json"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>Once you have both, you can compute higher-level operator artifacts.</p>
+
+<h3 id="baseline-vs-current-starter">Baseline-vs-current starter</h3>
+
+<p>If you want the shortest useful two-report path, start with:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">approval</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskCampaignApprovalPacket</span><span class="o">(</span>
+    <span class="n">baselineReport</span><span class="o">,</span>
+    <span class="n">currentReport</span><span class="o">,</span>
+    <span class="mi">1</span><span class="o">,</span>
+    <span class="mi">2</span><span class="o">,</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="mi">5</span>
+<span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">releaseDecision</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskCampaignReleaseDecision</span><span class="o">(</span>
+    <span class="n">baselineReport</span><span class="o">,</span>
+    <span class="n">currentReport</span><span class="o">,</span>
+    <span class="mi">1</span><span class="o">,</span>
+    <span class="mi">2</span><span class="o">,</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="mi">5</span>
+<span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">exportReport</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskCampaignReleaseDeliveryExportReport</span><span class="o">(</span>
+    <span class="n">baselineReport</span><span class="o">,</span>
+    <span class="n">currentReport</span><span class="o">,</span>
+    <span class="mi">1</span><span class="o">,</span>
+    <span class="mi">2</span><span class="o">,</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="mi">5</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>That sequence gives you, in order:</p>
+
+<ul>
+  <li>whether the change should be gated</li>
+  <li>what the release-side decision looks like</li>
+  <li>what the downstream delivery/export posture looks like</li>
+</ul>
+
+<p>If those three views are enough for your use case, you can stop there before
+moving into the fuller campaign/release chain below.</p>
+
+<p>If you have not settled how <code class="language-plaintext highlighter-rouge">artifacts/opd-baseline/</code> should be created and
+promoted, read <a href="/docs/framework/diffusion-opd-baseline-strategy">DiffusionOPD Baseline Strategy</a>
+before relying on these comparisons operationally.</p>
+
+<h3 id="approval-and-incident-views">Approval and incident views</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">approval</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskCampaignApprovalPacket</span><span class="o">(</span>
+    <span class="n">baselineReport</span><span class="o">,</span>
+    <span class="n">currentReport</span><span class="o">,</span>
+    <span class="mi">1</span><span class="o">,</span>
+    <span class="mi">2</span><span class="o">,</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="mi">5</span>
+<span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">incident</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskCampaignIncidentReport</span><span class="o">(</span>
+    <span class="n">baselineReport</span><span class="o">,</span>
+    <span class="n">currentReport</span><span class="o">,</span>
+    <span class="mi">1</span><span class="o">,</span>
+    <span class="mi">2</span><span class="o">,</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="mi">5</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>Use this band when you need to answer:</p>
+
+<ul>
+  <li>should this rollout be gated?</li>
+  <li>what operator action is recommended?</li>
+  <li>which campaign batches are blocked?</li>
+</ul>
+
+<h3 id="release-and-delivery-views">Release and delivery views</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">releaseDecision</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskCampaignReleaseDecision</span><span class="o">(</span>
+    <span class="n">baselineReport</span><span class="o">,</span>
+    <span class="n">currentReport</span><span class="o">,</span>
+    <span class="mi">1</span><span class="o">,</span>
+    <span class="mi">2</span><span class="o">,</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="mi">5</span>
+<span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">exportReport</span> <span class="o">=</span> <span class="nc">DiffusionOpdReportQueries</span><span class="o">.</span><span class="na">taskCampaignReleaseDeliveryExportReport</span><span class="o">(</span>
+    <span class="n">baselineReport</span><span class="o">,</span>
+    <span class="n">currentReport</span><span class="o">,</span>
+    <span class="mi">1</span><span class="o">,</span>
+    <span class="mi">2</span><span class="o">,</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="mi">5</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>Use the <code class="language-plaintext highlighter-rouge">...Export...</code> delivery APIs for new integrations. They are the
+canonical downstream release-delivery lane.</p>
+
+<hr />
+
+<h2 id="step-5-export-a-bundle-and-inspect-its-manifest">Step 5: Export a bundle and inspect its manifest</h2>
+
+<p>Once report slices or summary views are exported into a bundle directory, the
+manifest becomes its own typed inspection boundary.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Path</span> <span class="n">manifestPath</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"artifacts/opd-bundle/manifest.json"</span><span class="o">);</span>
+<span class="nc">DiffusionOpdBundleManifest</span> <span class="n">manifest</span> <span class="o">=</span> <span class="nc">DiffusionOpdBundleManifests</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">manifestPath</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Now inspect the bundle itself:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">summary</span> <span class="o">=</span> <span class="nc">DiffusionOpdBundleInspector</span><span class="o">.</span><span class="na">summary</span><span class="o">(</span><span class="n">manifest</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">health</span> <span class="o">=</span> <span class="nc">DiffusionOpdBundleInspector</span><span class="o">.</span><span class="na">health</span><span class="o">(</span><span class="n">manifest</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">files</span> <span class="o">=</span> <span class="nc">DiffusionOpdBundleInspector</span><span class="o">.</span><span class="na">files</span><span class="o">(</span><span class="n">manifest</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>This is useful when you need to confirm:</p>
+
+<ul>
+  <li>whether the export pack is complete</li>
+  <li>which sections and formats were generated</li>
+  <li>whether any advertised bundle files are missing on disk</li>
+</ul>
+
+<p>You can also load one generated file through the same API:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">loaded</span> <span class="o">=</span> <span class="nc">DiffusionOpdBundleInspector</span><span class="o">.</span><span class="na">loadFile</span><span class="o">(</span>
+    <span class="n">manifest</span><span class="o">,</span>
+    <span class="s">"loadfile:format=csv:section=taskTeacherSummaries"</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="step-6-decide-which-layer-to-build-against">Step 6: Decide which layer to build against</h2>
+
+<p>A good rule of thumb is:</p>
+
+<ul>
+  <li>use <code class="language-plaintext highlighter-rouge">DiffusionOpdReports.select(...)</code> for scripts and quick terminal checks</li>
+  <li>use <code class="language-plaintext highlighter-rouge">DiffusionOpdReportQueries</code> for application logic, dashboards, campaign
+planning, and release/delivery workflows</li>
+  <li>use <code class="language-plaintext highlighter-rouge">DiffusionOpdBundleInspector</code> when the output boundary is already a
+generated bundle directory plus <code class="language-plaintext highlighter-rouge">manifest.json</code></li>
+</ul>
+
+<p>That keeps each integration at the right abstraction level instead of pushing
+everything through one generic selector surface.</p>
+
+<hr />
+
+<h2 id="suggested-next-steps">Suggested next steps</h2>
+
+<p>After this tutorial, the most useful follow-ups are:</p>
+
+<ol>
+  <li>add project-specific policy thresholds around the typed status and
+recommendation APIs</li>
+  <li>build a small internal review dashboard from the campaign/release query
+surfaces</li>
+  <li>add bundle-health checks to CI if exported report packs are part of your
+release process</li>
+</ol>
+
+<hr />
+
+<h2 id="related-docs">Related docs</h2>
+
+<ul>
+  <li><a href="/docs/framework/diffusion-opd-docs">DiffusionOPD Docs</a></li>
+  <li><a href="/docs/framework/diffusion-opd">DiffusionOPD in Gollek</a></li>
+  <li><a href="/docs/framework/diffusion-opd-reporting">DiffusionOPD Reporting and Inspection</a></li>
+  <li><a href="/docs/tutorials/advanced/diffusion-opd-jbang-inspector">DiffusionOPD JBang Inspector Workflow</a></li>
+  <li><a href="/docs/framework/diffusion-opd-selector-reference">DiffusionOPD Selector Reference</a></li>
+  <li><a href="/docs/framework/diffusion-opd-baseline-strategy">DiffusionOPD Baseline Strategy</a></li>
+  <li><a href="/docs/framework/">Gollek Framework</a></li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

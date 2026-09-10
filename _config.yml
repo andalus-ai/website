@@ -1,37 +1,15 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-
-# Site settings
-title: Wayang AI
-description: "AI Agent Workflow Platform - Build, deploy, and orchestrate intelligent AI agents with visual workflow designer"
+title: Gollek SDK
+description: "Universal Inference SDK for AI Models - Build AI features once. Run local or cloud with the same API."
 baseurl: ""
-url: "https://wayang-ai.github.io"
+url: "https://gollek-ai.github.io"
 
 # Build settings
 plugins: []
-
-# Keep javadoc directory (static HTML files)
-keep_files:
-  - javadoc
-
-# Custom variables
-logo_text: "Wayang AI"
-show_downloads: true
-github:
-  repository_url: "https://github.com/wayang-ai/wayang-platform"
-  release_url: "https://github.com/wayang-ai/wayang-platform/releases"
-
-# Navigation and footer are defined in the custom layout.
 
 # Exclude from processing
 exclude:
   - Gemfile
   - Gemfile.lock
-  - node_modules
-  - vendor
   - .git
   - .gitignore
+  - .DS_Store

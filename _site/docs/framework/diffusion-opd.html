@@ -1,0 +1,1356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DiffusionOPD in Gollek | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">DiffusionOPD in Gollek</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="diffusionopd-in-gollek">DiffusionOPD in Gollek</h1>
+
+<p>Gollek now has a dedicated Java-first scaffold for <strong>DiffusionOPD</strong>, a multi-task on-policy distillation method for diffusion models.</p>
+
+<p>Citation:</p>
+
+<ul>
+  <li>Quanhao Li, Junqiu Yu, Kaixun Jiang, Yujie Wei, Zhen Xing, Pandeng Li, Ruihang Chu, Shiwei Zhang, Yu Liu, Zuxuan Wu. <em>DiffusionOPD: A Unified Perspective of On-Policy Distillation in Diffusion Models</em>. arXiv:2605.15055, 2026. <a href="https://arxiv.org/abs/2605.15055">arXiv</a></li>
+</ul>
+
+<hr />
+
+<h2 id="why-this-matters">Why this matters</h2>
+
+<p>Gollek is a one-stop Java platform for inference, ML, DL, and NN training. That means diffusion alignment work should follow the same rule:</p>
+
+<ul>
+  <li>training APIs in Java</li>
+  <li>orchestration in Java</li>
+  <li>datasets and task routing in Java</li>
+  <li>backend bridges only where runners or kernels already need them</li>
+</ul>
+
+<p>DiffusionOPD fits that direction well because the paper’s core idea is an algorithmic training loop, not a Python-only runtime requirement.</p>
+
+<hr />
+
+<h2 id="what-was-added">What was added</h2>
+
+<h3 id="new-java-modules">New Java modules</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-diffusion-api</code></li>
+  <li><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-diffusion-opd</code></li>
+</ul>
+
+<h3 id="main-java-entrypoints">Main Java entrypoints</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.train.diffusion.api.*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.train.diffusion.opd.DefaultDiffusionOpdTrainer</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.train.diffusion.opd.adapter.RunnerDiffusionAdapters</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.ml.Gollek.DL.diffusionOpdTrainer()</code></li>
+</ul>
+
+<hr />
+
+<h2 id="module-roles">Module roles</h2>
+
+<h3 id="gollek-ml-diffusion-api"><code class="language-plaintext highlighter-rouge">gollek-ml-diffusion-api</code></h3>
+
+<p>This module provides the stable contracts:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionTask</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionPromptSample</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionDenoiser</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionScheduler</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionConditioningResolver</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionOptimizationStep</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionOpdConfig</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionOpdSession</code></li>
+</ul>
+
+<h3 id="gollek-ml-diffusion-opd"><code class="language-plaintext highlighter-rouge">gollek-ml-diffusion-opd</code></h3>
+
+<p>This module provides the first algorithm scaffold:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DefaultDiffusionOpdTrainer</code></li>
+  <li>round-robin multi-task sampling</li>
+  <li>stage-aware teacher routing by timestep interval</li>
+  <li>scheduler-based transition mean adaptation</li>
+  <li>ODE/SDE loss shape for per-step mean matching</li>
+  <li>Java listener lifecycle hooks</li>
+  <li>checkpoint-directory summary/history artifacts</li>
+  <li>adapters from existing Gollek diffusion runner contracts</li>
+</ul>
+
+<hr />
+
+<h2 id="current-design">Current design</h2>
+
+<p>The current vertical slice focuses on the part Gollek needs first:</p>
+
+<ol>
+  <li>represent diffusion OPD tasks in Java</li>
+  <li>run student-teacher rollout supervision in Java</li>
+  <li>map backend denoisers and schedulers into the OPD abstraction</li>
+  <li>expose the builder through the canonical Gollek ML entrypoint</li>
+</ol>
+
+<p>This is intentionally narrower than the full paper implementation. It gives Gollek a clean Java surface before more backend-specific logic is layered in.</p>
+
+<hr />
+
+<h2 id="first-adapter-layer">First adapter layer</h2>
+
+<p>Gollek already has diffusion runner contracts under <code class="language-plaintext highlighter-rouge">runner/gollek-diffusion</code>, including:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">UNetModel</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Scheduler</code></li>
+</ul>
+
+<p>Those can now be adapted into OPD training with:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiffusionDenoiser</span> <span class="n">student</span> <span class="o">=</span>
+    <span class="nc">RunnerDiffusionAdapters</span><span class="o">.</span><span class="na">denoiser</span><span class="o">(</span><span class="n">unetModel</span><span class="o">);</span>
+
+<span class="nc">DiffusionScheduler</span> <span class="n">diffusionScheduler</span> <span class="o">=</span>
+    <span class="nc">RunnerDiffusionAdapters</span><span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="n">ddimScheduler</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>That keeps the algorithm Java-native while reusing existing Gollek runtime surfaces.</p>
+
+<hr />
+
+<h2 id="example-shape">Example shape</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">trainer</span> <span class="o">=</span> <span class="nc">Gollek</span><span class="o">.</span><span class="na">DL</span><span class="o">.</span><span class="na">diffusionOpdTrainer</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">samplerType</span><span class="o">(</span><span class="nc">DiffusionSamplerType</span><span class="o">.</span><span class="na">ODE</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">student</span><span class="o">(</span><span class="nc">RunnerDiffusionAdapters</span><span class="o">.</span><span class="na">denoiser</span><span class="o">(</span><span class="n">studentUnet</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">teacher</span><span class="o">(</span><span class="s">"ocr"</span><span class="o">,</span> <span class="nc">RunnerDiffusionAdapters</span><span class="o">.</span><span class="na">denoiser</span><span class="o">(</span><span class="n">ocrTeacherUnet</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">teacher</span><span class="o">(</span><span class="s">"aesthetic"</span><span class="o">,</span> <span class="nc">RunnerDiffusionAdapters</span><span class="o">.</span><span class="na">denoiser</span><span class="o">(</span><span class="n">aestheticTeacherUnet</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="nc">RunnerDiffusionAdapters</span><span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="n">ddimScheduler</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">conditioningResolver</span><span class="o">(</span><span class="n">sample</span> <span class="o">-&gt;</span> <span class="n">textEncoder</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">sample</span><span class="o">.</span><span class="na">prompt</span><span class="o">()))</span>
+    <span class="o">.</span><span class="na">task</span><span class="o">(</span><span class="k">new</span> <span class="nc">DiffusionTask</span><span class="o">(</span><span class="s">"ocr"</span><span class="o">,</span> <span class="s">"OCR"</span><span class="o">,</span> <span class="s">"ocr"</span><span class="o">,</span> <span class="s">"teacher-ocr"</span><span class="o">,</span> <span class="n">ocrPrompts</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">task</span><span class="o">(</span><span class="k">new</span> <span class="nc">DiffusionTask</span><span class="o">(</span><span class="s">"aesthetic"</span><span class="o">,</span> <span class="s">"Aesthetic"</span><span class="o">,</span> <span class="s">"aesthetic"</span><span class="o">,</span> <span class="s">"teacher-aesthetic"</span><span class="o">,</span> <span class="n">aestheticPrompts</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">maxRounds</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">batchSize</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="na">fit</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>The exact text-encoder, optimizer step, checkpointing, and variance handling will keep evolving, but the Java module boundaries are now in place.</p>
+
+<p>There is also a concrete Java example in the repo:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/training/gollek-train-examples/src/main/java/tech/kayys/gollek/train/examples/DiffusionOpdDDIMExample.java</code></li>
+</ul>
+
+<p>And a JBang script for fast local experimentation:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_diffusion_opd_ddim.java</code></li>
+</ul>
+
+<p>When <code class="language-plaintext highlighter-rouge">checkpointDir(...)</code> is set, the current scaffold now writes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">diffusion-opd-summary.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">diffusion-opd-history.csv</code></li>
+  <li><code class="language-plaintext highlighter-rouge">diffusion-opd-report.json</code></li>
+</ul>
+
+<p>It also supports Java-side lifecycle callbacks through <code class="language-plaintext highlighter-rouge">DiffusionOpdListener</code>.</p>
+
+<p>For stage-aware routing, each <code class="language-plaintext highlighter-rouge">DiffusionTask</code> can now carry
+<code class="language-plaintext highlighter-rouge">DiffusionTeacherBinding</code> entries such as:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">DiffusionTask</span><span class="o">(</span>
+    <span class="s">"ocr"</span><span class="o">,</span>
+    <span class="s">"OCR"</span><span class="o">,</span>
+    <span class="s">"ocr"</span><span class="o">,</span>
+    <span class="s">"teacher-ocr"</span><span class="o">,</span>
+    <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="k">new</span> <span class="nf">DiffusionTeacherBinding</span><span class="o">(</span><span class="s">"ocr-early"</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="s">"early"</span><span class="o">),</span>
+        <span class="k">new</span> <span class="nf">DiffusionTeacherBinding</span><span class="o">(</span><span class="s">"ocr-late"</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">,</span> <span class="s">"late"</span><span class="o">)</span>
+    <span class="o">),</span>
+    <span class="n">promptSamples</span>
+<span class="o">)</span>
+</code></pre></div></div>
+
+<p>This is the current Gollek implementation step most directly inspired by
+eDiff-I’s stage-specialized denoiser idea.</p>
+
+<p>The trainer now also supports per-stage loss weighting, so early, mid, and late
+teachers can contribute with different emphasis during OPD. For common setups,
+Gollek provides Java helpers through <code class="language-plaintext highlighter-rouge">DiffusionTeacherBindings</code>, for example:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">DiffusionTask</span><span class="o">(</span>
+    <span class="s">"ocr"</span><span class="o">,</span>
+    <span class="s">"OCR"</span><span class="o">,</span>
+    <span class="s">"ocr"</span><span class="o">,</span>
+    <span class="s">"teacher-ocr"</span><span class="o">,</span>
+    <span class="nc">DiffusionTeacherBindings</span><span class="o">.</span><span class="na">splitEarlyLate</span><span class="o">(</span>
+        <span class="mi">4</span><span class="o">,</span>
+        <span class="s">"ocr-early"</span><span class="o">,</span>
+        <span class="s">"ocr-late"</span><span class="o">,</span>
+        <span class="mf">1.25d</span><span class="o">,</span>
+        <span class="mf">0.85d</span>
+    <span class="o">),</span>
+    <span class="n">promptSamples</span>
+<span class="o">)</span>
+</code></pre></div></div>
+
+<p>This keeps stage routing configuration in Java while making the training loop
+more flexible than fixed hardcoded intervals.</p>
+
+<p>Gollek also now supports scheduler-aware partitioning. Instead of splitting
+stages by raw step count, bindings can be derived from the scheduler timetable
+itself, which is a better fit for sparse samplers such as DDIM:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">diffusionScheduler</span> <span class="o">=</span> <span class="nc">RunnerDiffusionAdapters</span><span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="n">ddimScheduler</span><span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">bindings</span> <span class="o">=</span> <span class="nc">DiffusionTeacherBindings</span><span class="o">.</span><span class="na">splitEarlyLate</span><span class="o">(</span>
+    <span class="n">diffusionScheduler</span><span class="o">,</span>
+    <span class="s">"ocr-early"</span><span class="o">,</span>
+    <span class="s">"ocr-late"</span><span class="o">,</span>
+    <span class="mf">1.25d</span><span class="o">,</span>
+    <span class="mf">0.85d</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>This keeps the API Java-native while letting stage boundaries follow the
+effective denoising schedule rather than assuming uniform step spacing.</p>
+
+<p>Gollek also now supports adaptive stage weighting in the trainer. When enabled,
+the OPD loop tracks per-stage mean loss and rebalances stage factors across
+rounds, which helps emphasize underperforming denoising regions without
+throwing away the base stage weights configured in <code class="language-plaintext highlighter-rouge">DiffusionTeacherBinding</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">trainer</span> <span class="o">=</span> <span class="nc">Gollek</span><span class="o">.</span><span class="na">DL</span><span class="o">.</span><span class="na">diffusionOpdTrainer</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">adaptiveStageWeighting</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">adaptiveStageWeightMomentum</span><span class="o">(</span><span class="mf">0.60d</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">adaptiveStageWeightRange</span><span class="o">(</span><span class="mf">0.80d</span><span class="o">,</span> <span class="mf">1.35d</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>Current behavior:</p>
+
+<ul>
+  <li>stage factors start at <code class="language-plaintext highlighter-rouge">1.0</code></li>
+  <li>each round computes per-stage mean base loss</li>
+  <li>higher-loss stages are nudged upward within the configured factor range</li>
+  <li>lower-loss stages are nudged downward, with momentum smoothing</li>
+</ul>
+
+<p>Gollek also now has a dedicated alignment seam for the safetensor-native
+Stable Diffusion inference runner in
+<code class="language-plaintext highlighter-rouge">StableDiffusionRunnerAdapters</code>. The current status is:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">PNDMScheduler</code> is directly bridged for timestep/schedule alignment</li>
+  <li>stable-diffusion-native UNet adaptation is available through an explicit
+<code class="language-plaintext highlighter-rouge">TensorAccelBridge</code></li>
+  <li>this keeps training and inference aligned without pretending the core
+<code class="language-plaintext highlighter-rouge">Tensor</code> and <code class="language-plaintext highlighter-rouge">AccelTensor</code> stacks are already the same runtime</li>
+</ul>
+
+<p>Example shape:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="n">pndmScheduler</span><span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">denoiser</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">denoiser</span><span class="o">(</span>
+    <span class="n">stableDiffusionUnet</span><span class="o">,</span>
+    <span class="n">tensorAccelBridge</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>For float32 experimentation, Gollek also provides a bridge helper so callers
+only need to supply two explicit conversions:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">bridge</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">float32Bridge</span><span class="o">(</span>
+    <span class="n">coreTensor</span> <span class="o">-&gt;</span> <span class="n">extractFloat32</span><span class="o">(</span><span class="n">coreTensor</span><span class="o">),</span>
+    <span class="o">(</span><span class="n">values</span><span class="o">,</span> <span class="n">shape</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">createCoreTensor</span><span class="o">(</span><span class="n">values</span><span class="o">,</span> <span class="n">shape</span><span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>This keeps the adapter usable today while Gollek’s generic core-tensor
+materialization API is still maturing.</p>
+
+<p>For the Metal-aligned stable-diffusion-native path, Gollek now also provides a
+no-friction convenience overload:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">MetalBinding</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+<span class="nc">MetalBinding</span> <span class="n">metalBinding</span> <span class="o">=</span> <span class="nc">MetalBinding</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+<span class="n">metalBinding</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+
+<span class="kt">var</span> <span class="n">bridge</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">metalDefaultTensorFloat32Bridge</span><span class="o">(</span>
+    <span class="n">metalBinding</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>This overload returns an accelerator-aware bridge that:</p>
+
+<ul>
+  <li>materializes stable-diffusion-native <code class="language-plaintext highlighter-rouge">AccelTensor</code> values into core
+<code class="language-plaintext highlighter-rouge">DefaultTensor</code> objects tagged as <code class="language-plaintext highlighter-rouge">DeviceType.METAL</code></li>
+  <li>exposes Metal runtime metadata such as device name, unified-memory status,
+native availability, and available accelerator memory</li>
+  <li>keeps the Java training stack aligned with the maintained
+<code class="language-plaintext highlighter-rouge">gollek-backend-metal</code> binding surface without depending on stale backend
+adapter classes</li>
+</ul>
+
+<p>Current caveat:</p>
+
+<ul>
+  <li>the materialized core tensor is a transport tensor for adapter boundaries
+and should receive a full execution backend before downstream math
+operations are invoked</li>
+</ul>
+
+<p>Gollek now also supports an executable scheduler bridge for the
+stable-diffusion-native PNDM path:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">bridge</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">metalDefaultTensorFloat32Bridge</span><span class="o">(</span>
+    <span class="n">metalBinding</span>
+<span class="o">);</span>
+
+<span class="nc">DiffusionScheduler</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">scheduler</span><span class="o">(</span>
+    <span class="n">pndmScheduler</span><span class="o">,</span>
+    <span class="n">bridge</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>This means OPD training code can now reuse the same Java-side scheduler step
+shape that the stable-diffusion-native inference runner uses, instead of only
+reading scheduler metadata.</p>
+
+<p>Gollek also now includes an end-to-end structural trainer demo that uses both
+stable-diffusion-native bridge surfaces together:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">trainer</span> <span class="o">=</span> <span class="nc">Gollek</span><span class="o">.</span><span class="na">DL</span><span class="o">.</span><span class="na">diffusionOpdTrainer</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">student</span><span class="o">(</span><span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">denoiser</span><span class="o">(</span><span class="n">studentUnet</span><span class="o">,</span> <span class="n">bridge</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">teacher</span><span class="o">(</span><span class="s">"ocr-early"</span><span class="o">,</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">denoiser</span><span class="o">(</span><span class="n">ocrEarlyTeacher</span><span class="o">,</span> <span class="n">bridge</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">scheduler</span><span class="o">(</span><span class="n">pndmScheduler</span><span class="o">,</span> <span class="n">bridge</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">task</span><span class="o">(...)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>This is still a Java-first scaffold rather than full weight-backed Stable
+Diffusion training, but it proves that:</p>
+
+<ul>
+  <li>the UNet adapter and scheduler adapter compose cleanly inside the OPD trainer</li>
+  <li>stage-aware routing and adaptive weighting still work on the
+stable-diffusion-native path</li>
+  <li>Gollek can keep training and inference aligned without leaving Java at the
+orchestration level</li>
+</ul>
+
+<p>To prepare the jump from stub fixtures to real local weights, the example lane
+now validates the native runner repository layout and reports whether a local
+fixture is usable. The expected structure matches the current
+<code class="language-plaintext highlighter-rouge">StableDiffusionNativeRunner</code>:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">text_encoder/</code></li>
+  <li><code class="language-plaintext highlighter-rouge">unet/</code></li>
+  <li><code class="language-plaintext highlighter-rouge">vae/</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tokenizer/</code></li>
+</ul>
+
+<p>The examples auto-detect common local paths and also accept an override via
+<code class="language-plaintext highlighter-rouge">GOLLEK_SD_NATIVE_MODEL_DIR</code> or a direct path argument.</p>
+
+<p>Gollek now also includes a plain-Java fixture loader utility for this lane, so
+the stable-diffusion-native trainer example can automatically switch from a
+stub UNet to a real local <code class="language-plaintext highlighter-rouge">unet/</code> safetensor checkpoint when the fixture is
+available.</p>
+
+<p>That lane now also supports per-role fixture resolution, so <code class="language-plaintext highlighter-rouge">student</code>,
+<code class="language-plaintext highlighter-rouge">ocr-early</code>, <code class="language-plaintext highlighter-rouge">ocr-late</code>, <code class="language-plaintext highlighter-rouge">aesthetics-early</code>, and <code class="language-plaintext highlighter-rouge">aesthetics-late</code> can point
+to different local repos through dedicated environment overrides or role-named
+subdirectories under a shared base fixture.</p>
+
+<p>When the shared fixture is usable, the example can also upgrade prompt
+conditioning from a synthetic tensor to real CLIP text embeddings loaded from
+<code class="language-plaintext highlighter-rouge">text_encoder/</code> plus <code class="language-plaintext highlighter-rouge">tokenizer/</code>, while still keeping role-specific UNet
+fixtures separate.</p>
+
+<p>That real CLIP conditioning path now exists in both the Gradle example and
+the JBang example, so quick local experimentation follows the same native
+bridge behavior as the main Java example lane.</p>
+
+<p>Gollek now also supports task-specific text-conditioning fixtures in that
+example lane. <code class="language-plaintext highlighter-rouge">ocr</code> and <code class="language-plaintext highlighter-rouge">aesthetics</code> can each resolve their own CLIP/text
+encoder repo through environment overrides such as
+<code class="language-plaintext highlighter-rouge">GOLLEK_SD_NATIVE_MODEL_DIR_TEXT_OCR</code> and
+<code class="language-plaintext highlighter-rouge">GOLLEK_SD_NATIVE_MODEL_DIR_TEXT_AESTHETICS</code>, or through <code class="language-plaintext highlighter-rouge">text-ocr/</code> and
+<code class="language-plaintext highlighter-rouge">text-aesthetics/</code> subdirectories under a shared fixture root.</p>
+
+<p>Those task-specific conditioning lanes are now also written into the standard
+DiffusionOPD artifacts. The summary JSON and round-history CSV can include
+fields such as <code class="language-plaintext highlighter-rouge">conditioningTaskModes</code>,
+<code class="language-plaintext highlighter-rouge">conditioningTaskFixtureBaseDirs</code>, and <code class="language-plaintext highlighter-rouge">conditioningTaskFixtures</code>, so loss
+analysis can stay tied to the actual text-conditioning source used per task.</p>
+
+<p>The native bridge examples now also record observed runtime diagnostics instead
+of only configured fixture metadata. Artifact fields such as
+<code class="language-plaintext highlighter-rouge">conditioningTaskResolveCounts</code>, <code class="language-plaintext highlighter-rouge">conditioningTaskLossSteps</code>,
+<code class="language-plaintext highlighter-rouge">conditioningTaskLossSums</code>, and <code class="language-plaintext highlighter-rouge">conditioningTaskMeanLoss</code> show how often each
+conditioning lane actually ran and how its per-task loss profile evolved.</p>
+
+<p>That runtime path is now formalized through
+<code class="language-plaintext highlighter-rouge">DiffusionOpdRuntimeObserver</code>, so integrations can attach training-time
+diagnostics to the standard DiffusionOPD summary/history artifacts without
+relying on example-owned mutable metadata maps.</p>
+
+<p>Gollek now also ships a reusable built-in implementation,
+<code class="language-plaintext highlighter-rouge">ConditioningTaskMetricsObserver</code>, inside <code class="language-plaintext highlighter-rouge">gollek-ml-diffusion-opd</code>. That
+observer captures per-task conditioning lane usage and loss aggregates so
+integrations can adopt standard conditioning diagnostics without rewriting
+their own observer class.</p>
+
+<p>Alongside it, Gollek now includes <code class="language-plaintext highlighter-rouge">TeacherStageTaskMetricsObserver</code>, a second
+built-in runtime observer for standard OPD rollout aggregation. It captures
+observed task, teacher, stage, and task-stage usage/loss metrics so diffusion
+integrations can attach a fuller diagnostics bundle with just a couple of
+observer registrations.</p>
+
+<p>To reduce that wiring further, Gollek now provides
+<code class="language-plaintext highlighter-rouge">DiffusionOpdDiagnosticsPacks.standardTaskDiagnostics(...)</code> plus
+<code class="language-plaintext highlighter-rouge">DefaultDiffusionOpdTrainer.Builder.runtimeObservers(...)</code>, so integrations can
+enable the standard conditioning and rollout diagnostics bundle in a single
+builder call.</p>
+
+<p>The trainer now also emits a normalized <code class="language-plaintext highlighter-rouge">diffusion-opd-report.json</code> artifact
+next to the summary and history files. That report groups run metadata,
+artifacts, teacher/stage/task diagnostics, conditioning diagnostics, adaptive
+weighting details, and round history into clearer top-level sections for
+downstream analysis.</p>
+
+<p>That normalized report schema is now represented by small typed records in the
+DiffusionOPD API, including <code class="language-plaintext highlighter-rouge">DiffusionOpdReport</code>,
+<code class="language-plaintext highlighter-rouge">DiffusionOpdRunReport</code>, and <code class="language-plaintext highlighter-rouge">DiffusionOpdArtifactsReport</code>, so downstream Java
+tooling can align to stable top-level sections instead of depending on ad hoc
+string-key conventions alone.</p>
+
+<p>Gollek now also exposes <code class="language-plaintext highlighter-rouge">DiffusionOpdReports.load(...)</code> in
+<code class="language-plaintext highlighter-rouge">gollek-ml-diffusion-opd</code>, so Java integrations can read
+<code class="language-plaintext highlighter-rouge">diffusion-opd-report.json</code> back into the typed report schema instead of only
+writing it.</p>
+
+<p>For terminal-first workflows, the repo now also includes a JBang inspector:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_diffusion_opd_report_inspector.java</code></li>
+</ul>
+
+<p>It loads <code class="language-plaintext highlighter-rouge">diffusion-opd-report.json</code> through <code class="language-plaintext highlighter-rouge">DiffusionOpdReports.load(...)</code>
+and can print either the full report or selected sections such as
+<code class="language-plaintext highlighter-rouge">overview</code>, <code class="language-plaintext highlighter-rouge">run</code>, <code class="language-plaintext highlighter-rouge">teachers</code>, <code class="language-plaintext highlighter-rouge">conditioning</code>, or <code class="language-plaintext highlighter-rouge">roundHistory</code> directly from
+the terminal, in either plain text or pretty-printed JSON.</p>
+
+<p>The inspector now also supports focused history selectors such as
+<code class="language-plaintext highlighter-rouge">roundHistory:last</code>, <code class="language-plaintext highlighter-rouge">roundHistory:task=ocr</code>,
+<code class="language-plaintext highlighter-rouge">roundHistory:teacher=ocr-early</code>, <code class="language-plaintext highlighter-rouge">roundHistory:stage=early</code>, and
+<code class="language-plaintext highlighter-rouge">roundHistory:round=2</code>, which makes it easier to inspect one slice of OPD
+behavior without dumping the entire history array.</p>
+
+<p>That selector path now supports compact chained queries too, for example
+<code class="language-plaintext highlighter-rouge">roundHistory:task=ocr:last</code>, <code class="language-plaintext highlighter-rouge">roundHistory:teacher=ocr-early:last</code>,
+<code class="language-plaintext highlighter-rouge">roundHistory:task=ocr:count</code>, and <code class="language-plaintext highlighter-rouge">roundHistory:task=ocr:meanLoss</code>, so
+terminal inspection can return one row or one aggregate instead of a full list.</p>
+
+<p>It also supports ranked slices such as
+<code class="language-plaintext highlighter-rouge">roundHistory:task=ocr:sort=-averageLoss:top=3</code> or
+<code class="language-plaintext highlighter-rouge">roundHistory:teacher=ocr-early:sort=round:top=5</code>, which is handy when you want
+the worst-loss rows or the earliest/latest few entries from a filtered subset.</p>
+
+<p>For a more compact terminal view, the inspector now also supports summary
+presets such as <code class="language-plaintext highlighter-rouge">taskSummary=ocr</code>, <code class="language-plaintext highlighter-rouge">teacherSummary=ocr-early</code>, and
+<code class="language-plaintext highlighter-rouge">stageSummary=early</code>. Those return a small aggregate bundle with count,
+mean loss, the latest matching row, and a few representative ranked entries.</p>
+
+<p>The summary layer also supports paired comparisons such as
+<code class="language-plaintext highlighter-rouge">taskTeacherSummary=ocr,ocr-early</code>, <code class="language-plaintext highlighter-rouge">taskStageSummary=ocr,early</code>, and
+<code class="language-plaintext highlighter-rouge">teacherStageSummary=ocr-early,early</code>, which makes it easier to inspect one
+combined slice without manually chaining multiple filters.</p>
+
+<p>For bulk comparison, the inspector now also supports grouped rollups such as
+<code class="language-plaintext highlighter-rouge">taskSummaries</code>, <code class="language-plaintext highlighter-rouge">teacherSummaries</code>, and <code class="language-plaintext highlighter-rouge">stageSummaries</code>, each returning one
+aggregate map keyed by the discovered task, teacher, or stage values in the
+report history.</p>
+
+<p>Those grouped rollups can now be ranked too, for example with
+<code class="language-plaintext highlighter-rouge">taskSummaries:sort=-meanLoss:top=5</code> or
+<code class="language-plaintext highlighter-rouge">teacherSummaries:sort=-count:top=3</code>, which makes it easier to surface the most
+problematic or most-active slices directly from the terminal.</p>
+
+<p>The same idea now works for combined dimensions too with
+<code class="language-plaintext highlighter-rouge">taskTeacherSummaries</code>, <code class="language-plaintext highlighter-rouge">taskStageSummaries</code>, and <code class="language-plaintext highlighter-rouge">teacherStageSummaries</code>,
+including ranked forms such as <code class="language-plaintext highlighter-rouge">taskTeacherSummaries:sort=-meanLoss:top=10</code>.</p>
+
+<p>The inspector now also supports <code class="language-plaintext highlighter-rouge">table</code> and <code class="language-plaintext highlighter-rouge">csv</code> output modes for these
+summary views, which makes it easier to move from terminal inspection into
+spreadsheet or dashboard workflows without writing a separate export script.</p>
+
+<p>Those export-oriented modes now also support optional column projection, so a
+command can request a compact schema such as <code class="language-plaintext highlighter-rouge">value,count,meanLoss</code> or
+<code class="language-plaintext highlighter-rouge">pair,count,meanLoss</code> instead of exporting every available field.</p>
+
+<p>The inspector can now also write <code class="language-plaintext highlighter-rouge">text</code>, <code class="language-plaintext highlighter-rouge">json</code>, <code class="language-plaintext highlighter-rouge">table</code>, or <code class="language-plaintext highlighter-rouge">csv</code> output
+directly to a file path from the CLI. It can infer export format from output
+filenames such as <code class="language-plaintext highlighter-rouge">.json</code>, <code class="language-plaintext highlighter-rouge">.csv</code>, <code class="language-plaintext highlighter-rouge">.table</code>, <code class="language-plaintext highlighter-rouge">.md</code>, <code class="language-plaintext highlighter-rouge">.txt</code>, or <code class="language-plaintext highlighter-rouge">.log</code>, and
+<code class="language-plaintext highlighter-rouge">_</code> remains available as a no-projection placeholder when a call shape still
+needs it.</p>
+
+<p>Projection now also understands a few friendly aliases and flattened latest-row
+fields, including <code class="language-plaintext highlighter-rouge">loss</code>, <code class="language-plaintext highlighter-rouge">latestRound</code>, <code class="language-plaintext highlighter-rouge">latestLoss</code>, <code class="language-plaintext highlighter-rouge">latestTeacher</code>,
+<code class="language-plaintext highlighter-rouge">latestTask</code>, <code class="language-plaintext highlighter-rouge">latestStage</code>, <code class="language-plaintext highlighter-rouge">top1Round</code>, <code class="language-plaintext highlighter-rouge">top1Loss</code>, <code class="language-plaintext highlighter-rouge">first1Round</code>, and
+<code class="language-plaintext highlighter-rouge">first1Loss</code>.</p>
+
+<p>For common export views, the inspector now also supports small projection
+presets such as <code class="language-plaintext highlighter-rouge">minimal</code>, <code class="language-plaintext highlighter-rouge">compact</code>, <code class="language-plaintext highlighter-rouge">latest</code>, <code class="language-plaintext highlighter-rouge">leaderboard</code>, <code class="language-plaintext highlighter-rouge">details</code>, and
+<code class="language-plaintext highlighter-rouge">compare</code>, which expand to reusable column sets for <code class="language-plaintext highlighter-rouge">table</code> and <code class="language-plaintext highlighter-rouge">csv</code> output.</p>
+
+<p>The richer <code class="language-plaintext highlighter-rouge">details</code> preset and pair-oriented <code class="language-plaintext highlighter-rouge">compare</code> preset now also
+flatten one representative top-loss row and one representative first-round row
+through aliases such as <code class="language-plaintext highlighter-rouge">top1Round</code>, <code class="language-plaintext highlighter-rouge">top1Loss</code>, <code class="language-plaintext highlighter-rouge">first1Round</code>, and
+<code class="language-plaintext highlighter-rouge">first1Loss</code>.</p>
+
+<p>Those presets are now section-aware too: grouped single-dimension summaries
+expand around <code class="language-plaintext highlighter-rouge">value</code>, while pair rollups such as <code class="language-plaintext highlighter-rouge">taskTeacherSummaries</code>
+expand around <code class="language-plaintext highlighter-rouge">pair</code>.</p>
+
+<p>For repeated analysis workflows, the inspector now also supports
+directory-oriented bundle export through selectors like <code class="language-plaintext highlighter-rouge">bundle=standard</code> and
+<code class="language-plaintext highlighter-rouge">bundle=rollups</code>, so one command can emit a small pack of related JSON, CSV,
+table, or text views into an output directory. Each bundle now also includes a
+<code class="language-plaintext highlighter-rouge">manifest.json</code> index describing the bundle type, creation timestamp, format,
+source report path, and per-file section metadata for generated files. For
+<code class="language-plaintext highlighter-rouge">table</code> and <code class="language-plaintext highlighter-rouge">csv</code> bundles, grouped summaries default to <code class="language-plaintext highlighter-rouge">compact</code> projection
+and pair rollups default to <code class="language-plaintext highlighter-rouge">compare</code> projection unless an explicit column
+selection is supplied. Ad hoc packs are supported too through
+<code class="language-plaintext highlighter-rouge">bundle=custom:overview,taskSummaries,taskTeacherSummaries</code>, and custom
+entries can assign output aliases through <code class="language-plaintext highlighter-rouge">section@alias</code>, such as
+<code class="language-plaintext highlighter-rouge">bundle=custom:overview@run-overview,taskTeacherSummaries@teacher-pairs</code>.
+Custom entries can also override their own projection through <code class="language-plaintext highlighter-rouge">#columns</code>, for
+example <code class="language-plaintext highlighter-rouge">bundle=custom:taskSummaries@tasks#compact,taskTeacherSummaries@pairs#compare</code>.
+They can also override per-entry format through <code class="language-plaintext highlighter-rouge">!json</code>, <code class="language-plaintext highlighter-rouge">!csv</code>, <code class="language-plaintext highlighter-rouge">!table</code>, or
+<code class="language-plaintext highlighter-rouge">!text</code>, for example
+<code class="language-plaintext highlighter-rouge">bundle=custom:overview@run-overview!json,taskTeacherSummaries@teacher-pairs#compare!csv</code>.
+Bundle directories and <code class="language-plaintext highlighter-rouge">manifest.json</code> files can also be inspected directly
+through the same inspector entrypoint, including <code class="language-plaintext highlighter-rouge">manifest</code>,
+<code class="language-plaintext highlighter-rouge">bundleSummary</code>, <code class="language-plaintext highlighter-rouge">bundleHealth</code>, <code class="language-plaintext highlighter-rouge">files</code>, and <code class="language-plaintext highlighter-rouge">file:&lt;name&gt;</code> views, plus filtered file lists such as
+<code class="language-plaintext highlighter-rouge">files:format=csv</code> and <code class="language-plaintext highlighter-rouge">files:section=taskTeacherSummaries</code>. Bundle manifests
+can also be summarized through grouped selectors like
+<code class="language-plaintext highlighter-rouge">filesSummary:by=section</code>, <code class="language-plaintext highlighter-rouge">filesSummary:by=format:sort=-count</code>, or
+<code class="language-plaintext highlighter-rouge">filesSummary:by=section:sort=-count:top=3</code>. <code class="language-plaintext highlighter-rouge">bundleSummary</code> adds a compact
+overview with total file count, section count, format count, and the dominant
+section/format rows, and also supports <code class="language-plaintext highlighter-rouge">focus=sections|formats|all</code> plus
+<code class="language-plaintext highlighter-rouge">top=&lt;n&gt;</code> for smaller embedded rollups. <code class="language-plaintext highlighter-rouge">dominant=true</code> trims the output down
+to the headline section/format winners without the embedded summary lists.
+It also validates the manifest against the bundle directory and reports
+<code class="language-plaintext highlighter-rouge">existingFileCount</code>, <code class="language-plaintext highlighter-rouge">missingFileCount</code>, and <code class="language-plaintext highlighter-rouge">missingFiles</code> when bundle
+artifacts are missing on disk. <code class="language-plaintext highlighter-rouge">bundleHealth</code> provides the same integrity
+signal in a smaller status-oriented shape with <code class="language-plaintext highlighter-rouge">healthy</code>, normalized <code class="language-plaintext highlighter-rouge">status</code>,
+<code class="language-plaintext highlighter-rouge">healthScore</code>, <code class="language-plaintext highlighter-rouge">alertLevel</code>, stable <code class="language-plaintext highlighter-rouge">issueCodes</code>, <code class="language-plaintext highlighter-rouge">primaryIssueCode</code>,
+compact <code class="language-plaintext highlighter-rouge">healthBadge</code> with UI-ready <code class="language-plaintext highlighter-rouge">variant</code>, <code class="language-plaintext highlighter-rouge">label</code>, <code class="language-plaintext highlighter-rouge">token</code>, <code class="language-plaintext highlighter-rouge">tooltip</code>,
+<code class="language-plaintext highlighter-rouge">checkStatus</code>, <code class="language-plaintext highlighter-rouge">primaryCheckCode</code>, and <code class="language-plaintext highlighter-rouge">primaryCheckSeverity</code>,
+human-facing <code class="language-plaintext highlighter-rouge">summaryMessage</code> and <code class="language-plaintext highlighter-rouge">recommendedAction</code>,
+<code class="language-plaintext highlighter-rouge">missingFileCount</code>, <code class="language-plaintext highlighter-rouge">missingFiles</code>, plus grouped <code class="language-plaintext highlighter-rouge">missingSections</code> and
+<code class="language-plaintext highlighter-rouge">missingFormats</code>. It also exposes structured <code class="language-plaintext highlighter-rouge">checks</code> for named validations
+like output-directory presence and artifact completeness, normalized
+<code class="language-plaintext highlighter-rouge">checkSummary</code> fields (<code class="language-plaintext highlighter-rouge">total</code>, <code class="language-plaintext highlighter-rouge">passed</code>, <code class="language-plaintext highlighter-rouge">failed</code>, <code class="language-plaintext highlighter-rouge">passRate</code>,
+<code class="language-plaintext highlighter-rouge">failureRate</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">alertLevel</code>, local <code class="language-plaintext highlighter-rouge">summaryMessage</code>,
+local <code class="language-plaintext highlighter-rouge">recommendedAction</code>, local <code class="language-plaintext highlighter-rouge">issueCodes</code>,
+local <code class="language-plaintext highlighter-rouge">primaryIssueCode</code>,
+nested <code class="language-plaintext highlighter-rouge">healthBadge</code> with <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">alertLevel</code>, <code class="language-plaintext highlighter-rouge">primaryIssueCode</code>,
+<code class="language-plaintext highlighter-rouge">primaryCheckName</code>, <code class="language-plaintext highlighter-rouge">primaryCheckMessage</code>, <code class="language-plaintext highlighter-rouge">primaryCheckSeverity</code>, <code class="language-plaintext highlighter-rouge">score</code>, <code class="language-plaintext highlighter-rouge">variant</code>, <code class="language-plaintext highlighter-rouge">label</code>, <code class="language-plaintext highlighter-rouge">token</code>,
+<code class="language-plaintext highlighter-rouge">checkStatus</code>, <code class="language-plaintext highlighter-rouge">summaryMessage</code>, <code class="language-plaintext highlighter-rouge">recommendedAction</code>, and <code class="language-plaintext highlighter-rouge">tooltip</code>,
+<code class="language-plaintext highlighter-rouge">dominantSeverity</code>,
+<code class="language-plaintext highlighter-rouge">allPassed</code>, <code class="language-plaintext highlighter-rouge">hasCriticalFailures</code>, <code class="language-plaintext highlighter-rouge">hasWarningFailures</code>,
+<code class="language-plaintext highlighter-rouge">hasInfoFailures</code>, <code class="language-plaintext highlighter-rouge">failingSeverityCounts</code>, <code class="language-plaintext highlighter-rouge">primaryFailingName</code>, <code class="language-plaintext highlighter-rouge">primaryFailingCode</code>,
+<code class="language-plaintext highlighter-rouge">primaryFailingSeverity</code>, <code class="language-plaintext highlighter-rouge">primaryFailingMessage</code>, <code class="language-plaintext highlighter-rouge">failingNames</code>,
+<code class="language-plaintext highlighter-rouge">failingCodes</code>, and <code class="language-plaintext highlighter-rouge">severityCounts</code>), along with
+<code class="language-plaintext highlighter-rouge">failingChecks</code>, <code class="language-plaintext highlighter-rouge">failingCheckCount</code>, and aggregate counters such as
+<code class="language-plaintext highlighter-rouge">passingCheckCount</code>, <code class="language-plaintext highlighter-rouge">criticalCheckCount</code>, <code class="language-plaintext highlighter-rouge">warningCheckCount</code>, and
+<code class="language-plaintext highlighter-rouge">infoCheckCount</code> for compact status summaries. The
+health view also supports <code class="language-plaintext highlighter-rouge">focus=files|sections|formats|all</code> and <code class="language-plaintext highlighter-rouge">top=&lt;n&gt;</code> for
+more compact diagnosis slices. The
+inspector can also load the actual
+generated artifact chosen by exact name or by a filter, for example
+<code class="language-plaintext highlighter-rouge">loadfile:overview.json</code> or
+<code class="language-plaintext highlighter-rouge">loadfile:format=csv:section=taskTeacherSummaries</code>. When a filter matches
+multiple files, <code class="language-plaintext highlighter-rouge">sort=name|-name|section|format|count</code>, <code class="language-plaintext highlighter-rouge">top=&lt;n&gt;</code>,
+<code class="language-plaintext highlighter-rouge">pick=first|last</code>, or <code class="language-plaintext highlighter-rouge">index=&lt;n&gt;</code> can be added for stable selection.</p>
+
+<p>Concrete examples are now included in the repo:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/training/gollek-train-examples/src/main/java/tech/kayys/gollek/train/examples/DiffusionOpdStableDiffusionMetalBridgeExample.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/training/gollek-train-examples/src/main/java/tech/kayys/gollek/train/examples/DiffusionOpdStableDiffusionNativeBridgeTrainerExample.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_diffusion_opd_stable_diffusion_metal_bridge.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_diffusion_opd_stable_diffusion_native_bridge.java</code></li>
+</ul>
+
+<p>For Apple accelerator alignment, Gollek now also supports a Metal-aware bridge
+factory backed by <code class="language-plaintext highlighter-rouge">gollek-backend-metal</code> metadata:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">metalBridge</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">metalFloat32Bridge</span><span class="o">(</span>
+    <span class="nc">MetalBinding</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(),</span>
+    <span class="n">coreTensor</span> <span class="o">-&gt;</span> <span class="n">extractFloat32</span><span class="o">(</span><span class="n">coreTensor</span><span class="o">),</span>
+    <span class="o">(</span><span class="n">values</span><span class="o">,</span> <span class="n">shape</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">createCoreTensor</span><span class="o">(</span><span class="n">values</span><span class="o">,</span> <span class="n">shape</span><span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>This does not pretend <code class="language-plaintext highlighter-rouge">Tensor</code> and <code class="language-plaintext highlighter-rouge">AccelTensor</code> are zero-copy identical yet,
+but it does let OPD integrations carry real Metal backend capability signals
+such as device name, unified-memory status, and available accelerator memory.</p>
+
+<p>Gollek now also has a <code class="language-plaintext highlighter-rouge">DefaultTensor</code> materializer path for backend-aware
+bridges. This means callers can provide a concrete <code class="language-plaintext highlighter-rouge">ComputeBackend</code> plus target
+<code class="language-plaintext highlighter-rouge">DeviceType</code>, and the adapter will build core tensors with that backend
+attached instead of only handing back raw float32 construction callbacks:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">bridge</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">defaultTensorFloat32Bridge</span><span class="o">(</span>
+    <span class="n">computeBackend</span><span class="o">,</span>
+    <span class="nc">DeviceType</span><span class="o">.</span><span class="na">METAL</span><span class="o">,</span>
+    <span class="n">coreTensor</span> <span class="o">-&gt;</span> <span class="n">extractFloat32</span><span class="o">(</span><span class="n">coreTensor</span><span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>There is also a Metal-specific convenience variant:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">bridge</span> <span class="o">=</span> <span class="nc">StableDiffusionRunnerAdapters</span><span class="o">.</span><span class="na">metalDefaultTensorFloat32Bridge</span><span class="o">(</span>
+    <span class="nc">MetalBinding</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(),</span>
+    <span class="n">computeBackend</span><span class="o">,</span>
+    <span class="n">coreTensor</span> <span class="o">-&gt;</span> <span class="n">extractFloat32</span><span class="o">(</span><span class="n">coreTensor</span><span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="what-comes-next">What comes next</h2>
+
+<p>The next implementation steps are:</p>
+
+<ol>
+  <li>add a concrete Java DDIM example under the training examples module</li>
+  <li>add checkpoint persistence specific to diffusion OPD</li>
+  <li>support scheduler variance for SDE closed-form KL</li>
+  <li>integrate teacher registry and prompt datasets more deeply</li>
+  <li>expose training monitoring through SDK/job surfaces where appropriate</li>
+</ol>
+
+<hr />
+
+<h2 id="related-docs">Related docs</h2>
+
+<ul>
+  <li><a href="/docs/framework/diffusion-opd-docs">DiffusionOPD Docs</a></li>
+  <li><a href="/docs/framework/">Gollek Framework</a></li>
+  <li><a href="/docs/framework/diffusion-opd-reporting">DiffusionOPD Reporting and Inspection</a></li>
+  <li><a href="/docs/framework/diffusion-opd-selector-reference">DiffusionOPD Selector Reference</a></li>
+  <li><a href="/docs/sdk-modules">ML Framework Modules</a></li>
+  <li><a href="/docs/runtime/architecture">Runtime Architecture</a></li>
+</ul>
+
+<p>If you are working with <code class="language-plaintext highlighter-rouge">diffusion-opd-report.json</code>, typed query helpers,
+bundle manifests, or exported inspection packs, continue with
+<a href="/docs/framework/diffusion-opd-reporting">DiffusionOPD Reporting and Inspection</a>.</p>
+
+<hr />
+
+<h2 id="related-papers-and-how-they-help-gollek">Related papers and how they help Gollek</h2>
+
+<p>Not every diffusion paper helps the same layer of the stack. For Gollek, these papers split into four practical buckets:</p>
+
+<h3 id="1-core-distillation-objective">1. Core distillation objective</h3>
+
+<ul>
+  <li><strong>DiffusionOPD</strong>: Quanhao Li et al., <em>DiffusionOPD: A Unified Perspective of On-Policy Distillation in Diffusion Models</em>, arXiv:2605.15055, 2026.</li>
+</ul>
+
+<p>This is the main paper behind the current Java scaffold. It tells us how to:</p>
+
+<ul>
+  <li>structure teacher-student multi-task diffusion training</li>
+  <li>supervise on the student’s own rollout</li>
+  <li>use per-step mean matching instead of higher-variance PPO-style gradients</li>
+  <li>unify deterministic ODE and stochastic SDE supervision</li>
+</ul>
+
+<p>For Gollek, this paper should continue driving:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DefaultDiffusionOpdTrainer</code></li>
+  <li><code class="language-plaintext highlighter-rouge">TransitionMeanAdapter</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DiffusionOpdLosses</code></li>
+  <li>teacher registry and multi-task sampling</li>
+</ul>
+
+<h3 id="2-latent-diffusion-architecture-foundation">2. Latent diffusion architecture foundation</h3>
+
+<ul>
+  <li><strong>LDM</strong>: Robin Rombach et al., <em>High-Resolution Image Synthesis with Latent Diffusion Models</em>, arXiv:2112.10752, 2022.</li>
+</ul>
+
+<p>This is the architectural baseline that matters most for Gollek’s diffusion runtime. It tells us why latent-space training and cross-attention conditioning are the right default path for a practical Java platform.</p>
+
+<p>For Gollek, this paper should drive:</p>
+
+<ul>
+  <li>stronger latent diffusion abstractions in <code class="language-plaintext highlighter-rouge">runner/gollek-diffusion</code></li>
+  <li>explicit text-conditioning interfaces</li>
+  <li>separation of autoencoder, denoiser, and scheduler contracts</li>
+  <li>future checkpoint/model manifest structure for latent diffusion pipelines</li>
+</ul>
+
+<h3 id="3-multi-stage-denoiser-specialization">3. Multi-stage denoiser specialization</h3>
+
+<ul>
+  <li><strong>eDiff-I</strong>: Yogesh Balaji et al., <em>eDiff-I: Text-to-Image Diffusion Models with an Ensemble of Expert Denoisers</em>, arXiv:2211.01324, 2023.</li>
+</ul>
+
+<p>This paper is especially interesting for Gollek because it says different denoising stages behave differently, and that stage-specialized denoisers can improve text alignment without raising total inference cost.</p>
+
+<p>For Gollek, this suggests a strong next improvement after basic OPD:</p>
+
+<ul>
+  <li>extend <code class="language-plaintext highlighter-rouge">DiffusionTask</code> or the future teacher registry with timestep-range specialization</li>
+  <li>support stage-aware teacher routing</li>
+  <li>allow different teachers or adapters for early, mid, and late denoising</li>
+  <li>expose this as a Java composition strategy instead of a monolithic single teacher</li>
+</ul>
+
+<p>This is probably the most useful paper here after DiffusionOPD itself.</p>
+
+<h3 id="4-production-grade-latent-diffusion-conditioning">4. Production-grade latent diffusion conditioning</h3>
+
+<ul>
+  <li><strong>SDXL</strong>: Dustin Podell et al., <em>SDXL: Improving Latent Diffusion Models for High-Resolution Image Synthesis</em>, arXiv:2307.01952, 2023.</li>
+</ul>
+
+<p>SDXL is less about the OPD loss itself and more about what a stronger practical latent diffusion backbone looks like:</p>
+
+<ul>
+  <li>larger UNet</li>
+  <li>richer conditioning</li>
+  <li>multiple text encoders</li>
+  <li>multi-aspect-ratio training</li>
+  <li>refinement model</li>
+</ul>
+
+<p>For Gollek, this suggests future improvements to the Java diffusion runtime:</p>
+
+<ul>
+  <li>richer conditioning resolver contracts</li>
+  <li>support for multiple conditioning streams</li>
+  <li>optional refiner-stage modeling</li>
+  <li>better pipeline metadata for base-plus-refiner flows</li>
+</ul>
+
+<h3 id="5-editing-and-image-to-image-behavior">5. Editing and image-to-image behavior</h3>
+
+<ul>
+  <li><strong>SDEdit</strong>: Chenlin Meng et al., <em>SDEdit: Guided Image Synthesis and Editing with Stochastic Differential Equations</em>, arXiv:2108.01073, 2022.</li>
+</ul>
+
+<p>This one is useful, but for a narrower slice. It matters most if Gollek wants:</p>
+
+<ul>
+  <li>image-to-image editing</li>
+  <li>partial-noise inversion/editing workflows</li>
+  <li>faithfulness-vs-realism controls</li>
+</ul>
+
+<p>For the current DiffusionOPD training work, it is secondary. It becomes important once Gollek exposes editing-style diffusion pipelines in Java.</p>
+
+<hr />
+
+<h2 id="priority-order-for-gollek">Priority order for Gollek</h2>
+
+<p>If we prioritize by what improves the current Java diffusion roadmap the most:</p>
+
+<ol>
+  <li><strong>2605.15055 / DiffusionOPD</strong>
+    <ul>
+      <li>continue implementing the real training loop</li>
+    </ul>
+  </li>
+  <li><strong>2211.01324 / eDiff-I</strong>
+    <ul>
+      <li>add stage-aware teacher specialization</li>
+    </ul>
+  </li>
+  <li><strong>2112.10752 / LDM</strong>
+    <ul>
+      <li>harden the latent diffusion runtime architecture</li>
+    </ul>
+  </li>
+  <li><strong>2307.01952 / SDXL</strong>
+    <ul>
+      <li>extend conditioning, aspect ratio, and refiner support</li>
+    </ul>
+  </li>
+  <li><strong>2108.01073 / SDEdit</strong>
+    <ul>
+      <li>add editing workflows later</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="best-next-code-improvement-from-these-papers">Best next code improvement from these papers</h2>
+
+<p>The highest-value next code step inspired by this paper set is:</p>
+
+<ul>
+  <li>add <strong>stage-aware teacher routing</strong> to DiffusionOPD</li>
+</ul>
+
+<p>Why:</p>
+
+<ul>
+  <li>it directly combines the current OPD scaffold with eDiff-I’s strongest idea</li>
+  <li>it fits Gollek’s Java-first modular design well</li>
+  <li>it can be expressed cleanly as timestep-range routing without forcing a new training abstraction</li>
+</ul>
+
+<p>That means future Gollek changes should likely introduce:</p>
+
+<ul>
+  <li>timestep-interval teacher bindings</li>
+  <li>a teacher selector that picks the teacher by task plus denoising stage</li>
+  <li>stage-specific metadata in summary/history artifacts</li>
+</ul>
+
+<p>This is the most natural research-driven improvement after the current listener/checkpoint/example work.</p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

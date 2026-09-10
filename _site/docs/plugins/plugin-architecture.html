@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plugin System Architecture | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Plugin System Architecture</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="four-level-plugin-system-architecture">Four-Level Plugin System Architecture</h1>
+
+<p>Complete plugin architecture for the Gollek Inference Engine with four levels of extensibility and platform-specific optimization.</p>
+
+<blockquote>
+  <p><strong>🆕 What’s New</strong>:</p>
+  <ul>
+    <li><strong>Enhanced Kernel Plugin System v2.0</strong> with ClassLoader isolation, hot-reload, and comprehensive validation. <a href="/docs/plugins/enhanced-plugin-architecture">Learn more</a></li>
+    <li><strong>Enhanced Runner Plugin System v2.0</strong> with type-safe operations, lifecycle management, and model management. <a href="/docs/plugins/enhanced-runner-plugin-architecture">Learn more</a></li>
+  </ul>
+</blockquote>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>The Gollek Inference Engine implements a <strong>four-level plugin architecture</strong> that provides:</p>
+
+<ul>
+  <li><strong>Flexibility</strong>: Hot-reload, selective deployment</li>
+  <li><strong>Performance</strong>: Up to 30x speedup with all optimizations</li>
+  <li><strong>Efficiency</strong>: 70% code reuse, minimal duplication</li>
+  <li><strong>Portability</strong>: Platform-specific kernels with auto-detection</li>
+  <li><strong>Extensibility</strong>: Easy to add new plugins at any level</li>
+  <li><strong>Observability</strong>: Comprehensive metrics and health monitoring (v2.0)</li>
+</ul>
+
+<hr />
+
+<h2 id="enhanced-features-v20">Enhanced Features (v2.0)</h2>
+
+<p>The kernel plugin system has been completely redesigned with production-ready features:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>v1.0</th>
+      <th>v2.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Type Safety</strong></td>
+      <td>Basic</td>
+      <td>✅ Generic operations</td>
+    </tr>
+    <tr>
+      <td><strong>Lifecycle</strong></td>
+      <td>Simple</td>
+      <td>✅ validate/initialize/health/shutdown</td>
+    </tr>
+    <tr>
+      <td><strong>Isolation</strong></td>
+      <td>None</td>
+      <td>✅ ClassLoader per plugin</td>
+    </tr>
+    <tr>
+      <td><strong>Hot-Reload</strong></td>
+      <td>Limited</td>
+      <td>✅ Full support</td>
+    </tr>
+    <tr>
+      <td><strong>Validation</strong></td>
+      <td>Basic</td>
+      <td>✅ Comprehensive with errors/warnings</td>
+    </tr>
+    <tr>
+      <td><strong>Error Handling</strong></td>
+      <td>Generic</td>
+      <td>✅ Specific exception hierarchy</td>
+    </tr>
+    <tr>
+      <td><strong>Metrics</strong></td>
+      <td>Basic</td>
+      <td>✅ Comprehensive observability</td>
+    </tr>
+    <tr>
+      <td><strong>Configuration</strong></td>
+      <td>Map-based</td>
+      <td>✅ Type-safe with builder</td>
+    </tr>
+    <tr>
+      <td><strong>CDI Integration</strong></td>
+      <td>Manual</td>
+      <td>✅ Automatic producers</td>
+    </tr>
+    <tr>
+      <td><strong>Engine Integration</strong></td>
+      <td>Partial</td>
+      <td>✅ Full integration</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><a href="/docs/plugins/enhanced-plugin-architecture">Learn more about Enhanced Plugin Architecture →</a></p>
+
+<h2 id="complete-architecture">Complete Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│              Application Layer                          │
+│  InferenceRequest → Engine                              │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│         Gollek Inference Engine                         │
+│  - PluginSystemIntegrator                               │
+│  - InferenceOrchestrator                                │
+│  - Metrics &amp; Monitoring                                 │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│       Level 1: Runner Plugins                           │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │  GGUF    │ │ Safetensor│ │   ONNX   │ │TensorRT  │  │
+│  │ (llama)  │ │  (HF)    │ │ (onnx)   │ │  (TRT)   │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+│  ┌──────────┐ ┌──────────┐                             │
+│  │LibTorch  │ │ TFLite   │                             │
+│  │(PyTorch) │ │  (TF)    │                             │
+│  └──────────┘ └──────────┘                             │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│       Level 2: Feature Plugins (Optional)               │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐                │
+│  │  Audio   │ │  Vision  │ │   Text   │                │
+│  │ Feature  │ │ Feature  │ │ Feature  │                │
+│  └──────────┘ └──────────┘ └──────────┘                │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│      Level 3: Optimization Plugins (Optional)           │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │   FA3    │ │   FA4    │ │  Paged   │ │  Prompt  │  │
+│  │          │ │          │ │ Attention│ │  Cache   │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│    Level 4: Kernel Plugins (Platform-Specific)          │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │  CUDA    │ │  ROCm    │ │  Metal   │ │ DirectML │  │
+│  │ (NVIDIA) │ │  (AMD)   │ │ (Apple)  │ │(Windows) │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│           Native Backends                               │
+│  cuBLAS | rocBLAS | Metal Performance Shaders | DML    │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="plugin-levels">Plugin Levels</h2>
+
+<h3 id="level-1-runner-plugins">Level 1: Runner Plugins</h3>
+
+<p><strong>Purpose</strong>: Model format support</p>
+
+<p><strong>Available Runners</strong>:
+| Runner | Format | Backend | GPU Support | Size |
+|——–|——–|———|————-|——|
+| <strong>GGUF</strong> | .gguf | llama.cpp | ✅ CUDA/Metal | ~500 MB |
+| <strong>Safetensor</strong> | .safetensors | Direct/GGUF | ✅ CUDA/MPS | ~20 GB |
+| <strong>ONNX</strong> | .onnx | ONNX Runtime | ✅ Multi | ~800 MB |
+| <strong>TensorRT</strong> | .engine | TensorRT | ✅ NVIDIA | ~2 GB |
+| <strong>LibTorch</strong> | .pt/.bin | PyTorch | ✅ CUDA | ~3 GB |
+| <strong>TFLite</strong> | .litertlm | TensorFlow Lite | ✅ GPU | ~500 MB |</p>
+
+<p><strong>Integration</strong>:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">RunnerPluginManager</span> <span class="n">runnerManager</span><span class="o">;</span>
+
+<span class="c1">// Auto-detect format and select runner</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">session</span> <span class="o">=</span> <span class="n">runnerManager</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"models/llama-3-8b.gguf"</span><span class="o">,</span>
+    <span class="n">config</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="level-2-feature-plugins">Level 2: Feature Plugins</h3>
+
+<p><strong>Purpose</strong>: Domain-specific capabilities</p>
+
+<p><strong>Available Features</strong>:
+| Feature | Capabilities | Models | Size |
+|———|————-|——–|——|
+| <strong>Audio</strong> | STT, TTS | Whisper, SpeechT5 | ~52 MB |
+| <strong>Vision</strong> | Classification, Detection | CLIP, ViT, DETR | ~800 MB |
+| <strong>Text</strong> | LLM, Classification | Llama, Mistral, BERT | ~15 GB |</p>
+
+<p><strong>Integration</strong>:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">FeaturePluginManager</span> <span class="n">featureManager</span><span class="o">;</span>
+
+<span class="c1">// Enable specific features</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"features"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="s">"audio"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+        <span class="s">"vision"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="level-3-optimization-plugins">Level 3: Optimization Plugins</h3>
+
+<p><strong>Purpose</strong>: Performance enhancements</p>
+
+<p><strong>Available Optimizations</strong>:
+| Optimization | Speedup | Compatible Runners | GPU Requirement |
+|————–|———|——————-|—————–|
+| <strong>FlashAttention-3</strong> | 2-3x | Safetensor, LibTorch | Hopper (CC 9.0+) |
+| <strong>FlashAttention-4</strong> | 3-5x | Safetensor, LibTorch | Blackwell (CC 10.0+) |
+| <strong>PagedAttention</strong> | 2-4x | GGUF, Safetensor, LibTorch | Any CUDA |
+| <strong>Prompt Cache</strong> | 5-10x* | GGUF, Safetensor, ONNX | Any |</p>
+
+<p>*For repeated prompts</p>
+
+<p><strong>Integration</strong>:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">OptimizationPluginManager</span> <span class="n">optimizationManager</span><span class="o">;</span>
+
+<span class="c1">// Apply optimizations based on hardware</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"optimizations"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="s">"flash-attention-3"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+        <span class="s">"paged-attention"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="level-4-kernel-plugins">Level 4: Kernel Plugins</h3>
+
+<p><strong>Purpose</strong>: Platform-specific GPU kernels</p>
+
+<p><strong>Available Kernels</strong>:
+| Kernel | Platform | GPU Vendor | OS | Size |
+|——–|———-|————|—-|—-|
+| <strong>CUDA</strong> | CUDA | NVIDIA | Linux/Windows | ~50 MB |
+| <strong>ROCm</strong> | ROCm | AMD | Linux | ~40 MB |
+| <strong>Metal</strong> | Metal | Apple | macOS | ~30 MB |
+| <strong>DirectML</strong> | DirectML | Any | Windows | ~35 MB |</p>
+
+<p><strong>Auto-Detection</strong>:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Auto-detect platform</span>
+<span class="nc">String</span> <span class="n">platform</span> <span class="o">=</span> <span class="nc">KernelPlugin</span><span class="o">.</span><span class="na">autoDetectPlatform</span><span class="o">();</span>
+<span class="c1">// Returns: "cuda", "rocm", "metal", "directml", or "cpu"</span>
+
+<span class="c1">// Load only kernel for detected platform</span>
+<span class="n">kernelManager</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="engine-integration">Engine Integration</h2>
+
+<h3 id="pluginsystemintegrator">PluginSystemIntegrator</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">PluginSystemIntegrator</code> coordinates all four plugin levels:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PluginSystemIntegrator</span> <span class="o">{</span>
+    
+    <span class="nd">@PostConstruct</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Initialize in order (bottom-up)</span>
+        <span class="n">initializeKernelPlugins</span><span class="o">();</span>        <span class="c1">// Level 4</span>
+        <span class="n">initializeOptimizationPlugins</span><span class="o">();</span>  <span class="c1">// Level 3</span>
+        <span class="n">initializeFeaturePlugins</span><span class="o">();</span>       <span class="c1">// Level 2</span>
+        <span class="n">initializeRunnerPlugins</span><span class="o">();</span>        <span class="c1">// Level 1</span>
+        
+        <span class="n">logPluginStatus</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="initialization-order">Initialization Order</h3>
+
+<ol>
+  <li><strong>Level 4 - Kernel Plugins</strong>: Auto-detect platform, load appropriate kernel</li>
+  <li><strong>Level 3 - Optimization Plugins</strong>: Check hardware compatibility, apply optimizations</li>
+  <li><strong>Level 2 - Feature Plugins</strong>: Initialize domain-specific capabilities</li>
+  <li><strong>Level 1 - Runner Plugins</strong>: Initialize model format support</li>
+</ol>
+
+<h3 id="shutdown-order-reverse">Shutdown Order (Reverse)</h3>
+
+<ol>
+  <li>Level 1 - Runner Plugins</li>
+  <li>Level 2 - Feature Plugins</li>
+  <li>Level 3 - Optimization Plugins</li>
+  <li>Level 4 - Kernel Plugins</li>
+</ol>
+
+<hr />
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="complete-configuration-example">Complete Configuration Example</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">engine</span><span class="pi">:</span>
+    <span class="na">plugin-system</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">auto-detect</span><span class="pi">:</span> <span class="kc">true</span>
+  
+  <span class="c1"># Level 4: Kernel Plugins</span>
+  <span class="na">kernels</span><span class="pi">:</span>
+    <span class="na">auto-detect</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="na">cuda</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">device_id</span><span class="pi">:</span> <span class="m">0</span>
+      <span class="na">memory_fraction</span><span class="pi">:</span> <span class="m">0.9</span>
+  
+  <span class="c1"># Level 3: Optimization Plugins</span>
+  <span class="na">optimizations</span><span class="pi">:</span>
+    <span class="na">flash-attention-3</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">tile_size</span><span class="pi">:</span> <span class="m">128</span>
+    <span class="na">paged-attention</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">block_size</span><span class="pi">:</span> <span class="m">16</span>
+    <span class="na">prompt-cache</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">max_cache_size_gb</span><span class="pi">:</span> <span class="m">8</span>
+  
+  <span class="c1"># Level 2: Feature Plugins</span>
+  <span class="na">features</span><span class="pi">:</span>
+    <span class="na">audio</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">default_model</span><span class="pi">:</span> <span class="s">whisper-large-v3</span>
+    <span class="na">vision</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+    <span class="na">text</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">default_model</span><span class="pi">:</span> <span class="s">llama-3-8b</span>
+  
+  <span class="c1"># Level 1: Runner Plugins</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">gguf-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">n_gpu_layers</span><span class="pi">:</span> <span class="s">-1</span>
+      <span class="na">n_ctx</span><span class="pi">:</span> <span class="m">4096</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">backend</span><span class="pi">:</span> <span class="s">direct</span>
+    <span class="na">onnx-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="performance">Performance</h2>
+
+<h3 id="complete-stack-performance-h100">Complete Stack Performance (H100)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th>Tokens/s</th>
+      <th>VRAM</th>
+      <th>Speedup</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU Only (Baseline)</td>
+      <td>20</td>
+      <td>16 GB</td>
+      <td>1.0x</td>
+    </tr>
+    <tr>
+      <td>+ CUDA Kernel</td>
+      <td>100</td>
+      <td>16 GB</td>
+      <td>5.0x</td>
+    </tr>
+    <tr>
+      <td>+ FlashAttention-3</td>
+      <td>280</td>
+      <td>16 GB</td>
+      <td>14.0x</td>
+    </tr>
+    <tr>
+      <td>+ PagedAttention</td>
+      <td>350</td>
+      <td>13 GB</td>
+      <td>17.5x</td>
+    </tr>
+    <tr>
+      <td>+ Prompt Cache*</td>
+      <td>500</td>
+      <td>18 GB</td>
+      <td>25.0x</td>
+    </tr>
+    <tr>
+      <td><strong>All Combined</strong></td>
+      <td><strong>600</strong></td>
+      <td><strong>14 GB</strong></td>
+      <td><strong>30.0x</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>*For cached prompts</p>
+
+<h3 id="deployment-size">Deployment Size</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Components</th>
+      <th>Size</th>
+      <th>Reduction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Edge (CPU)</td>
+      <td>GGUF + Text + Prompt Cache</td>
+      <td>6 GB</td>
+      <td>74%</td>
+    </tr>
+    <tr>
+      <td>Audio Service</td>
+      <td>Safetensor + Audio + CUDA</td>
+      <td>52 MB</td>
+      <td>99.8%</td>
+    </tr>
+    <tr>
+      <td>LLM Service</td>
+      <td>GGUF + Text + PagedAttn + CUDA</td>
+      <td>6 GB</td>
+      <td>74%</td>
+    </tr>
+    <tr>
+      <td>Multi-Modal</td>
+      <td>Safetensor + All Features + FA3 + CUDA</td>
+      <td>15 GB</td>
+      <td>34%</td>
+    </tr>
+    <tr>
+      <td>Full Dev</td>
+      <td>All plugins</td>
+      <td>22.7 GB</td>
+      <td>0%</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="monitoring">Monitoring</h2>
+
+<h3 id="plugin-status">Plugin Status</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get plugin system status</span>
+curl http://localhost:8080/api/v1/plugins/status
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"initialized"</span>: <span class="nb">true</span>,
+  <span class="s2">"fully_operational"</span>: <span class="nb">true</span>,
+  <span class="s2">"levels"</span>: <span class="o">{</span>
+    <span class="s2">"kernel"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_platform"</span>: <span class="s2">"cuda"</span>
+    <span class="o">}</span>,
+    <span class="s2">"optimization"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_optimizations"</span>: <span class="o">[</span><span class="s2">"flash-attention-3"</span>, <span class="s2">"paged-attention"</span><span class="o">]</span>
+    <span class="o">}</span>,
+    <span class="s2">"feature"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_features"</span>: <span class="o">[</span><span class="s2">"audio"</span>, <span class="s2">"text"</span><span class="o">]</span>
+    <span class="o">}</span>,
+    <span class="s2">"runner"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_runners"</span>: <span class="o">[</span><span class="s2">"gguf-runner"</span>, <span class="s2">"safetensor-runner"</span><span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="health-checks">Health Checks</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get health status for all levels</span>
+curl http://localhost:8080/api/v1/plugins/health
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"kernel"</span>: <span class="o">{</span>
+    <span class="s2">"cuda"</span>: <span class="o">{</span> <span class="s2">"healthy"</span>: <span class="nb">true</span>, <span class="s2">"available"</span>: <span class="nb">true</span> <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="s2">"optimization"</span>: <span class="o">{</span>
+    <span class="s2">"flash-attention-3"</span>: <span class="o">{</span> <span class="s2">"healthy"</span>: <span class="nb">true</span> <span class="o">}</span>,
+    <span class="s2">"paged-attention"</span>: <span class="o">{</span> <span class="s2">"healthy"</span>: <span class="nb">true</span> <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="s2">"feature"</span>: <span class="o">{</span>
+    <span class="s2">"audio"</span>: <span class="o">{</span> <span class="s2">"healthy"</span>: <span class="nb">true</span> <span class="o">}</span>,
+    <span class="s2">"text"</span>: <span class="o">{</span> <span class="s2">"healthy"</span>: <span class="nb">true</span> <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="s2">"runner"</span>: <span class="o">{</span>
+    <span class="s2">"gguf-runner"</span>: <span class="o">{</span> <span class="s2">"healthy"</span>: <span class="nb">true</span> <span class="o">}</span>,
+    <span class="s2">"safetensor-runner"</span>: <span class="o">{</span> <span class="s2">"healthy"</span>: <span class="nb">true</span> <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="creating-custom-plugins">Creating Custom Plugins</h2>
+
+<h3 id="level-1-custom-runner-plugin">Level 1: Custom Runner Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomRunnerPlugin</span> <span class="kd">implements</span> <span class="nc">RunnerPlugin</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"custom-runner"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedFormats</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">".custom"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">RunnerSession</span> <span class="nf">createSession</span><span class="o">(</span><span class="nc">String</span> <span class="n">modelPath</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">CustomRunnerSession</span><span class="o">(</span><span class="n">modelPath</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="level-2-custom-feature-plugin">Level 2: Custom Feature Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomFeaturePlugin</span> <span class="kd">implements</span> <span class="nc">SafetensorFeaturePlugin</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"custom-feature"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedModels</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"custom-model"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">process</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">processCustom</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="level-3-custom-optimization-plugin">Level 3: Custom Optimization Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomOptimizationPlugin</span> <span class="kd">implements</span> <span class="nc">OptimizationPlugin</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"custom-opt"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">compatibleRunners</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"gguf-runner"</span><span class="o">,</span> <span class="s">"safetensor-runner"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">apply</span><span class="o">(</span><span class="nc">OptimizationContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">applyOptimization</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="level-4-custom-kernel-plugin">Level 4: Custom Kernel Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomKernelPlugin</span> <span class="kd">implements</span> <span class="nc">KernelPlugin</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"custom-kernel"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">platform</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"custom"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isAvailable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">customHardwareAvailable</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">execute</span><span class="o">(</span><span class="nc">String</span> <span class="n">operation</span><span class="o">,</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">executeCustom</span><span class="o">(</span><span class="n">operation</span><span class="o">,</span> <span class="n">params</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="plugin-not-loading">Plugin Not Loading</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Plugin not found: custom-runner
+</code></pre></div></div>
+
+<p><strong>Solution</strong>:</p>
+<ol>
+  <li>Check if plugin JAR is in <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/</code></li>
+  <li>Verify plugin manifest: <code class="language-plaintext highlighter-rouge">unzip -p plugin.jar META-INF/MANIFEST.MF</code></li>
+  <li>Check logs: <code class="language-plaintext highlighter-rouge">tail -f ~/.gollek/logs/gollek.log | grep plugin</code></li>
+</ol>
+
+<h3 id="platform-detection-failed">Platform Detection Failed</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Warning: No available kernel for platform cuda, falling back to CPU
+</code></pre></div></div>
+
+<p><strong>Solution</strong>:</p>
+<ol>
+  <li>Verify GPU is present: <code class="language-plaintext highlighter-rouge">nvidia-smi</code></li>
+  <li>Check drivers are installed</li>
+  <li>Verify CUDA installation: <code class="language-plaintext highlighter-rouge">nvcc --version</code></li>
+</ol>
+
+<h3 id="optimization-not-applied">Optimization Not Applied</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Warning: FlashAttention-3 not applied - GPU not compatible
+</code></pre></div></div>
+
+<p><strong>Solution</strong>:</p>
+<ol>
+  <li>Check GPU architecture: <code class="language-plaintext highlighter-rouge">nvidia-smi --query-gpu=compute_cap</code></li>
+  <li>Verify compute capability &gt;= 9.0 for FA3</li>
+  <li>Check logs for details</li>
+</ol>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong>Plugin System Guide</strong>: <a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/FOUR_LEVEL_PLUGIN_SYSTEM_SUMMARY.md">Four-Level Plugin System</a></li>
+  <li><strong>Runner Plugins</strong>: <a href="/docs/plugins/runner-plugins">Runner Plugin Documentation</a></li>
+  <li><strong>Feature Plugins</strong>: <a href="/docs/plugins/feature-plugins">Feature Plugin Documentation</a></li>
+  <li><strong>Optimization Plugins</strong>: <a href="/docs/plugins/optimization-plugins">Optimization Plugin Documentation</a></li>
+  <li><strong>Kernel Plugins</strong>: <a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/plugins/kernel/KERNEL_PLUGIN_SYSTEM.md">Kernel Plugin Documentation</a></li>
+  <li><strong>Engine Integration</strong>: <a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/core/gollek-engine/ENGINE_PLUGIN_INTEGRATION.md">Engine Integration Guide</a></li>
+</ul>
+
+<hr />
+
+<p><a href="/docs/runtime/architecture">Back to Architecture</a>   <a href="/docs/plugins/runner-plugins">Runner Plugins</a>   <a href="/docs/plugins/feature-plugins">Feature Plugins</a>   <a href="/docs/plugins/optimization-plugins">Optimization Plugins</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

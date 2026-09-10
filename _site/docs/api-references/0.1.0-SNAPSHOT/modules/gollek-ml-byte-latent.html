@@ -1,0 +1,1807 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gollek-ml-byte-latent | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">gollek-ml-byte-latent</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="gollek-ml-byte-latent">gollek-ml-byte-latent</h1>
+
+<p>The <code class="language-plaintext highlighter-rouge">gollek-ml-byte-latent</code> module is Gollek’s initial package root for
+byte-latent language modeling. It is the right home for Fast Byte Latent
+Transformer style architectures and related byte-native latent pipelines.</p>
+
+<h2 id="-overview">🌟 Overview</h2>
+
+<p>This module is intentionally separate from diffusion training. It provides the
+shared Java-side contracts needed before heavier byte-latent encoder, decoder,
+trainer, and runner implementations land.</p>
+
+<p>Current scope:</p>
+
+<ul>
+  <li>byte-sequence batch transport</li>
+  <li>byte-level causal LM collation and packed window batches</li>
+  <li>UTF-8 text dataset bridge for byte-sequence ingestion</li>
+  <li>trainer-facing config and materialized batch planning</li>
+  <li>executable trainer session and pluggable batch-loss evaluation</li>
+  <li>executable <code class="language-plaintext highlighter-rouge">ByteLatentModel</code> forward-pass contract and <code class="language-plaintext highlighter-rouge">ByteLatentForwardPass</code></li>
+  <li>deterministic <code class="language-plaintext highlighter-rouge">ReferenceByteLatentModel</code> for model-backed trainer defaults</li>
+  <li>shared <code class="language-plaintext highlighter-rouge">ByteLatentPreviewFormatter</code> for compact ranked next-token previews</li>
+  <li>concrete <code class="language-plaintext highlighter-rouge">ReferenceByteLatentEncoder</code> and <code class="language-plaintext highlighter-rouge">ReferenceByteLatentDecoder</code></li>
+  <li>concrete <code class="language-plaintext highlighter-rouge">ReferenceByteLatentMixer</code> for deterministic latent-state mixing</li>
+  <li>concrete <code class="language-plaintext highlighter-rouge">ReferenceByteLatentProjection</code> for deterministic latent projection</li>
+  <li>concrete <code class="language-plaintext highlighter-rouge">ReferenceByteLatentOutputHead</code> for deterministic token projection</li>
+  <li>reference encode -&gt; latent-mix -&gt; latent-project -&gt; latent-transform -&gt; decode -&gt; output-head pipeline inside the model</li>
+  <li>prompt-to-next-token prediction, ranked top-k candidates, and short byte-native generation defaults</li>
+  <li>lifecycle listeners and lightweight checkpoint summary writing</li>
+  <li>explicit checkpoint resume support with persisted epoch history CSV</li>
+  <li>compact history report selectors for terminal-friendly inspection</li>
+  <li>byte-latent state transport</li>
+  <li>model-family citation and module metadata</li>
+  <li>encoder/decoder interfaces</li>
+  <li>reference encoder/decoder/mixer/projection/output-head implementations</li>
+  <li>lightweight transformer-block placeholder for architecture wiring</li>
+</ul>
+
+<h2 id="-paper-alignment">📚 Paper Alignment</h2>
+
+<p>The current module family is based on:</p>
+
+<ul>
+  <li>Julie Kallini, Artidoro Pagnoni, Tomasz Limisiewicz, Gargi Ghosh, Luke
+Zettlemoyer, Christopher Potts, Xiaochuang Han, and Srinivasan Iyer.
+<strong>Fast Byte Latent Transformer</strong>. <code class="language-plaintext highlighter-rouge">arXiv:2605.08044v1</code>, 2026.</li>
+</ul>
+
+<p>Repository integration note:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/gollek/docs/FAST_BYTE_LATENT_TRANSFORMER_INTEGRATION_PLAN.md</code></li>
+</ul>
+
+<h2 id="-installation">📦 Installation</h2>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>tech.kayys.gollek<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>gollek-ml-byte-latent<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<h2 id="️-api-highlights">🛠️ API Highlights</h2>
+
+<h3 id="bytesequencebatch"><code class="language-plaintext highlighter-rouge">ByteSequenceBatch</code></h3>
+
+<p>Holds byte-native examples as batched raw sequences:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ByteSequenceBatch</span> <span class="n">batch</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteSequenceBatch</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"halo dunia"</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="nc">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">),</span>
+    <span class="s">"hello world"</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="nc">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">)</span>
+<span class="o">));</span>
+</code></pre></div></div>
+
+<h3 id="bytelatentmodelspec"><code class="language-plaintext highlighter-rouge">ByteLatentModelSpec</code></h3>
+
+<p>Defines the minimal architecture surface for a byte-latent model:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ByteLatentModelSpec</span> <span class="n">spec</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteLatentModelSpec</span><span class="o">(</span>
+    <span class="mi">256</span><span class="o">,</span>   <span class="c1">// byte vocabulary</span>
+    <span class="mi">1024</span><span class="o">,</span>  <span class="c1">// latent dimension</span>
+    <span class="mi">24</span><span class="o">,</span>    <span class="c1">// transformer layers</span>
+    <span class="mi">16</span><span class="o">,</span>    <span class="c1">// attention heads</span>
+    <span class="mi">8192</span>   <span class="c1">// max byte sequence length</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="bytesequencecollator"><code class="language-plaintext highlighter-rouge">ByteSequenceCollator</code></h3>
+
+<p>Packs raw byte sequences into shifted causal-LM windows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ByteSequenceWindowBatch</span> <span class="n">packed</span> <span class="o">=</span> <span class="nc">ByteSequenceCollator</span><span class="o">.</span><span class="na">causalLanguageModeling</span><span class="o">(</span>
+    <span class="n">batch</span><span class="o">,</span>
+    <span class="mi">1024</span><span class="o">,</span>
+    <span class="mi">0</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>The packed result contains:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">inputIds</code></li>
+  <li><code class="language-plaintext highlighter-rouge">targetIds</code></li>
+  <li><code class="language-plaintext highlighter-rouge">attentionMask</code></li>
+</ul>
+
+<h3 id="textbytesequencedataset"><code class="language-plaintext highlighter-rouge">TextByteSequenceDataset</code></h3>
+
+<p>Loads raw text lines and emits byte batches:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">TextByteSequenceDataset</span> <span class="n">dataset</span> <span class="o">=</span> <span class="nc">TextByteSequenceDataset</span><span class="o">.</span><span class="na">fromLines</span><span class="o">(</span><span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"train.txt"</span><span class="o">));</span>
+<span class="nc">ByteSequenceBatch</span> <span class="n">batch</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="na">batch</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">32</span><span class="o">);</span>
+<span class="nc">ByteSequenceWindowBatch</span> <span class="n">packed</span> <span class="o">=</span> <span class="nc">ByteSequenceCollator</span><span class="o">.</span><span class="na">causalLanguageModeling</span><span class="o">(</span><span class="n">batch</span><span class="o">,</span> <span class="mi">1024</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="bytelatenttrainerconfig-and-bytelatenttrainersupport"><code class="language-plaintext highlighter-rouge">ByteLatentTrainerConfig</code> and <code class="language-plaintext highlighter-rouge">ByteLatentTrainerSupport</code></h3>
+
+<p>Build a trainer-ready plan from text data:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ByteLatentTrainerConfig</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">ByteLatentTrainerConfig</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">modelSpec</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">batchSize</span><span class="o">(</span><span class="mi">32</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">windowLength</span><span class="o">(</span><span class="mi">1024</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">padTokenId</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">shuffle</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">seed</span><span class="o">(</span><span class="mi">7L</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">ByteLatentTrainingPlan</span> <span class="n">plan</span> <span class="o">=</span> <span class="nc">ByteLatentTrainerSupport</span><span class="o">.</span><span class="na">plan</span><span class="o">(</span><span class="n">dataset</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="bytelatenttrainer"><code class="language-plaintext highlighter-rouge">ByteLatentTrainer</code></h3>
+
+<p>Run an executable session over the planned byte-latent batches:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ByteLatentTrainerSession</span> <span class="n">session</span> <span class="o">=</span> <span class="nc">ByteLatentTrainer</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">dataset</span><span class="o">(</span><span class="n">dataset</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">config</span><span class="o">(</span><span class="n">config</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">lossEvaluator</span><span class="o">((</span><span class="n">batch</span><span class="o">,</span> <span class="n">trainerConfig</span><span class="o">,</span> <span class="n">epoch</span><span class="o">,</span> <span class="n">batchIndex</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="mf">0.25d</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">TrainingSummary</span> <span class="n">summary</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">fit</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>When <code class="language-plaintext highlighter-rouge">checkpointDir</code> is configured, the current trainer writes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">byte-latent-summary.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">byte-latent-checkpoint.metadata</code></li>
+  <li><code class="language-plaintext highlighter-rouge">byte-latent-history.csv</code></li>
+  <li><code class="language-plaintext highlighter-rouge">byte-latent-report.json</code></li>
+</ul>
+
+<p>When <code class="language-plaintext highlighter-rouge">resumeFromCheckpoint(true)</code> is enabled, the trainer can restore prior
+epoch, best-loss, latest-loss, duration, and global-step state from those
+artifacts before continuing, while keeping the epoch timeline available as a
+small terminal-friendly CSV.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ByteLatentHistoryReports</code> can then answer compact selectors over that file,
+for example:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">history:summary</code></li>
+  <li><code class="language-plaintext highlighter-rouge">history:lastLoss</code></li>
+  <li><code class="language-plaintext highlighter-rouge">history:lastEpoch</code></li>
+  <li><code class="language-plaintext highlighter-rouge">history:sort=-trainLoss:top=3</code></li>
+</ul>
+
+<p>For terminal use, Gollek also provides:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_byte_latent_history_inspector.java</code>
+    <ul>
+      <li>supports <code class="language-plaintext highlighter-rouge">summary</code>, <code class="language-plaintext highlighter-rouge">artifacts</code>, <code class="language-plaintext highlighter-rouge">historyCount</code>,
+<code class="language-plaintext highlighter-rouge">summary:metadata:globalStep</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">health</code>, <code class="language-plaintext highlighter-rouge">ci</code>, <code class="language-plaintext highlighter-rouge">status:ci</code>, and <code class="language-plaintext highlighter-rouge">history:*</code>
+selectors from one
+checkpoint entrypoint</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_byte_latent_workflow_inspector.java</code>
+    <ul>
+      <li>supports <code class="language-plaintext highlighter-rouge">overview</code>, <code class="language-plaintext highlighter-rouge">runs</code>, <code class="language-plaintext highlighter-rouge">workflowBundleDir</code>,
+<code class="language-plaintext highlighter-rouge">workflowBundleStatus</code>, <code class="language-plaintext highlighter-rouge">run:fresh</code>, <code class="language-plaintext highlighter-rouge">historyRows</code>,
+<code class="language-plaintext highlighter-rouge">delta:historyRows</code>, and <code class="language-plaintext highlighter-rouge">delta:latestTrainLoss</code> over the workflow
+manifest JSON</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">commands</code> for the manifest’s recommended inspector-command table,
+with optional filters like <code class="language-plaintext highlighter-rouge">scope=workflow</code> and <code class="language-plaintext highlighter-rouge">mode=fresh</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">commands:summary</code> and <code class="language-plaintext highlighter-rouge">commands:ci</code> for the compact top-priority
+workflow, bundle, and fresh/resume checkpoint command set</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">commands:ci:mode=&lt;run&gt;</code> for the single-line per-run compact
+command rollup</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">runcommands</code> to list the available per-run aliases from the manifest</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">runcommands:all</code> for the concise multi-run alias summary</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">runcommands:summary</code> and <code class="language-plaintext highlighter-rouge">runcommands:ci</code> for compact
+manifest-level run-alias summaries</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">runcommands:&lt;run&gt;</code> as the shortest alias for that per-run
+manifest command rollup</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">runfields</code> to list the per-run <code class="language-plaintext highlighter-rouge">inspectRunFields</code>,
+<code class="language-plaintext highlighter-rouge">inspectRunCommands</code>, and <code class="language-plaintext highlighter-rouge">inspectRunAll</code> follow-up aliases together</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">runfields:summary</code> and <code class="language-plaintext highlighter-rouge">runfields:ci</code> for compact manifest-level
+summaries of that per-run field-discovery surface</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">runfields:&lt;run&gt;</code> to isolate the per-run field-discovery row for
+one run mode</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">inspectfields</code> to list which machine-readable inspector-command
+fields are present at the manifest and per-run levels</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">inspectfields:summary</code> and <code class="language-plaintext highlighter-rouge">inspectfields:ci</code> for compact
+field-discovery summaries in terminal and CI flows</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">bundleOverview</code> plus <code class="language-plaintext highlighter-rouge">focus=health|files|all</code> for compact
+bundle path/status/health summaries</li>
+      <li>plain <code class="language-plaintext highlighter-rouge">text</code> output for <code class="language-plaintext highlighter-rouge">bundleOverview</code> is optimized for terminal reading</li>
+      <li><code class="language-plaintext highlighter-rouge">summary=short</code> collapses <code class="language-plaintext highlighter-rouge">bundleOverview</code> text output to one line</li>
+      <li><code class="language-plaintext highlighter-rouge">bundleOverview:ci</code> is the shorthand alias for that CI-style overview path</li>
+      <li><code class="language-plaintext highlighter-rouge">status</code> is the shortest neutral alias for a concise bundle check</li>
+      <li><code class="language-plaintext highlighter-rouge">health</code> is the matching shortest direct-health alias for workflow and bundle checks</li>
+      <li><code class="language-plaintext highlighter-rouge">bundleStatus</code> remains available as the explicit equivalent</li>
+      <li><code class="language-plaintext highlighter-rouge">bundleHealth:ci</code> is the shorthand alias for that one-line direct health view</li>
+      <li><code class="language-plaintext highlighter-rouge">bundleHealth:summary=short</code> provides the same one-line direct health view</li>
+      <li>can jump directly into a materialized workflow bundle with
+<code class="language-plaintext highlighter-rouge">bundleManifest</code>, <code class="language-plaintext highlighter-rouge">bundleFiles</code>, <code class="language-plaintext highlighter-rouge">bundleSummary</code>, <code class="language-plaintext highlighter-rouge">bundleHealth</code>, and
+<code class="language-plaintext highlighter-rouge">bundleLoadfile:section=&lt;section&gt;</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">bundle=standard</code> to write overview, runs, and delta JSON files
+into one output directory with a bundle manifest</li>
+      <li>can inspect exported bundle directories with <code class="language-plaintext highlighter-rouge">bundleSummary</code>,
+<code class="language-plaintext highlighter-rouge">bundleHealth</code>, <code class="language-plaintext highlighter-rouge">files</code>, <code class="language-plaintext highlighter-rouge">files:section=&lt;section&gt;</code>,
+<code class="language-plaintext highlighter-rouge">files:name=&lt;name&gt;</code>, <code class="language-plaintext highlighter-rouge">file:&lt;name&gt;</code>, and <code class="language-plaintext highlighter-rouge">loadfile:section=&lt;section&gt;</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">files:...:sort=name|section|format</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">loadfile:section=&lt;section&gt;:pick=first|last</code> and <code class="language-plaintext highlighter-rouge">index=&lt;n&gt;</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">filesSummary:by=section</code>, <code class="language-plaintext highlighter-rouge">filesSummary:by=format</code>,
+<code class="language-plaintext highlighter-rouge">sort=-count</code>, and <code class="language-plaintext highlighter-rouge">top=&lt;n&gt;</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_byte_latent_demo.java</code>
+    <ul>
+      <li>produces a small end-to-end byte-latent checkpoint directory for trying
+the inspector workflow locally</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">health</code>, and <code class="language-plaintext highlighter-rouge">ci</code> follow-up inspector commands automatically</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_byte_latent_resume_demo.java</code>
+    <ul>
+      <li>demonstrates resume-driven checkpoint growth and continued inspector
+queries against the same byte-latent checkpoint directory</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">health</code>, and <code class="language-plaintext highlighter-rouge">ci</code> follow-up inspector commands automatically</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_byte_latent_train_infer_inspector.java</code>
+    <ul>
+      <li>reads <code class="language-plaintext highlighter-rouge">train-infer-report.json</code> from a checkpoint directory or direct file</li>
+      <li>the report persists top-level <code class="language-plaintext highlighter-rouge">reportVersion</code>, <code class="language-plaintext highlighter-rouge">overview</code>, <code class="language-plaintext highlighter-rouge">overviewCi</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">statusSummary</code>, and
+<code class="language-plaintext highlighter-rouge">commands</code> / <code class="language-plaintext highlighter-rouge">commandsCi</code> fields plus <code class="language-plaintext highlighter-rouge">selectors</code> / <code class="language-plaintext highlighter-rouge">selectorsCi</code> and
+<code class="language-plaintext highlighter-rouge">inspectfields</code> / <code class="language-plaintext highlighter-rouge">inspectfieldsCi</code> discovery blocks, plus <code class="language-plaintext highlighter-rouge">artifactSummary</code> and <code class="language-plaintext highlighter-rouge">artifactSummaryLine</code>, in addition to
+the nested <code class="language-plaintext highlighter-rouge">training</code> and <code class="language-plaintext highlighter-rouge">inference</code> sections</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">reportVersion</code>, <code class="language-plaintext highlighter-rouge">artifactSummary</code>, <code class="language-plaintext highlighter-rouge">artifactSummaryLine</code>, <code class="language-plaintext highlighter-rouge">overview</code>, <code class="language-plaintext highlighter-rouge">overview:ci</code>, <code class="language-plaintext highlighter-rouge">training</code>, <code class="language-plaintext highlighter-rouge">inference</code>, <code class="language-plaintext highlighter-rouge">nextToken</code>,
+<code class="language-plaintext highlighter-rouge">nextTokens</code>, <code class="language-plaintext highlighter-rouge">nextTokensPreview</code>, <code class="language-plaintext highlighter-rouge">generatedText</code>, <code class="language-plaintext highlighter-rouge">combinedText</code>,
+<code class="language-plaintext highlighter-rouge">commands</code>, <code class="language-plaintext highlighter-rouge">commands:ci</code>, <code class="language-plaintext highlighter-rouge">selectors</code>, <code class="language-plaintext highlighter-rouge">selectors:ci</code>, <code class="language-plaintext highlighter-rouge">inspectfields</code>,
+<code class="language-plaintext highlighter-rouge">inspectfields:ci</code>, <code class="language-plaintext highlighter-rouge">statusSummary</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">health</code>, and <code class="language-plaintext highlighter-rouge">ci</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_byte_latent_train_infer_compare_inspector.java</code>
+    <ul>
+      <li>compares two <code class="language-plaintext highlighter-rouge">train-infer-report.json</code> artifacts from checkpoint
+directories or direct file paths</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">overview</code>, <code class="language-plaintext highlighter-rouge">runs</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">health</code>, <code class="language-plaintext highlighter-rouge">ci</code>, <code class="language-plaintext highlighter-rouge">left</code>, <code class="language-plaintext highlighter-rouge">right</code>,
+and <code class="language-plaintext highlighter-rouge">delta:*</code> selectors such as <code class="language-plaintext highlighter-rouge">delta:latestTrainLoss</code>,
+<code class="language-plaintext highlighter-rouge">delta:nextToken</code>, <code class="language-plaintext highlighter-rouge">delta:nextTokens</code>, <code class="language-plaintext highlighter-rouge">delta:nextTokensPreview</code>,
+<code class="language-plaintext highlighter-rouge">delta:nextTokensCount</code>, and <code class="language-plaintext highlighter-rouge">delta:combinedText</code></li>
+      <li>those direct compare outputs now also include <code class="language-plaintext highlighter-rouge">reportVersion</code> plus
+<code class="language-plaintext highlighter-rouge">leftReportVersion</code> / <code class="language-plaintext highlighter-rouge">rightReportVersion</code> so live compares and exported
+compare bundles expose the same schema-version signal</li>
+      <li>direct compare mode now also supports a compact structured
+<code class="language-plaintext highlighter-rouge">compareSummary</code> object alongside the one-line <code class="language-plaintext highlighter-rouge">compareSummaryLine</code></li>
+      <li>direct compare mode now also supports <code class="language-plaintext highlighter-rouge">comparison</code> as the shared full
+comparison block that now matches the exported bundle manifest’s
+<code class="language-plaintext highlighter-rouge">comparison</code> structure</li>
+      <li>direct compare mode now also supports <code class="language-plaintext highlighter-rouge">selectors</code> and <code class="language-plaintext highlighter-rouge">selectors:ci</code> so
+live two-report comparisons can advertise their most useful follow-up
+queries</li>
+      <li>direct compare mode now also supports <code class="language-plaintext highlighter-rouge">inspectfields</code> and
+<code class="language-plaintext highlighter-rouge">inspectfields:ci</code> so live two-report comparisons can advertise their
+stable machine-readable field surface too</li>
+      <li>direct compare mode now also supports <code class="language-plaintext highlighter-rouge">artifactSummary</code> and
+<code class="language-plaintext highlighter-rouge">artifactSummaryLine</code> so live two-report comparisons expose the same
+compact dashboard shape as exported compare bundles</li>
+      <li>direct compare mode now also supports <code class="language-plaintext highlighter-rouge">commands</code> and <code class="language-plaintext highlighter-rouge">commands:ci</code> so
+live two-report comparisons can advertise their recommended query
+commands too</li>
+      <li>that standalone compare result JSON can now be reopened directly with
+<code class="language-plaintext highlighter-rouge">resultSummary</code> and <code class="language-plaintext highlighter-rouge">resultSummaryLine</code> for compact artifact-level
+follow-up</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultCommands</code> / <code class="language-plaintext highlighter-rouge">resultCommands:ci</code>,
+<code class="language-plaintext highlighter-rouge">resultSelectors</code> / <code class="language-plaintext highlighter-rouge">resultSelectors:ci</code>, and <code class="language-plaintext highlighter-rouge">resultFields</code> /
+<code class="language-plaintext highlighter-rouge">resultFields:ci</code> as more explicit artifact-centric aliases for the same
+standalone discovery surfaces</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultOverview</code> / <code class="language-plaintext highlighter-rouge">resultOverview:ci</code> and
+<code class="language-plaintext highlighter-rouge">resultHealth</code> / <code class="language-plaintext highlighter-rouge">resultHealth:ci</code> as artifact-centric overview and
+status aliases for reopened standalone compare-result files</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultManifest</code> / <code class="language-plaintext highlighter-rouge">resultManifest:ci</code> as explicit
+artifact-centric full-payload aliases for reopened standalone
+compare-result files</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultComparison</code> / <code class="language-plaintext highlighter-rouge">resultComparison:ci</code> as explicit
+artifact-centric compare-payload aliases for reopened standalone
+compare-result files</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultPayloads</code> / <code class="language-plaintext highlighter-rouge">resultPayloads:ci</code> as explicit
+artifact-centric source-report reference aliases for reopened
+standalone compare-result files</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultSources</code> / <code class="language-plaintext highlighter-rouge">resultSources:ci</code> as a more
+conversational alias family for the same reopened standalone
+source-report reference surface</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultAliases</code> / <code class="language-plaintext highlighter-rouge">resultAliases:ci</code> as a compact alias
+discovery surface for reopened standalone compare-result files</li>
+      <li><code class="language-plaintext highlighter-rouge">resultCommands</code> / <code class="language-plaintext highlighter-rouge">resultCommands:ci</code> now prefer a dedicated
+alias-oriented reopened-result command surface instead of falling back
+to the older live-compare command map</li>
+      <li><code class="language-plaintext highlighter-rouge">resultSelectors</code> / <code class="language-plaintext highlighter-rouge">resultSelectors:ci</code> now prefer a dedicated
+alias-oriented reopened-result selector surface instead of falling back
+to the older live-compare selector map</li>
+      <li><code class="language-plaintext highlighter-rouge">resultFields</code> / <code class="language-plaintext highlighter-rouge">resultFields:ci</code> now prefer a dedicated reopened-result
+field-discovery surface that describes the standalone result artifact
+schema directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultAliases</code> / <code class="language-plaintext highlighter-rouge">resultAliasesCi</code> alongside <code class="language-plaintext highlighter-rouge">resultCommands</code>,
+<code class="language-plaintext highlighter-rouge">resultSelectors</code>, and <code class="language-plaintext highlighter-rouge">resultFields</code>, so the reopened-result discovery
+family is explicit in the artifact contract itself</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultOverview</code> / <code class="language-plaintext highlighter-rouge">resultOverviewCi</code>, <code class="language-plaintext highlighter-rouge">resultManifest</code> /
+<code class="language-plaintext highlighter-rouge">resultManifestCi</code>, and <code class="language-plaintext highlighter-rouge">resultComparison</code> / <code class="language-plaintext highlighter-rouge">resultComparisonCi</code>, so
+the main reopened-result alias surfaces are explicitly present in the
+artifact contract itself</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultStatus</code> / <code class="language-plaintext highlighter-rouge">resultStatusCi</code> and <code class="language-plaintext highlighter-rouge">resultHealth</code> /
+<code class="language-plaintext highlighter-rouge">resultHealthCi</code>, so the artifact-centric status and health alias
+surfaces are explicitly present in the artifact contract itself</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboard</code> / <code class="language-plaintext highlighter-rouge">resultDashboardCi</code>, so the main reopened-result
+summary surfaces are available through one explicit high-signal block</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardFields</code> / <code class="language-plaintext highlighter-rouge">resultDashboardFieldsCi</code>, so the dashboard
+can advertise its embedded summary surfaces without requiring raw JSON
+inspection</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardCommands</code> / <code class="language-plaintext highlighter-rouge">resultDashboardCommandsCi</code>, so the
+dashboard can advertise the most useful embedded follow-up reopen
+commands directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardAliases</code> / <code class="language-plaintext highlighter-rouge">resultDashboardAliasesCi</code>, so the dashboard
+can advertise the preferred alias family for each embedded summary</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardSelectors</code> / <code class="language-plaintext highlighter-rouge">resultDashboardSelectorsCi</code>, so the
+dashboard can advertise the preferred selector-level follow-ups for
+its embedded summaries directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardOverview</code> / <code class="language-plaintext highlighter-rouge">resultDashboardOverviewCi</code>, so the
+dashboard has its own artifact-centric compact overview alias in
+addition to the broader result-level overview surface</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardStatus</code> / <code class="language-plaintext highlighter-rouge">resultDashboardStatusCi</code>, so the dashboard
+has a matching artifact-centric status alias in addition to the
+broader result-level status and health surfaces</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardHealth</code> / <code class="language-plaintext highlighter-rouge">resultDashboardHealthCi</code>, so the dashboard
+has the matching artifact-centric health alias that completes the
+dashboard overview/status/health trio</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardSummary</code> / <code class="language-plaintext highlighter-rouge">resultDashboardSummaryCi</code>, so the
+dashboard has one explicit artifact-centric summary alias that rolls
+overview, status, and health together</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardManifest</code> / <code class="language-plaintext highlighter-rouge">resultDashboardManifestCi</code>, so the
+dashboard family also has an explicit artifact-centric full payload
+alias that complements summary, overview, status, and health</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardFamilyCommands</code> / <code class="language-plaintext highlighter-rouge">resultDashboardFamilyCommandsCi</code>
+and <code class="language-plaintext highlighter-rouge">resultDashboardFamilySelectors</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardFamilySelectorsCi</code>, so the dashboard subtree can be
+browsed without mixing in the broader result-level entries</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardFamilyFields</code> / <code class="language-plaintext highlighter-rouge">resultDashboardFamilyFieldsCi</code>, so
+the dashboard subtree has matching field discovery alongside its
+dashboard-only commands and selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTree</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeCi</code>, so the whole
+dashboard subtree can be inspected as one compact hierarchical
+summary</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeFields</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeFieldsCi</code>, so the
+dashboard tree can advertise its embedded sections directly instead
+of only returning the aggregated tree payload</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCommands</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeCommandsCi</code>, so
+the dashboard tree can advertise its preferred follow-up reopen
+commands directly alongside its embedded-section summary</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeSelectors</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeSelectorsCi</code>,
+so the dashboard tree can advertise its preferred follow-up
+selectors directly alongside its embedded-section and command
+summaries</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeManifest</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeManifestCi</code>, so
+the dashboard tree has an explicit full-payload alias alongside its
+compact summary entrypoint</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeSummary</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeSummaryCi</code>, so
+the dashboard tree has an explicit compact summary alias alongside
+its full manifest-style entrypoint</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeDashboard</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeDashboardCi</code>,
+so the embedded dashboard branch can be reopened directly instead of
+only through the full tree payload</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreePaths</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreePathsCi</code>, so the
+dashboard tree can advertise its main reopen selectors in one
+compact artifact-centric navigation block</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalog</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogCi</code>, so
+paths, children, and counts can be reopened together through one
+compact tree navigation summary</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogFields</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogFieldsCi</code>, so the tree catalog can
+advertise its embedded summary blocks directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogCommands</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogCommandsCi</code>, so the tree catalog can
+advertise its main follow-up reopen commands directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogSelectors</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogSelectorsCi</code>, so the tree catalog can
+advertise its main follow-up selectors directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogManifest</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogManifestCi</code>, so the tree catalog gets an
+explicit full-payload alias alongside its compact summary</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogSummaryCi</code>, so the tree catalog gets an
+explicit compact-summary alias alongside its manifest alias</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogOverview</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogOverviewCi</code>, so the tree catalog gets a
+friendlier artifact-centric overview alias alongside its structural names</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryCi</code>, so the tree catalog can reopen
+one compact summary that rolls its path, child, and count summaries
+together</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryFields</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryFieldsCi</code>, so the compact tree
+summary can advertise its embedded <code class="language-plaintext highlighter-rouge">paths</code>, <code class="language-plaintext highlighter-rouge">children</code>, and <code class="language-plaintext highlighter-rouge">counts</code>
+blocks</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryCommands</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryCommandsCi</code>, so the compact tree
+summary can advertise its preferred follow-up commands</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummarySelectors</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummarySelectorsCi</code>, so the compact tree
+summary can advertise its preferred follow-up selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryAliases</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryAliasesCi</code>, so the compact tree
+summary can advertise its friendly follow-up alias names</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryDiscovery</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryDiscoveryCi</code>, so the compact tree
+summary can expose one tiny discovery header for its fields, commands,
+selectors, and aliases</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryLineage</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryLineageCi</code>, so the compact tree
+summary can advertise its parent result, dashboard, tree, and catalog
+ancestry</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryNavigation</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryNavigationCi</code>, so the compact tree
+summary can expose one combined “where am I and where can I go next”
+navigation header</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryBreadcrumbs</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryBreadcrumbsCi</code>, so the compact tree
+summary can expose a log-friendly breadcrumb path derived from lineage</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummarySitemap</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummarySitemapCi</code>, so the compact tree
+summary family can expose a machine-readable endpoint index</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryIndex</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryIndexCi</code>, so the compact tree
+summary family can expose a grouped <code class="language-plaintext highlighter-rouge">self</code>, <code class="language-plaintext highlighter-rouge">discovery</code>, and <code class="language-plaintext highlighter-rouge">leaves</code>
+endpoint index</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistry</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryCi</code>, so the compact tree
+summary family can expose one registry that combines grouped and flat
+endpoint counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryFields</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryFieldsCi</code>, so the compact
+tree summary registry can advertise its <code class="language-plaintext highlighter-rouge">index</code>, <code class="language-plaintext highlighter-rouge">sitemap</code>, and
+<code class="language-plaintext highlighter-rouge">breadcrumbs</code> blocks</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryCommands</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryCommandsCi</code>, so the compact
+tree summary registry can advertise direct commands for its registry,
+fields, index, sitemap, and breadcrumbs views</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySelectors</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySelectorsCi</code>, so the compact
+tree summary registry can advertise selector IDs for its registry, fields,
+index, sitemap, and breadcrumbs views</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryAliases</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryAliasesCi</code>, so the compact
+tree summary registry can advertise friendly aliases for its registry,
+fields, index, sitemap, and breadcrumbs views</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryDiscovery</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryDiscoveryCi</code>, so the compact
+tree summary registry can expose one discovery header for its fields,
+commands, selectors, and aliases</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryNavigation</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryNavigationCi</code>, so the compact
+tree summary registry can expose its current selector, parent tree-summary
+navigation, and registry discovery sections</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryBreadcrumbs</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryBreadcrumbsCi</code>, so the compact
+tree summary registry has its own log-friendly breadcrumb path beneath the
+broader tree-summary breadcrumb</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySitemap</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySitemapCi</code>, so the compact tree
+summary registry has its own flat endpoint list for registry-local discovery</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryIndex</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryIndexCi</code>, so the compact tree
+summary registry has grouped self, metadata, and discovery endpoint counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryOverview</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryOverviewCi</code>, so the compact
+tree summary registry has a one-stop summary of index, sitemap, and breadcrumb
+state</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryStatus</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryStatusCi</code>, so the compact tree
+summary registry can report whether grouped and flat endpoint counts stay in
+sync</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryHealth</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryHealthCi</code>, so the compact tree
+summary registry has a health-facing view over the registry status signal</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySummaryCi</code>, so the compact tree
+summary registry has one compact rollup over overview, status, and health</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryManifest</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryManifestCi</code>, so the compact
+tree summary registry has a manifest-style wrapper around summary, command,
+and selector counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryEnvelope</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryEnvelopeCi</code>, so the compact
+tree summary registry has one operational envelope over manifest, discovery,
+navigation, and breadcrumbs</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySnapshot</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistrySnapshotCi</code>, so the compact
+tree summary registry has one stable snapshot over envelope, index, and
+sitemap counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryAudit</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryAuditCi</code>, so the compact tree
+summary registry has an explicit pass/fail audit over snapshot health and
+endpoint balance</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryReport</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryReportCi</code>, so the compact tree
+summary registry has a report-facing wrapper around audit and snapshot status</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklist</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistCi</code>, so the compact
+tree summary registry exposes report readiness as individual checklist items</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistSummaryCi</code>, so the
+compact tree summary registry has a named checklist summary alias</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistStatus</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistStatusCi</code>, so the
+compact tree summary registry has a status-facing checklist readiness alias</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistHealth</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistHealthCi</code>, so the
+compact tree summary registry has a health-facing checklist readiness alias</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistBadge</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistBadgeCi</code>, so the
+compact tree summary registry has a one-line checklist badge alias for UI
+status consumers</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistCard</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistCardCi</code>, so the
+compact tree summary registry has a card-shaped checklist readiness alias
+for dashboard panels</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistPanel</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistPanelCi</code>, so the
+compact tree summary registry has a dashboard panel payload that groups
+card readiness, badge status, and details navigation</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistWidget</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistWidgetCi</code>, so the
+compact tree summary registry has a tiny embeddable checklist widget payload
+for status tiles</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistTile</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistTileCi</code>, so the
+compact tree summary registry has a display-oriented checklist tile payload
+with tone, value, and action selector fields</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistMetric</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistMetricCi</code>, so the
+compact tree summary registry has a numeric checklist readiness metric for
+dashboard chart consumers</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistTrend</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistTrendCi</code>, so the
+compact tree summary registry has a trend-ready checklist readiness series
+for dashboard history consumers</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistGauge</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistGaugeCi</code>, so the
+compact tree summary registry has a display-ready checklist readiness gauge
+for dashboard widget consumers</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistSummaryCard</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistSummaryCardCi</code>, so
+the compact tree summary registry has a one-fetch checklist readiness card
+for dashboard overview consumers</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistActionBar</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistActionBarCi</code>, so the
+compact tree summary registry has ready-made checklist action links for
+dashboard button consumers</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboard</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardCi</code>, so the
+compact tree summary registry has a one-fetch checklist dashboard section
+with summary and action selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardManifest</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardManifestCi</code>,
+so checklist dashboard clients can inspect the section schema and companion
+selectors without hardcoding them</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardSnapshot</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardSnapshotCi</code>,
+so checklist dashboard clients can capture manifest and dashboard state in
+one compact snapshot</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardAudit</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardAuditCi</code>,
+so checklist dashboard clients can read a compact audit verdict over the
+latest dashboard snapshot</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardReport</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardReportCi</code>,
+so checklist dashboard clients can fetch dashboard, manifest, snapshot, and
+audit selectors through one report surface</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardEnvelope</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardEnvelopeCi</code>,
+so checklist dashboard clients can transport the report with stable envelope
+metadata</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardPackage</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardPackageCi</code>,
+so checklist dashboard clients can deliver the envelope/report pair as one
+packaged payload</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardBundle</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardBundleCi</code>,
+so checklist dashboard clients can fetch package metadata and detail
+selectors as one self-contained bundle</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardDelivery</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardDeliveryCi</code>,
+so checklist dashboard clients can route the bundle through stable selector
+transport metadata</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardReceipt</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardReceiptCi</code>,
+so checklist dashboard clients can acknowledge the delivered bundle with a
+compact receipt surface</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardArchive</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardArchiveCi</code>,
+so checklist dashboard clients can retain a stable archived record of the
+delivered receipt chain</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardLedger</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardLedgerCi</code>,
+so checklist dashboard clients can expose the archived receipt chain as a
+compact ledger entry</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardHistory</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardHistoryCi</code>,
+so checklist dashboard clients can group ledger, archive, receipt, and
+delivery pointers into one compact history surface</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardTimeline</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardTimelineCi</code>,
+so checklist dashboard clients can read the delivered history chain as an
+ordered compact timeline</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardTrace</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardTraceCi</code>,
+so checklist dashboard clients can debug the timeline through a compact
+trace path</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardTelemetry</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardTelemetryCi</code>,
+so checklist dashboard clients can observe the trace through a compact
+telemetry summary</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardObservation</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardObservationCi</code>,
+so checklist dashboard clients can present telemetry as a compact observed
+state surface</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardSignal</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardSignalCi</code>,
+so CI clients can read the observed state as a tiny continue/review signal</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardInsight</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardInsightCi</code>,
+so CI logs can show a short human-readable signal explanation</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardRecommendation</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardRecommendationCi</code>,
+so CI clients can consume a direct priority/action recommendation</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardDecision</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardDecisionCi</code>,
+so gates can consume a final allow/block decision with a blocking reason</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGate</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateCi</code>,
+so shell scripts can consume a tiny open/closed gate with an exit code</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateLineCi</code>,
+so shell logs can print the gate as one compact status line</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateJson</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateJsonCi</code>,
+so structured CI clients can read the minimal gate fields as JSON</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateEnv</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateEnvCi</code>,
+so CI env-file steps can consume shell-friendly gate assignments</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateMarkdown</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateMarkdownCi</code>,
+so PR comments and CI summaries can show the gate as compact Markdown</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateSummaryCi</code>,
+so callers can fetch JSON, line, env, and Markdown gate renderings together</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateArtifact</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateArtifactCi</code>,
+so CI upload steps can capture gate renderings with result metadata and selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadManifest</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadManifestCi</code>,
+so CI upload steps can discover suggested gate artifact filenames and labels</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadScript</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadScriptCi</code>,
+so CI jobs can generate gate artifact files from the upload manifest selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadReadme</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadReadmeCi</code>,
+so uploaded gate artifact bundles can include a human-readable file inventory</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadBundle</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadBundleCi</code>,
+so CI callers can fetch the gate artifact, manifest, script, and README together</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadIndex</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadIndexCi</code>,
+so callers can discover the gate upload selectors from one compact index</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesIndex</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesIndexCi</code>,
+so CI archive jobs can list upload filenames, content types, selectors, and commands without parsing the full manifest</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesLineCi</code>,
+so logs and notifications can show upload filenames from one compact line</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesJsonLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesJsonLineCi</code>,
+so structured log collectors can read upload filenames as one JSON line</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesCsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesCsvLineCi</code>,
+so spreadsheet and archive jobs can read upload filenames as one CSV row</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesTsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesTsvLineCi</code>,
+so spreadsheet and archive jobs can read upload filenames as one TSV row</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesEnv</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesEnvCi</code>,
+so shell and CI jobs can source upload filenames without parsing CSV or TSV</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesMarkdown</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesMarkdownCi</code>,
+so release comments and review pages can show upload filenames as a Markdown table</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksums</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsCi</code>,
+so archive jobs can verify upload file payloads with deterministic SHA-256 metadata</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsLineCi</code>,
+so CI logs can print upload file integrity metadata without parsing JSON</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsMarkdown</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsMarkdownCi</code>,
+so release comments can show upload file integrity metadata as a Markdown table</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsEnv</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsEnvCi</code>,
+so shell and CI jobs can source upload file checksum metadata directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsJsonLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsJsonLineCi</code>,
+so structured log collectors can ingest upload file checksum metadata as JSONL</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsCsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsCsvLineCi</code>,
+so spreadsheet and archive jobs can ingest upload file checksum metadata as CSV</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsTsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsTsvLineCi</code>,
+so tab-safe reports can ingest upload file checksum metadata as TSV</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSummaryCi</code>,
+so dashboards can read upload checksum counts, byte totals, and preview filenames without parsing line formats</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsBadge</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsBadgeCi</code>,
+so dashboards and notifications can render a tiny upload checksum status label</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsCard</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsCardCi</code>,
+so UI tiles can render upload checksum badge, counts, byte totals, and drill-down selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsPanel</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsPanelCi</code>,
+so dashboards can render a richer upload checksum panel with card data and drill-down selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsWidget</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsWidgetCi</code>,
+so dashboards can embed a compact upload checksum widget with badge, metrics, preview filenames, and links</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsTile</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsTileCi</code>,
+so dashboards can embed a tiny upload checksum tile with value, caption, and drill-down selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsMetric</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsMetricCi</code>,
+so dashboards can ingest numeric upload checksum file and byte metrics with drill-down selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsTrend</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsTrendCi</code>,
+so dashboards can ingest trend-ready upload checksum values with baseline, delta, and drill-down selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsGauge</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsGaugeCi</code>,
+so dashboards can render a gauge-ready upload checksum status with ratio, percent, state, and selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSummaryCard</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSummaryCardCi</code>,
+so dashboards can render a compact upload checksum card with gauge, trend, headline fields, and selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsActionBar</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsActionBarCi</code>,
+so dashboards can render upload checksum actions for card, raw checksums, copy formats, and bundle handoff</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsMenu</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsMenuCi</code>,
+so dashboards can render grouped upload checksum navigation across overview, integrity, log, and handoff selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsToolbar</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsToolbarCi</code>,
+so dashboards can render compact upload checksum controls for menu, search, filter, card view, and JSONL export</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsCommandPalette</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsCommandPaletteCi</code>,
+so dashboards can render searchable upload checksum commands with groups, selectors, and keywords</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSearchIndex</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSearchIndexCi</code>,
+so dashboards can search upload checksum commands through normalized text entries, selectors, and keywords</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSearchResults</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsSearchResultsCi</code>,
+so dashboards can validate upload checksum search result rendering with a stable sample query and matches</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsFilterState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsFilterStateCi</code>,
+so dashboards can initialize upload checksum search filters with selected status, groups, and counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsViewState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsViewStateCi</code>,
+so dashboards can hydrate one upload checksum UI state with toolbar, filters, selectors, and search results</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsEmptyState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsEmptyStateCi</code>,
+so dashboards can render a no-match upload checksum fallback with suggestions and recovery actions</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsLoadingState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsLoadingStateCi</code>,
+so dashboards can render an in-flight upload checksum refresh state with skeleton rows and selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsErrorState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsErrorStateCi</code>,
+so dashboards can render a recoverable upload checksum refresh error with retry and fallback actions</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsToastState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsToastStateCi</code>,
+so dashboards can render compact success/loading/error checksum notifications with quick selectors</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationCenter</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationCenterCi</code>,
+so dashboards can render grouped checksum notification history with active, unread, and error counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationBadge</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationBadgeCi</code>,
+so dashboards can render a compact checksum notification badge with unread and error counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanel</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelCi</code>,
+so dashboards can render an expandable checksum notification panel with badge, groups, and top rows</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelLineCi</code>,
+so CI jobs can print the checksum notification panel status without expanding the full payload</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelJsonLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelJsonLineCi</code>,
+so structured log collectors can ingest checksum notification panel status as one JSONL record</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelCsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelCsvLineCi</code>,
+so spreadsheets can ingest checksum notification panel status as one CSV row</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelTsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelTsvLineCi</code>,
+so tab-safe log consumers can ingest checksum notification panel status as one TSV row</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelMarkdown</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelMarkdownCi</code>,
+so release notes and PR comments can include the checksum notification panel status and top rows</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelEnv</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelEnvCi</code>,
+so shell jobs can export checksum notification panel status and selector values</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelSummaryCard</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelSummaryCardCi</code>,
+so dashboards can render a compact checksum notification panel summary card</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelActionBar</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelActionBarCi</code>,
+so dashboards can render checksum notification panel action shortcuts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelMenu</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelMenuCi</code>,
+so dashboards can render grouped checksum notification panel navigation</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelToolbar</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelToolbarCi</code>,
+so dashboards can render checksum notification panel toolbar controls</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelCommandPalette</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelCommandPaletteCi</code>,
+so dashboards can expose searchable checksum notification panel commands</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelSearchIndex</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelSearchIndexCi</code>,
+so dashboards can index checksum notification panel commands by text, keyword, group, and selector</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelSearchResults</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelSearchResultsCi</code>,
+so dashboards can consume a filtered notification-panel command result set over the search index</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelFilterState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelFilterStateCi</code>,
+so dashboards can carry notification-panel query, group, status, and match-count filter defaults</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelViewState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelViewStateCi</code>,
+so dashboards can render notification-panel search results with toolbar, filters, and selector links</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelEmptyState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelEmptyStateCi</code>,
+so dashboards can render no-match notification-panel fallbacks with recovery actions</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelLoadingState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelLoadingStateCi</code>,
+so dashboards can render in-progress notification-panel refresh fallbacks with skeleton rows</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelErrorState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelErrorStateCi</code>,
+so dashboards can render recoverable notification-panel refresh failures with retry actions</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelToastState</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelToastStateCi</code>,
+so dashboards can render notification-panel success, loading, and retry toasts from one payload</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationCenter</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationCenterCi</code>,
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationBadge</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationBadgeCi</code>,
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationLineCi</code>,
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationJsonLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadFilesChecksumsNotificationPanelNotificationJsonLineCi</code>,
+so dashboards can render grouped notification-panel toast history with unread and error counts</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadStatus</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadStatusCi</code>,
+so CI jobs can check whether the gate upload bundle is ready from one compact status</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadStatusLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadStatusLineCi</code>,
+so shell scripts can read the upload readiness as one stable line</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadEnv</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadEnvCi</code>,
+so CI shells can read upload readiness as env-file variables</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadJsonLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadJsonLineCi</code>,
+so structured log collectors can read upload readiness as one JSON line</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadCsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadCsvLineCi</code>,
+so CI jobs can archive upload readiness as a compact CSV row</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadTsvLine</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDashboardGateUploadTsvLineCi</code>,
+so CI jobs can archive upload readiness as a compact TSV row</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDetails</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogTreeSummaryRegistryChecklistDetailsCi</code>, so the
+compact tree summary registry has a checklist details view with named checks</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogAliasesSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogAliasesSummaryCi</code>, so the tree catalog alias
+companion gets a named compact-summary alias alongside its base rows and
+compact summary surface</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogChildrenSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogChildrenSummaryCi</code>, so the tree catalog child
+companion gets the same named compact-summary path as the catalog
+command, selector, and alias companions</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogCountsSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogCountsSummaryCi</code>, so the tree catalog counts
+companion gets the same named compact-summary path as the catalog
+command, selector, alias, and child companions</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogCommandsSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogCommandsSummaryCi</code>, so the tree catalog’s
+command companion gets its own explicit compact-summary alias</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogSelectorsSummary</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogSelectorsSummaryCi</code>, so the tree catalog’s
+selector companion gets its own explicit compact-summary alias</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogAliases</code> /
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCatalogAliasesCi</code>, so the tree catalog can
+advertise its artifact-centric alias family directly</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeChildren</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeChildrenCi</code>, so
+the dashboard tree can advertise its main child branches directly
+instead of only through the broader field summary</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeCounts</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeCountsCi</code>, so the
+dashboard tree can expose its child and discovery totals directly in
+one compact machine-friendly block</li>
+      <li>standalone <code class="language-plaintext highlighter-rouge">result=standard</code> exports now also persist top-level
+<code class="language-plaintext highlighter-rouge">resultDashboardTreeAliases</code> / <code class="language-plaintext highlighter-rouge">resultDashboardTreeAliasesCi</code>, so
+the dashboard tree can advertise its preferred alias family
+alongside its field, command, and selector summaries</li>
+      <li>it also supports <code class="language-plaintext highlighter-rouge">resultStatus</code> / <code class="language-plaintext highlighter-rouge">resultStatus:ci</code> as a matching
+artifact-centric status alias family for reopened standalone
+compare-result files</li>
+      <li>it also persists top-level <code class="language-plaintext highlighter-rouge">commands</code> / <code class="language-plaintext highlighter-rouge">commandsCi</code>, <code class="language-plaintext highlighter-rouge">selectors</code> /
+<code class="language-plaintext highlighter-rouge">selectorsCi</code>, and <code class="language-plaintext highlighter-rouge">inspectfields</code> / <code class="language-plaintext highlighter-rouge">inspectfieldsCi</code> so the exported
+compare result has the same compact discovery vocabulary as the bundle path</li>
+      <li>direct compare mode now also supports <code class="language-plaintext highlighter-rouge">compareSummaryLine</code> as a one-line
+shell-friendly summary to match the exported compare bundle’s
+<code class="language-plaintext highlighter-rouge">comparisonSummary</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">bundle=standard</code> to export a machine-readable compare bundle with
+<code class="language-plaintext highlighter-rouge">overview.json</code>, <code class="language-plaintext highlighter-rouge">runs.json</code>, <code class="language-plaintext highlighter-rouge">delta-nextTokens.json</code>,
+<code class="language-plaintext highlighter-rouge">delta-nextTokensPreview.json</code>,
+<code class="language-plaintext highlighter-rouge">delta-nextTokensCount.json</code>, other key
+<code class="language-plaintext highlighter-rouge">delta-*.json</code> files, and <code class="language-plaintext highlighter-rouge">manifest.json</code></li>
+      <li>can reopen exported compare bundle directories with <code class="language-plaintext highlighter-rouge">bundleSummary</code>,
+<code class="language-plaintext highlighter-rouge">comparisonSummary</code>, <code class="language-plaintext highlighter-rouge">bundleFiles</code>, <code class="language-plaintext highlighter-rouge">bundleManifest</code>, <code class="language-plaintext highlighter-rouge">file:&lt;name&gt;</code>, and
+<code class="language-plaintext highlighter-rouge">loadfile:&lt;section&gt;</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">reportVersion</code> as the shortest selector for the compare-bundle
+manifest schema marker</li>
+      <li>exported compare bundle manifests now also carry a stable top-level
+<code class="language-plaintext highlighter-rouge">reportVersion</code> plus <code class="language-plaintext highlighter-rouge">leftReportVersion</code> / <code class="language-plaintext highlighter-rouge">rightReportVersion</code> source
+markers for schema-aware automation</li>
+      <li>exported compare bundle manifests now also expose <code class="language-plaintext highlighter-rouge">selectors</code> and
+<code class="language-plaintext highlighter-rouge">selectors:ci</code> so bundle consumers get a compact direct-query discovery
+surface without deriving it from the larger manifest fields</li>
+      <li><code class="language-plaintext highlighter-rouge">commands</code> and <code class="language-plaintext highlighter-rouge">commands:ci</code> summarize the recommended compare-bundle
+follow-up selectors for terminal and CI use</li>
+      <li><code class="language-plaintext highlighter-rouge">inspectfields</code> and <code class="language-plaintext highlighter-rouge">inspectfields:ci</code> summarize the machine-readable
+compare-bundle manifest fields for automation and quick discovery</li>
+      <li>exported compare bundle manifests also persist those recommendations in
+top-level <code class="language-plaintext highlighter-rouge">commands</code> and <code class="language-plaintext highlighter-rouge">commandsCi</code>, alongside the legacy
+<code class="language-plaintext highlighter-rouge">inspectCommands</code> and <code class="language-plaintext highlighter-rouge">inspectCommandsCi</code></li>
+      <li>exported compare bundle manifests also persist field discovery in
+top-level <code class="language-plaintext highlighter-rouge">inspectfields</code> and <code class="language-plaintext highlighter-rouge">inspectfieldsCi</code>, alongside the legacy
+<code class="language-plaintext highlighter-rouge">inspectFields</code> and <code class="language-plaintext highlighter-rouge">inspectFieldsCi</code></li>
+      <li>exported compare bundle manifests also persist <code class="language-plaintext highlighter-rouge">artifactSummary</code> and
+<code class="language-plaintext highlighter-rouge">artifactSummaryLine</code> for compact bundle-dashboard reuse</li>
+      <li>exported compare bundle manifests also expose top-level command shortcuts in
+<code class="language-plaintext highlighter-rouge">inspectBundleStatus</code>, <code class="language-plaintext highlighter-rouge">inspectBundleHealth</code>, <code class="language-plaintext highlighter-rouge">inspectBundleOverview</code>,
+<code class="language-plaintext highlighter-rouge">inspectBundleFiles</code>, and <code class="language-plaintext highlighter-rouge">inspectBundleLoadfile</code></li>
+      <li>exported compare bundle manifests also include a compact <code class="language-plaintext highlighter-rouge">comparison</code>
+block plus top-level <code class="language-plaintext highlighter-rouge">leftNextTokensPreview</code>,
+<code class="language-plaintext highlighter-rouge">rightNextTokensPreview</code>, and <code class="language-plaintext highlighter-rouge">nextTokensPreviewChanged</code> fields for
+lightweight automation</li>
+      <li>exported compare bundle manifests also include a one-line
+<code class="language-plaintext highlighter-rouge">comparisonSummary</code> string for simple CI or shell output</li>
+      <li>exported compare bundle manifests also expose top-level selector hints in
+<code class="language-plaintext highlighter-rouge">inspectBundleSummarySelector</code>, <code class="language-plaintext highlighter-rouge">inspectBundleFilesSummarySelector</code>,
+<code class="language-plaintext highlighter-rouge">inspectBundleNextTokensSelector</code>,
+<code class="language-plaintext highlighter-rouge">inspectBundleNextTokensPreviewSelector</code>,
+<code class="language-plaintext highlighter-rouge">inspectBundleNextTokensCountSelector</code>,
+<code class="language-plaintext highlighter-rouge">inspectBundleMissingFilesSelector</code>, and
+<code class="language-plaintext highlighter-rouge">inspectBundleMissingFilesTopSelector</code></li>
+      <li>exported compare bundle manifests also expose a compact status block in
+<code class="language-plaintext highlighter-rouge">status</code>, plus mirrored top-level scalars in <code class="language-plaintext highlighter-rouge">healthStatus</code>,
+<code class="language-plaintext highlighter-rouge">missingFileCount</code>, and <code class="language-plaintext highlighter-rouge">okFileCount</code></li>
+      <li>exported compare bundle manifests also expose <code class="language-plaintext highlighter-rouge">statusSummary</code> as a
+human-readable one-line health/status string</li>
+      <li><code class="language-plaintext highlighter-rouge">loadfile:</code> also supports <code class="language-plaintext highlighter-rouge">section=&lt;section&gt;</code>, <code class="language-plaintext highlighter-rouge">pick=first|last</code>, and
+<code class="language-plaintext highlighter-rouge">index=&lt;n&gt;</code> for deterministic compare-bundle file selection</li>
+      <li><code class="language-plaintext highlighter-rouge">bundleFiles</code> also supports filtered listing through <code class="language-plaintext highlighter-rouge">files:section=...</code>,
+<code class="language-plaintext highlighter-rouge">files:name=...</code>, <code class="language-plaintext highlighter-rouge">files:format=...</code>, <code class="language-plaintext highlighter-rouge">sort=...</code>, and <code class="language-plaintext highlighter-rouge">top=&lt;n&gt;</code></li>
+      <li>supports <code class="language-plaintext highlighter-rouge">bundleHealth</code> and <code class="language-plaintext highlighter-rouge">filesSummary:by=section|format</code> for compact
+compare-bundle integrity and file-count summaries</li>
+      <li><code class="language-plaintext highlighter-rouge">filesSummary</code> also supports <code class="language-plaintext highlighter-rouge">sort=-count</code> and <code class="language-plaintext highlighter-rouge">top=&lt;n&gt;</code> for trimmed
+compare-bundle rollups</li>
+      <li><code class="language-plaintext highlighter-rouge">bundleHealth</code> also supports <code class="language-plaintext highlighter-rouge">focus=files|sections|formats|all</code>,
+<code class="language-plaintext highlighter-rouge">sort=...</code>, and <code class="language-plaintext highlighter-rouge">top=&lt;n&gt;</code> for trimmed health diagnostics</li>
+      <li><code class="language-plaintext highlighter-rouge">bundleHealth:focus=files</code> also supports <code class="language-plaintext highlighter-rouge">section=...</code>, <code class="language-plaintext highlighter-rouge">name=...</code>,
+<code class="language-plaintext highlighter-rouge">format=...</code>, and <code class="language-plaintext highlighter-rouge">status=ok|missing</code> for filtered per-file health views</li>
+      <li>those same filters also apply before grouped
+<code class="language-plaintext highlighter-rouge">bundleHealth:focus=sections|formats</code> rollups</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">bundleStatus</code> and <code class="language-plaintext highlighter-rouge">bundleHealth:ci</code> as one-line compare-bundle
+health checks</li>
+      <li>supports <code class="language-plaintext highlighter-rouge">bundleOverview</code> and <code class="language-plaintext highlighter-rouge">bundleOverview:ci</code> for a more consistent
+compare-bundle overview path alongside the workflow bundle inspector</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/run_byte_latent_smoke.sh</code>
+    <ul>
+      <li>runs the byte-latent demo and key inspector checks together as a single
+contributor smoke path</li>
+      <li>leads with <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">health</code>, and <code class="language-plaintext highlighter-rouge">ci</code> inspector checks</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/run_byte_latent_workflow.sh</code>
+    <ul>
+      <li>provides one entrypoint for <code class="language-plaintext highlighter-rouge">fresh</code>, <code class="language-plaintext highlighter-rouge">resume</code>, and <code class="language-plaintext highlighter-rouge">full</code> smoke runs while
+ending <code class="language-plaintext highlighter-rouge">full</code> mode with a compact workflow summary for both checkpoint
+directories</li>
+      <li>summarizes checkpoint paths, history row counts, and follow-up inspector
+commands</li>
+      <li>leads those follow-up checkpoint commands with <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">health</code>, and <code class="language-plaintext highlighter-rouge">ci</code></li>
+      <li>leads its workflow-manifest and workflow-bundle follow-up commands with
+<code class="language-plaintext highlighter-rouge">status</code> and <code class="language-plaintext highlighter-rouge">health</code></li>
+      <li>prints <code class="language-plaintext highlighter-rouge">commands:summary</code> first for the workflow-manifest compact command rollup</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runcommands:fresh</code> and <code class="language-plaintext highlighter-rouge">runcommands:resume</code> in that
+workflow-manifest follow-up block</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runcommands:ci</code> there as the compact discovery summary for available per-run aliases</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runcommands</code> there as the discovery selector for available per-run aliases</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runcommands:all</code> there as the concise multi-run alias summary</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">inspectfields</code> there as the full machine-readable field-discovery selector</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">inspectfields:ci</code> there as the compact machine-readable field-discovery summary</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runfields:ci</code> there as the compact per-run field-discovery summary</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runfields</code> there as the per-run field-discovery selector</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runfields:ci</code> in each fresh/resume run summary as the compact
+per-run field-discovery hint</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runcommands:&lt;run&gt;</code> alongside <code class="language-plaintext highlighter-rouge">commands:ci:mode=&lt;run&gt;</code> in each</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runcommands:ci</code> in each fresh/resume run summary as the generic
+compact discovery hint for available per-run aliases</li>
+      <li>prints <code class="language-plaintext highlighter-rouge">runcommands:all</code> in each fresh/resume run summary as the concise
+multi-run alias overview path
+fresh/resume run summary for the matching single-line manifest-driven CI follow-up</li>
+      <li>writes a small workflow manifest JSON for downstream automation</li>
+      <li>records <code class="language-plaintext highlighter-rouge">workflowBundleDir</code> and <code class="language-plaintext highlighter-rouge">workflowBundleStatus</code> in that manifest</li>
+      <li>records <code class="language-plaintext highlighter-rouge">inspectWorkflowStatus</code>, <code class="language-plaintext highlighter-rouge">inspectWorkflowHealth</code>,
+<code class="language-plaintext highlighter-rouge">inspectBundleStatus</code>, and <code class="language-plaintext highlighter-rouge">inspectBundleHealth</code> in that manifest</li>
+      <li>records per-run <code class="language-plaintext highlighter-rouge">inspectWorkflowCommands</code> entries for the single-line
+<code class="language-plaintext highlighter-rouge">commands:ci:mode=&lt;run&gt;</code> workflow follow-up</li>
+      <li>records per-run <code class="language-plaintext highlighter-rouge">inspectRunCommands</code> entries for the shortest
+<code class="language-plaintext highlighter-rouge">runcommands:&lt;run&gt;</code> workflow follow-up</li>
+      <li>records per-run <code class="language-plaintext highlighter-rouge">inspectRunAll</code> entries for the concise multi-run
+<code class="language-plaintext highlighter-rouge">runcommands:all</code> workflow overview path</li>
+      <li>records per-run <code class="language-plaintext highlighter-rouge">inspectRunFields</code> entries for the compact
+<code class="language-plaintext highlighter-rouge">inspectfields:ci</code> machine-readable field-discovery hint</li>
+      <li>materializes a workflow bundle automatically in <code class="language-plaintext highlighter-rouge">full</code> mode</li>
+      <li>prints ready-to-run workflow-manifest inspector commands at the end</li>
+      <li>also prints workflow-bundle export and <code class="language-plaintext highlighter-rouge">loadfile:</code> examples at the end</li>
+      <li>preserves the older helper scripts for compatibility</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/run_byte_latent_resume_smoke.sh</code>
+    <ul>
+      <li>runs the byte-latent resume demo and key inspector checks together as a
+single contributor resumed-run smoke path</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="bytelatentmodelfamily"><code class="language-plaintext highlighter-rouge">ByteLatentModelFamily</code></h3>
+
+<p>Provides the canonical family id and paper citation:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">familyId</span> <span class="o">=</span> <span class="nc">ByteLatentModelFamily</span><span class="o">.</span><span class="na">FAMILY_ID</span><span class="o">;</span>
+<span class="nc">String</span> <span class="n">citation</span> <span class="o">=</span> <span class="nc">ByteLatentModelFamily</span><span class="o">.</span><span class="na">PAPER_CITATION</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h2 id="-module-direction">🧭 Module Direction</h2>
+
+<p>Planned follow-on modules around this family:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek-ml-language-core</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek-ml-byte-io</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek-runner-byte-latent</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek-trainer-byte-latent</code></li>
+</ul>
+
+<h2 id="boundary">Boundary</h2>
+
+<p>This module does <strong>not</strong> replace:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek-ml-transformer</code> for generic attention blocks</li>
+  <li><code class="language-plaintext highlighter-rouge">gollek-ml-nlp</code> for token-oriented NLP utilities</li>
+  <li><code class="language-plaintext highlighter-rouge">gollek-ml-diffusion-*</code> for diffusion-specific training</li>
+</ul>
+
+<p>It exists to keep byte-latent language modeling as its own architectural lane.</p>
+
+<hr />
+
+<p><a href="../">Back to API Hub</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

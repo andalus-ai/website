@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Documentation</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <section class="hero hero-compact">
+  <p class="eyebrow">Documentation Hub</p>
+  <h1>Gollek SDK Documentation</h1>
+  <p class="lead">Comprehensive guides, API references, and examples for building AI-powered applications with Gollek SDK.</p>
+</section>
+
+<section class="quick-grid">
+  <a class="quick-card" href="#getting-started">
+    <h3>🚀 Getting Started</h3>
+    <p>Installation, quickstart, and setup guides.</p>
+  </a>
+  <a class="quick-card" href="#core-concepts">
+    <h3>📚 Core Concepts</h3>
+    <p>Architecture, API reference, and fundamentals.</p>
+  </a>
+  <a class="quick-card" href="#model-formats">
+    <h3>📦 Model Formats</h3>
+    <p>GGUF, ONNX, TFLite, audio, and quantization.</p>
+  </a>
+  <a class="quick-card" href="#advanced">
+    <h3>🔬 Advanced</h3>
+    <p>GPU kernels, audio processing, and plugins.</p>
+  </a>
+  <a class="quick-card" href="#examples">
+    <h3>💡 Examples</h3>
+    <p>JBang scripts, tutorials, and code samples.</p>
+  </a>
+  <a class="quick-card" href="#support">
+    <h3>🛟 Support</h3>
+    <p>Troubleshooting, error codes, and help.</p>
+  </a>
+</section>
+
+<hr />
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>Essential guides to get you up and running quickly.</p>
+
+<h3 id="sdk-installation"><a href="/docs/setup/sdk-installation">SDK Installation</a></h3>
+<p>Install Gollek as a Maven/Gradle dependency for use in Java projects. Includes quick start examples and GPU acceleration setup.</p>
+
+<p><strong>Maven Setup</strong>:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>tech.kayys.gollek<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>gollek-ml-ml<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.3.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="jbang-setup"><a href="/docs/setup/jbang-setup">JBang Setup</a></h3>
+<p>Run Gollek examples without build tools. JBang handles all dependencies automatically.</p>
+
+<p><strong>Quick Start</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-Ls</span> https://sh.jbang.dev | bash <span class="nt">-s</span> -
+jbang examples/jbang/sdk/unified_framework_demo.java <span class="nt">--demo</span> all
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="trainer-jbang-docs"><a href="/docs/setup/trainer-jbang-docs">Trainer JBang Docs</a></h3>
+<p>Routing page for the terminal-first trainer lane.</p>
+
+<p><strong>Use it for</strong>:</p>
+<ul>
+  <li>generic trainer runtime entrypoints</li>
+  <li>Byte-Latent trainer workflows</li>
+  <li>DiffusionOPD trainer/report workflows</li>
+  <li>Recursive Reasoning trainer/report workflows</li>
+</ul>
+
+<hr />
+
+<h3 id="cli-installation"><a href="/docs/setup/cli-installation">CLI Installation</a></h3>
+<p>Install the Gollek CLI via release installer, Homebrew, or Chocolatey for macOS, Linux, and Windows.</p>
+
+<p><strong>Quick Install</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># macOS/Linux</span>
+curl <span class="nt">-sSL</span> https://raw.githubusercontent.com/bhangun/gollek/main/scripts/install.sh | bash
+
+<span class="c"># Windows</span>
+winget <span class="nb">install </span>gollek
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="github-packages-deployment"><a href="/docs/dev-log/github-packages-deployment">GitHub Packages Deployment</a></h3>
+<p>Use Gollek SDK in Maven projects via GitHub Packages. Configure repositories, authenticate, and manage dependencies.</p>
+
+<p><strong>Maven Setup</strong>:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;repository&gt;</span>
+    <span class="nt">&lt;id&gt;</span>github<span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;url&gt;</span>https://maven.pkg.github.com/bhangun/gollek<span class="nt">&lt;/url&gt;</span>
+<span class="nt">&lt;/repository&gt;</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="core-api"><a href="/docs/runtime/core-api">Core API</a></h3>
+<p>Main entry point for all SDK operations. Learn about <code class="language-plaintext highlighter-rouge">GollekLocalClient</code>, <code class="language-plaintext highlighter-rouge">InferenceRequest</code>, <code class="language-plaintext highlighter-rouge">InferenceResponse</code>, and completion APIs.</p>
+
+<p><strong>Key Topics</strong>:</p>
+<ul>
+  <li>Creating SDK instances</li>
+  <li>Building inference requests</li>
+  <li>Executing synchronous and streaming inference</li>
+  <li>Async jobs and batch processing</li>
+</ul>
+
+<hr />
+
+<h3 id="examples"><a href="/docs/setup/examples">Examples</a></h3>
+<p>Code examples and usage patterns for common scenarios including streaming, async jobs, and provider selection.</p>
+
+<hr />
+
+<h3 id="examples-docs"><a href="/docs/setup/examples-docs">Examples Docs</a></h3>
+<p>Landing page for choosing between code examples, broad JBang examples, and
+trainer-specific JBang workflows.</p>
+
+<hr />
+
+<h2 id="-v03-new-features">🆕 v0.3 New Features</h2>
+
+<h3 id="unified-model-runner"><a href="/docs/framework/inference">Unified Model Runner</a></h3>
+<p>Single API for all frameworks (GGUF, ONNX, LiteRT, TensorRT). No more framework-specific code.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ModelRunner</span> <span class="n">runner</span> <span class="o">=</span> <span class="nc">ModelRunner</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">modelPath</span><span class="o">(</span><span class="s">"model.onnx"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">device</span><span class="o">(</span><span class="nc">RunnerDevice</span><span class="o">.</span><span class="na">CUDA</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h3 id="dynamic-batching-engine"><a href="/docs/framework/inference#dynamic-batching">Dynamic Batching Engine</a></h3>
+<p>Automatic request batching with SLA enforcement. 5-10x throughput improvement.</p>
+
+<h3 id="graph-fusion-engine"><a href="/docs/framework/inference#graph-fusion">Graph Fusion Engine</a></h3>
+<p>Fuse multiple operations into single kernels. 3-10x speedup from reduced launch overhead.</p>
+
+<h3 id="quantization-engine"><a href="/docs/framework/inference#quantization">Quantization Engine</a></h3>
+<p>INT4/INT8/FP8 quantization with AWQ/GPTQ algorithms. 4-8x memory reduction.</p>
+
+<h3 id="shared-memory-pool"><a href="/docs/framework/inference#shared-memory-pool">Shared Memory Pool</a></h3>
+<p>Zero-copy tensor allocation across frameworks. Unified memory management.</p>
+
+<hr />
+
+<h2 id="core-concepts">Core Concepts</h2>
+
+<p>Fundamental concepts and architecture documentation.</p>
+
+<h3 id="architecture"><a href="/docs/runtime/architecture">Architecture</a></h3>
+<p>System architecture overview including SDK layers, provider system, model repository, and inference pipeline.</p>
+
+<p><strong>Diagram</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------+     +-------------------+     +------------------+
+|  Gollek Client   | --&gt; |  Inference Svc    | --&gt; |   Providers      |
++------------------+     +-------------------+     +------------------+
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="core-runtime-architecture"><a href="/docs/runtime/core-runtime-architecture">Core Runtime Architecture</a></h3>
+<p>Deep dive into the runtime engine, execution model, and performance characteristics.</p>
+
+<hr />
+
+<h3 id="plugin-system-v2"><a href="/docs/plugins/plugin-system-v2">Plugin System v2</a></h3>
+<p>Extensible plugin architecture for custom providers, features, and runners.</p>
+
+<p><strong>Plugin Types</strong>:</p>
+<ul>
+  <li><strong>Feature Plugins</strong>: Add new capabilities</li>
+  <li><strong>Runner Plugins</strong>: Model format support (GGUF, ONNX, etc.)</li>
+  <li><strong>Kernel Plugins</strong>: Hardware acceleration (CUDA, Metal, ROCm)</li>
+</ul>
+
+<hr />
+
+<h3 id="enhanced-plugin-architecture"><a href="/docs/plugins/enhanced-plugin-architecture">Enhanced Plugin Architecture</a></h3>
+<p>Advanced plugin patterns with kernel auto-detection and isolation strategies.</p>
+
+<hr />
+
+<h3 id="enhanced-runner-plugin-architecture"><a href="/docs/plugins/enhanced-runner-plugin-architecture">Enhanced Runner Plugin Architecture</a></h3>
+<p>Building custom model runners with enhanced plugin system.</p>
+
+<hr />
+
+<h3 id="feature-plugins"><a href="/docs/plugins/feature-plugins">Feature Plugins</a></h3>
+<p>Extend Gollek with custom features and capabilities.</p>
+
+<hr />
+
+<h3 id="optimization-plugins"><a href="/docs/plugins/optimization-plugins">Optimization Plugins</a></h3>
+<p>Performance optimization plugins for inference acceleration.</p>
+
+<hr />
+
+<h3 id="plugin-examples"><a href="/docs/plugins/plugin-examples">Plugin Examples</a></h3>
+<p>Working examples of plugin implementations.</p>
+
+<hr />
+
+<h3 id="plugin-templates"><a href="/docs/plugins/plugin-templates">Plugin Templates</a></h3>
+<p>Starter templates for building your own plugins.</p>
+
+<hr />
+
+<h3 id="plugin-migration"><a href="/docs/plugins/plugin-migration">Plugin Migration</a></h3>
+<p>Migrate from v1 to v2 plugin system.</p>
+
+<hr />
+
+<h3 id="enhanced-plugin-system-v2"><a href="/docs/plugins/enhanced-plugin-system-v2">Enhanced Plugin System v2</a></h3>
+<p>Complete guide to the enhanced plugin architecture.</p>
+
+<hr />
+
+<h3 id="kernel-auto-detection"><a href="/docs/runtime/kernel-auto-detection">Kernel Auto-Detection</a></h3>
+<p>Automatic hardware kernel detection and selection.</p>
+
+<hr />
+
+<h3 id="storage-layout"><a href="/docs/dev-log/storage-layout">Storage Layout</a></h3>
+<p>Understanding Gollek’s local storage structure for models and caches.</p>
+
+<p><strong>Default Location</strong>: <code class="language-plaintext highlighter-rouge">~/.gollek/</code></p>
+
+<hr />
+
+<h3 id="enhancement-history"><a href="/docs/dev-log/enhancement-history">Enhancement History</a></h3>
+<p>Complete development history and changelog.</p>
+
+<hr />
+
+<h3 id="phase-1-completion"><a href="/docs/dev-log/phase1-completion">Phase 1 Completion</a></h3>
+<p>Integration testing results and milestones (41 tests passed).</p>
+
+<hr />
+
+<h3 id="phase-2-completion"><a href="/docs/dev-log/phase2-completion">Phase 2 Completion</a></h3>
+<p>Performance optimization results (3x throughput improvement).</p>
+
+<hr />
+
+<h2 id="model-formats">Model Formats</h2>
+
+<p>Supported model formats and conversion tools.</p>
+
+<h3 id="gguf-enhancements"><a href="/docs/runtime/gguf-enhancements">GGUF Enhancements</a></h3>
+<p>K-quant support (Q2_K, Q4_K, Q5_K, Q6_K), 40+ model families, and quantization improvements.</p>
+
+<p><strong>Supported Families</strong>:</p>
+<ul>
+  <li>Llama, Mistral, DeepSeek, Yi, DBRX, Grok, Jamba, Mamba, RWKV</li>
+</ul>
+
+<hr />
+
+<h3 id="quantization"><a href="/docs/framework/quantization-docs">Quantization</a></h3>
+<p>GPTQ INT4/INT8 and FP8 quantization with SafeTensors format for 4-8x compression.</p>
+
+<p><strong>Quantization Types</strong>:</p>
+<ul>
+  <li><strong>GPTQ INT4</strong>: 8x compression</li>
+  <li><strong>INT8</strong>: 4x compression</li>
+  <li><strong>FP8</strong>: GPU tensor core optimization</li>
+</ul>
+
+<hr />
+
+<h3 id="safetensor-runner-integration"><a href="/docs/runtime/safetensor-runner-integration">Safetensor Runner Integration</a></h3>
+<p>Direct inference from Safetensors format models.</p>
+
+<hr />
+
+<h3 id="runner-plugins"><a href="/docs/plugins/runner-plugins">Runner Plugins</a></h3>
+<p>Model runner implementations for different formats.</p>
+
+<hr />
+
+<h3 id="moss-tts-onnx-audio"><a href="/docs/runtime/moss-tts-onnx">MOSS TTS ONNX Audio</a></h3>
+<p>Local text-to-speech through the MOSS TTS Nano ONNX pipeline with companion codec orchestration, voice presets, Suling WAV/FLAC/MP3 output, and live PCM preview.</p>
+
+<p><strong>CLI Recipes</strong>:</p>
+<ul>
+  <li>Balanced MP3: <code class="language-plaintext highlighter-rouge">--voice "en Trump" --audio-quality balanced --output hello.mp3</code></li>
+  <li>Lossless FLAC: <code class="language-plaintext highlighter-rouge">--audio-quality lossless --output hello.flac</code></li>
+  <li>Live preview: <code class="language-plaintext highlighter-rouge">--live-audio --output hello.mp3</code></li>
+</ul>
+
+<hr />
+
+<h2 id="advanced">Advanced Topics</h2>
+
+<p>Advanced features and specialized capabilities.</p>
+
+<h3 id="gpu-runtime-docs"><a href="/docs/runtime/gpu-runtime-docs">GPU Runtime Docs</a></h3>
+<p>Native CUDA, Blackwell, ROCm, and Metal kernels with FlashAttention-2/3.</p>
+
+<p><strong>Supported Hardware</strong>:</p>
+<ul>
+  <li>NVIDIA CUDA (including Blackwell)</li>
+  <li>AMD ROCm</li>
+  <li>Apple Metal (M1/M2/M3)</li>
+</ul>
+
+<hr />
+
+<h3 id="audio-processing-docs"><a href="/docs/framework/audio-processing-docs">Audio Processing Docs</a></h3>
+<p>Speech-to-text, text-to-speech, audio encoding, and VAD pipeline.</p>
+
+<p><strong>Capabilities</strong>:</p>
+<ul>
+  <li><strong>STT</strong>: Whisper with 99+ languages</li>
+  <li><strong>TTS</strong>: MOSS TTS ONNX with voice selectors and companion codec discovery</li>
+  <li><strong>Encoding</strong>: Suling WAV/FLAC/MP3 output, including FFmpeg-backed MP3</li>
+  <li><strong>VAD</strong>: Voice activity detection</li>
+  <li><strong>Streaming</strong>: Progress events, encoded chunks, and optional live PCM preview</li>
+</ul>
+
+<hr />
+
+<h3 id="multimodal-sdk"><a href="/docs/framework/multimodal-sdk">Multimodal SDK</a></h3>
+<p>Vision-language models and multimodal inference.</p>
+
+<hr />
+
+<h3 id="ml-sdk"><a href="/docs/framework/ml-sdk">ML SDK</a></h3>
+<p>Embedded ML SDK: PyTorch-like Tensors, Autograd, NN Modules, and training in pure Java.</p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>Tensor operations with autograd</li>
+  <li>Neural network layers (Linear, Conv, Attention)</li>
+  <li>Loss functions and optimizers</li>
+  <li>Model persistence (GGUF, Safetensors)</li>
+</ul>
+
+<hr />
+
+<h3 id="native-library-guide"><a href="/docs/runtime/native-library-guide">Native Library Guide</a></h3>
+<p>Building and using native libraries with Gollek.</p>
+
+<hr />
+
+<h3 id="native-ffi"><a href="/docs/runtime/native-ffi">Native FFI</a></h3>
+<p>GraalVM native image support with C FFI for embedded integration.</p>
+
+<hr />
+
+<h3 id="native-compilation"><a href="/docs/runtime/native-compilation">Native Compilation</a></h3>
+<p>Compiling Gollek to native executables.</p>
+
+<hr />
+
+<h3 id="developer-guidance"><a href="/docs/dev-log/developer-guidance">Developer Guidance</a></h3>
+<p>Best practices, tips, and tricks for Gollek development.</p>
+
+<p><strong>Topics</strong>:</p>
+<ul>
+  <li>Metal GPU smoke test</li>
+  <li>LiteRT TFLite setup</li>
+  <li>Performance tuning</li>
+  <li>Memory management</li>
+</ul>
+
+<hr />
+
+<h3 id="cloud-provider-docs"><a href="/docs/runtime/cloud-provider-docs">Cloud Provider Docs</a></h3>
+<p>Cloud inference providers: OpenAI, Anthropic, Google Gemini, Cerebras, Mistral.</p>
+
+<hr />
+
+<h2 id="examples">Examples &amp; Tutorials</h2>
+
+<p>Hands-on examples and tutorials.</p>
+
+<h3 id="jbang-examples-catalog"><a href="/docs/setup/jbang-examples">JBang Examples Catalog</a></h3>
+<p><strong>23+ ready-to-run Java scripts</strong> covering:</p>
+<ul>
+  <li>🟢 Beginner: Hello World, templates</li>
+  <li>🔵 Neural Networks: MLP, training, persistence</li>
+  <li>🟣 NLP: Sentiment, transformers, chatbots</li>
+  <li>🟠 ML Integrations: DL4J, Stanford NLP, Smile, Tribuo</li>
+</ul>
+
+<p><strong>Quick Start</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang https://raw.githubusercontent.com/bhangun/gollek/main/gollek/sdk/integration/jbang-templates/examples/common/hello_gollek.java
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="trainer-jbang-docs-1"><a href="/docs/setup/trainer-jbang-docs">Trainer JBang Docs</a></h3>
+<p>Terminal-first entry page for the trainer lane.</p>
+
+<p><strong>Use it for</strong>:</p>
+<ul>
+  <li>generic trainer runtime routing</li>
+  <li>Byte-Latent, DiffusionOPD, and Recursive Reasoning trainer workflows</li>
+  <li>guided handoff into the trainer-specific advanced tutorial</li>
+</ul>
+
+<hr />
+
+<h3 id="jupyter--jbang-integration"><a href="/docs/dev-log/jupyter-jbang-integration">Jupyter &amp; JBang Integration</a></h3>
+<p>Interactive development with Jupyter notebooks and jbang scripts.</p>
+
+<p><strong>What You’ll Learn</strong>:</p>
+<ul>
+  <li>Setting up Jupyter Java kernel</li>
+  <li>Interactive model building</li>
+  <li>Converting notebooks to scripts</li>
+  <li>Team collaboration workflows</li>
+</ul>
+
+<hr />
+
+<h3 id="cli-reference"><a href="/docs/setup/cli-reference">CLI Reference</a></h3>
+<p>Complete CLI command reference including <code class="language-plaintext highlighter-rouge">gollek chat</code>, <code class="language-plaintext highlighter-rouge">gollek convert</code>, and more.</p>
+
+<p><strong>Common Commands</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek chat <span class="nt">--provider</span> gemini
+gollek convert <span class="nt">--input</span> model.safetensors <span class="nt">--output</span> model.gguf
+gollek list-models
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="support">Support</h2>
+
+<p>Troubleshooting and help resources.</p>
+
+<h3 id="troubleshooting"><a href="/docs/setup/troubleshooting">Troubleshooting</a></h3>
+<p>Common issues and solutions.</p>
+
+<p><strong>Common Problems</strong>:</p>
+<ul>
+  <li>Dependency resolution failures</li>
+  <li>Model not found errors</li>
+  <li>GPU/CUDA issues</li>
+  <li>Memory problems</li>
+</ul>
+
+<hr />
+
+<h3 id="error-codes"><a href="/docs/setup/error-codes">Error Codes</a></h3>
+<p>Complete error code reference with descriptions and solutions.</p>
+
+<p><strong>Error Categories</strong>:</p>
+<ul>
+  <li><strong>INFERENCE_</strong>*: Inference-related errors</li>
+  <li><strong>MODEL_</strong>*: Model loading/management errors</li>
+  <li><strong>PROVIDER_</strong>*: Provider configuration errors</li>
+  <li><strong>RUNTIME_</strong>*: Runtime execution errors</li>
+</ul>
+
+<hr />
+
+<h3 id="git-repository-cleanup"><a href="/docs/dev-log/git-repository-cleanup">Git Repository Cleanup</a></h3>
+<p>Guide for cleaning up large files from git history.</p>
+
+<hr />
+
+<h3 id="github-packages-deployment-1"><a href="/docs/dev-log/github-packages-deployment">GitHub Packages Deployment</a></h3>
+<p>Publishing and consuming packages via GitHub Packages.</p>
+
+<hr />
+
+<h2 id="quick-reference">Quick Reference</h2>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># CLI (macOS/Linux)</span>
+curl <span class="nt">-sSL</span> https://raw.githubusercontent.com/bhangun/gollek/main/scripts/install.sh | bash
+
+<span class="c"># CLI (Windows)</span>
+winget <span class="nb">install </span>gollek
+
+<span class="c"># Maven Dependency</span>
+<span class="c"># See: /docs/dev-log/github-packages-deployment</span>
+</code></pre></div></div>
+
+<h3 id="first-inference">First Inference</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GollekLocalClient</span> <span class="n">client</span> <span class="o">=</span> <span class="nc">GollekSdkFactory</span><span class="o">.</span><span class="na">createLocalSdk</span><span class="o">();</span>
+<span class="nc">InferenceRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="nc">InferenceRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">model</span><span class="o">(</span><span class="s">"llama-3.2-3b-instruct"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">prompt</span><span class="o">(</span><span class="s">"Hello, world!"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="nc">InferenceResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">createCompletion</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="run-jbang-example">Run JBang Example</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang https://raw.githubusercontent.com/bhangun/gollek/main/gollek/sdk/integration/jbang-templates/examples/common/hello_gollek.java
+</code></pre></div></div>
+
+<h3 id="configure-api-keys">Configure API Keys</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
+<span class="nb">export </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span>sk-ant-...
+<span class="nb">export </span><span class="nv">GOOGLE_API_KEY</span><span class="o">=</span>...
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="documentation-categories">Documentation Categories</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Pages</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Getting Started</strong></td>
+      <td>5</td>
+      <td>Installation, setup, quickstart</td>
+    </tr>
+    <tr>
+      <td><strong>Core Concepts</strong></td>
+      <td>15</td>
+      <td>Architecture, API, plugins</td>
+    </tr>
+    <tr>
+      <td><strong>Model Formats</strong></td>
+      <td>5</td>
+      <td>GGUF, quantization, runners</td>
+    </tr>
+    <tr>
+      <td><strong>Advanced</strong></td>
+      <td>10</td>
+      <td>GPU, audio, native, ML SDK</td>
+    </tr>
+    <tr>
+      <td><strong>Examples</strong></td>
+      <td>3</td>
+      <td>JBang, Jupyter, CLI reference</td>
+    </tr>
+    <tr>
+      <td><strong>Support</strong></td>
+      <td>5</td>
+      <td>Troubleshooting, errors, help</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="additional-resources">Additional Resources</h2>
+
+<ul>
+  <li><a href="/blog/">Blog</a> - Latest news and announcements</li>
+  <li><a href="/features/">Features</a> - Feature overview</li>
+  <li><a href="https://github.com/bhangun/gollek">GitHub</a> - Source code and issues</li>
+  <li><a href="https://github.com/bhangun/gollek/discussions">Discussions</a> - Community discussions</li>
+</ul>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Last Updated</strong>: March 2026</td>
+      <td><strong>Version</strong>: 1.0.0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><a href="/">Back to Home</a> · <a href="https://github.com/bhangun/gollek">View on GitHub</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

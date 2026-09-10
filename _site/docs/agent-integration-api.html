@@ -1,0 +1,1852 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Integration API | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Agent Integration API</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="agent-integration-api">Agent Integration API</h1>
+
+<p>Gollek exposes an agent-facing serving contract for systems such as Wayang-Gollek. The API lets an external agent runtime discover serving capabilities, validate payloads, fetch MCP tool definitions, create embeddings, inject caller-selected RAG context, and call OpenAI-compatible generation endpoints.</p>
+
+<p>Gollek does not plan, execute tools, own memory, or manage workflow state. Those decisions stay in Wayang-Gollek or another agent orchestrator.</p>
+
+<h2 id="endpoint-summary">Endpoint Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Purpose</th>
+      <th>Method</th>
+      <th>Path</th>
+      <th>Model Invoked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Capability discovery</td>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/agent/capabilities</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Machine-readable contract</td>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/agent/contract</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Readiness issue catalog</td>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/agent/readiness/issues</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Serving preflight</td>
+      <td><code class="language-plaintext highlighter-rouge">POST</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/agent/preflight</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Request validation</td>
+      <td><code class="language-plaintext highlighter-rouge">POST</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/agent/validate?surface={surface}</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Tool schema validation</td>
+      <td><code class="language-plaintext highlighter-rouge">POST</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/agent/tools/validate</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>MCP server discovery</td>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/mcp/servers</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>MCP tool discovery</td>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/mcp/tools?compat=openai</code></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Chat Completions</td>
+      <td><code class="language-plaintext highlighter-rouge">POST</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/chat/completions</code></td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Responses</td>
+      <td><code class="language-plaintext highlighter-rouge">POST</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/responses</code></td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Embeddings</td>
+      <td><code class="language-plaintext highlighter-rouge">POST</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/embeddings</code></td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Model capabilities</td>
+      <td><code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/v1/models/{id}/capabilities</code></td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Use <code class="language-plaintext highlighter-rouge">GET /v1/agent/contract</code> as the source of truth for the current schema hints. The current contract object uses <code class="language-plaintext highlighter-rouge">version: "v1"</code>, <code class="language-plaintext highlighter-rouge">contract_version: "v1"</code>, <code class="language-plaintext highlighter-rouge">supported_contract_versions: ["v1"]</code>, and <code class="language-plaintext highlighter-rouge">service_role: "inference_serving_engine"</code>.</p>
+
+<h2 id="auth-and-trace">Auth And Trace</h2>
+
+<p>Deployments can expose API-key and authorization headers according to the returned contract. The Java SDK sends Gollek trace headers through <code class="language-plaintext highlighter-rouge">AgentRequestOptions</code>.
+For compatibility with Gollek’s serving endpoints, the SDK sends both <code class="language-plaintext highlighter-rouge">X-API-Key: &lt;token&gt;</code> and <code class="language-plaintext highlighter-rouge">Authorization: Bearer &lt;token&gt;</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Header</th>
+      <th>Body aliases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Request id</td>
+      <td><code class="language-plaintext highlighter-rouge">X-Gollek-Request-Id</code></td>
+      <td><code class="language-plaintext highlighter-rouge">request_id</code></td>
+    </tr>
+    <tr>
+      <td>Trace id</td>
+      <td><code class="language-plaintext highlighter-rouge">X-Gollek-Trace-Id</code></td>
+      <td><code class="language-plaintext highlighter-rouge">trace_id</code>, <code class="language-plaintext highlighter-rouge">trace</code></td>
+    </tr>
+    <tr>
+      <td>Session id</td>
+      <td><code class="language-plaintext highlighter-rouge">X-Gollek-Session-Id</code></td>
+      <td><code class="language-plaintext highlighter-rouge">session_id</code>, <code class="language-plaintext highlighter-rouge">conversation</code>, <code class="language-plaintext highlighter-rouge">previous_response_id</code></td>
+    </tr>
+    <tr>
+      <td>User id</td>
+      <td><code class="language-plaintext highlighter-rouge">X-Gollek-User-Id</code></td>
+      <td><code class="language-plaintext highlighter-rouge">user</code>, <code class="language-plaintext highlighter-rouge">user_id</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Gollek propagates trace details into response headers and response metadata under <code class="language-plaintext highlighter-rouge">gollek_trace</code>.</p>
+
+<h2 id="contract-discovery">Contract Discovery</h2>
+
+<p>Use capabilities for lightweight feature discovery:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/agent/capabilities <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span>
+</code></pre></div></div>
+
+<p>Use the contract endpoint when an orchestrator needs endpoint paths, schema hints, boundary rules, streaming metadata, and trace behavior:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/agent/contract <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span>
+</code></pre></div></div>
+
+<p>The contract includes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">contract_version</code></li>
+  <li><code class="language-plaintext highlighter-rouge">supported_contract_versions</code></li>
+  <li><code class="language-plaintext highlighter-rouge">compatibility</code></li>
+  <li><code class="language-plaintext highlighter-rouge">feature_negotiation</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.gollek_owns</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.agent_orchestrator_owns</code></li>
+  <li><code class="language-plaintext highlighter-rouge">auth</code></li>
+  <li><code class="language-plaintext highlighter-rouge">traceability</code></li>
+  <li><code class="language-plaintext highlighter-rouge">streaming</code></li>
+  <li><code class="language-plaintext highlighter-rouge">endpoints</code></li>
+  <li><code class="language-plaintext highlighter-rouge">schemas</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readiness_issue_catalog</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readiness_issue_catalog_by_code</code></li>
+</ul>
+
+<p>Wayang-Gollek should read these fields at startup or during health checks, then adapt its own workflow only to supported surfaces.
+Use <code class="language-plaintext highlighter-rouge">feature_negotiation.required_features</code> as the startup gate for a Wayang-Gollek integration. Treat unknown feature names as forward-compatible and ignore them unless your orchestrator explicitly needs that feature. Gollek keeps the feature flags scoped to serving primitives such as OpenAI-compatible chat/responses, embeddings, MCP tool discovery, request validation, tool contract validation, and RAG context injection; Wayang-Gollek still owns planning, memory, retrieval policy, vector-store state, tool authorization, tool execution, retries, and workflow state.
+The readiness issue catalog gives non-Java clients the same stable code,
+default severity, summary, and remediation metadata that the Java SDK exposes
+through <code class="language-plaintext highlighter-rouge">AgentReadinessIssueCodes</code>. For clients that only need code metadata,
+call <code class="language-plaintext highlighter-rouge">GET /v1/agent/readiness/issues</code> instead of downloading the full contract.</p>
+
+<h2 id="serving-feature-profiles">Serving Feature Profiles</h2>
+
+<p>Feature profiles are named shortcuts for serving requirements. They help an
+orchestrator request a known Gollek capability bundle without hardcoding every
+feature flag. Profiles still describe serving primitives only; they do not
+choose an agent plan, execute tools, select documents, own memory, or create
+workflow state.</p>
+
+<p><code class="language-plaintext highlighter-rouge">feature_negotiation.default_feature_profile</code> is <code class="language-plaintext highlighter-rouge">agent_serving</code>. The contract
+also returns <code class="language-plaintext highlighter-rouge">supported_feature_profiles</code> and a <code class="language-plaintext highlighter-rouge">feature_profiles</code> catalog with
+each profile’s required and optional features.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Profile</th>
+      <th>Use it for</th>
+      <th>Still owned by Wayang-Gollek or caller</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">agent_serving</code></td>
+      <td>Full serving gate for chat, Responses, embeddings, MCP discovery, validation, and RAG context injection</td>
+      <td>Planning, memory, retrieval policy, vector store, tool execution</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">chat_agent</code></td>
+      <td>Chat Completions serving with tools, system prompts, streams, and caller-supplied RAG context</td>
+      <td>Agent loop, tool authorization, tool execution, retrieval</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">responses_agent</code></td>
+      <td>Responses API serving with the same external orchestration boundary</td>
+      <td>Agent loop, tool authorization, tool execution, retrieval</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">embedding_rag</code></td>
+      <td>Embedding generation for caller-owned RAG indexing and retrieval</td>
+      <td>Chunking policy, vector storage, retrieval, ranking</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mcp_tools</code></td>
+      <td>MCP discovery plus tool schema validation without execution</td>
+      <td>MCP calls, auth, approvals, tool result loop</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Send <code class="language-plaintext highlighter-rouge">feature_profile</code> to <code class="language-plaintext highlighter-rouge">/v1/agent/preflight</code> when a route has a known shape.
+If <code class="language-plaintext highlighter-rouge">required_features</code> or <code class="language-plaintext highlighter-rouge">optional_features</code> are supplied, they override the
+profile-derived lists for that request. Unsupported profile names block the
+feature-negotiation check with <code class="language-plaintext highlighter-rouge">FEATURE_PROFILE_UNSUPPORTED</code>.</p>
+
+<h2 id="model-route-capabilities">Model Route Capabilities</h2>
+
+<p>Use model capabilities before routing a particular agent request. This endpoint describes whether a selected model can use Gollek’s serving surfaces for system prompts, tools, streaming, embeddings, and caller-supplied RAG context.
+Gollek advertises this route as <code class="language-plaintext highlighter-rouge">model_capabilities</code> in both <code class="language-plaintext highlighter-rouge">/v1/agent/capabilities</code> and <code class="language-plaintext highlighter-rouge">/v1/agent/contract</code>; treat it as a required preflight surface for agent-serving integrations.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/models/demo-model/capabilities <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span>
+</code></pre></div></div>
+
+<p>From the CLI, use the same model-route check and fail CI when the selected model cannot satisfy the agent-serving route:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent model-capabilities <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+</code></pre></div></div>
+
+<p>The capability matrix includes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">available</code>, <code class="language-plaintext highlighter-rouge">known</code>, <code class="language-plaintext highlighter-rouge">preferred_provider</code></li>
+  <li><code class="language-plaintext highlighter-rouge">limits</code></li>
+  <li><code class="language-plaintext highlighter-rouge">api_contract</code></li>
+  <li><code class="language-plaintext highlighter-rouge">openai_compatibility</code></li>
+  <li><code class="language-plaintext highlighter-rouge">inference</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tooling</code></li>
+  <li><code class="language-plaintext highlighter-rouge">rag</code></li>
+  <li><code class="language-plaintext highlighter-rouge">embeddings</code></li>
+  <li><code class="language-plaintext highlighter-rouge">modalities</code></li>
+  <li><code class="language-plaintext highlighter-rouge">provider_candidates</code></li>
+  <li><code class="language-plaintext highlighter-rouge">metadata</code></li>
+</ul>
+
+<p>For an agent-serving route, require completion serving, Chat Completions and Responses compatibility, system prompt support, tool definition ingestion, and RAG context injection. Also keep <code class="language-plaintext highlighter-rouge">tooling.tool_execution</code>, <code class="language-plaintext highlighter-rouge">rag.retrieval_policy</code>, and <code class="language-plaintext highlighter-rouge">rag.vector_store_ownership</code> set to <code class="language-plaintext highlighter-rouge">false</code> so Wayang-Gollek remains responsible for tool execution and retrieval policy.</p>
+
+<p>For embedding and RAG indexing routes, require <code class="language-plaintext highlighter-rouge">openai_compatibility.embeddings</code>,
+<code class="language-plaintext highlighter-rouge">modalities.embeddings</code>, and <code class="language-plaintext highlighter-rouge">embeddings.generation</code>. Use
+<code class="language-plaintext highlighter-rouge">embeddings.dimensions</code> to match a caller-owned vector store when model metadata
+knows the output size, and treat <code class="language-plaintext highlighter-rouge">embeddings.encoding_formats</code> plus
+<code class="language-plaintext highlighter-rouge">embeddings.input_aliases</code> as the stable request-shape hints. The embedding
+capability block must keep <code class="language-plaintext highlighter-rouge">embeddings.retrieval_policy</code> and
+<code class="language-plaintext highlighter-rouge">embeddings.vector_store_ownership</code> set to <code class="language-plaintext highlighter-rouge">false</code>; Gollek generates vectors,
+while Wayang-Gollek or another orchestrator owns retrieval and storage.</p>
+
+<h2 id="serving-preflight">Serving Preflight</h2>
+
+<p>Use server-side preflight when a non-Java client wants one validation-only readiness report instead of calling every discovery endpoint itself. The preflight combines capabilities, contract, feature negotiation, selected model route, MCP discovery, tool contract validation, and request validation.
+The response also echoes <code class="language-plaintext highlighter-rouge">contract_version</code>, <code class="language-plaintext highlighter-rouge">supported_contract_versions</code>, and <code class="language-plaintext highlighter-rouge">feature_negotiation</code>, so CI can store one artifact that records which serving contract was checked. Send <code class="language-plaintext highlighter-rouge">required_contract_version</code>, <code class="language-plaintext highlighter-rouge">required_features</code>, and <code class="language-plaintext highlighter-rouge">optional_features</code> to make that negotiation explicit. Unsupported required features block the preflight; unsupported optional features become warnings.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/agent/preflight <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'{
+    "model": "demo-model",
+    "surface": "chat",
+    "feature_profile": "chat_agent",
+    "required_contract_version": "v1",
+    "required_features": ["rag_context", "mcp_tool_discovery"],
+    "optional_features": ["stream_usage_reporting"],
+    "request": {
+      "request_id": "req_preflight_123",
+      "messages": [
+        {"role": "system", "content": "Use supplied context."},
+        {"role": "user", "content": "Can this route support my agent?"}
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "search_context",
+            "parameters": {"type": "object"}
+          }
+        }
+      ],
+      "rag_context": [
+        {"source": "docs", "text": "Gollek validates readiness without invoking the model."}
+      ]
+    }
+  }'</span>
+</code></pre></div></div>
+
+<p>The CLI exposes the same server-side preflight for local development and CI:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent capabilities <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent contract <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent issue-catalog <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--area</span> tool_validation <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent model-capabilities <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent tools-validate <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--tool-file</span> tools.json <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent request-validate <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Can this route support my agent?"</span> <span class="se">\</span>
+  <span class="nt">--tool-file</span> tools.json <span class="se">\</span>
+  <span class="nt">--rag-context</span> <span class="s2">"Gollek validates payload mapping without invoking the model."</span> <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent mcp-tools <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--require-tools</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent readiness <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--feature-profile</span> chat_agent <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Can this route support my agent?"</span> <span class="se">\</span>
+  <span class="nt">--rag-context</span> <span class="s2">"Gollek validates readiness without invoking the model."</span> <span class="se">\</span>
+  <span class="nt">--require-tools</span> <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span> <span class="se">\</span>
+  <span class="nt">--json</span>
+
+gollek agent preflight <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--feature-profile</span> chat_agent <span class="se">\</span>
+  <span class="nt">--preflight-policy</span> requested_route <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Can this route support my agent?"</span> <span class="se">\</span>
+  <span class="nt">--rag-context</span> <span class="s2">"Gollek validates readiness without invoking the model."</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">gollek agent template-schema --json</code> to print the canonical Draft 2020-12
+schema for saved route templates before wiring a builder, GitHub Action, or
+Wayang-Gollek integration. Use <code class="language-plaintext highlighter-rouge">gollek agent template-example --list</code> to inspect
+the starter catalog first, or <code class="language-plaintext highlighter-rouge">gollek agent template-example --list --json</code> when
+a website or builder UI needs machine-readable route choices. Use
+<code class="language-plaintext highlighter-rouge">gollek agent template-example --id embedding_rag --output wayang-agent-route.json</code>
+to emit a valid starter route by catalog id for chat, Responses, embeddings/RAG,
+or MCP tool-schema routes, then run it through template-check before publishing.
+Human mode prints the exact <code class="language-plaintext highlighter-rouge">gollek agent template-check --request-file ... --json</code>
+command for the saved file, including shell-safe quoting when the path contains
+spaces. Use <code class="language-plaintext highlighter-rouge">--json</code> when stdout must remain machine-readable, or combine
+<code class="language-plaintext highlighter-rouge">--output</code> with <code class="language-plaintext highlighter-rouge">--list</code> to save the catalog JSON for a local builder cache.
+Output writes are conservative by default and require <code class="language-plaintext highlighter-rouge">--overwrite</code> before
+replacing an existing file. The id flag accepts the catalog ids and normalizes
+hyphenated aliases such as <code class="language-plaintext highlighter-rouge">embedding-rag</code>; explicit surface or feature-profile
+overrides must match the selected id. Use
+<code class="language-plaintext highlighter-rouge">gollek agent template-check --request-file wayang-agent-route.json --json</code>
+as the local publishing guard when CI only needs to parse a saved route
+template and catch top-level/nested route drift. It returns
+<code class="language-plaintext highlighter-rouge">object: "gollek.agent_template_check"</code> and exits without HTTP, model
+invocation, tool execution, retrieval, or workflow state. It also rejects
+missing model ids, unsupported surfaces, unsupported feature profiles, and
+preflight policy typos before a low-code builder publishes the template. JSON
+output keeps the compatibility <code class="language-plaintext highlighter-rouge">issues</code> string array and adds <code class="language-plaintext highlighter-rouge">issue_details[]</code>
+with stable <code class="language-plaintext highlighter-rouge">code</code>, <code class="language-plaintext highlighter-rouge">field</code>, optional <code class="language-plaintext highlighter-rouge">value</code>, optional <code class="language-plaintext highlighter-rouge">suggested_value</code>, and
+optional <code class="language-plaintext highlighter-rouge">allowed_values</code> so GitHub Actions or builder UIs can annotate the
+exact setting and display likely fixes for common typos. Human output prints
+the same stable codes plus compact field, value, suggested-value, and
+allowed-value hints for template issues. Use <code class="language-plaintext highlighter-rouge">gollek agent readiness</code> as the CI bundle when an
+orchestrator wants one local command to call
+every discovery and validation surface. It returns
+<code class="language-plaintext highlighter-rouge">object: "gollek.agent_readiness_report"</code> with <code class="language-plaintext highlighter-rouge">checked_areas</code>, <code class="language-plaintext highlighter-rouge">checks</code>,
+<code class="language-plaintext highlighter-rouge">issues_by_area</code>, and per-check results for capabilities, contract, model
+capabilities, MCP tools, tool validation, request validation, and server
+preflight. Use <code class="language-plaintext highlighter-rouge">--json</code> for raw discovery, readiness, preflight, or
+issue-catalog responses. <code class="language-plaintext highlighter-rouge">gollek agent issue-catalog --area tool_validation</code>
+prints the stable code, default severity, summary, and remediation metadata that
+dashboards can show when preflight returns active issues. <code class="language-plaintext highlighter-rouge">gollek agent
+capabilities</code>, <code class="language-plaintext highlighter-rouge">gollek agent contract</code>, <code class="language-plaintext highlighter-rouge">gollek agent issue-catalog</code>, <code class="language-plaintext highlighter-rouge">gollek
+agent model-capabilities</code>, <code class="language-plaintext highlighter-rouge">gollek agent tools-validate</code>, <code class="language-plaintext highlighter-rouge">gollek agent
+request-validate</code>, and <code class="language-plaintext highlighter-rouge">gollek agent mcp-tools</code> exit <code class="language-plaintext highlighter-rouge">1</code> with
+<code class="language-plaintext highlighter-rouge">--require-serving-boundary</code> when the server, selected model, or validation
+response drifts from the inference-serving boundary. <code class="language-plaintext highlighter-rouge">gollek agent readiness</code>
+always fails on blocked checklist items, including boundary drift, because it is
+meant to be a complete agent-serving gate. <code class="language-plaintext highlighter-rouge">gollek agent tools-validate
+--require-clean</code>, <code class="language-plaintext highlighter-rouge">gollek agent request-validate --require-clean</code>, and <code class="language-plaintext highlighter-rouge">gollek
+agent readiness --require-clean</code> also exit <code class="language-plaintext highlighter-rouge">1</code> on portability warnings; <code class="language-plaintext highlighter-rouge">gollek
+agent mcp-tools --require-tools</code> and <code class="language-plaintext highlighter-rouge">gollek agent readiness --require-tools</code>
+exit <code class="language-plaintext highlighter-rouge">1</code> when discovery returns no usable tools. <code class="language-plaintext highlighter-rouge">gollek agent
+template-check</code>, <code class="language-plaintext highlighter-rouge">gollek agent request-validate</code>, <code class="language-plaintext highlighter-rouge">gollek agent readiness</code>, and <code class="language-plaintext highlighter-rouge">gollek agent preflight</code>
+accept <code class="language-plaintext highlighter-rouge">--feature-profile</code> with the same serving profile names advertised by
+the contract. <code class="language-plaintext highlighter-rouge">embedding_rag</code> defaults generated CLI requests to the embeddings
+surface when <code class="language-plaintext highlighter-rouge">--surface</code> is omitted. <code class="language-plaintext highlighter-rouge">gollek agent
+preflight</code> accepts <code class="language-plaintext highlighter-rouge">--request-json</code> or <code class="language-plaintext highlighter-rouge">--request-file</code> for a full
+OpenAI-compatible request, and <code class="language-plaintext highlighter-rouge">--no-mcp</code> for routes that do not depend on MCP
+discovery. <code class="language-plaintext highlighter-rouge">template-check</code> exits <code class="language-plaintext highlighter-rouge">0</code> when the saved template is locally valid,
+<code class="language-plaintext highlighter-rouge">1</code> when the template itself is invalid, and <code class="language-plaintext highlighter-rouge">2</code> for CLI parse/config errors.
+The readiness and preflight commands exit <code class="language-plaintext highlighter-rouge">0</code> when the route is ready, <code class="language-plaintext highlighter-rouge">1</code> when
+blocked, and <code class="language-plaintext highlighter-rouge">2</code> for local CLI or connection errors.</p>
+
+<h3 id="preflight-policies-and-route-gates">Preflight Policies And Route Gates</h3>
+
+<p>Server preflight reports whether Gollek can serve a request. The caller still
+chooses how strict the integration gate should be. Use a policy profile when
+Wayang-Gollek, another agent runtime, or CI needs the same decision every time.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Policy profile</th>
+      <th>Blocks on</th>
+      <th>Use it for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">readiness_only</code></td>
+      <td>Gollek readiness failures only</td>
+      <td>Local development and loose compatibility checks.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">requested_route</code></td>
+      <td>Readiness failures plus selected route mismatch</td>
+      <td>Production startup checks where model, surface, and feature profile must stay stable.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">clean</code></td>
+      <td>Readiness failures, route mismatch, and warnings</td>
+      <td>CI, release gates, and low-code agent publishing checks.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The CLI also exposes the strictness switches directly:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--require-route-match</code> blocks when the selected route differs from the requested model, surface, or feature profile.</li>
+  <li><code class="language-plaintext highlighter-rouge">--fail-on-warning</code> or <code class="language-plaintext highlighter-rouge">--fail-on-warnings</code> blocks when preflight returns warnings.</li>
+  <li><code class="language-plaintext highlighter-rouge">--preflight-policy clean</code> is equivalent to requiring route match and failing on warnings.</li>
+</ul>
+
+<p>Examples:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent preflight <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--feature-profile</span> chat_agent <span class="se">\</span>
+  <span class="nt">--preflight-policy</span> readiness_only
+
+gollek agent preflight <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--feature-profile</span> chat_agent <span class="se">\</span>
+  <span class="nt">--preflight-policy</span> requested_route
+
+gollek agent preflight <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--request-file</span> wayang-agent-route.json <span class="se">\</span>
+  <span class="nt">--preflight-policy</span> clean <span class="se">\</span>
+  <span class="nt">--json</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--json</code> returns a typed wrapper with <code class="language-plaintext highlighter-rouge">object: "gollek.agent_preflight_result"</code>.
+It preserves the raw server response, the
+typed readiness report, the requested route, the selected route,
+<code class="language-plaintext highlighter-rouge">route_comparison</code>, <code class="language-plaintext highlighter-rouge">route_mismatches</code>, <code class="language-plaintext highlighter-rouge">route_mismatch_messages</code>,
+<code class="language-plaintext highlighter-rouge">preflight_gate</code>, and <code class="language-plaintext highlighter-rouge">preflight_policy</code>. The raw server response remains
+<code class="language-plaintext highlighter-rouge">object: "gollek.agent_preflight"</code>.</p>
+
+<p>When the selected route drifts from the request, <code class="language-plaintext highlighter-rouge">route_comparison.mismatches</code>
+and top-level <code class="language-plaintext highlighter-rouge">route_mismatches</code> show each field with <code class="language-plaintext highlighter-rouge">requested</code>, <code class="language-plaintext highlighter-rouge">selected</code>,
+and a compact <code class="language-plaintext highlighter-rouge">message</code>. This is the first place to inspect when CI blocks on
+<code class="language-plaintext highlighter-rouge">requested_route</code> or <code class="language-plaintext highlighter-rouge">clean</code>.</p>
+
+<p>Request files can carry their own baseline policy, which the CLI can make
+stricter with flags:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demo-model"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"surface"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chat"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"feature_profile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chat_agent"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"preflight_policy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"profile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"requested_route"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demo-model"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"messages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="nl">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"system"</span><span class="p">,</span><span class="w"> </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Use supplied context and tools when relevant."</span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="nl">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w"> </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Answer using the provided context."</span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"tools"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"function"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"function"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"search_context"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"rag_context"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="nl">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"docs"</span><span class="p">,</span><span class="w"> </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The agent runtime selected this context before calling Gollek."</span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Use this shape for low-code builders and agent templates: the template can ask
+for <code class="language-plaintext highlighter-rouge">requested_route</code>, while CI can add <code class="language-plaintext highlighter-rouge">--preflight-policy clean</code> before
+publishing. The policy never executes tools, runs retrieval, stores memory, or
+chooses the next agent step; it only decides whether Gollek’s serving route is
+acceptable for the caller.</p>
+
+<p>Keep the top-level route fields and nested request route fields aligned. For
+example, top-level <code class="language-plaintext highlighter-rouge">model</code>, <code class="language-plaintext highlighter-rouge">surface</code>, and <code class="language-plaintext highlighter-rouge">feature_profile</code> should match any
+nested <code class="language-plaintext highlighter-rouge">request.model</code>, <code class="language-plaintext highlighter-rouge">request.surface</code>, and <code class="language-plaintext highlighter-rouge">request.feature_profile</code>. The
+<code class="language-plaintext highlighter-rouge">gollek agent template-check</code>, <code class="language-plaintext highlighter-rouge">gollek agent request-validate</code>, <code class="language-plaintext highlighter-rouge">gollek agent
+readiness</code>, and <code class="language-plaintext highlighter-rouge">gollek agent preflight</code> fail locally on explicit conflicts
+before calling Gollek. Use
+<code class="language-plaintext highlighter-rouge">--model</code>, <code class="language-plaintext highlighter-rouge">--surface</code>, or <code class="language-plaintext highlighter-rouge">--feature-profile</code> when a CI job or operator
+intentionally wants to override a saved template.
+With <code class="language-plaintext highlighter-rouge">--json</code>, local route conflicts emit <code class="language-plaintext highlighter-rouge">code: "AGENT_ROUTE_CONFLICT"</code> and a
+<code class="language-plaintext highlighter-rouge">conflicts</code> array containing <code class="language-plaintext highlighter-rouge">field</code>, <code class="language-plaintext highlighter-rouge">top_level</code>, and <code class="language-plaintext highlighter-rouge">request</code> values, so CI
+can report exactly which saved-template route field drifted.</p>
+
+<p>The response always keeps the serving boundary visible:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">object: "gollek.agent_preflight"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">status: "ready"</code> or <code class="language-plaintext highlighter-rouge">"blocked"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ready</code></li>
+  <li><code class="language-plaintext highlighter-rouge">blocking_issue_count</code></li>
+  <li><code class="language-plaintext highlighter-rouge">warning_count</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ready_check_count</code></li>
+  <li><code class="language-plaintext highlighter-rouge">blocked_check_count</code></li>
+  <li><code class="language-plaintext highlighter-rouge">skipped_check_count</code></li>
+  <li><code class="language-plaintext highlighter-rouge">check_results</code></li>
+  <li><code class="language-plaintext highlighter-rouge">checked_areas</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readiness_report</code></li>
+  <li><code class="language-plaintext highlighter-rouge">issues</code></li>
+  <li><code class="language-plaintext highlighter-rouge">issue_hints</code></li>
+  <li><code class="language-plaintext highlighter-rouge">issue_hints_by_area</code></li>
+  <li><code class="language-plaintext highlighter-rouge">issue_hints_by_code</code></li>
+  <li><code class="language-plaintext highlighter-rouge">remediation_plan</code></li>
+  <li><code class="language-plaintext highlighter-rouge">blocking_remediation_plan</code></li>
+  <li><code class="language-plaintext highlighter-rouge">warning_remediation_plan</code></li>
+  <li><code class="language-plaintext highlighter-rouge">remediation_plan_by_area</code></li>
+  <li><code class="language-plaintext highlighter-rouge">remediation_plan_by_code</code></li>
+  <li><code class="language-plaintext highlighter-rouge">issues_by_area</code></li>
+  <li><code class="language-plaintext highlighter-rouge">issue_codes_by_area</code></li>
+  <li><code class="language-plaintext highlighter-rouge">blocking_messages</code></li>
+  <li><code class="language-plaintext highlighter-rouge">warning_messages</code></li>
+  <li><code class="language-plaintext highlighter-rouge">blocking_codes</code></li>
+  <li><code class="language-plaintext highlighter-rouge">warning_codes</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.validation_only: true</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.model_invoked: false</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.tool_execution: false</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.retrieval_execution: false</code></li>
+</ul>
+
+<p>Use <code class="language-plaintext highlighter-rouge">check_results</code> when a CI job or agent dashboard needs per-area status for
+capabilities, contract, model route, MCP discovery, tool validation, and request
+validation. Each check includes <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">ready</code>, <code class="language-plaintext highlighter-rouge">requested</code>,
+<code class="language-plaintext highlighter-rouge">blocking_messages</code>, <code class="language-plaintext highlighter-rouge">warning_messages</code>, <code class="language-plaintext highlighter-rouge">blocking_codes</code>, <code class="language-plaintext highlighter-rouge">warning_codes</code>,
+<code class="language-plaintext highlighter-rouge">issue_hints</code>, <code class="language-plaintext highlighter-rouge">remediation_plan</code>, and <code class="language-plaintext highlighter-rouge">remediation_plan_by_code</code>;
+<code class="language-plaintext highlighter-rouge">status: "skipped"</code> with <code class="language-plaintext highlighter-rouge">requested: false</code> means the preflight intentionally
+did not run that area. Use the top-level and per-check code fields for
+automation, and the message fields for operator-facing logs. The top-level
+<code class="language-plaintext highlighter-rouge">issues</code> array carries the same stable <code class="language-plaintext highlighter-rouge">code</code> per issue, alongside <code class="language-plaintext highlighter-rouge">area</code>,
+<code class="language-plaintext highlighter-rouge">severity</code>, and <code class="language-plaintext highlighter-rouge">message</code>; <code class="language-plaintext highlighter-rouge">issue_codes_by_area</code>, <code class="language-plaintext highlighter-rouge">blocking_codes</code>, and
+<code class="language-plaintext highlighter-rouge">warning_codes</code> provide compact summaries for CI gates and dashboards.
+<code class="language-plaintext highlighter-rouge">issue_hints</code> adds <code class="language-plaintext highlighter-rouge">default_severity</code>, <code class="language-plaintext highlighter-rouge">summary</code>, and <code class="language-plaintext highlighter-rouge">remediation</code> for active
+issues so non-Java dashboards can show operator guidance without reimplementing
+the SDK catalog. <code class="language-plaintext highlighter-rouge">issue_hints_by_area</code> and <code class="language-plaintext highlighter-rouge">issue_hints_by_code</code> expose the same
+active hints grouped for dashboards, CI annotations, and orchestrator health
+checks. <code class="language-plaintext highlighter-rouge">remediation_plan</code> deduplicates those active hints into next-action
+steps with the source <code class="language-plaintext highlighter-rouge">messages</code> preserved. <code class="language-plaintext highlighter-rouge">blocking_remediation_plan</code> and
+<code class="language-plaintext highlighter-rouge">warning_remediation_plan</code> expose the same steps split by severity for CI gates,
+while <code class="language-plaintext highlighter-rouge">remediation_plan_by_area</code> keeps the same steps grouped by readiness area
+and <code class="language-plaintext highlighter-rouge">remediation_plan_by_code</code> groups them by stable readiness code. For all
+possible readiness codes, read
+<code class="language-plaintext highlighter-rouge">readiness_issue_catalog</code> or <code class="language-plaintext highlighter-rouge">readiness_issue_catalog_by_code</code> from
+<code class="language-plaintext highlighter-rouge">GET /v1/agent/contract</code>, or call the lighter
+<code class="language-plaintext highlighter-rouge">GET /v1/agent/readiness/issues</code> endpoint.
+Checks can also include <code class="language-plaintext highlighter-rouge">details</code> for typed dashboard summaries. Embedding
+preflights expose <code class="language-plaintext highlighter-rouge">check_results.request_validation.details.embedding</code> with
+input counts, input lengths, requested dimensions, encoding format, metadata
+keys, and the embedding/RAG ownership boundary. The contract exposes this shape
+through <code class="language-plaintext highlighter-rouge">schemas.agent_preflight_check_result</code> so clients can validate each
+<code class="language-plaintext highlighter-rouge">check_results</code> entry consistently.</p>
+
+<p>Human-mode <code class="language-plaintext highlighter-rouge">gollek agent preflight</code> and <code class="language-plaintext highlighter-rouge">gollek agent readiness</code> print the same
+details as operator-facing lines. Readiness also echoes the selected feature
+profile beside the model and surface. Blocking and warning messages include
+stable <code class="language-plaintext highlighter-rouge">[code: ...]</code> annotations when codes are available. When a code maps to
+the readiness issue catalog, the CLI also prints a short <code class="language-plaintext highlighter-rouge">remediation:</code> line
+from <code class="language-plaintext highlighter-rouge">issue_hints</code> or the SDK catalog. Treat these lines as a readable projection
+of the JSON <code class="language-plaintext highlighter-rouge">check_results</code> and <code class="language-plaintext highlighter-rouge">issue_hints</code> maps, not as a separate contract:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Selected route: model=other-model, surface=chat, feature_profile=chat_agent
+Route comparison: mismatch fields=model
+  mismatch: model requested=demo-model selected=other-model
+Preflight gate: blocked
+  blocking: selected route differs from requested route: model requested=demo-model selected=other-model
+</code></pre></div></div>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- request_validation: ready, requested=true
+  details: surface=chat, model=demo-model
+  boundary: validation_only=true, model_invoked=false, tool_execution=false, retrieval_execution=false
+  request: streaming=false, messages=2, inputs=0, tools=1, parameters=model,tools
+  rag: injected=true, items=1, alias=rag_context
+</code></pre></div></div>
+
+<p>For embedding preflights, the request-validation detail line exposes the vector
+route without giving Gollek retrieval or storage ownership:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- request_validation: ready, requested=true
+  details: surface=embeddings, model=demo-embed
+  embeddings: inputs=2, input_lengths=5,4, requested_dimensions=768, encoding=float, metadata_keys=tenant
+  embedding boundary: generation=true, retrieval_execution=false, retrieval_policy_owner=agent_orchestrator, vector_store_owner=agent_orchestrator
+</code></pre></div></div>
+
+<p>The contract schema advertises <code class="language-plaintext highlighter-rouge">check_results</code> as a map keyed by readiness area
+so clients can validate future areas without hard-coding a fixed field list.
+The top-level response and nested readiness report both include
+<code class="language-plaintext highlighter-rouge">checked_areas</code>, ordered like the emitted <code class="language-plaintext highlighter-rouge">checks</code> map, so dashboards can show
+which preflight stages were evaluated without expanding each check.
+<code class="language-plaintext highlighter-rouge">readiness_report</code> mirrors the CLI/SDK <code class="language-plaintext highlighter-rouge">gollek.agent_readiness_report</code> shape
+while the top-level <code class="language-plaintext highlighter-rouge">object</code> remains <code class="language-plaintext highlighter-rouge">gollek.agent_preflight</code> for
+backward-compatible API callers. The contract marks emitted trace, boundary,
+check-count, issue, and message fields as required for both the top-level
+preflight response and the nested readiness report.</p>
+
+<p>By default, preflight requires MCP discovery, tool validation, and request validation. For routes that do not use MCP tools, set <code class="language-plaintext highlighter-rouge">discover_mcp_tools: false</code>, <code class="language-plaintext highlighter-rouge">mcp_discovery_required: false</code>, and optionally <code class="language-plaintext highlighter-rouge">validate_tools: false</code>.</p>
+
+<p>For embedding-only RAG indexing checks, preflight the embedding route without
+MCP/tool checks:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/agent/preflight <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'{
+    "model": "demo-embed",
+    "surface": "embeddings",
+    "discover_mcp_tools": false,
+    "mcp_discovery_required": false,
+    "validate_tools": false,
+    "tool_validation_required": false,
+    "request": {
+      "request_id": "req_embed_preflight_123",
+      "input": ["Find context for this task"],
+      "dimensions": 768,
+      "encoding_format": "float",
+      "metadata": {"tenant": "agent-project"}
+    }
+  }'</span>
+</code></pre></div></div>
+
+<p>The resulting <code class="language-plaintext highlighter-rouge">model_capabilities.embeddings</code> block reports whether
+<code class="language-plaintext highlighter-rouge">/v1/embeddings</code> can generate vectors for the selected model, known dimensions,
+accepted encoding formats, input aliases, and the retrieval/vector-store
+boundary. The nested <code class="language-plaintext highlighter-rouge">request_validation.normalized</code> block reports
+<code class="language-plaintext highlighter-rouge">input_count</code>, <code class="language-plaintext highlighter-rouge">input_lengths</code>, <code class="language-plaintext highlighter-rouge">requested_dimensions</code>, <code class="language-plaintext highlighter-rouge">encoding_format</code>, and
+<code class="language-plaintext highlighter-rouge">rag.vector_store_owned_by: "agent_orchestrator"</code> without invoking the model.
+For CI and dashboards, the same summary is available at
+<code class="language-plaintext highlighter-rouge">check_results.request_validation.details.embedding</code>.</p>
+
+<p>Readiness uses the same request-building flags as preflight, plus <code class="language-plaintext highlighter-rouge">--no-tool-validation</code>, <code class="language-plaintext highlighter-rouge">--no-request-validation</code>, <code class="language-plaintext highlighter-rouge">--mcp-optional</code>, and <code class="language-plaintext highlighter-rouge">--no-mcp</code> when a route intentionally skips part of the checklist. It does not execute tools, run retrieval, authorize tools, or invoke a model; it only verifies that Gollek is ready to serve the request while the agent runtime owns planning and workflow state.</p>
+
+<h2 id="request-validation">Request Validation</h2>
+
+<p>Validation maps a request without invoking a model. Use it before a workflow starts or when a low-code builder saves an agent configuration.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> <span class="s2">"http://localhost:8080/v1/agent/validate?surface=chat"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'{
+    "model": "demo-model",
+    "request_id": "req_validate_123",
+    "messages": [
+      {"role": "system", "content": "Use supplied context."},
+      {"role": "user", "content": "Validate this request."}
+    ],
+    "rag_context": [
+      {"source": "docs", "text": "Gollek validates agent-facing payloads."}
+    ]
+  }'</span>
+</code></pre></div></div>
+
+<p>Supported validation surfaces are <code class="language-plaintext highlighter-rouge">chat</code>, <code class="language-plaintext highlighter-rouge">responses</code>, and <code class="language-plaintext highlighter-rouge">embeddings</code>.
+From the CLI, validate generated or supplied request JSON directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent request-validate <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Validate this request."</span> <span class="se">\</span>
+  <span class="nt">--tool-file</span> tools.json <span class="se">\</span>
+  <span class="nt">--rag-context</span> <span class="s2">"Caller-owned retrieval context."</span> <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">--request-json</code> or <code class="language-plaintext highlighter-rouge">--request-file</code> when validating a real agent builder
+payload. The command accepts either a direct request object or a full saved
+route template with a nested <code class="language-plaintext highlighter-rouge">request</code> object, checks route consistency locally,
+then posts only to <code class="language-plaintext highlighter-rouge">/v1/agent/validate</code>; it does not invoke a model, execute
+tools, run retrieval, or update agent memory.</p>
+
+<p>The validation response reports:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">object: "gollek.agent_validation"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">surface</code></li>
+  <li><code class="language-plaintext highlighter-rouge">valid</code></li>
+  <li><code class="language-plaintext highlighter-rouge">model_invoked: false</code></li>
+  <li><code class="language-plaintext highlighter-rouge">normalized</code></li>
+  <li><code class="language-plaintext highlighter-rouge">trace</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.validation_only: true</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.tool_execution: false</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boundary.retrieval_execution: false</code></li>
+</ul>
+
+<h2 id="tool-contract-validation">Tool Contract Validation</h2>
+
+<p>Gollek accepts OpenAI-compatible tool definitions and MCP-derived tool definitions, validates their schema shape, and can return tool-call declarations from model output. Gollek does not authorize or execute tools.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/agent/tools/validate <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'{
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "search_context",
+          "description": "Search caller-owned knowledge",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {"type": "string"}
+            },
+            "required": ["query"]
+          }
+        }
+      }
+    ]
+  }'</span>
+</code></pre></div></div>
+
+<p>Tool validation is useful for Wayang-Gollek low-code builders because invalid tool definitions can be rejected before a workflow is published.
+From the CLI, validate a tool bundle directly and optionally fail CI on portability warnings:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent tools-validate <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--tool-file</span> tools.json <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+</code></pre></div></div>
+
+<p>The command posts only to <code class="language-plaintext highlighter-rouge">/v1/agent/tools/validate</code>; it does not invoke a model, authorize a tool, execute a tool, or start an agent loop.</p>
+
+<h2 id="mcp-discovery">MCP Discovery</h2>
+
+<p>Gollek can expose registered MCP servers and tool definitions:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> <span class="s2">"http://localhost:8080/v1/mcp/tools?compat=openai"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">compat=openai</code> when the next call is <code class="language-plaintext highlighter-rouge">/v1/chat/completions</code> or <code class="language-plaintext highlighter-rouge">/v1/responses</code>.</p>
+
+<p>From the CLI, discover OpenAI-compatible MCP tool definitions and fail CI if the MCP surface is unavailable, crosses into execution, or returns no tools:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent mcp-tools <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--require-tools</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">--server &lt;name&gt;</code> to inspect one MCP server, <code class="language-plaintext highlighter-rouge">--raw-mcp-tools</code> for raw MCP tool schemas, and <code class="language-plaintext highlighter-rouge">--include-disabled-mcp</code> when diagnostics need disabled registrations.</p>
+
+<p>Gollek’s role ends at discovery and schema conversion. Wayang-Gollek owns the MCP client loop, tool authorization, execution, result messages, retries, and operator approval.</p>
+
+<h2 id="embeddings-for-caller-owned-rag">Embeddings For Caller-Owned RAG</h2>
+
+<p>Gollek generates embeddings, but the vector store and retrieval policy belong to the caller.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/embeddings <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'{
+    "model": "demo-embed",
+    "request_id": "req_embed_123",
+    "trace_id": "trace_embed_123",
+    "input": ["Find context for this task"],
+    "metadata": {"tenant": "agent-project"}
+  }'</span>
+</code></pre></div></div>
+
+<p>OpenAI-compatible embedding responses contain <code class="language-plaintext highlighter-rouge">object: "list"</code>, <code class="language-plaintext highlighter-rouge">model</code>,
+<code class="language-plaintext highlighter-rouge">data[].embedding</code>, and metadata. SDK callers can use <code class="language-plaintext highlighter-rouge">AgentEmbeddingView</code> to
+extract vectors, dimensions, usage, metadata, and trace details.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">POST /v1/agent/validate?surface=embeddings</code> when a builder or CI job needs
+to dry-run the request shape before serving. The normalized validation payload
+reports <code class="language-plaintext highlighter-rouge">input_count</code>, <code class="language-plaintext highlighter-rouge">input_lengths</code>, optional <code class="language-plaintext highlighter-rouge">requested_dimensions</code>,
+<code class="language-plaintext highlighter-rouge">encoding_format</code>, metadata, and a RAG boundary summary showing that retrieval
+execution, retrieval policy, and vector-store ownership remain outside Gollek.</p>
+
+<h2 id="rag-context-injection">RAG Context Injection</h2>
+
+<p>After Wayang-Gollek retrieves and ranks documents, pass selected chunks to Gollek as <code class="language-plaintext highlighter-rouge">rag_context</code>.</p>
+
+<p>Accepted aliases include:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">rag_context</code></li>
+  <li><code class="language-plaintext highlighter-rouge">retrieval_context</code></li>
+  <li><code class="language-plaintext highlighter-rouge">retrieved_context</code></li>
+  <li><code class="language-plaintext highlighter-rouge">context_documents</code></li>
+  <li><code class="language-plaintext highlighter-rouge">retrieved_documents</code></li>
+</ul>
+
+<p>Context items can include:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">text</code>, <code class="language-plaintext highlighter-rouge">content</code>, <code class="language-plaintext highlighter-rouge">page_content</code></td>
+      <td>Retrieved text chunk</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">id</code>, <code class="language-plaintext highlighter-rouge">chunk_id</code></td>
+      <td>Stable chunk id</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">source</code></td>
+      <td>URI, file, path, or source label</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">title</code></td>
+      <td>Human-readable title</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">score</code></td>
+      <td>Retriever relevance score</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata</code></td>
+      <td>Caller-owned metadata</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Gollek injects supplied context into the model request and records RAG metadata. It does not search a vector store or choose which documents are relevant.</p>
+
+<h2 id="chat-completions">Chat Completions</h2>
+
+<p>Use Chat Completions for OpenAI-compatible message arrays:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/chat/completions <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'{
+    "model": "demo-model",
+    "request_id": "req_agent_123",
+    "trace_id": "trace_agent_123",
+    "messages": [
+      {"role": "system", "content": "Answer using supplied context and tools when relevant."},
+      {"role": "user", "content": "What changed for agentic support?"}
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "search_context",
+          "parameters": {"type": "object"}
+        }
+      }
+    ],
+    "tool_choice": "auto",
+    "rag_context": [
+      {
+        "id": "chunk-1",
+        "source": "docs/agentic",
+        "score": 0.92,
+        "text": "Gollek exposes inference APIs for agent orchestrators."
+      }
+    ]
+  }'</span>
+</code></pre></div></div>
+
+<p>For streaming, set <code class="language-plaintext highlighter-rouge">stream: true</code> and use <code class="language-plaintext highlighter-rouge">stream_options</code>:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"stream"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"stream_options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"include_usage"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"include_trace"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"include_stream_metadata"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Streaming uses server-sent events and ends with <code class="language-plaintext highlighter-rouge">data:[DONE]</code>.</p>
+
+<h2 id="responses">Responses</h2>
+
+<p>Use Responses when the caller prefers <code class="language-plaintext highlighter-rouge">instructions</code>, <code class="language-plaintext highlighter-rouge">input</code>, <code class="language-plaintext highlighter-rouge">previous_response_id</code>, and Responses-compatible stream events.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> http://localhost:8080/v1/responses <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-API-Key: community"</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'{
+    "model": "demo-model",
+    "instructions": "Use the provided context when relevant.",
+    "input": "Summarize the Gollek agent integration boundary.",
+    "retrieval_context": [
+      {
+        "source": "docs/api",
+        "text": "Gollek owns serving, MCP discovery, embeddings, and RAG context injection."
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "lookup",
+          "parameters": {"type": "object"}
+        }
+      }
+    ]
+  }'</span>
+</code></pre></div></div>
+
+<p>Responses streaming emits events such as <code class="language-plaintext highlighter-rouge">response.created</code>, <code class="language-plaintext highlighter-rouge">response.output_text.delta</code>, <code class="language-plaintext highlighter-rouge">response.output_text.done</code>, and <code class="language-plaintext highlighter-rouge">response.completed</code>, then the <code class="language-plaintext highlighter-rouge">[DONE]</code> sentinel.</p>
+
+<h2 id="java-sdk-bridge">Java SDK Bridge</h2>
+
+<p>The full Java remote SDK exposes the same serving boundary through <code class="language-plaintext highlighter-rouge">client.agent()</code>.
+Standalone agent runtimes can also depend on the lighter <code class="language-plaintext highlighter-rouge">gollek-sdk-agent</code>
+artifact and construct <code class="language-plaintext highlighter-rouge">AgentIntegrationClient</code> directly.
+Use <code class="language-plaintext highlighter-rouge">servingReadiness(...)</code> when a caller wants the SDK to run discovery and
+dry-run validation as one serving-only preflight. Use the individual typed views
+when a UI needs to display each contract section separately.
+Non-Java runtimes can call <code class="language-plaintext highlighter-rouge">POST /v1/agent/preflight</code> directly for the same
+readiness shape.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentRequestOptions</span> <span class="n">trace</span> <span class="o">=</span> <span class="nc">AgentRequestOptions</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">requestId</span><span class="o">(</span><span class="s">"req-wayang-123"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">traceId</span><span class="o">(</span><span class="s">"trace-wayang-123"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">sessionId</span><span class="o">(</span><span class="s">"session-abc"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="s">"user-42"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">AgentCapabilitiesView</span> <span class="n">capabilities</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">capabilitiesView</span><span class="o">(</span><span class="n">trace</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">capabilities</span><span class="o">.</span><span class="na">hasRequiredAgentServingCapabilities</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek capabilities mismatch: "</span>
+        <span class="o">+</span> <span class="n">capabilities</span><span class="o">.</span><span class="na">agentServingCapabilityIssues</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentServingContract</span> <span class="n">contract</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">contractView</span><span class="o">(</span><span class="n">trace</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">contract</span><span class="o">.</span><span class="na">hasRequiredServingBoundary</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek serving boundary mismatch: "</span> <span class="o">+</span> <span class="n">contract</span><span class="o">.</span><span class="na">servingBoundaryIssues</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentModelCapabilitiesView</span> <span class="n">model</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">modelCapabilitiesView</span><span class="o">(</span><span class="s">"demo-model"</span><span class="o">,</span> <span class="n">trace</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">model</span><span class="o">.</span><span class="na">hasRequiredAgentServingRoute</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Model cannot serve this agent route: "</span>
+        <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="na">agentServingRouteIssues</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentModelCapabilitiesView</span><span class="o">.</span><span class="na">EmbeddingCapabilities</span> <span class="n">embeddingRoute</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">embeddings</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">embeddingRoute</span><span class="o">.</span><span class="na">storageOwnedByOrchestrator</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Embedding route crossed the RAG storage boundary"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nc">AgentMcpDiscoveryView</span> <span class="n">tools</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">mcpToolsView</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="n">trace</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">tools</span><span class="o">.</span><span class="na">discoveryOnly</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"MCP discovery endpoint crossed the serving boundary"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nc">AgentToolValidationView</span> <span class="n">toolCheck</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">validateToolsView</span><span class="o">(</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"tools"</span><span class="o">,</span> <span class="n">tools</span><span class="o">.</span><span class="na">openAiToolDefinitions</span><span class="o">()),</span> <span class="n">trace</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">toolCheck</span><span class="o">.</span><span class="na">hasWarnings</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordToolSchemaWarnings</span><span class="o">(</span><span class="n">toolCheck</span><span class="o">.</span><span class="na">warnings</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentEmbeddingView</span> <span class="n">embedding</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">createEmbeddingView</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"model"</span><span class="o">,</span> <span class="s">"demo-embed"</span><span class="o">,</span>
+    <span class="s">"input"</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Find context for this task"</span><span class="o">)</span>
+<span class="o">),</span> <span class="n">trace</span><span class="o">);</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;&gt;</span> <span class="n">retrievedChunks</span> <span class="o">=</span> <span class="n">wayangVectorStore</span><span class="o">.</span><span class="na">search</span><span class="o">(</span><span class="n">embedding</span><span class="o">.</span><span class="na">firstVector</span><span class="o">());</span>
+
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">chatRequest</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"model"</span><span class="o">,</span> <span class="s">"demo-model"</span><span class="o">,</span>
+    <span class="s">"messages"</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"role"</span><span class="o">,</span> <span class="s">"system"</span><span class="o">,</span> <span class="s">"content"</span><span class="o">,</span> <span class="s">"Use supplied context and tools when relevant."</span><span class="o">),</span>
+        <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"role"</span><span class="o">,</span> <span class="s">"user"</span><span class="o">,</span> <span class="s">"content"</span><span class="o">,</span> <span class="s">"Answer the task."</span><span class="o">)),</span>
+    <span class="s">"tools"</span><span class="o">,</span> <span class="n">tools</span><span class="o">.</span><span class="na">openAiToolDefinitions</span><span class="o">(),</span>
+    <span class="s">"rag_context"</span><span class="o">,</span> <span class="n">retrievedChunks</span>
+<span class="o">);</span>
+
+<span class="nc">AgentValidationView</span> <span class="n">dryRun</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">validateRequestView</span><span class="o">(</span><span class="s">"chat"</span><span class="o">,</span> <span class="n">chatRequest</span><span class="o">,</span> <span class="n">trace</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">dryRun</span><span class="o">.</span><span class="na">validationOnly</span><span class="o">()</span> <span class="o">||</span> <span class="n">dryRun</span><span class="o">.</span><span class="na">modelInvoked</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Validation endpoint crossed the serving boundary"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nc">AgentServingReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="nc">AgentServingReadinessReport</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">capabilities</span><span class="o">(</span><span class="n">capabilities</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">contract</span><span class="o">(</span><span class="n">contract</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">modelRoute</span><span class="o">(</span><span class="n">model</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">mcpDiscovery</span><span class="o">(</span><span class="n">tools</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">toolValidation</span><span class="o">(</span><span class="n">toolCheck</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">requestValidation</span><span class="o">(</span><span class="n">dryRun</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek serving preflight failed"</span><span class="o">);</span>
+<span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordPreflight</span><span class="o">(</span><span class="n">readiness</span><span class="o">.</span><span class="na">toReport</span><span class="o">());</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">readiness</span><span class="o">.</span><span class="na">hasWarnings</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordPreflightWarnings</span><span class="o">(</span><span class="n">readiness</span><span class="o">.</span><span class="na">warningMessages</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentResponseView</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">createChatCompletionView</span><span class="o">(</span><span class="n">chatRequest</span><span class="o">,</span> <span class="n">trace</span><span class="o">);</span>
+
+<span class="n">wayangToolLoop</span><span class="o">.</span><span class="na">handle</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">toolCalls</span><span class="o">());</span>
+<span class="n">wayangMemory</span><span class="o">.</span><span class="na">recordAssistantMessage</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">outputText</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>Compact preflight callers can use:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">servingReadiness</span><span class="o">(</span>
+    <span class="s">"demo-model"</span><span class="o">,</span>
+    <span class="s">"chat"</span><span class="o">,</span>
+    <span class="n">chatRequest</span><span class="o">,</span>
+    <span class="n">trace</span><span class="o">);</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek serving preflight failed"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>When the Gollek server exposes <code class="language-plaintext highlighter-rouge">POST /v1/agent/preflight</code>, Java callers can use
+the same one-call server-side preflight and still receive the typed readiness
+report:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">servingPreflightReadiness</span><span class="o">(</span>
+    <span class="nc">AgentServingPreflightRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"demo-model"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">surface</span><span class="o">(</span><span class="s">"chat"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">featureProfile</span><span class="o">(</span><span class="s">"chat_agent"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="n">chatRequest</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">requestOptions</span><span class="o">(</span><span class="n">trace</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek serving preflight failed"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Use the typed result and gate when the caller also wants route-match and warning
+policy in one reusable object:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingPreflightPolicy</span> <span class="n">policy</span> <span class="o">=</span> <span class="nc">AgentServingPreflightPolicy</span><span class="o">.</span><span class="na">requestedRoute</span><span class="o">();</span>
+
+<span class="nc">AgentServingPreflightResult</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">servingPreflightResult</span><span class="o">(</span>
+    <span class="nc">AgentServingPreflightRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"demo-model"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">surface</span><span class="o">(</span><span class="s">"chat"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">featureProfile</span><span class="o">(</span><span class="s">"chat_agent"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="n">chatRequest</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">requestOptions</span><span class="o">(</span><span class="n">trace</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+
+<span class="nc">AgentServingPreflightGate</span> <span class="n">gate</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">gate</span><span class="o">(</span><span class="n">policy</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">gate</span><span class="o">.</span><span class="na">ready</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek serving gate failed: "</span>
+        <span class="o">+</span> <span class="n">gate</span><span class="o">.</span><span class="na">blockingMessages</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordPreflightGate</span><span class="o">(</span><span class="n">gate</span><span class="o">.</span><span class="na">toMetadata</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>For the shortest SDK call, ask the client to evaluate the policy directly:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingPreflightGate</span> <span class="n">gate</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">servingPreflightGate</span><span class="o">(</span>
+    <span class="nc">AgentServingPreflightRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"demo-model"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">surface</span><span class="o">(</span><span class="s">"chat"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">featureProfile</span><span class="o">(</span><span class="s">"chat_agent"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="n">chatRequest</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">requestOptions</span><span class="o">(</span><span class="n">trace</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">(),</span>
+    <span class="nc">AgentServingPreflightPolicy</span><span class="o">.</span><span class="na">clean</span><span class="o">());</span>
+<span class="n">gate</span><span class="o">.</span><span class="na">result</span><span class="o">().</span><span class="na">readiness</span><span class="o">().</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek serving preflight failed"</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">gate</span><span class="o">.</span><span class="na">ready</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek route gate failed: "</span>
+        <span class="o">+</span> <span class="n">gate</span><span class="o">.</span><span class="na">blockingMessages</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">AgentServingPreflightPolicy.readinessOnly()</code> checks only server readiness,
+<code class="language-plaintext highlighter-rouge">requestedRoute()</code> also requires the selected route to match the request, and
+<code class="language-plaintext highlighter-rouge">clean()</code> also treats warnings as blocking. <code class="language-plaintext highlighter-rouge">AgentServingPreflightResult</code>
+exposes <code class="language-plaintext highlighter-rouge">requestedRoute()</code>, <code class="language-plaintext highlighter-rouge">selectedRoute()</code>, <code class="language-plaintext highlighter-rouge">routeMatches()</code>,
+<code class="language-plaintext highlighter-rouge">routeMismatchFields()</code>, <code class="language-plaintext highlighter-rouge">routeMismatches()</code>, <code class="language-plaintext highlighter-rouge">routeMismatchDetails()</code>,
+<code class="language-plaintext highlighter-rouge">routeMismatchMessages()</code>, <code class="language-plaintext highlighter-rouge">readyForRequestedRoute()</code>, and
+<code class="language-plaintext highlighter-rouge">statusForRequestedRoute()</code> for dashboards and integration tests.</p>
+
+<p><code class="language-plaintext highlighter-rouge">toReport()</code> emits the same CI-friendly shape as the CLI readiness gate:
+<code class="language-plaintext highlighter-rouge">object: "gollek.agent_readiness_report"</code>, readiness status, blocking and
+warning counts, check counts, per-check messages, and the validation-only
+boundary. Use <code class="language-plaintext highlighter-rouge">toMetadata()</code> when the agent runtime only needs compact status
+fields to attach to request metadata; the metadata includes <code class="language-plaintext highlighter-rouge">checked_areas</code> for
+compact health dashboards. SDK callers can also use <code class="language-plaintext highlighter-rouge">blockingCodes()</code>,
+<code class="language-plaintext highlighter-rouge">warningCodes()</code>, <code class="language-plaintext highlighter-rouge">issueCodesByArea()</code>, and per-check helpers such as
+<code class="language-plaintext highlighter-rouge">requestValidationCheck().hasBlockingCode("AGENT_REQUEST_INVALID")</code> for CI gates
+or agent-runtime routing decisions. <code class="language-plaintext highlighter-rouge">readiness.issueHints()</code> returns active
+issues with catalog summaries and remediation text; <code class="language-plaintext highlighter-rouge">AgentReadinessIssueCodes.describe(code)</code>
+returns the same catalog metadata for standalone codes. Readiness checks can
+also include <code class="language-plaintext highlighter-rouge">details</code>; for embedding preflights,
+<code class="language-plaintext highlighter-rouge">checks.request_validation.details.embedding</code> contains input counts, input
+lengths, requested dimensions, encoding format, metadata keys, and the
+embedding/RAG ownership boundary.</p>
+
+<p>For a non-MCP route, keep the same serving checks while skipping MCP discovery
+and tool validation:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">servingReadiness</span><span class="o">(</span>
+    <span class="nc">AgentServingPreflightRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"demo-model"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">surface</span><span class="o">(</span><span class="s">"chat"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="n">chatRequest</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">requestOptions</span><span class="o">(</span><span class="n">trace</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">discoverMcpTools</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">mcpDiscoveryRequired</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">validateTools</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek serving preflight failed"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>For embedding-only routes, pass <code class="language-plaintext highlighter-rouge">surface("embeddings")</code>. The SDK then validates
+the selected model through <code class="language-plaintext highlighter-rouge">embeddingRouteIssues()</code> instead of requiring chat,
+tool, and RAG-context generation features:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">servingReadiness</span><span class="o">(</span>
+    <span class="nc">AgentServingPreflightRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"demo-embed"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">surface</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+            <span class="s">"model"</span><span class="o">,</span> <span class="s">"demo-embed"</span><span class="o">,</span>
+            <span class="s">"input"</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Find context for this task"</span><span class="o">),</span>
+            <span class="s">"dimensions"</span><span class="o">,</span> <span class="mi">768</span><span class="o">,</span>
+            <span class="s">"encoding_format"</span><span class="o">,</span> <span class="s">"float"</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">requestOptions</span><span class="o">(</span><span class="n">trace</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">discoverMcpTools</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">mcpDiscoveryRequired</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">validateTools</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">toolValidationRequired</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek embedding route is not ready"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>The request dry-run also exposes typed embedding details, which is useful when
+Wayang or another orchestrator wants to verify dimensions, encoding, and RAG
+ownership before it creates vectors:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentValidationView</span> <span class="n">dryRun</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">validateRequestView</span><span class="o">(</span>
+    <span class="s">"embeddings"</span><span class="o">,</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="s">"model"</span><span class="o">,</span> <span class="s">"demo-embed"</span><span class="o">,</span>
+        <span class="s">"input"</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Find context for this task"</span><span class="o">),</span>
+        <span class="s">"dimensions"</span><span class="o">,</span> <span class="mi">768</span><span class="o">,</span>
+        <span class="s">"encoding_format"</span><span class="o">,</span> <span class="s">"float"</span><span class="o">),</span>
+    <span class="n">trace</span><span class="o">);</span>
+
+<span class="nc">AgentValidationView</span><span class="o">.</span><span class="na">EmbeddingValidation</span> <span class="n">embedding</span> <span class="o">=</span> <span class="n">dryRun</span><span class="o">.</span><span class="na">embeddingValidation</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">embedding</span><span class="o">.</span><span class="na">rag</span><span class="o">().</span><span class="na">embeddingGeneration</span><span class="o">()</span>
+        <span class="o">||</span> <span class="n">embedding</span><span class="o">.</span><span class="na">rag</span><span class="o">().</span><span class="na">retrievalExecution</span><span class="o">()</span>
+        <span class="o">||</span> <span class="o">!</span><span class="n">embedding</span><span class="o">.</span><span class="na">storageOwnedByOrchestrator</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek crossed the embedding/RAG serving boundary"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordEmbeddingDryRun</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"dimensions"</span><span class="o">,</span> <span class="n">embedding</span><span class="o">.</span><span class="na">requestedDimensions</span><span class="o">(),</span>
+    <span class="s">"encoding_format"</span><span class="o">,</span> <span class="n">embedding</span><span class="o">.</span><span class="na">encodingFormat</span><span class="o">(),</span>
+    <span class="s">"input_lengths"</span><span class="o">,</span> <span class="n">embedding</span><span class="o">.</span><span class="na">inputLengths</span><span class="o">()));</span>
+</code></pre></div></div>
+
+<p>For live agent UIs or coding-agent loops, the lightweight bridge can also stream
+without adding reactive dependencies:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentStreamAccumulator</span><span class="o">.</span><span class="na">Snapshot</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">agent</span><span class="o">().</span><span class="na">streamChatCompletion</span><span class="o">(</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="s">"model"</span><span class="o">,</span> <span class="s">"demo-model"</span><span class="o">,</span>
+        <span class="s">"messages"</span><span class="o">,</span> <span class="n">messages</span><span class="o">,</span>
+        <span class="s">"tools"</span><span class="o">,</span> <span class="n">tools</span><span class="o">.</span><span class="na">openAiToolDefinitions</span><span class="o">(),</span>
+        <span class="s">"rag_context"</span><span class="o">,</span> <span class="n">retrievedChunks</span><span class="o">),</span>
+    <span class="n">trace</span><span class="o">,</span>
+    <span class="n">event</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasDelta</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">wayangUi</span><span class="o">.</span><span class="na">appendDelta</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">delta</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">hasToolCalls</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">wayangToolLoop</span><span class="o">.</span><span class="na">preview</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">toolCalls</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+
+<span class="n">wayangToolLoop</span><span class="o">.</span><span class="na">handle</span><span class="o">(</span><span class="n">stream</span><span class="o">.</span><span class="na">toolCalls</span><span class="o">());</span>
+<span class="n">wayangMemory</span><span class="o">.</span><span class="na">recordAssistantMessage</span><span class="o">(</span><span class="n">stream</span><span class="o">.</span><span class="na">outputText</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>In this bridge, Gollek produces embeddings, validates contracts, serves the model, and returns tool-call declarations. Wayang-Gollek owns vector search, tool execution, memory updates, approval policy, and the next agent step.</p>
+
+<p>For a runnable version of this flow, use the JBang example in the Gollek repo:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>gollek
+./gradlew smokeJbangAgentBridgeExamples <span class="nt">-Pgollek</span>.jbang.agentBridge.offline<span class="o">=</span><span class="nb">false</span>
+</code></pre></div></div>
+
+<p>To run the script manually:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew :sdk:gollek-sdk-agent:publishToMavenLocal
+<span class="nb">cd </span>examples/jbang
+jbang run <span class="nt">--no-integrations</span> integration/wayang_gollek_serving_bridge.java <span class="nt">--mock</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">--live --base-url http://localhost:8080 --api-key community</code> when a Gollek serving endpoint is running.</p>
+
+<h2 id="wayang-gollek-recipe">Wayang-Gollek Recipe</h2>
+
+<ol>
+  <li>Start a Wayang-Gollek workflow with request, trace, session, and user identity.</li>
+  <li>Call <code class="language-plaintext highlighter-rouge">GET /v1/agent/capabilities</code>, <code class="language-plaintext highlighter-rouge">GET /v1/agent/contract</code>, and optionally <code class="language-plaintext highlighter-rouge">GET /v1/agent/readiness/issues</code> during startup or health checks.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">POST /v1/agent/preflight</code> or call each discovery endpoint separately.</li>
+  <li>Check the selected route with <code class="language-plaintext highlighter-rouge">GET /v1/models/{id}/capabilities</code>.</li>
+  <li>Load MCP tools from Gollek using <code class="language-plaintext highlighter-rouge">GET /v1/mcp/tools?compat=openai</code>.</li>
+  <li>Validate low-code tool definitions with <code class="language-plaintext highlighter-rouge">POST /v1/agent/tools/validate</code>.</li>
+  <li>Generate an embedding with <code class="language-plaintext highlighter-rouge">POST /v1/embeddings</code>.</li>
+  <li>Search the Wayang-Gollek vector store using the embedding vector.</li>
+  <li>Pass selected chunks to Gollek as <code class="language-plaintext highlighter-rouge">rag_context</code>.</li>
+  <li>Call <code class="language-plaintext highlighter-rouge">/v1/chat/completions</code> or <code class="language-plaintext highlighter-rouge">/v1/responses</code>.</li>
+  <li>If Gollek returns tool calls, execute them in Wayang-Gollek.</li>
+  <li>Send tool results back through a follow-up generation call if the workflow needs another model step.</li>
+  <li>Store memory, audit events, approvals, and workflow state in Wayang-Gollek.</li>
+</ol>
+
+<h2 id="non-goals">Non-Goals</h2>
+
+<p>Gollek’s agent integration API intentionally does not:</p>
+
+<ul>
+  <li>Plan tasks.</li>
+  <li>Execute tools.</li>
+  <li>Authorize tool calls.</li>
+  <li>Own memory.</li>
+  <li>Choose retrieval policy.</li>
+  <li>Store vector indexes.</li>
+  <li>Manage workflow state.</li>
+  <li>Render low-code agent builders.</li>
+  <li>Run multi-agent coordination loops.</li>
+</ul>
+
+<p>Those responsibilities belong in Wayang-Gollek or another external orchestrator.</p>
+
+<h2 id="related-docs">Related Docs</h2>
+
+<ul>
+  <li><a href="/docs/tutorials/integrations/agent-serving">Agent Serving Quick Start</a></li>
+  <li><a href="/docs/agent-integration-boundary">Agent Integration Boundary</a></li>
+  <li><a href="/docs/agent-framework/">Wayang-Gollek Agent System</a></li>
+  <li><a href="/docs/runtime/inference-serving">Inference Serving</a></li>
+  <li><a href="/docs/runtime/architecture">Runtime Architecture</a></li>
+  <li><a href="/docs/sdk-modules">SDK Modules</a></li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

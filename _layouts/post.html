@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<article class="blog-post">
+  {% if page.date or page.categories %}
+  <p class="blog-meta">
+    {% if page.date %}Published: {{ page.date | date: "%B %-d, %Y" }}{% endif %}
+    {% if page.categories %}<span> · {{ page.categories | join: ", " }}</span>{% endif %}
+  </p>
+  {% endif %}
+
+  {{ content }}
+</article>

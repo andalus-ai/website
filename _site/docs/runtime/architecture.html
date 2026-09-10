@@ -1,0 +1,119 @@
+<h1 id="gollek-architecture-diagrams">Gollek Architecture Diagrams</h1>
+
+<p>This document outlines the high-level architecture, module boundaries, and dispatch sequences of the Gollek platform.</p>
+
+<p>Gollek uses five major module families:</p>
+
+<ul>
+  <li>inference/serving core: <code class="language-plaintext highlighter-rouge">gollek-core</code>, <code class="language-plaintext highlighter-rouge">gollek-spi-*</code>, provider routing</li>
+  <li>format runners: <code class="language-plaintext highlighter-rouge">runner/*</code> (GGUF, Safetensor, ONNX, LiteRT, and others)</li>
+  <li>ML framework: <code class="language-plaintext highlighter-rouge">gollek-ml-*</code></li>
+  <li>trainer: <code class="language-plaintext highlighter-rouge">gollek-trainer-*</code></li>
+  <li>integrations: <code class="language-plaintext highlighter-rouge">gollek-integration-*</code></li>
+</ul>
+
+<p>Some legacy pages still mention older <code class="language-plaintext highlighter-rouge">gollek-sdk-*</code> training-era names. Those should be read as compatibility terminology during migration.</p>
+
+<h2 id="1-high-level-modular-architecture">1. High-Level Modular Architecture</h2>
+
+<p>The Gollek platform uses a layered architecture that keeps inference/serving concerns separate from framework/trainer concerns.</p>
+
+<pre><code class="language-mermaid">graph TD
+    subgraph "Application Surfaces"
+        CLI["gollek-cli"]
+        SDK["gollek-sdk-*"]
+        INTG["gollek-integration-*"]
+    end
+
+    subgraph "Inference / Serving Core"
+        SPI["gollek-spi-* contracts"]
+        CORE["gollek-core + provider routing"]
+    end
+
+    subgraph "Format Runner Layer"
+        GGUF["runner:gguf:*"]
+        ST["runner:safetensor:*"]
+        ONNX["runner:onnx:*"]
+        LITERT["runner:litert:*"]
+    end
+
+    subgraph "ML Framework + Trainer"
+        MLAPI["ml:gollek-ml-api"]
+        MLDATA["ml:gollek-ml-data"]
+        MLNN["ml:gollek-ml-nn"]
+        TRAINERAPI["trainer:gollek-trainer-api"]
+        TRAINER["trainer:gollek-trainer"]
+    end
+
+    subgraph "Backend / Kernel Layer"
+        CPU["CPU backend"]
+        METAL["Metal backend"]
+        CUDA["CUDA backend"]
+        ROCM["ROCm backend"]
+    end
+
+    CLI --&gt; CORE
+    SDK --&gt; CORE
+    INTG --&gt; CORE
+
+    CORE --&gt; SPI
+    CORE --&gt; GGUF
+    CORE --&gt; ST
+    CORE --&gt; ONNX
+    CORE --&gt; LITERT
+
+    GGUF --&gt; CPU
+    GGUF --&gt; METAL
+    ST --&gt; CPU
+    ST --&gt; METAL
+    ONNX --&gt; CPU
+    ONNX --&gt; CUDA
+    ONNX --&gt; ROCM
+    LITERT --&gt; CPU
+    LITERT --&gt; METAL
+
+    MLAPI --&gt; MLDATA
+    MLAPI --&gt; MLNN
+    TRAINER --&gt; TRAINERAPI
+    TRAINER --&gt; MLAPI
+</code></pre>
+
+<h2 id="2-inference-dispatch-sequence">2. Inference Dispatch Sequence</h2>
+
+<p>When a request is served, Gollek resolves the model format and dispatches to the selected runner/backend path.</p>
+
+<pre><code class="language-mermaid">sequenceDiagram
+    participant User
+    participant CLI as Gollek CLI / SDK
+    participant Core as Provider Router
+    participant Runner as Format Runner
+    participant Backend as Compute Backend
+
+    User-&gt;&gt;CLI: run(prompt, model)
+    CLI-&gt;&gt;Core: inference request
+    Core-&gt;&gt;Core: resolve model format + runtime policy
+    Core-&gt;&gt;Runner: dispatch(request)
+    Runner-&gt;&gt;Backend: execute(prefill/decode)
+    Backend--&gt;&gt;Runner: logits / tokens
+    Runner--&gt;&gt;Core: inference response
+    Core--&gt;&gt;CLI: response
+    CLI--&gt;&gt;User: text / stream chunks
+</code></pre>
+
+<h2 id="3-trainer-execution-sequence">3. Trainer Execution Sequence</h2>
+
+<p>Trainer-facing APIs are split from the broader ML facade so orchestration can evolve independently.</p>
+
+<pre><code class="language-mermaid">sequenceDiagram
+    participant App as Trainer App
+    participant API as gollek-trainer-api
+    participant Runtime as gollek-trainer
+    participant ML as gollek-ml-api
+
+    App-&gt;&gt;API: create TrainerConfig + TrainerSession
+    API-&gt;&gt;Runtime: start training session
+    Runtime-&gt;&gt;ML: forward / backward / optimizer step
+    ML--&gt;&gt;Runtime: metrics and model state
+    Runtime--&gt;&gt;API: TrainingSummary + lifecycle events
+    API--&gt;&gt;App: progress callbacks / completion
+</code></pre>

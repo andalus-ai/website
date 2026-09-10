@@ -3,7 +3,7 @@
 # Gollek Documentation Site - Local Run Script
 # This script starts the Jekyll server with livereload and incremental builds.
 
-echo "🚀 Starting Wayang Documentation Site locally..."
+echo "🚀 Starting Gollek Documentation Site locally..."
 
 # Check if Bundler is installed
 if ! command -v bundle &> /dev/null; then

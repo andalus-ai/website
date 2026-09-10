@@ -1,0 +1,1388 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gollek CLI Reference | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Gollek CLI Reference</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="gollek-cli-reference">Gollek CLI Reference</h1>
+
+<p>Quick reference for the core CLI commands.</p>
+
+<hr />
+
+<h2 id="chat-with-models">Chat with Models</h2>
+
+<p>Start an interactive chat session with any supported model.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek chat <span class="nt">--model</span> google/gemma-4-E2B-it <span class="nt">--gguf</span>
+</code></pre></div></div>
+
+<h3 id="gguf-conversion-options">GGUF Conversion Options</h3>
+
+<p>Force GGUF format with custom quantization:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Default Q4_K_M quantization</span>
+gollek chat <span class="nt">--model</span> ~/models/my-model <span class="nt">--gguf</span>
+
+<span class="c"># Custom quantization</span>
+gollek chat <span class="nt">--model</span> ~/models/my-model <span class="nt">--gguf</span> <span class="nt">--quant</span> Q8_0
+</code></pre></div></div>
+
+<h3 id="chat-options">Chat Options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-m, --model</code></td>
+      <td>Model ID or path</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-p, --provider</code></td>
+      <td>Provider ID (gguf, openai, gemini, etc.)</td>
+      <td>Auto</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--gguf</code></td>
+      <td>Force GGUF format (converts if necessary)</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--quant</code></td>
+      <td>Quantization type for GGUF conversion</td>
+      <td>Q4_K_M</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--temperature</code></td>
+      <td>Sampling temperature</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--max-tokens</code></td>
+      <td>Max tokens to generate</td>
+      <td>256</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--top-p</code></td>
+      <td>Top-p sampling</td>
+      <td>0.95</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--top-k</code></td>
+      <td>Top-k sampling</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--stream</code></td>
+      <td>Stream response token by token</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--session</code></td>
+      <td>Enable persistent session (KV cache reuse)</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--concise</code></td>
+      <td>Use concise system prompt</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-v, --verbose</code></td>
+      <td>Show detailed internal logs</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-q, --quiet</code></td>
+      <td>Quiet mode: only output messages</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-color</code></td>
+      <td>Disable ANSI color output</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--json</code></td>
+      <td>Enable JSON output mode</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--sse</code></td>
+      <td>Output as OpenAI-compatible SSE JSON</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">-o, --output</code></td>
+      <td>Save conversation to file</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="quantization-types">Quantization Types</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Quality</th>
+      <th>Size</th>
+      <th>Speed</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Q4_0</code></td>
+      <td>Good</td>
+      <td>Smallest</td>
+      <td>Fastest</td>
+      <td>Edge devices, limited memory</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Q4_K_M</code></td>
+      <td>Better</td>
+      <td>Small</td>
+      <td>Fast</td>
+      <td><strong>Default</strong> - Balanced</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Q5_0</code></td>
+      <td>High</td>
+      <td>Medium</td>
+      <td>Moderate</td>
+      <td>Better quality</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Q5_K_M</code></td>
+      <td>High</td>
+      <td>Medium</td>
+      <td>Moderate</td>
+      <td>Good balance</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Q6_K</code></td>
+      <td>Very High</td>
+      <td>Large</td>
+      <td>Slower</td>
+      <td>High quality needs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Q8_0</code></td>
+      <td>Best</td>
+      <td>Largest</td>
+      <td>Slowest</td>
+      <td>Maximum quality</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">F16</code></td>
+      <td>Original</td>
+      <td>2x</td>
+      <td>Fast</td>
+      <td>No quantization</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">F32</code></td>
+      <td>Original</td>
+      <td>4x</td>
+      <td>Slowest</td>
+      <td>Full precision</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="convert-to-gguf">Convert to GGUF</h2>
+
+<p>Convert a local model (directory or file) into GGUF.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek convert <span class="nt">--input</span> ~/models/llama-2-7b <span class="nt">--output</span> ~/conversions <span class="nt">--quant</span> q4_k_m
+</code></pre></div></div>
+
+<p>Dry‑run (resolve paths only):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek convert <span class="nt">--input</span> ~/models/llama-2-7b <span class="nt">--output</span> ~/conversions <span class="nt">--dry-run</span>
+</code></pre></div></div>
+
+<p>Options:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--input</code>: Input model path (file or directory)</li>
+  <li><code class="language-plaintext highlighter-rouge">--output</code>: Output GGUF file or directory</li>
+  <li><code class="language-plaintext highlighter-rouge">--quant</code>: Quantization type (<code class="language-plaintext highlighter-rouge">q4_k_m</code>, <code class="language-plaintext highlighter-rouge">q8_0</code>, <code class="language-plaintext highlighter-rouge">f16</code>, …)</li>
+  <li><code class="language-plaintext highlighter-rouge">--overwrite</code>: Overwrite output if it exists</li>
+  <li><code class="language-plaintext highlighter-rouge">--dry-run</code>: Resolve paths without converting</li>
+  <li><code class="language-plaintext highlighter-rouge">--json</code>: Print JSON output for scripting</li>
+  <li><code class="language-plaintext highlighter-rouge">--json-pretty</code>: Pretty-print JSON output</li>
+  <li><code class="language-plaintext highlighter-rouge">--model-base</code>: Base path for relative input paths</li>
+  <li><code class="language-plaintext highlighter-rouge">--output-base</code>: Base path for relative output paths</li>
+</ul>
+
+<hr />
+
+<h2 id="run-inference">Run Inference</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--model</span> Qwen/Qwen2.5-0.5B-Instruct <span class="nt">--prompt</span> <span class="s2">"Hi"</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="agent-serving-preflight">Agent Serving Preflight</h2>
+
+<p>Inspect Gollek’s agent-facing discovery contract and validate a serving route for an external agent runtime without invoking a model, executing tools, or running retrieval.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent capabilities <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent contract <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent model-capabilities <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent tools-validate <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--tool-file</span> tools.json <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent request-validate <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Can this route support my agent?"</span> <span class="se">\</span>
+  <span class="nt">--tool-file</span> tools.json <span class="se">\</span>
+  <span class="nt">--rag-context</span> <span class="s2">"Gollek validates payload mapping without invoking the model."</span> <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent mcp-tools <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--require-tools</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span>
+
+gollek agent template-check <span class="se">\</span>
+  <span class="nt">--request-file</span> wayang-agent-route.json <span class="se">\</span>
+  <span class="nt">--json</span>
+
+gollek agent template-example <span class="nt">--list</span>
+
+gollek agent template-example <span class="se">\</span>
+  <span class="nt">--id</span> embedding_rag <span class="se">\</span>
+  <span class="nt">--output</span> wayang-agent-route.json
+
+gollek agent template-example <span class="se">\</span>
+  <span class="nt">--id</span> embedding_rag <span class="se">\</span>
+  <span class="nt">--output</span> wayang-agent-route.json <span class="se">\</span>
+  <span class="nt">--overwrite</span>
+
+gollek agent template-example <span class="se">\</span>
+  <span class="nt">--id</span> embedding_rag <span class="se">\</span>
+  <span class="nt">--json</span>
+
+gollek agent template-schema <span class="nt">--json</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek agent readiness <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--feature-profile</span> chat_agent <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Can this route support my agent?"</span> <span class="se">\</span>
+  <span class="nt">--require-tools</span> <span class="se">\</span>
+  <span class="nt">--require-clean</span> <span class="se">\</span>
+  <span class="nt">--require-serving-boundary</span> <span class="se">\</span>
+  <span class="nt">--json</span>
+
+gollek agent preflight <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-model <span class="se">\</span>
+  <span class="nt">--surface</span> chat <span class="se">\</span>
+  <span class="nt">--feature-profile</span> chat_agent <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Can this route support my agent?"</span>
+
+gollek agent preflight <span class="se">\</span>
+  <span class="nt">--base-url</span> http://localhost:8080 <span class="se">\</span>
+  <span class="nt">--api-key</span> community <span class="se">\</span>
+  <span class="nt">--model</span> demo-embed <span class="se">\</span>
+  <span class="nt">--feature-profile</span> embedding_rag <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"Find context for this task"</span> <span class="se">\</span>
+  <span class="nt">--no-mcp</span> <span class="se">\</span>
+  <span class="nt">--no-tool-validation</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">gollek agent template-schema --json</code> to print the canonical Draft 2020-12 schema for saved agent route templates before wiring a builder, GitHub Action, or Wayang-Gollek integration. Use <code class="language-plaintext highlighter-rouge">gollek agent template-example --list</code> to show the starter catalog for chat, Responses, embeddings/RAG, and MCP tool-schema routes, or add <code class="language-plaintext highlighter-rouge">--json</code> when a website, installer, or low-code builder needs a machine-readable choice list. Use <code class="language-plaintext highlighter-rouge">gollek agent template-example --id embedding_rag --output wayang-agent-route.json</code> to generate a valid starter route template by catalog id and save it locally, then run it through <code class="language-plaintext highlighter-rouge">gollek agent template-check</code> before publishing. Human mode prints the exact <code class="language-plaintext highlighter-rouge">gollek agent template-check --request-file ... --json</code> command for the saved file, including shell-safe quoting when the path contains spaces. <code class="language-plaintext highlighter-rouge">--output</code> writes the selected route template JSON, or the catalog JSON when combined with <code class="language-plaintext highlighter-rouge">--list</code>; it refuses to replace an existing file unless <code class="language-plaintext highlighter-rouge">--overwrite</code> is set. <code class="language-plaintext highlighter-rouge">--json</code> can still be used when stdout must remain machine-readable. <code class="language-plaintext highlighter-rouge">--id</code> accepts the catalog ids and also normalizes hyphenated forms such as <code class="language-plaintext highlighter-rouge">embedding-rag</code>; explicit <code class="language-plaintext highlighter-rouge">--surface</code> or <code class="language-plaintext highlighter-rouge">--feature-profile</code> overrides must match the selected id. Use <code class="language-plaintext highlighter-rouge">gollek agent template-check</code> as the local publishing guard for saved agent route templates. It parses <code class="language-plaintext highlighter-rouge">--request-json</code> or <code class="language-plaintext highlighter-rouge">--request-file</code>, checks top-level route fields against the nested <code class="language-plaintext highlighter-rouge">request</code>, rejects unsupported surfaces, feature profiles, and preflight policy profiles, and exits without HTTP, model invocation, tool execution, retrieval, or workflow state. Human mode prints stable <code class="language-plaintext highlighter-rouge">[code: ...]</code> annotations plus compact <code class="language-plaintext highlighter-rouge">field</code>, <code class="language-plaintext highlighter-rouge">value</code>, <code class="language-plaintext highlighter-rouge">suggested</code>, and <code class="language-plaintext highlighter-rouge">allowed</code> hints for template issues; JSON mode keeps the compatibility <code class="language-plaintext highlighter-rouge">issues</code> string array and also emits <code class="language-plaintext highlighter-rouge">issue_details[]</code> with stable <code class="language-plaintext highlighter-rouge">code</code>, <code class="language-plaintext highlighter-rouge">field</code>, optional <code class="language-plaintext highlighter-rouge">value</code>, optional <code class="language-plaintext highlighter-rouge">suggested_value</code>, and optional <code class="language-plaintext highlighter-rouge">allowed_values</code> for CI annotations. Use <code class="language-plaintext highlighter-rouge">gollek agent readiness</code> as the CI bundle for agent-serving integration checks. It calls capabilities, contract, model capabilities, MCP tool discovery, tool validation, request validation, and preflight, then emits <code class="language-plaintext highlighter-rouge">gollek.agent_readiness_report</code> with <code class="language-plaintext highlighter-rouge">checked_areas</code>, <code class="language-plaintext highlighter-rouge">checks</code>, and <code class="language-plaintext highlighter-rouge">issues_by_area</code> for dashboard-friendly gating. Readiness exits <code class="language-plaintext highlighter-rouge">1</code> on any blocked checklist item, including serving-boundary drift. Use <code class="language-plaintext highlighter-rouge">--json</code> with any <code class="language-plaintext highlighter-rouge">gollek agent</code> subcommand for CI-friendly raw output. Use <code class="language-plaintext highlighter-rouge">--feature-profile</code> with <code class="language-plaintext highlighter-rouge">agent_serving</code>, <code class="language-plaintext highlighter-rouge">chat_agent</code>, <code class="language-plaintext highlighter-rouge">responses_agent</code>, <code class="language-plaintext highlighter-rouge">embedding_rag</code>, or <code class="language-plaintext highlighter-rouge">mcp_tools</code> to choose a named serving bundle; <code class="language-plaintext highlighter-rouge">embedding_rag</code> defaults generated requests and example templates to the embeddings surface when <code class="language-plaintext highlighter-rouge">--surface</code> is omitted. Use <code class="language-plaintext highlighter-rouge">--request-json</code> or <code class="language-plaintext highlighter-rouge">--request-file</code> with <code class="language-plaintext highlighter-rouge">template-check</code>, <code class="language-plaintext highlighter-rouge">request-validate</code>, <code class="language-plaintext highlighter-rouge">readiness</code>, or <code class="language-plaintext highlighter-rouge">preflight</code> to send either a direct chat, Responses, or embeddings request, or a full saved route template with a nested <code class="language-plaintext highlighter-rouge">request</code> object. These commands reject explicit route conflicts locally before calling Gollek unless <code class="language-plaintext highlighter-rouge">--model</code>, <code class="language-plaintext highlighter-rouge">--surface</code>, or <code class="language-plaintext highlighter-rouge">--feature-profile</code> intentionally overrides the template. In JSON mode, route conflicts return <code class="language-plaintext highlighter-rouge">AGENT_ROUTE_CONFLICT</code> with <code class="language-plaintext highlighter-rouge">conflicts[].field</code>, <code class="language-plaintext highlighter-rouge">conflicts[].top_level</code>, and <code class="language-plaintext highlighter-rouge">conflicts[].request</code> for CI annotations. Add <code class="language-plaintext highlighter-rouge">--tool-file</code> for OpenAI-compatible tool definitions, <code class="language-plaintext highlighter-rouge">--rag-context</code> or <code class="language-plaintext highlighter-rouge">--rag-file</code> for caller-owned retrieval context, and <code class="language-plaintext highlighter-rouge">--no-mcp</code> or <code class="language-plaintext highlighter-rouge">--mcp-optional</code> when the route should not block on MCP discovery.</p>
+
+<p>Human-mode <code class="language-plaintext highlighter-rouge">gollek agent readiness</code> prints model, surface, feature profile, per-check status, endpoint, and any blocking or warning messages across capabilities, contract, model route, MCP discovery, tool validation, request validation, and server preflight. Blocking and warning lines include stable <code class="language-plaintext highlighter-rouge">[code: ...]</code> annotations when available, so operators can copy the exact CI/dashboard reason without opening raw JSON. When the server exposes preflight <code class="language-plaintext highlighter-rouge">check_results</code>, human-mode <code class="language-plaintext highlighter-rouge">gollek agent preflight</code> prints the same style of per-area status, codes, and details so operators can fix the route without opening the raw JSON first.</p>
+
+<p>Chat request preflight shows the serving boundary and the normalized request shape:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Gollek agent preflight: ready
+Endpoint: http://localhost:8080/v1/agent/preflight
+Model: demo-model
+Surface: chat
+Feature profile: chat_agent
+Boundary: validation_only=true, model_invoked=false, tool_execution=false, retrieval_execution=false, tool_authorization=false
+Issues: blocking=0, warnings=0
+Checks: ready=5, blocked=0, skipped=1
+- request_validation: ready, requested=true
+  details: surface=chat, model=demo-model
+  boundary: validation_only=true, model_invoked=false, tool_execution=false, retrieval_execution=false
+  request: streaming=false, messages=2, inputs=0, tools=1, parameters=model,tools
+  rag: injected=true, items=1, alias=rag_context
+</code></pre></div></div>
+
+<p>Embedding preflight keeps the same service boundary while exposing vector-route details for caller-owned RAG:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Gollek agent preflight: ready
+Model: demo-embed
+Surface: embeddings
+- request_validation: ready, requested=true
+  details: surface=embeddings, model=demo-embed
+  boundary: validation_only=true, model_invoked=false, tool_execution=false, retrieval_execution=false
+  embeddings: inputs=2, input_lengths=5,4, requested_dimensions=768, encoding=float, metadata_keys=tenant
+  embedding boundary: generation=true, retrieval_execution=false, retrieval_policy_owner=agent_orchestrator, vector_store_owner=agent_orchestrator
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--base-url</code></td>
+      <td>Gollek serving base URL</td>
+      <td><code class="language-plaintext highlighter-rouge">GOLLEK_BASE_URL</code>, then <code class="language-plaintext highlighter-rouge">http://localhost:8080</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--api-key</code></td>
+      <td>API key sent as <code class="language-plaintext highlighter-rouge">X-API-Key</code> and <code class="language-plaintext highlighter-rouge">Authorization: Bearer</code></td>
+      <td><code class="language-plaintext highlighter-rouge">GOLLEK_API_KEY</code>, then <code class="language-plaintext highlighter-rouge">community</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--require-serving-boundary</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">capabilities</code>, <code class="language-plaintext highlighter-rouge">contract</code>, <code class="language-plaintext highlighter-rouge">model-capabilities</code>, <code class="language-plaintext highlighter-rouge">tools-validate</code>, <code class="language-plaintext highlighter-rouge">request-validate</code>, and <code class="language-plaintext highlighter-rouge">mcp-tools</code>, exit <code class="language-plaintext highlighter-rouge">1</code> when Gollek does not advertise the serving-engine boundary. <code class="language-plaintext highlighter-rouge">readiness</code> always treats boundary drift as blocked.</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tool-json</code>, <code class="language-plaintext highlighter-rouge">--tools-json</code></td>
+      <td>Inline JSON tool object, array, or object with <code class="language-plaintext highlighter-rouge">tools</code> array for <code class="language-plaintext highlighter-rouge">tools-validate</code></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tool-file</code>, <code class="language-plaintext highlighter-rouge">--tools-file</code></td>
+      <td>JSON tool definition file(s) for <code class="language-plaintext highlighter-rouge">tools-validate</code>, <code class="language-plaintext highlighter-rouge">request-validate</code>, <code class="language-plaintext highlighter-rouge">readiness</code>, or <code class="language-plaintext highlighter-rouge">preflight</code></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--require-clean</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">tools-validate</code>, <code class="language-plaintext highlighter-rouge">request-validate</code>, and <code class="language-plaintext highlighter-rouge">readiness</code>, exit <code class="language-plaintext highlighter-rouge">1</code> when portability warnings are returned</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--server</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">mcp-tools</code>, inspect one MCP server</td>
+      <td>all enabled servers</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--raw-mcp-tools</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">mcp-tools</code>, <code class="language-plaintext highlighter-rouge">readiness</code>, or <code class="language-plaintext highlighter-rouge">preflight</code>, request raw MCP schemas instead of OpenAI-compatible tools</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--include-disabled-mcp</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">mcp-tools</code>, <code class="language-plaintext highlighter-rouge">readiness</code>, or <code class="language-plaintext highlighter-rouge">preflight</code>, include disabled MCP registrations</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--require-tools</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">mcp-tools</code> and <code class="language-plaintext highlighter-rouge">readiness</code>, exit <code class="language-plaintext highlighter-rouge">1</code> when discovery returns no tools</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--model</code>, <code class="language-plaintext highlighter-rouge">-m</code></td>
+      <td>Model id to validate, check, preflight, or include in <code class="language-plaintext highlighter-rouge">template-example</code> output</td>
+      <td>Request <code class="language-plaintext highlighter-rouge">model</code> field</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--id</code>, <code class="language-plaintext highlighter-rouge">--example-id</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">template-example</code>, generate a starter by catalog id: <code class="language-plaintext highlighter-rouge">chat</code>, <code class="language-plaintext highlighter-rouge">responses</code>, <code class="language-plaintext highlighter-rouge">embedding_rag</code>, or <code class="language-plaintext highlighter-rouge">mcp_tools</code></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--list</code>, <code class="language-plaintext highlighter-rouge">--catalog</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">template-example</code>, print the available starter route-template catalog instead of one route template</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--output</code>, <code class="language-plaintext highlighter-rouge">-o</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">template-example</code>, write the generated route template or catalog JSON to a file</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--overwrite</code></td>
+      <td>For <code class="language-plaintext highlighter-rouge">template-example --output</code>, replace an existing output file</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--surface</code></td>
+      <td>Compatibility surface for <code class="language-plaintext highlighter-rouge">template-example</code>, <code class="language-plaintext highlighter-rouge">template-check</code>, <code class="language-plaintext highlighter-rouge">request-validate</code>, <code class="language-plaintext highlighter-rouge">readiness</code>, or <code class="language-plaintext highlighter-rouge">preflight</code>: <code class="language-plaintext highlighter-rouge">chat</code>, <code class="language-plaintext highlighter-rouge">responses</code>, or <code class="language-plaintext highlighter-rouge">embeddings</code></td>
+      <td><code class="language-plaintext highlighter-rouge">chat</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--feature-profile</code></td>
+      <td>Serving feature profile for <code class="language-plaintext highlighter-rouge">template-example</code>, <code class="language-plaintext highlighter-rouge">template-check</code>, <code class="language-plaintext highlighter-rouge">request-validate</code>, <code class="language-plaintext highlighter-rouge">readiness</code>, or <code class="language-plaintext highlighter-rouge">preflight</code>: <code class="language-plaintext highlighter-rouge">agent_serving</code>, <code class="language-plaintext highlighter-rouge">chat_agent</code>, <code class="language-plaintext highlighter-rouge">responses_agent</code>, <code class="language-plaintext highlighter-rouge">embedding_rag</code>, or <code class="language-plaintext highlighter-rouge">mcp_tools</code></td>
+      <td><code class="language-plaintext highlighter-rouge">agent_serving</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--request-json</code>, <code class="language-plaintext highlighter-rouge">--request-file</code></td>
+      <td>OpenAI-compatible request JSON; <code class="language-plaintext highlighter-rouge">template-check</code>, <code class="language-plaintext highlighter-rouge">request-validate</code>, <code class="language-plaintext highlighter-rouge">readiness</code>, and <code class="language-plaintext highlighter-rouge">preflight</code> also accept a full route template with nested <code class="language-plaintext highlighter-rouge">request</code>; <code class="language-plaintext highlighter-rouge">template-check</code> requires one of these inputs</td>
+      <td>Generated from prompt</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--rag-context</code>, <code class="language-plaintext highlighter-rouge">--rag-file</code></td>
+      <td>Caller-owned RAG context to validate for injection</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-mcp</code></td>
+      <td>Skip MCP tool discovery</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--mcp-optional</code></td>
+      <td>Do not block when MCP discovery is unavailable</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-tool-validation</code></td>
+      <td>Skip tool schema validation</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-request-validation</code></td>
+      <td>Skip request dry-run validation</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--json</code></td>
+      <td>Print the raw discovery, local template-check, template schema, template example/catalog, readiness, or preflight response</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="text-to-speech-with-onnx">Text-to-Speech with ONNX</h3>
+
+<p>Gollek can run the MOSS TTS Nano ONNX pipeline locally and save generated speech as WAV, plus FLAC or MP3 when the external Suling audio extension is attached. The packaged fallback is healthy for lean builds and supports WAV; FLAC uses the libFLAC FFM backend, and MP3 uses the FFmpeg FFM bridge with <code class="language-plaintext highlighter-rouge">libmp3lame</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Pull the TTS model</span>
+gollek pull OpenMOSS-Team/MOSS-TTS-Nano-100M-ONNX
+
+<span class="c"># Generate balanced MP3 with a named preset</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"apa kabar dunia"</span> <span class="se">\</span>
+  <span class="nt">--voice</span> <span class="s2">"en Trump"</span> <span class="se">\</span>
+  <span class="nt">--audio-quality</span> balanced <span class="se">\</span>
+  <span class="nt">--output</span> ~/Downloads/tes-onnx-id.mp3
+
+<span class="c"># Generate lossless FLAC with separate selector flags</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"hello"</span> <span class="se">\</span>
+  <span class="nt">--voice-lang</span> en <span class="se">\</span>
+  <span class="nt">--voice-gender</span> female <span class="se">\</span>
+  <span class="nt">--audio-quality</span> lossless <span class="se">\</span>
+  <span class="nt">--output</span> hello.flac
+
+<span class="c"># Preview decoded PCM while the final file is being generated</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"hello"</span> <span class="se">\</span>
+  <span class="nt">--voice</span> <span class="s2">"en Trump"</span> <span class="se">\</span>
+  <span class="nt">--live-audio</span> <span class="se">\</span>
+  <span class="nt">--output</span> hello.mp3
+
+<span class="c"># Inspect available voices without generating audio</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="nt">--list-voices</span>
+
+<span class="c"># Inspect MOSS TTS model, codec, ONNX caches, and audio backends</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="nt">--tts-diagnostics</span>
+
+<span class="c"># Emit structured diagnostics for scripts and health checks</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="nt">--tts-diagnostics</span> <span class="nt">--json</span>
+
+<span class="c"># Inspect the packaged Suling audio-extension state</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.byId.suling'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.audioExtensions.suling'</span>
+
+<span class="c"># Warm MOSS TTS assets and ONNX sessions without generating audio</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="nt">--tts-warmup</span>
+
+<span class="c"># Warm MOSS TTS and report cache/session state as JSON</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="nt">--tts-warmup</span> <span class="nt">--json</span>
+
+<span class="c"># Preview stale MOSS TTS optimized graph cache cleanup</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="nt">--tts-cache-prune</span>
+
+<span class="c"># Apply stale MOSS TTS optimized graph cache cleanup</span>
+gollek run <span class="nt">--model</span> 71e8f7 <span class="nt">--tts-cache-prune-apply</span>
+</code></pre></div></div>
+
+<p>MOSS TTS uses a companion codec repository, <code class="language-plaintext highlighter-rouge">OpenMOSS-Team/MOSS-Audio-Tokenizer-Nano-ONNX</code>. Gollek discovers it from the local model index and can pull it automatically unless <code class="language-plaintext highlighter-rouge">--no-tts-auto-codec</code> is set.</p>
+
+<p>Repeated MOSS TTS runs cache ONNX Runtime optimized graphs under <code class="language-plaintext highlighter-rouge">~/.gollek/cache/onnx/optimized/moss-tts</code> by default, and codec sessions are opened lazily so normal runs skip unused codec graphs. The cache key includes ONNX external <code class="language-plaintext highlighter-rouge">.data</code> sidecars, so repaired or replaced model weights create fresh optimized graph entries. <code class="language-plaintext highlighter-rouge">Audio details</code> reports the cache state, such as <code class="language-plaintext highlighter-rouge">onnx cache 0/4 hit (4 built)</code> for a fresh normal run or <code class="language-plaintext highlighter-rouge">onnx cache 4/4 hit</code> once warm. Diagnostics show cache directory size, current optimized files, stale optimized files, unrelated optimized files, orphan sidecars, and external data sidecar inventory. Use <code class="language-plaintext highlighter-rouge">--tts-cache-prune</code> to preview stale optimized graph cleanup, then <code class="language-plaintext highlighter-rouge">--tts-cache-prune-apply</code> to delete the stale optimized graph files. Prune is scoped to stale files that match the resolved model’s graph filename families, so unrelated optimized graph files in the same cache root are listed and reported but not deleted. External <code class="language-plaintext highlighter-rouge">.data</code> sidecars are pruned only when removing stale graphs would leave no current or unrelated optimized graph in the cache root; JSON includes <code class="language-plaintext highlighter-rouge">external_data_sidecar_prune_policy</code>, <code class="language-plaintext highlighter-rouge">pruneable_external_data_sidecar_*</code>, and <code class="language-plaintext highlighter-rouge">retained_external_data_sidecar_*</code> fields for automation. Diagnostics, warmup, and prune support <code class="language-plaintext highlighter-rouge">--json</code>, which prints structured cache, session, asset, voice, codec, and audio backend status for scripts. MOSS TTS defaults ONNX Runtime native logging to <code class="language-plaintext highlighter-rouge">error</code> so JSON output stays parseable; set <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_LOG_LEVEL=warning</code> or <code class="language-plaintext highlighter-rouge">-Dgollek.onnx.log-level=warning</code> when native ORT warnings are useful. Long-lived JVM processes also keep small MOSS session and asset caches: <code class="language-plaintext highlighter-rouge">onnx sessions warmed</code> / <code class="language-plaintext highlighter-rouge">onnx assets warmed</code> mean the model was loaded into the process cache, while <code class="language-plaintext highlighter-rouge">onnx sessions hot</code> / <code class="language-plaintext highlighter-rouge">onnx assets hot</code> mean the request reused already-open sessions and parsed metadata/tokenizer assets. Set <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_OPTIMIZED_MODEL_CACHE=false</code> or <code class="language-plaintext highlighter-rouge">-Dgollek.onnx.optimized-model-cache.enabled=false</code> to disable graph caching, and use <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_OPTIMIZED_MODEL_CACHE_DIR</code> or <code class="language-plaintext highlighter-rouge">-Dgollek.onnx.optimized-model-cache.dir</code> to relocate it. Set <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_MOSS_TTS_SESSION_CACHE=false</code> or <code class="language-plaintext highlighter-rouge">-Dgollek.onnx.moss-tts.session-cache.enabled=false</code> to disable in-process session caching; <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_MOSS_TTS_SESSION_CACHE_MAX_ENTRIES</code> and <code class="language-plaintext highlighter-rouge">-Dgollek.onnx.moss-tts.session-cache.max-entries</code> tune its size. Asset caching has matching <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_MOSS_TTS_ASSET_CACHE</code> and <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_MOSS_TTS_ASSET_CACHE_MAX_ENTRIES</code> controls.</p>
+
+<h3 id="run-options">Run Options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--model</code></td>
+      <td>Local model id, short id, Hugging Face id, or path</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--prompt</code></td>
+      <td>Prompt text for text, image, or audio generation</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--provider</code></td>
+      <td>Provider override, such as <code class="language-plaintext highlighter-rouge">onnx</code>, <code class="language-plaintext highlighter-rouge">gguf</code>, or <code class="language-plaintext highlighter-rouge">safetensor</code></td>
+      <td>Auto</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--output</code>, <code class="language-plaintext highlighter-rouge">-o</code></td>
+      <td>Output path for image or audio artifacts</td>
+      <td>Provider default</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--seed</code></td>
+      <td>Random seed for reproducible image/TTS output. MOSS TTS defaults to <code class="language-plaintext highlighter-rouge">1234</code>.</td>
+      <td>Generated for image, <code class="language-plaintext highlighter-rouge">1234</code> for TTS</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--random-seed</code>, <code class="language-plaintext highlighter-rouge">--tts-random-seed</code></td>
+      <td>Use a fresh random TTS seed when <code class="language-plaintext highlighter-rouge">--seed</code> is omitted</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--voice</code>, <code class="language-plaintext highlighter-rouge">--tts-voice</code></td>
+      <td>TTS voice preset or selector string</td>
+      <td>Auto/default</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--voice-lang</code>, <code class="language-plaintext highlighter-rouge">--voice-language</code></td>
+      <td>TTS voice language selector, such as <code class="language-plaintext highlighter-rouge">en</code>, <code class="language-plaintext highlighter-rouge">jp</code>, or <code class="language-plaintext highlighter-rouge">zh</code></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--voice-gender</code></td>
+      <td>TTS gender selector, or a preset term when used with <code class="language-plaintext highlighter-rouge">--voice-lang</code></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--list-voices</code>, <code class="language-plaintext highlighter-rouge">--voices</code></td>
+      <td>Print TTS voice presets for the resolved model and exit</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-diagnostics</code>, <code class="language-plaintext highlighter-rouge">--tts-preflight</code></td>
+      <td>Inspect local MOSS TTS model, codec, voices, caches, and audio encoders without generating audio</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-warmup</code>, <code class="language-plaintext highlighter-rouge">--onnx-warmup</code></td>
+      <td>Warm MOSS TTS model assets and ONNX sessions without generating audio</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-cache-prune</code>, <code class="language-plaintext highlighter-rouge">--onnx-cache-prune</code></td>
+      <td>Preview stale MOSS TTS optimized graph cache cleanup</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-cache-prune-apply</code>, <code class="language-plaintext highlighter-rouge">--onnx-cache-prune-apply</code></td>
+      <td>Delete stale MOSS TTS optimized graph cache files</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-codec</code>, <code class="language-plaintext highlighter-rouge">--codec</code></td>
+      <td>Companion codec model id, short id, or path</td>
+      <td>Auto</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-tts-auto-codec</code></td>
+      <td>Disable automatic MOSS codec pull</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-max-frames</code>, <code class="language-plaintext highlighter-rouge">--max-frames</code></td>
+      <td>Maximum audio frames for TTS generation</td>
+      <td>Model limit</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-max-seconds</code>, <code class="language-plaintext highlighter-rouge">--max-seconds</code></td>
+      <td>Maximum generated audio duration</td>
+      <td>Model limit</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-format</code>, <code class="language-plaintext highlighter-rouge">--tts-audio-format</code></td>
+      <td>Audio output format for TTS: <code class="language-plaintext highlighter-rouge">wav</code>, <code class="language-plaintext highlighter-rouge">flac</code>, or <code class="language-plaintext highlighter-rouge">mp3</code></td>
+      <td>From <code class="language-plaintext highlighter-rouge">--output</code>, preset, or WAV</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-quality</code>, <code class="language-plaintext highlighter-rouge">--tts-audio-quality</code></td>
+      <td>TTS quality preset: <code class="language-plaintext highlighter-rouge">compact</code>, <code class="language-plaintext highlighter-rouge">speech</code>, <code class="language-plaintext highlighter-rouge">balanced</code>, <code class="language-plaintext highlighter-rouge">high</code>, or <code class="language-plaintext highlighter-rouge">lossless</code></td>
+      <td>Auto</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-bitrate</code>, <code class="language-plaintext highlighter-rouge">--audio-bitrate-kbps</code></td>
+      <td>Encoded bitrate in kbps for formats such as MP3</td>
+      <td>Preset or encoder default</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-channels</code>, <code class="language-plaintext highlighter-rouge">--tts-audio-channels</code></td>
+      <td>Channel mode: <code class="language-plaintext highlighter-rouge">auto</code>, <code class="language-plaintext highlighter-rouge">mono</code>, <code class="language-plaintext highlighter-rouge">stereo</code>, or <code class="language-plaintext highlighter-rouge">native</code></td>
+      <td>auto</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-codec-decode</code>, <code class="language-plaintext highlighter-rouge">--codec-decode</code></td>
+      <td>MOSS codec decode mode: <code class="language-plaintext highlighter-rouge">auto</code>, <code class="language-plaintext highlighter-rouge">streaming</code>, or <code class="language-plaintext highlighter-rouge">full</code></td>
+      <td>auto</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-stream-chunk-kb</code>, <code class="language-plaintext highlighter-rouge">--tts-stream-chunk-kb</code></td>
+      <td>Encoded audio stream chunk size in KiB</td>
+      <td>64</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-stream-progress-frames</code></td>
+      <td>Emit progress every N generated frames</td>
+      <td>Runner default</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-tts-stream-progress</code></td>
+      <td>Hide live TTS progress updates</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--tts-stream-pcm</code>, <code class="language-plaintext highlighter-rouge">--audio-stream-pcm</code></td>
+      <td>Emit decoded PCM preview chunks while streaming</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--live-audio</code>, <code class="language-plaintext highlighter-rouge">--tts-live-audio</code></td>
+      <td>Play decoded PCM chunks while the final file is generated</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-low-latency-audio</code></td>
+      <td>Emit PCM preview after generation instead of during frame generation</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-audio-polish</code></td>
+      <td>Disable DC removal, edge fades, and peak normalization</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-audio-normalize</code></td>
+      <td>Disable peak normalization while keeping other audio polish</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-gain-db</code></td>
+      <td>Extra output gain before encoding</td>
+      <td>0 dB</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-peak-db</code></td>
+      <td>Peak-normalization target in dBFS</td>
+      <td>-3 dBFS</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--audio-fade-ms</code></td>
+      <td>Fade-in/fade-out duration in milliseconds</td>
+      <td>Runner default</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--flac-compression</code></td>
+      <td>FLAC compression level, 0 fastest through 8 smallest</td>
+      <td>Preset or 5</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--ext</code></td>
+      <td>Explicit output extension. Overrides the extension in <code class="language-plaintext highlighter-rouge">--output</code>.</td>
+      <td>Provider format</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="tts-audio-formats">TTS Audio Formats</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Preset</th>
+      <th>Format</th>
+      <th>Default Encoding</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">compact</code></td>
+      <td>MP3</td>
+      <td>64 kbps</td>
+      <td>Small files and quick sharing</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">speech</code></td>
+      <td>MP3</td>
+      <td>96 kbps</td>
+      <td>Spoken-word drafts</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">balanced</code></td>
+      <td>MP3</td>
+      <td>128 kbps</td>
+      <td>General-purpose output</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">high</code></td>
+      <td>MP3</td>
+      <td>192 kbps</td>
+      <td>Higher-quality lossy output</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">lossless</code></td>
+      <td>FLAC</td>
+      <td>Compression level 8</td>
+      <td>Archival or post-processing</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can override the preset with <code class="language-plaintext highlighter-rouge">--audio-format</code>, <code class="language-plaintext highlighter-rouge">--audio-bitrate</code>, or <code class="language-plaintext highlighter-rouge">--flac-compression</code>. Output extension detection also works, so <code class="language-plaintext highlighter-rouge">--output hello.mp3</code> writes MP3 unless an explicit format says otherwise.</p>
+
+<h3 id="tts-voice-selection">TTS Voice Selection</h3>
+
+<p>Voice selection is intentionally strict enough to avoid accidental fallbacks:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--voice "en Trump"</code> selects the real <code class="language-plaintext highlighter-rouge">EN Trump</code> preset.</li>
+  <li><code class="language-plaintext highlighter-rouge">--voice-lang en --voice-gender Trump</code> is equivalent to <code class="language-plaintext highlighter-rouge">--voice "en Trump"</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">--voice-lang en --voice-gender female</code> selects an English female preset.</li>
+  <li><code class="language-plaintext highlighter-rouge">--voice "jp male"</code> reports that no Japanese male preset is available when the model does not ship one.</li>
+  <li>Unknown terms fail with an error that lists valid voices for the requested language.</li>
+</ul>
+
+<p>TTS runs print audio-native metrics instead of token speed:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Audio details: 2.08s, 48000 Hz, 1ch, 26 frames, 128 kbps, voice EN Trump, seed 1234, mono collapsed, polished peak
+[Audio: 2.08s, Generation: 2.91s, Speed: 0.71x realtime, RTF: 1.40, Synthesis: 8.9 frames/s]
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="pull-a-model">Pull a Model</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek pull hf:Qwen/Qwen2.5-0.5B-Instruct
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="manage-extensions">Manage Extensions</h2>
+
+<p>Use extensions for installable external packages such as OCR/VL pipelines, training tools, quantizers, optimizers, exporters, datasets, evaluators, or backend bridges.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek extensions kinds
+gollek extensions init features/gollek-ocr-lab <span class="nt">--kind</span> pipeline <span class="nt">--pipeline-id</span> ocr-lab <span class="nt">--gollek-path</span> gollek
+gollek extensions init features/gollek-awq-lab <span class="nt">--kind</span> quantization <span class="nt">--adapter-id</span> awq-quantizer <span class="nt">--input</span> model <span class="nt">--output</span> model <span class="nt">--target</span> llm <span class="nt">--format</span> safetensors,gguf <span class="nt">--gollek-path</span> gollek
+gollek extensions <span class="nt">--details</span> <span class="nt">--paths</span>
+gollek extensions inspect path/to/extension.jar <span class="nt">--strict</span>
+gollek extensions <span class="nb">install </span>path/to/extension.jar <span class="nt">--force</span>
+gollek extensions index <span class="nt">--output</span> gollek-extensions.index.json
+gollek extensions migrate <span class="nt">--dry-run</span>
+gollek extensions finalize-migration <span class="nt">--dry-run</span>
+gollek extensions prune-legacy <span class="nt">--dry-run</span>
+gollek extensions doctor <span class="nt">--strict</span> <span class="nt">--json</span>
+gollek extensions backups <span class="nt">--json</span>
+gollek extensions rollback extension-id <span class="nt">--dry-run</span>
+gollek extensions remove extension-id
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">gollek features</code> is still accepted as an alias. <code class="language-plaintext highlighter-rouge">gollek modules</code> shows built-in runtime modules and low-level plugins.</p>
+
+<p><code class="language-plaintext highlighter-rouge">gollek extensions kinds</code> lists scaffold kinds, generated service type, default inputs/outputs, target hints, and copyable examples. <code class="language-plaintext highlighter-rouge">gollek extensions init</code> defaults to a pipeline scaffold. Passing <code class="language-plaintext highlighter-rouge">--kind training</code>, <code class="language-plaintext highlighter-rouge">optimization</code>, <code class="language-plaintext highlighter-rouge">quantization</code>, <code class="language-plaintext highlighter-rouge">backend</code>, <code class="language-plaintext highlighter-rouge">exporter</code>, <code class="language-plaintext highlighter-rouge">dataset</code>, or <code class="language-plaintext highlighter-rouge">evaluator</code> scaffolds a <code class="language-plaintext highlighter-rouge">FeatureAdapter</code> service and manifest capability for non-inference-extension work.</p>
+
+<p>Preferred extension metadata lives at <code class="language-plaintext highlighter-rouge">META-INF/gollek-extension.json</code>; legacy <code class="language-plaintext highlighter-rouge">META-INF/gollek-feature.json</code> manifests are still supported. Generated manifests include service metadata and an ahead-of-time loading note so tools can inventory extension entrypoints without loading classes.</p>
+
+<p><code class="language-plaintext highlighter-rouge">gollek extensions migrate</code> copies legacy <code class="language-plaintext highlighter-rouge">~/.gollek/features</code> jars into <code class="language-plaintext highlighter-rouge">~/.gollek/extensions</code> and writes the preferred lock file. The legacy directory is not a runtime extension path. Add <code class="language-plaintext highlighter-rouge">--force</code> to replace conflicting target jars after rollback backups are created.</p>
+
+<p><code class="language-plaintext highlighter-rouge">gollek extensions finalize-migration --dry-run</code> previews legacy jars that already match a preferred extension by checksum, extension id, feature id, pipeline id, adapter id, provider class, or implementation class. Running without <code class="language-plaintext highlighter-rouge">--dry-run</code> archives the legacy jar into rollback backups first, then removes it from <code class="language-plaintext highlighter-rouge">~/.gollek/features</code>. <code class="language-plaintext highlighter-rouge">gollek extensions prune-legacy</code> remains available as the lower-level cleanup command.</p>
+
+<p><code class="language-plaintext highlighter-rouge">doctor</code> reports extension, feature, pipeline, adapter, provider class, and implementation class collisions. It treats them as warnings normally and as failures under <code class="language-plaintext highlighter-rouge">--strict</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">doctor</code> also reports a migration-only <code class="language-plaintext highlighter-rouge">legacy_migration</code> status. The legacy directory is not scanned as a runtime path, but doctor can still suggest <code class="language-plaintext highlighter-rouge">migrate --dry-run</code> or <code class="language-plaintext highlighter-rouge">finalize-migration --dry-run</code> when old jars are present.</p>
+
+<p>Legacy path configuration such as <code class="language-plaintext highlighter-rouge">GOLLEK_FEATURE_PATH</code> or <code class="language-plaintext highlighter-rouge">-Dgollek.features.path</code> is ignored. <code class="language-plaintext highlighter-rouge">doctor</code> reports those settings as warnings, and <code class="language-plaintext highlighter-rouge">--strict</code> fails so stale team or CI configuration is visible.</p>
+
+<p>On the JVM, installed extension jars can be loaded dynamically from <code class="language-plaintext highlighter-rouge">~/.gollek/extensions</code>, <code class="language-plaintext highlighter-rouge">GOLLEK_EXTENSION_PATH</code>, or <code class="language-plaintext highlighter-rouge">-Dgollek.extensions.path</code>. In GraalVM native image runtime, dynamic jar loading is disabled; extensions must be included ahead of time in the native build, while <code class="language-plaintext highlighter-rouge">doctor</code> still inspects installed jar manifests. <code class="language-plaintext highlighter-rouge">gollek extensions index --output gollek-extensions.index.json</code> emits a launcher/build inventory with jar checksums, ServiceLoader entries, manifest capabilities, validation status, and native-image hints.</p>
+
+<hr />
+
+<p><a href="/docs/">Back to Docs Index</a>   <a href="/docs/setup/cli-installation">CLI Installation</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

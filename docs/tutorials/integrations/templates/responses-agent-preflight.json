@@ -1,0 +1,45 @@
+{
+  "model": "demo-model",
+  "surface": "responses",
+  "feature_profile": "responses_agent",
+  "preflight_policy": {
+    "profile": "requested_route"
+  },
+  "discover_mcp_tools": true,
+  "mcp_discovery_required": true,
+  "validate_tools": true,
+  "tool_validation_required": true,
+  "validate_request": true,
+  "request_validation_required": true,
+  "request": {
+    "model": "demo-model",
+    "instructions": "Use caller-selected context and tools when relevant.",
+    "input": "Summarize the current agent-serving route.",
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "lookup_context",
+          "description": "Look up caller-owned context.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      }
+    ],
+    "retrieval_context": [
+      {
+        "source": "docs",
+        "text": "Gollek receives selected context but does not own retrieval policy."
+      }
+    ]
+  }
+}

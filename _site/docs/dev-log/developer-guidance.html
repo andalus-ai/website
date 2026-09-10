@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Developer Guidance | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Developer Guidance</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="developer-guidance">Developer Guidance</h1>
+
+<p>Operational guidance for benchmarking, CI gates, and rollout safety.</p>
+
+<hr />
+
+<h2 id="latest-strict-gate-status">Latest Strict Gate Status</h2>
+
+<section class="subtle-panel gate-status-panel" id="gate-status-panel">
+  <div class="gate-status-head">
+    <strong>Latest strict matrix:</strong>
+    <span class="gate-pill gate-pill-unknown" id="gate-status-pill">UNKNOWN</span>
+  </div>
+  <div class="gate-status-meta" id="gate-status-meta">Loading latest gate summary…</div>
+  <div class="gate-status-metrics" id="gate-status-metrics"></div>
+</section>
+
+<hr />
+
+<h2 id="benchmark-workflow">Benchmark Workflow</h2>
+
+<p>Use three profiles consistently:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">baseline</code></li>
+  <li><code class="language-plaintext highlighter-rouge">hybrid-fp8-bf16</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sageattention2-intent</code></li>
+</ol>
+
+<p>Run with:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bench-multilora-zipf.sh</code> for a single profile</li>
+  <li><code class="language-plaintext highlighter-rouge">bench-matrix-advanced.sh</code> for full matrix + gate evaluation</li>
+  <li><code class="language-plaintext highlighter-rouge">bench-compare.sh</code> for baseline-vs-candidate delta reports</li>
+</ul>
+
+<hr />
+
+<h2 id="ci-modes">CI Modes</h2>
+
+<ol>
+  <li>Smoke (<code class="language-plaintext highlighter-rouge">bench-matrix-smoke.yml</code>)
+    <ul>
+      <li>deterministic mock-backed check</li>
+      <li>safe default for PR merge protection</li>
+    </ul>
+  </li>
+  <li>Strict (<code class="language-plaintext highlighter-rouge">bench-matrix-strict.yml</code>)
+    <ul>
+      <li>manual run against real endpoints</li>
+      <li>preferred before release cut</li>
+      <li>emits trend artifacts (<code class="language-plaintext highlighter-rouge">trends/matrix-gates.csv</code>, <code class="language-plaintext highlighter-rouge">trends/matrix-gates.json</code>) in each run</li>
+      <li>emits gate alert artifacts (<code class="language-plaintext highlighter-rouge">gate-alert.txt</code>, <code class="language-plaintext highlighter-rouge">gate-alert.md</code>) in each run</li>
+      <li>can send optional webhook alert on failure (<code class="language-plaintext highlighter-rouge">GOLLEK_BENCH_ALERT_WEBHOOK</code>)</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="gate-guidance">Gate Guidance</h2>
+
+<p>Default hybrid gate targets:</p>
+<ul>
+  <li>throughput uplift: <code class="language-plaintext highlighter-rouge">&gt;= 20%</code> (<code class="language-plaintext highlighter-rouge">req/s</code> or <code class="language-plaintext highlighter-rouge">tokens/s</code>)</li>
+  <li>latency p95 regression: <code class="language-plaintext highlighter-rouge">&lt;= 10%</code></li>
+  <li>absolute error-rate regression: <code class="language-plaintext highlighter-rouge">&lt;= 0.005</code></li>
+</ul>
+
+<p>Runtime-tag policy:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--runtime-tag-gate auto|on|off</code></li>
+  <li>recommended: <code class="language-plaintext highlighter-rouge">on</code> for strict runs, <code class="language-plaintext highlighter-rouge">auto</code> for mixed environments</li>
+</ul>
+
+<hr />
+
+<h2 id="metal-runner-modes-apple-silicon">Metal Runner Modes (Apple Silicon)</h2>
+
+<p>Metal runners are controlled with a single mode flag that supports auto-detect and manual forcing:</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.metal.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">gollek.runners.metal-offload.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">gollek.runners.metal.mode</span><span class="p">=</span><span class="s">auto  # auto|standard|offload|force|disabled</span>
+</code></pre></div></div>
+
+<p>Behavior:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">auto</code>: detect availability and pick standard vs offload based on model size vs unified memory</li>
+  <li><code class="language-plaintext highlighter-rouge">standard</code>: force the in-memory Metal runner</li>
+  <li><code class="language-plaintext highlighter-rouge">offload</code>: force the weight-offload runner</li>
+  <li><code class="language-plaintext highlighter-rouge">force</code>: keep Metal runners active even when detection fails</li>
+  <li><code class="language-plaintext highlighter-rouge">disabled</code>: remove Metal runners from selection</li>
+</ul>
+
+<p>Configuration sources:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek.runners.metal.mode</code> via <code class="language-plaintext highlighter-rouge">GOLLEK_METAL_MODE</code> env var</li>
+  <li><code class="language-plaintext highlighter-rouge">gollek.runners.metal.enabled</code> via <code class="language-plaintext highlighter-rouge">GOLLEK_METAL_ENABLED</code> env var</li>
+  <li><code class="language-plaintext highlighter-rouge">gollek.runners.metal-offload.enabled</code> via <code class="language-plaintext highlighter-rouge">GOLLEK_METAL_OFFLOAD_ENABLED</code> env var</li>
+</ul>
+
+<p>Engine device preference (routing defaults):</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek.engine.device.preference=auto|metal|cuda|cpu|none</code> (default: <code class="language-plaintext highlighter-rouge">auto</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">auto</code> sets <code class="language-plaintext highlighter-rouge">preferredDevice=METAL</code> on Apple Silicon, otherwise no preference</li>
+  <li>Request override (default on): <code class="language-plaintext highlighter-rouge">device=metal|cuda|cpu|rocm|tpu|npu</code> in request parameters</li>
+  <li>Disable request overrides: <code class="language-plaintext highlighter-rouge">gollek.engine.device.preference.allow-request-override=false</code></li>
+</ul>
+
+<p>Runner auto-Metal toggles:</p>
+<ul>
+  <li>GGUF: <code class="language-plaintext highlighter-rouge">gguf.provider.gpu.auto-metal=true</code> and <code class="language-plaintext highlighter-rouge">gguf.provider.gpu.auto-metal.layers=-1</code></li>
+  <li>GGUF: <code class="language-plaintext highlighter-rouge">gguf.provider.coalesce.enabled=true</code>, <code class="language-plaintext highlighter-rouge">gguf.provider.coalesce.window-ms=3</code>, <code class="language-plaintext highlighter-rouge">gguf.provider.coalesce.seq-max=1</code> (set <code class="language-plaintext highlighter-rouge">seq-max &gt; 1</code> to enable multi-sequence micro-batching)
+    <ul>
+      <li>Metrics: <code class="language-plaintext highlighter-rouge">gollek.gguf.coalesce.seq.max</code>, <code class="language-plaintext highlighter-rouge">gollek.gguf.coalesce.seq.avg</code>, <code class="language-plaintext highlighter-rouge">gollek.gguf.coalesce.seq.total</code></li>
+    </ul>
+  </li>
+  <li>GGUF Converter: set <code class="language-plaintext highlighter-rouge">dryRun=true</code> on <code class="language-plaintext highlighter-rouge">/v1/converter/gguf/convert</code> to resolve paths without converting.</li>
+  <li>GGUF Converter: <code class="language-plaintext highlighter-rouge">POST /v1/converter/gguf/convert/preview</code> resolves paths without converting and returns <code class="language-plaintext highlighter-rouge">derivedOutputName</code>, <code class="language-plaintext highlighter-rouge">inputBasePath</code>, and <code class="language-plaintext highlighter-rouge">outputBasePath</code>.</li>
+  <li>CLI: <code class="language-plaintext highlighter-rouge">gollek convert --input ~/models/llama-2-7b --output ~/conversions --quant q4_k_m</code></li>
+  <li>LiteRT: <code class="language-plaintext highlighter-rouge">litert.provider.gpu.auto-metal=true</code></li>
+  <li>LibTorch: <code class="language-plaintext highlighter-rouge">libtorch.provider.gpu.auto-mps-enabled=true</code></li>
+  <li>ONNX Runtime: <code class="language-plaintext highlighter-rouge">onnx.runner.execution_provider=coreml</code> (Apple Silicon CoreML EP)</li>
+  <li>Global Metal switches (<code class="language-plaintext highlighter-rouge">gollek.runners.metal.enabled=false</code> or <code class="language-plaintext highlighter-rouge">gollek.runners.metal.mode=disabled</code>) also disable ONNX CoreML.</li>
+  <li>CoreML smoke test (optional): set <code class="language-plaintext highlighter-rouge">gollek.onnx.library-path=/path/to/libonnxruntime.dylib</code> and run the ONNX module tests.</li>
+  <li>ONNX device selection tests cover:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">~/.gollek/libs/</code> fallback when <code class="language-plaintext highlighter-rouge">gollek.runners.onnx.library-path</code> is missing.</li>
+      <li>Apple Silicon + <code class="language-plaintext highlighter-rouge">coreMlAvailable=true</code> exposes <code class="language-plaintext highlighter-rouge">DeviceType.METAL</code>.</li>
+    </ul>
+  </li>
+  <li>Hugging Face ONNX integration test (optional):
+set <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_HF_REPO</code>, <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_LIBRARY_PATH</code> (must point to a real ONNX Runtime library),
+and optionally <code class="language-plaintext highlighter-rouge">GOLLEK_HF_TOKEN</code> or <code class="language-plaintext highlighter-rouge">HF_TOKEN</code> if the repo is gated, then run the ONNX module tests.
+To make the test fail instead of skipping on network/404/401, set <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_HF_REQUIRED=true</code>.
+You can also enable strict mode via Maven: <code class="language-plaintext highlighter-rouge">mvn -f gollek/extension/runner/onnx/gollek-runner-onnx/pom.xml -Phf-integration-required test</code>.
+If strict mode fails with DNS errors, check local DNS/VPN/proxy settings or run in non-strict mode.
+Quick ONNX test matrix:
+    <ul>
+      <li>Optional integration: <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_HF_REPO=onnx-community/tiny-random-bert</code></li>
+      <li>Required integration: <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_HF_REPO=... GOLLEK_ONNX_HF_REQUIRED=true</code></li>
+      <li>Library path: <code class="language-plaintext highlighter-rouge">GOLLEK_ONNX_LIBRARY_PATH=~/.gollek/libs/libonnxruntime.dylib</code></li>
+      <li>Tokens (if gated): <code class="language-plaintext highlighter-rouge">GOLLEK_HF_TOKEN=$HF_TOKEN</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>CLI Native Build (GraalVM):</p>
+<ul>
+  <li>Build: <code class="language-plaintext highlighter-rouge">mvn -f inference-gollek/ui/gollek-cli/pom.xml -Pnative -DskipTests clean package</code></li>
+  <li>Output binary: <code class="language-plaintext highlighter-rouge">inference-gollek/ui/gollek-cli/target/gollek</code></li>
+  <li>Temp directory override (sandbox-friendly): <code class="language-plaintext highlighter-rouge">-H:TempDirectory=/tmp</code> (already wired in CLI build args)</li>
+  <li>File logging toggle:
+    <ul>
+      <li>Disable file logging: <code class="language-plaintext highlighter-rouge">GOLLEK_CLI_FILE_LOG_ENABLED=false</code></li>
+      <li>Override log path: <code class="language-plaintext highlighter-rouge">GOLLEK_CLI_LOG_FILE=/tmp/gollek/cli.log</code></li>
+      <li>Default path: <code class="language-plaintext highlighter-rouge">~/.gollek/logs/cli.log</code></li>
+    </ul>
+  </li>
+  <li>CLI run example:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GOLLEK_CLI_FILE_LOG_ENABLED=false inference-gollek/ui/gollek-cli/target/gollek --help</code></li>
+    </ul>
+  </li>
+  <li>Native CLI wrapper (cleans deprecated env keys):
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">inference-gollek/ui/gollek-cli/scripts/run-native.sh --help</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>SafeTensors provider:</p>
+<ul>
+  <li>Default backend is <code class="language-plaintext highlighter-rouge">auto</code>, which prefers GGUF conversion (fast, Metal-aware) when the converter is available.</li>
+  <li>Configure backend explicitly: <code class="language-plaintext highlighter-rouge">safetensor.provider.backend=auto|gguf|libtorch</code>.</li>
+  <li>Conversion output directory: <code class="language-plaintext highlighter-rouge">safetensor.provider.ggufOutputDir=~/.gollek/models/gguf/converted</code>.</li>
+  <li>GGUF conversion uses the built-in Java converter in <code class="language-plaintext highlighter-rouge">gollek/extension/runner/gguf/gollek-gguf-converter</code>.</li>
+  <li>Install ONNX Runtime (prebuilt): 
+<code class="language-plaintext highlighter-rouge">make -C gollek/extension/runner/onnx/gollek-runner-onnx/src/main/cpp/onnxruntime install</code>
+(copies <code class="language-plaintext highlighter-rouge">libonnxruntime.*</code> into <code class="language-plaintext highlighter-rouge">~/.gollek/libs/</code> which the runner will auto-detect if the configured path is missing).</li>
+</ul>
+
+<p>LiteRT (TFLite):</p>
+<ul>
+  <li>Base path for <code class="language-plaintext highlighter-rouge">.litertlm</code> models: <code class="language-plaintext highlighter-rouge">litert.provider.model.base-path=~/.gollek/models/litert</code></li>
+  <li>LiteRT module tests: <code class="language-plaintext highlighter-rouge">mvn -f gollek/extension/runner/litert/gollek-runner-litert/pom.xml test</code></li>
+  <li>Optional real-model integration test:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">LITERT_LIBRARY_PATH=~/.gollek/libs/libtensorflowlite_c.dylib</code></li>
+      <li><code class="language-plaintext highlighter-rouge">GOLLEK_TFLITE_MODEL_URL=https://storage.googleapis.com/download.tensorflow.org/models/mobilenet_v1_2018_08_02/mobilenet_v1_1.0_224_quant.litertlm</code></li>
+      <li>Strict mode: <code class="language-plaintext highlighter-rouge">GOLLEK_TFLITE_REQUIRED=true</code> (fails instead of skip on download errors)</li>
+      <li>The LiteRT loader auto-searches <code class="language-plaintext highlighter-rouge">~/.gollek/libs/</code> for <code class="language-plaintext highlighter-rouge">libtensorflowlite_c.*</code> if no override is set.</li>
+    </ul>
+  </li>
+  <li>Sample model helper:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">bash gollek/extension/runner/litert/gollek-runner-litert/scripts/download-sample-model.sh</code></li>
+    </ul>
+  </li>
+  <li>LiteRT runtime helper:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">bash gollek/extension/runner/litert/gollek-runner-litert/scripts/download-litert-runtime.sh</code></li>
+      <li>Optional: <code class="language-plaintext highlighter-rouge">GOLLEK_TFLITE_RUNTIME_URL=https://.../libtensorflowlite_c.dylib</code> to download directly</li>
+    </ul>
+  </li>
+  <li>GitHub Releases auto-download (if assets are published):
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">GOLLEK_LITERT_RUNTIME_REPO=bhangun/gollek</code></li>
+      <li><code class="language-plaintext highlighter-rouge">GOLLEK_LITERT_RUNTIME_RELEASE=latest</code></li>
+      <li><code class="language-plaintext highlighter-rouge">GOLLEK_LITERT_RUNTIME_ASSET=litert-runtime-macos-arm64.tar.gz</code></li>
+      <li>Asset naming details: <code class="language-plaintext highlighter-rouge">gollek/extension/runner/litert/gollek-runner-litert/docs/RELEASE_ASSETS.md</code></li>
+      <li>Release checklist: <code class="language-plaintext highlighter-rouge">gollek/extension/runner/litert/gollek-runner-litert/docs/RELEASE_CHECKLIST.md</code></li>
+      <li>Release notes template: <code class="language-plaintext highlighter-rouge">gollek/extension/runner/litert/gollek-runner-litert/docs/RELEASE_NOTES_TEMPLATE.md</code></li>
+      <li>GitHub Actions workflow: <code class="language-plaintext highlighter-rouge">.github/workflows/litert-runtime-release.yml</code></li>
+      <li>Build + release workflow: <code class="language-plaintext highlighter-rouge">.github/workflows/litert-runtime-build-and-release.yml</code></li>
+    </ul>
+  </li>
+  <li>Make targets:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">make litert-sample</code></li>
+      <li><code class="language-plaintext highlighter-rouge">make litert-runtime</code></li>
+      <li><code class="language-plaintext highlighter-rouge">make litert-runtime-package</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Release How-To (LiteRT runtime assets):</p>
+<ol>
+  <li>Build or obtain <code class="language-plaintext highlighter-rouge">libtensorflowlite_c.*</code> for each target OS/arch.</li>
+  <li>Package with <code class="language-plaintext highlighter-rouge">make litert-runtime-package</code> (produces <code class="language-plaintext highlighter-rouge">dist/litert-runtime-*.tar.gz</code>).</li>
+  <li>Upload assets to a GitHub release (manual or via <code class="language-plaintext highlighter-rouge">LiteRT Runtime Release</code> workflow).</li>
+  <li>Verify download + smoke test using the commands in the release checklist.</li>
+</ol>
+
+<p>Diagnostics:</p>
+<ul>
+  <li>Auto mode will skip offload when the model fits unified memory.</li>
+  <li>Force mode keeps Metal runners active even if detection reports unavailable.</li>
+  <li>If Metal is unavailable and mode is not <code class="language-plaintext highlighter-rouge">force</code>, the Metal runners are removed from selection.</li>
+  <li>Build/install note: <code class="language-plaintext highlighter-rouge">make -C gollek/extension/kernel/gollek-backend-metal/src/main/cpp/metal install</code>
+copies <code class="language-plaintext highlighter-rouge">libgollek_metal.dylib</code> to <code class="language-plaintext highlighter-rouge">~/.gollek/libs/</code> (and resources for packaging).</li>
+</ul>
+
+<p>Decision flow (auto + manual):</p>
+
+<pre><code class="language-mermaid">flowchart TD
+  A["Start"] --&gt; B["Read gollek.runners.metal.mode"]
+  B --&gt; C{"Mode = disabled?"}
+  C --&gt;|Yes| X["Disable all Metal runners"]
+  C --&gt;|No| D{"Metal available?"}
+  D --&gt;|No| E{"Mode = force?"}
+  E --&gt;|Yes| F["Keep Metal runners (forced)"]
+  E --&gt;|No| X
+  D --&gt;|Yes| G{"Mode = standard?"}
+  G --&gt;|Yes| H["Select standard Metal only"]
+  G --&gt;|No| I{"Mode = offload?"}
+  I --&gt;|Yes| J["Select offload Metal only"]
+  I --&gt;|No| K["Auto: estimate model vs unified memory"]
+  K --&gt;|Fits| H
+  K --&gt;|Does not fit| J
+</code></pre>
+
+<p>Example logs:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO  [MetalRunner] Metal runner enabled (mode=auto, metalAvailable=true)
+INFO  [MetalWeightOffloadingRunner] Metal offload skipped (auto) — model fits in unified memory
+</code></pre></div></div>
+
+<p>GPU smoke test (Apple Silicon only):</p>
+<ul>
+  <li>Opt-in by setting <code class="language-plaintext highlighter-rouge">-Dgollek.metal.tests=true</code></li>
+  <li>Optional strict mode: <code class="language-plaintext highlighter-rouge">-Dgollek.metal.tests.strict=true</code> (fails on Metal init errors instead of skipping)</li>
+  <li>Provide the dylib path via <code class="language-plaintext highlighter-rouge">-Dgollek.metal.library-path=/path/to/libgollek_metal.dylib</code>,
+<code class="language-plaintext highlighter-rouge">-Dgollek.runners.metal.library-path=...</code>, or <code class="language-plaintext highlighter-rouge">GOLLEK_METAL_LIBRARY_PATH</code></li>
+  <li>Default search paths: <code class="language-plaintext highlighter-rouge">~/.gollek/libs/libgollek_metal.dylib</code>, <code class="language-plaintext highlighter-rouge">/usr/local/lib/libgollek_metal.dylib</code>, <code class="language-plaintext highlighter-rouge">/Library/Gollek/libgollek_metal.dylib</code></li>
+  <li>The test skips automatically if Metal is unavailable or the dylib is missing</li>
+  <li>Headless CI can report <code class="language-plaintext highlighter-rouge">No Metal device found</code>; run on a logged-in desktop session for GPU validation.</li>
+  <li>CI/profile shortcut: <code class="language-plaintext highlighter-rouge">mvn -f gollek/extension/kernel/gollek-backend-metal/pom.xml -Pmetal-gpu-tests test</code></li>
+  <li>JVM note: the profile sets <code class="language-plaintext highlighter-rouge">--enable-native-access=ALL-UNNAMED</code> to satisfy FFM access.</li>
+</ul>
+
+<p>Troubleshooting checklist:</p>
+<ul>
+  <li>Metal not selected: confirm <code class="language-plaintext highlighter-rouge">gollek.runners.metal.enabled=true</code> and the device is Apple Silicon.</li>
+  <li>Metal unavailable in logs: set <code class="language-plaintext highlighter-rouge">gollek.runners.metal.mode=force</code> to test manual override.</li>
+  <li>Offload never used: try a larger model or set <code class="language-plaintext highlighter-rouge">gollek.runners.metal.mode=offload</code>.</li>
+  <li>Unexpected CPU fallback: verify other runners are enabled and the Metal mode is not <code class="language-plaintext highlighter-rouge">disabled</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">No Metal device found</code>: run tests in a logged-in desktop session (headless CI may not expose Metal).</li>
+</ul>
+
+<p>Build note:</p>
+<ul>
+  <li>If you see <code class="language-plaintext highlighter-rouge">class not found</code> errors after moving SPI types, run a clean build to clear stale reactor output: <code class="language-plaintext highlighter-rouge">mvn -f gollek/pom.xml clean install</code>.</li>
+</ul>
+
+<hr />
+
+<h2 id="failure-triage">Failure Triage</h2>
+
+<p>When matrix fails:</p>
+
+<ol>
+  <li>Open <code class="language-plaintext highlighter-rouge">gate-summary.txt</code> first.</li>
+  <li>Map failure to gate type:
+    <ul>
+      <li>throughput</li>
+      <li>latency</li>
+      <li>error</li>
+      <li>SA2 runtime tag</li>
+    </ul>
+  </li>
+  <li>Use <code class="language-plaintext highlighter-rouge">compare/report.txt</code> and <code class="language-plaintext highlighter-rouge">results.csv</code> to isolate impact.</li>
+  <li>Roll back to baseline flags if regression is user-visible.</li>
+</ol>
+
+<p>Update website badge data after strict run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./scripts/publish-latest-gate-summary.sh <span class="se">\</span>
+  <span class="nt">--gate-json</span> /path/to/strict-run/gate-summary.json <span class="se">\</span>
+  <span class="nt">--output</span> ../website/gollek-ai.github.io/assets/data/latest-gate-summary.json
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="trend-tracking">Trend Tracking</h2>
+
+<p>Generate trend snapshots:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./scripts/bench-trend-snapshot.sh <span class="se">\</span>
+  <span class="nt">--matrix-root</span> ops/benchmarks/matrix <span class="se">\</span>
+  <span class="nt">--out-csv</span> ops/benchmarks/trends/matrix-gates.csv <span class="se">\</span>
+  <span class="nt">--out-json</span> ops/benchmarks/trends/matrix-gates.json <span class="se">\</span>
+  <span class="nt">--limit</span> 100
+</code></pre></div></div>
+
+<p>Use the CSV for quick review and JSON for automation.
+In strict CI, this snapshot is generated automatically; use manual script runs for local/offline aggregation.</p>
+
+<hr />
+
+<p><a href="/docs/">Back to Docs Index</a>   <a href="/docs/runtime/architecture">Architecture</a></p>
+
+<script>
+  (function () {
+    const pill = document.getElementById('gate-status-pill');
+    const meta = document.getElementById('gate-status-meta');
+    const metrics = document.getElementById('gate-status-metrics');
+    if (!pill || !meta || !metrics) return;
+
+    fetch('/assets/data/latest-gate-summary.json', { cache: 'no-store' })
+      .then((res) => {
+        if (!res.ok) throw new Error('status file not available');
+        return res.json();
+      })
+      .then((data) => {
+        const status = data.gate_status === 'PASS' ? 'PASS' : (data.gate_status === 'FAIL' ? 'FAIL' : 'UNKNOWN');
+        pill.textContent = status;
+        pill.classList.remove('gate-pill-unknown', 'gate-pill-pass', 'gate-pill-fail');
+        pill.classList.add(status === 'PASS' ? 'gate-pill-pass' : status === 'FAIL' ? 'gate-pill-fail' : 'gate-pill-unknown');
+
+        const matrixName = data.matrix_name || 'unknown';
+        const generatedAt = data.generated_at_utc || 'unknown';
+        meta.textContent = `Matrix: ${matrixName} | Generated: ${generatedAt}`;
+
+        const req = data.hybrid_req_delta_pct ?? 'n/a';
+        const tok = data.hybrid_tokens_delta_pct ?? 'n/a';
+        const lat = data.hybrid_latency_p95_delta_pct ?? 'n/a';
+        const err = data.hybrid_error_delta_abs ?? 'n/a';
+        metrics.textContent = `req_delta=${req}% · tok_delta=${tok}% · lat_p95_delta=${lat}% · err_delta=${err}`;
+      })
+      .catch(() => {
+        pill.textContent = 'UNKNOWN';
+        pill.classList.remove('gate-pill-pass', 'gate-pill-fail');
+        pill.classList.add('gate-pill-unknown');
+        meta.textContent = 'Latest gate summary not published yet.';
+        metrics.textContent = 'Publish /assets/data/latest-gate-summary.json from strict run artifacts.';
+      });
+  })();
+</script>
+
+<hr />
+
+<h2 id="modular-tokenizer-architecture">Modular Tokenizer Architecture</h2>
+
+<p>The Gollek platform has migrated to a unified <strong>Tokenizer SPI</strong> (<code class="language-plaintext highlighter-rouge">tech.kayys.gollek.tokenizer.spi</code>), replacing the legacy <code class="language-plaintext highlighter-rouge">HuggingFaceTokenizer</code> with a pluggable, format-aware architecture.</p>
+
+<h3 id="key-features">Key Features</h3>
+<ul>
+  <li><strong>Universal Support</strong>: Seamlessly handles both <strong>BPE</strong> (<code class="language-plaintext highlighter-rouge">tokenizer.json</code>) and <strong>SentencePiece</strong> (<code class="language-plaintext highlighter-rouge">tokenizer.model</code>) variants.</li>
+  <li><strong>Automatic Discovery</strong>: <code class="language-plaintext highlighter-rouge">TokenizerFactory</code> intelligently detects the model format and loads the optimal backend (BPE vs. SPM).</li>
+  <li><strong>Native SPM Bridge</strong>: High-performance SentencePiece decoding via a native Rust-based bridge (<code class="language-plaintext highlighter-rouge">libspm_bridge</code>).</li>
+  <li><strong>Streaming Stability</strong>: Integrated <code class="language-plaintext highlighter-rouge">StreamingDecoder</code> handles multi-byte UTF-8 sequences and BPE merge boundaries, preventing character garbling in streaming responses.</li>
+</ul>
+
+<h3 id="common-usage">Common Usage</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Centralized loading (auto-detects format)</span>
+<span class="nc">Tokenizer</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="nc">TokenizerFactory</span><span class="o">.</span><span class="na">loadFromDirectory</span><span class="o">(</span><span class="n">modelDir</span><span class="o">);</span>
+
+<span class="c1">// Options-based API</span>
+<span class="kt">long</span><span class="o">[]</span> <span class="n">promptTokens</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">prompt</span><span class="o">,</span> <span class="nc">EncodeOptions</span><span class="o">.</span><span class="na">defaultOptions</span><span class="o">());</span>
+
+<span class="c1">// Stateful streaming decoder (for robust output)</span>
+<span class="nc">StreamingDecoder</span> <span class="n">decoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StreamingDecoder</span><span class="o">(</span><span class="n">tokenizer</span><span class="o">,</span> <span class="nc">DecodeOptions</span><span class="o">.</span><span class="na">defaultOptions</span><span class="o">());</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">long</span> <span class="n">token</span> <span class="o">:</span> <span class="n">modelOutput</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">piece</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="na">decodeNext</span><span class="o">(</span><span class="n">token</span><span class="o">);</span> <span class="c1">// Handles partial UTF-8</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">piece</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="native-library-management">Native Library Management</h2>
+
+<h3 id="standard-location">Standard Location</h3>
+
+<p>Native libraries are stored in <code class="language-plaintext highlighter-rouge">~/.gollek/libs/</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/.gollek/libs/
+├── llama/              # GGUF/llama.cpp libraries
+├── onnxruntime/        # ONNX Runtime libraries
+├── libtorch/           # LibTorch libraries
+├── native/            # Shared native bridges (e.g., spm_bridge)
+└── litert/            # TensorFlow Lite libraries
+</code></pre></div></div>
+
+<h3 id="quick-setup">Quick Setup</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install all native libraries</span>
+make <span class="nt">-f</span> Makefile.native install-native-libs
+
+<span class="c"># Verify installation</span>
+make <span class="nt">-f</span> Makefile.native verify-libs
+</code></pre></div></div>
+
+<h3 id="configuration">Configuration</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Override default directory</span>
+<span class="nb">export </span><span class="nv">GOLLEK_NATIVE_LIB_DIR</span><span class="o">=</span>/opt/gollek/libs
+
+<span class="c"># Explicit library paths</span>
+<span class="nb">export </span><span class="nv">GOLLEK_LLAMA_LIB_PATH</span><span class="o">=</span>~/.gollek/libs/llama/libllama.dylib
+<span class="nb">export </span><span class="nv">GOLLEK_ONNX_LIB_PATH</span><span class="o">=</span>~/.gollek/libs/onnxruntime/libonnxruntime.dylib
+<span class="nb">export </span><span class="nv">GOLLEK_NATIVE_LIB</span><span class="o">=</span>~/.gollek/libs/native/ <span class="c"># Path for spm_bridge</span>
+</code></pre></div></div>
+
+<h3 id="documentation">Documentation</h3>
+
+<ul>
+  <li><a href="git-repository-cleanup.md">Git Repository Cleanup</a> - Repository maintenance guide</li>
+  <li><a href="/docs/runtime/native-library-guide">Native Library Management Guide</a> - Complete technical guide</li>
+</ul>
+
+<hr />
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

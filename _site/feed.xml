@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Gollek Blog</title>
+    <link>/blog/</link>
+    <description>Gollek release notes, architecture updates, and developer guides.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 09 Jun 2026 12:42:13 +0700</lastBuildDate>
+    
+    
+    
+      
+        
+        
+    <item>
+      <title>MOSS TTS ONNX - Local Voice Generation in Gollek</title>
+      <link>/blog/2026-05-19-moss-tts-onnx-release.html</link>
+      <guid>/blog/2026-05-19-moss-tts-onnx-release.html</guid>
+      <pubDate>Tue, 19 May 2026 00:00:00 +0700</pubDate>
+      <description>Gollek now supports local MOSS TTS Nano ONNX voice generation with companion codec orchestration, voice selectors, Suling WAV/FLAC/MP3 output, live preview, and audio-native performance metrics.</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Unified Quantization: TurboQuant, BnB, and AWQ in Pure Java</title>
+      <link>/blog/2026-04-20-high-performance-quantization-adapters.html</link>
+      <guid>/blog/2026-04-20-high-performance-quantization-adapters.html</guid>
+      <pubDate>Mon, 20 Apr 2026 00:00:00 +0700</pubDate>
+      <description>Unified Quantization: TurboQuant, BnB, and AWQ in Pure Java</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Pure Java Safetensor Inference: Native Speed without LibTorch</title>
+      <link>/blog/2026-04-20-pure-java-safetensor-inference.html</link>
+      <guid>/blog/2026-04-20-pure-java-safetensor-inference.html</guid>
+      <pubDate>Mon, 20 Apr 2026 00:00:00 +0700</pubDate>
+      <description>Pure Java Safetensor Inference: Native Speed without LibTorch</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Stable Diffusion ONNX - Production-Ready Image Generation in Java</title>
+      <link>/blog/2026-04-14-stable-diffusion-onnx-release.html</link>
+      <guid>/blog/2026-04-14-stable-diffusion-onnx-release.html</guid>
+      <pubDate>Tue, 14 Apr 2026 00:00:00 +0700</pubDate>
+      <description>Stable Diffusion ONNX - Production-Ready Image Generation in Java</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Gollek ML SDK: Bringing PyTorch-like DX to the Java Ecosystem</title>
+      <link>/blog/2026-03-31-ml-sdk-pytorch-java.html</link>
+      <guid>/blog/2026-03-31-ml-sdk-pytorch-java.html</guid>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0700</pubDate>
+      <description>Gollek ML SDK: Bringing PyTorch-like DX to the Java Ecosystem</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Beyond GGUF: Direct SafeTensor Inference with LibTorch and Project Panama</title>
+      <link>/blog/safetensor-libtorch-direct-inference.html</link>
+      <guid>/blog/safetensor-libtorch-direct-inference.html</guid>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0700</pubDate>
+      <description>Exploring Gollek&apos;s &quot;Direct Engine&quot;—a zero-copy, JNI-free inference system that runs raw SafeTensor weights using LibTorch and JDK 25.</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>One API, Any Model: The Gollek SDK and CLI Experience</title>
+      <link>/blog/sdk-cli-developer-experience.html</link>
+      <guid>/blog/sdk-cli-developer-experience.html</guid>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0700</pubDate>
+      <description>Exploring how the Gollek SDK and CLI provide a unified interface for GGUF, SafeTensors, and Cloud AI, making high-performance inference accessible to every Java developer.</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Deep Dive: How Gollek Orchestrates GGUF with llama.cpp and Project Panama</title>
+      <link>/blog/deep-dive-gguf-runner-llama-cpp.html</link>
+      <guid>/blog/deep-dive-gguf-runner-llama-cpp.html</guid>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0700</pubDate>
+      <description>A technical walkthrough of Gollek&apos;s GGUF runner architecture, exploring the JNI-free Project Panama bindings, memory management, and multimodal LLaVA support.</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Why Java for AI? The Engineering Behind Gollek&apos;s High-Performance Engine</title>
+      <link>/blog/why-java-for-ai-gollek-jdk25.html</link>
+      <guid>/blog/why-java-for-ai-gollek-jdk25.html</guid>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 +0700</pubDate>
+      <description>Exploring why Gollek chooses Java over Python, leveraging LibTorch, llama.cpp, and the latest Project Panama and Valhalla features in JDK 25.</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Unleashing the Distributed Inference Fabric: Cluster-Wide LLM Execution</title>
+      <link>/blog/distributed-inference-fabric.html</link>
+      <guid>/blog/distributed-inference-fabric.html</guid>
+      <pubDate>Mon, 30 Mar 2026 00:00:00 +0700</pubDate>
+      <description>Unleashing the Distributed Inference Fabric: Cluster-Wide LLM Execution</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Audio Module v2.0 and Quantization Engine Release</title>
+      <link>/blog/audio-quantization-release.html</link>
+      <guid>/blog/audio-quantization-release.html</guid>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 +0700</pubDate>
+      <description>Audio Module v2.0 and Quantization Engine Release</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>How Gollek GGUF Chat Loads from Hugging Face and Answers</title>
+      <link>/blog/how-gollek-gguf-chat-loads-model-and-answers.html</link>
+      <guid>/blog/how-gollek-gguf-chat-loads-model-and-answers.html</guid>
+      <pubDate>Tue, 03 Mar 2026 00:00:00 +0700</pubDate>
+      <description>Step-by-step walkthrough of what happens when running gollek chat with a GGUF provider and a Hugging Face model reference.</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Multi-LoRA and LibTorch Advanced Path Update</title>
+      <link>/blog/multilora-libtorch-advanced-update.html</link>
+      <guid>/blog/multilora-libtorch-advanced-update.html</guid>
+      <pubDate>Sat, 28 Feb 2026 00:00:00 +0700</pubDate>
+      <description>Gollek runtime update covering Multi-LoRA benchmark tooling, FP8 rowwise calibration lifecycle, and safe SageAttention2 experimental gating.</description>
+    </item>
+        
+      
+    
+      
+        
+        
+    <item>
+      <title>Introducing the New Gollek Inference Engine</title>
+      <link>/blog/gollek-inference-engine-release.html</link>
+      <guid>/blog/gollek-inference-engine-release.html</guid>
+      <pubDate>Fri, 27 Feb 2026 00:00:00 +0700</pubDate>
+      <description>Release introduction to the new Gollek inference engine, key advantages, and community contribution paths.</description>
+    </item>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </channel>
+</rss>

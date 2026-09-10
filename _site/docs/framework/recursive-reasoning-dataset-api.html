@@ -1,0 +1,1503 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recursive Reasoning Dataset API | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Recursive Reasoning Dataset API</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="recursive-reasoning-dataset-api">Recursive Reasoning Dataset API</h1>
+
+<p>This page documents the trainer-facing dataset utilities in
+<code class="language-plaintext highlighter-rouge">gollek-ml-recursive-reasoning</code>.</p>
+
+<p>Use this API when a structured reasoning benchmark needs to produce examples,
+split them into train/validation/test partitions, profile the data, and hand
+backend-neutral padded mini-batches to a trainer.</p>
+
+<p>See also:</p>
+
+<ul>
+  <li><a href="/docs/framework/recursive-reasoning-docs">Recursive Reasoning Docs</a></li>
+  <li><a href="/docs/tutorials/advanced/recursive-reasoning-dataset-workflow">Recursive Reasoning Dataset Workflow</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-recursive-reasoning">gollek-ml-recursive-reasoning API Reference</a></li>
+</ul>
+
+<h2 id="data-flow">Data Flow</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>benchmark adapter
+  -&gt; DiscreteTokenDatasetExample
+  -&gt; DiscreteTokenDatasetPlanner
+  -&gt; DiscreteTokenDatasetProfiler
+  -&gt; DiscreteTokenDatasetSplitter
+  -&gt; DiscreteTokenDatasetEpochBatcher
+  -&gt; DiscreteTokenDatasetBatch
+  -&gt; trainer/model backend
+</code></pre></div></div>
+
+<p>The data flow is intentionally independent of ONNX, SafeTensor, GGUF, LiteRT,
+Metal, CUDA, or any tensor implementation. Tensor conversion happens after the
+batch is built.</p>
+
+<h2 id="one-call-dataset-plan">One-Call Dataset Plan</h2>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetPlanner</code> composes the common trainer-data flow from one
+config:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetPlanConfig</span> <span class="n">config</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetPlanConfig</span><span class="o">.</span><span class="na">stratifiedLengthSorted</span><span class="o">(</span>
+        <span class="mf">0.10</span><span class="o">,</span>   <span class="c1">// validation fraction</span>
+        <span class="mf">0.10</span><span class="o">,</span>   <span class="c1">// test fraction</span>
+        <span class="mi">2026L</span><span class="o">,</span>  <span class="c1">// split seed</span>
+        <span class="mi">32</span><span class="o">,</span>     <span class="c1">// train batch size</span>
+        <span class="mi">64</span><span class="o">,</span>     <span class="c1">// validation/test batch size</span>
+        <span class="o">-</span><span class="mi">1</span>      <span class="c1">// input and target pad token</span>
+    <span class="o">);</span>
+
+<span class="nc">DiscreteTokenDatasetPlan</span> <span class="n">plan</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetPlanner</span><span class="o">.</span><span class="na">plan</span><span class="o">(</span><span class="n">examples</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>The plan includes:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>API</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Full profile</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.profile()</code></td>
+    </tr>
+    <tr>
+      <td>Train/validation/test split</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.split()</code></td>
+    </tr>
+    <tr>
+      <td>Training epoch</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.trainEpoch()</code></td>
+    </tr>
+    <tr>
+      <td>Validation epoch</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.validationEpoch()</code></td>
+    </tr>
+    <tr>
+      <td>Test epoch</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.testEpoch()</code></td>
+    </tr>
+    <tr>
+      <td>Training padding rate</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.trainPaddingRate()</code></td>
+    </tr>
+    <tr>
+      <td>Pre-training diagnostics</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.diagnostics()</code></td>
+    </tr>
+    <tr>
+      <td>Policy-driven diagnostics</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.diagnostics(policy)</code></td>
+    </tr>
+    <tr>
+      <td>Readiness report</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.readiness(gate)</code></td>
+    </tr>
+    <tr>
+      <td>Plan fingerprint</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.fingerprint()</code></td>
+    </tr>
+    <tr>
+      <td>Preflight report</td>
+      <td><code class="language-plaintext highlighter-rouge">plan.report(gate)</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Use the planner for the standard path. Use the lower-level profiler, splitter,
+and epoch batcher directly when a research experiment needs custom control.</p>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetPlanDiagnostics</code> reports:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>API</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Split sizes</td>
+      <td><code class="language-plaintext highlighter-rouge">trainCount()</code>, <code class="language-plaintext highlighter-rouge">validationCount()</code>, <code class="language-plaintext highlighter-rouge">testCount()</code></td>
+    </tr>
+    <tr>
+      <td>Batch counts</td>
+      <td><code class="language-plaintext highlighter-rouge">trainBatchCount()</code>, <code class="language-plaintext highlighter-rouge">validationBatchCount()</code>, <code class="language-plaintext highlighter-rouge">testBatchCount()</code></td>
+    </tr>
+    <tr>
+      <td>Training examples</td>
+      <td><code class="language-plaintext highlighter-rouge">emittedTrainingExamples()</code>, <code class="language-plaintext highlighter-rouge">droppedTrainingExamples()</code></td>
+    </tr>
+    <tr>
+      <td>Known-solution coverage</td>
+      <td><code class="language-plaintext highlighter-rouge">knownSolutionCoverageRate()</code></td>
+    </tr>
+    <tr>
+      <td>Training padding</td>
+      <td><code class="language-plaintext highlighter-rouge">trainPaddingRate()</code>, <code class="language-plaintext highlighter-rouge">trainPaddingTokenCount()</code></td>
+    </tr>
+    <tr>
+      <td>Per-task split coverage</td>
+      <td><code class="language-plaintext highlighter-rouge">taskSplits()</code></td>
+    </tr>
+    <tr>
+      <td>Warnings</td>
+      <td><code class="language-plaintext highlighter-rouge">warnings()</code>, <code class="language-plaintext highlighter-rouge">hasWarnings()</code></td>
+    </tr>
+    <tr>
+      <td>Readiness</td>
+      <td><code class="language-plaintext highlighter-rouge">isReadyForTraining()</code></td>
+    </tr>
+    <tr>
+      <td>Compact status</td>
+      <td><code class="language-plaintext highlighter-rouge">status()</code> returning <code class="language-plaintext highlighter-rouge">ready</code>, <code class="language-plaintext highlighter-rouge">warning</code>, or <code class="language-plaintext highlighter-rouge">blocked</code></td>
+    </tr>
+    <tr>
+      <td>Report export</td>
+      <td><code class="language-plaintext highlighter-rouge">toMetadata()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Warnings cover empty datasets, empty train/validation/test splits, dropped
+training examples, missing or partial known-solution coverage, and high training
+padding rate. For mixed-task datasets, diagnostics also warn when a task is
+missing from train, validation, or test while that global split exists.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetPlanDiagnosticsPolicy</code> when warning expectations differ
+by environment. <code class="language-plaintext highlighter-rouge">defaults()</code> preserves the normal pre-training checks,
+<code class="language-plaintext highlighter-rouge">lenient()</code> keeps only hard blockers such as empty datasets or empty train
+splits, and custom policies can tune the high-padding threshold or disable
+specific optional warnings.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetPlanReadinessGate</code> to convert diagnostics into a
+trainer decision. <code class="language-plaintext highlighter-rouge">training()</code> accepts warning-bearing plans that are still
+trainable, <code class="language-plaintext highlighter-rouge">strict()</code> blocks warnings for CI or production runs, and <code class="language-plaintext highlighter-rouge">lenient()</code>
+uses the lenient diagnostics policy before evaluating readiness.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetFingerprint</code> to stamp checkpoints or CI reports with a
+stable SHA-256 digest. <code class="language-plaintext highlighter-rouge">fromExamples(...)</code> hashes ordered examples, while
+<code class="language-plaintext highlighter-rouge">plan.fingerprint()</code> hashes the planning config, split partitions, example
+tokens/metadata, and epoch batch layout. <code class="language-plaintext highlighter-rouge">fromMetadata(...)</code> recreates a stored
+fingerprint from direct checkpoint metadata, and <code class="language-plaintext highlighter-rouge">fromMetadataSection(...)</code>
+extracts it from a larger report/checkpoint map.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetFingerprintMatch</code> before resuming from a checkpoint.
+<code class="language-plaintext highlighter-rouge">plan.verifyFingerprint(expected)</code>, <code class="language-plaintext highlighter-rouge">plan.verifyFingerprintMetadata(metadata)</code>,
+<code class="language-plaintext highlighter-rouge">plan.verifyFingerprintMetadataSection(reportMetadata)</code>,
+<code class="language-plaintext highlighter-rouge">report.verifyFingerprint(expected)</code>, <code class="language-plaintext highlighter-rouge">report.verifyFingerprintMetadata(metadata)</code>,
+and <code class="language-plaintext highlighter-rouge">report.verifyFingerprintMetadataSection(reportMetadata)</code>
+return a match report with mismatch reasons and <code class="language-plaintext highlighter-rouge">requireMatch()</code> for fail-fast
+resume guards.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetPlanReport</code> when a trainer wants the whole preflight
+bundle in one place: fingerprint, diagnostics, readiness decision, summary, and
+metadata export.
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetPlanReport.fromMetadata(...)</code> rehydrates that payload from
+JSON metadata so CI tools and checkpoint inspectors can re-run resume preflight
+checks without rematerializing the full dataset.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointManifest</code> when checkpoint metadata should
+also carry experiment/run identity, model family, seed, checkpoint step,
+creator, timestamp, and custom attributes alongside the dataset preflight
+report.
+Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineage</code> when that manifest should also
+carry experiment ancestry. New manifests default to a root lineage, while
+<code class="language-plaintext highlighter-rouge">lineageFrom(parentSnapshot)</code> records the parent run id, parent step, parent
+dataset fingerprint, relation, generation, and optional lineage attributes.
+Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineageGraph</code> when a checkpoint root should
+resolve that ancestry across multiple sidecars, expose the selected
+root-to-leaf lineage chain, and flag duplicate run ids, missing parents, or
+ambiguous parent references. It also verifies that the recorded parent step and
+dataset fingerprint match the resolved parent checkpoint. Its health metadata
+reports parent identity mismatches and lineage cycles, and exposes a compact
+CI-oriented issue summary with <code class="language-plaintext highlighter-rouge">issueDetails</code> entries for affected checkpoint
+paths, stable issue codes, severity, blocking status, issue-specific reasons,
+and remediation actions. The health metadata also includes <code class="language-plaintext highlighter-rouge">issueCodes</code>,
+<code class="language-plaintext highlighter-rouge">issueDetailCount</code>, <code class="language-plaintext highlighter-rouge">blockingIssueCount</code>, <code class="language-plaintext highlighter-rouge">primaryIssueCode</code>, and
+<code class="language-plaintext highlighter-rouge">primaryIssueAction</code> for compact automation gates, plus top-level <code class="language-plaintext highlighter-rouge">kind</code> and
+<code class="language-plaintext highlighter-rouge">schemaVersion</code> fields that identify the stable health payload contract.
+Use <code class="language-plaintext highlighter-rouge">healthSnapshot()</code> or
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineageHealthSnapshot.fromMetadata(...)</code> when
+extensions, CI jobs, or dashboards need a typed read-side contract instead of
+raw map parsing. Use <code class="language-plaintext highlighter-rouge">jsonSchemaMetadata()</code> when those consumers need the
+bundled <code class="language-plaintext highlighter-rouge">checkpoint-lineage-health.v1.schema.json</code> contract for validation or
+schema registry publishing. Use
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineageHealthValidationReport</code> or
+<code class="language-plaintext highlighter-rouge">validateMetadata(...)</code>, <code class="language-plaintext highlighter-rouge">validateJson(...)</code>, and <code class="language-plaintext highlighter-rouge">validatePath(...)</code> when a CI
+job or extension needs a compact valid/invalid report with stable codes instead
+of throwing on malformed payloads. Use
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineageHealthValidationReport.jsonSchemaMetadata()</code>
+when consumers also need the stable validation-report schema, or
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineageHealthSchemaCatalog.catalogMetadata(true)</code>
+when they need to discover both health contracts together with embedded schemas.
+Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineageHealthSchemaCatalog.jsonSchemaMetadata()</code>
+when consumers need to pin the schema-catalog contract itself. The catalog
+includes a bundle-level <code class="language-plaintext highlighter-rouge">schemaSetSha256</code>, per-schema SHA-256 digests, and byte
+counts for drift checks. Use <code class="language-plaintext highlighter-rouge">catalogSnapshot(...)</code> when Java consumers need
+typed accessors such as <code class="language-plaintext highlighter-rouge">schemaSetSha256()</code>, <code class="language-plaintext highlighter-rouge">schemaSetIdentity()</code>,
+<code class="language-plaintext highlighter-rouge">matchesSchemaSet(...)</code>, <code class="language-plaintext highlighter-rouge">requireSchemaSet(...)</code>, <code class="language-plaintext highlighter-rouge">contractNames()</code>,
+<code class="language-plaintext highlighter-rouge">contractDetails()</code>, <code class="language-plaintext highlighter-rouge">contractsByName()</code>, <code class="language-plaintext highlighter-rouge">contractDetail(...)</code>,
+<code class="language-plaintext highlighter-rouge">requireContractDetail(...)</code>, <code class="language-plaintext highlighter-rouge">contractsByPayloadKind()</code>,
+<code class="language-plaintext highlighter-rouge">contractsByJsonSchemaId()</code>, <code class="language-plaintext highlighter-rouge">contractForJsonSchemaId(...)</code>,
+<code class="language-plaintext highlighter-rouge">requireContractForJsonSchemaId(...)</code>,
+<code class="language-plaintext highlighter-rouge">contractForPayloadSchema(...)</code>, <code class="language-plaintext highlighter-rouge">requireContractForPayloadSchema(...)</code>,
+<code class="language-plaintext highlighter-rouge">hasEmbeddedSchemas()</code>, and <code class="language-plaintext highlighter-rouge">requireCurrentSchema(...)</code> for compact or
+embedded-schema catalog payloads. The
+typed contract entries expose <code class="language-plaintext highlighter-rouge">name()</code>, <code class="language-plaintext highlighter-rouge">payloadKind()</code>,
+<code class="language-plaintext highlighter-rouge">payloadSchemaVersion()</code>, <code class="language-plaintext highlighter-rouge">jsonSchemaId()</code>, <code class="language-plaintext highlighter-rouge">jsonSchemaSha256()</code>,
+<code class="language-plaintext highlighter-rouge">jsonSchemaByteCount()</code>, optional catalog-only metadata such as
+<code class="language-plaintext highlighter-rouge">jsonSchemaResource()</code> and <code class="language-plaintext highlighter-rouge">inspectorSections()</code>, plus <code class="language-plaintext highlighter-rouge">schemaMetadata()</code> when
+schemas are embedded. <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetSchemaContract</code> is the reusable
+descriptor behind each schema resource, digest, byte count, and embedded schema
+metadata entry. <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetSchemaBundle</code> composes those contracts into
+a catalog, compact lock payload, and valid/invalid lock-validation report so
+future trainer artifacts can publish the same drift-check surface without
+copying lineage-health-specific catalog logic. Prefer
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetSchemaBundle.builder(...)</code> for new bundles; it keeps the
+catalog, lock, validator, label, code, and contract sections explicit and
+rejects duplicate contract names before they can produce ambiguous lock
+comparisons. Use
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointLineageHealthSchemaCatalog.lockMetadata()</code> when
+CI needs a compact lock payload without embedded schemas, or <code class="language-plaintext highlighter-rouge">lockSnapshot()</code>
+when Java consumers need typed accessors such as <code class="language-plaintext highlighter-rouge">schemaSetSha256()</code>,
+<code class="language-plaintext highlighter-rouge">schemaSetIdentity()</code>, <code class="language-plaintext highlighter-rouge">matchesSchemaSet(...)</code>, <code class="language-plaintext highlighter-rouge">requireSchemaSet(...)</code>,
+<code class="language-plaintext highlighter-rouge">schemaCount()</code>, <code class="language-plaintext highlighter-rouge">contractNames()</code>, <code class="language-plaintext highlighter-rouge">contractDetails()</code>, <code class="language-plaintext highlighter-rouge">contractsByName()</code>,
+<code class="language-plaintext highlighter-rouge">contractDetail(...)</code>, <code class="language-plaintext highlighter-rouge">requireContractDetail(...)</code>, <code class="language-plaintext highlighter-rouge">contractsByPayloadKind()</code>,
+<code class="language-plaintext highlighter-rouge">contractsByJsonSchemaId()</code>, <code class="language-plaintext highlighter-rouge">contractForJsonSchemaId(...)</code>,
+<code class="language-plaintext highlighter-rouge">requireContractForJsonSchemaId(...)</code>,
+<code class="language-plaintext highlighter-rouge">contractForPayloadSchema(...)</code>, <code class="language-plaintext highlighter-rouge">requireContractForPayloadSchema(...)</code>, and
+<code class="language-plaintext highlighter-rouge">requireCurrentSchema(...)</code> for that same payload. Use
+<code class="language-plaintext highlighter-rouge">lockJsonSchemaMetadata()</code> to validate that lock payload. Use
+<code class="language-plaintext highlighter-rouge">validateLockMetadata(...)</code> or <code class="language-plaintext highlighter-rouge">validateCurrentLock()</code> when CI needs a stable
+valid/invalid report comparing a saved lock with the current schema bundle, and
+<code class="language-plaintext highlighter-rouge">validateLockJson(...)</code> or <code class="language-plaintext highlighter-rouge">validateLockPath(...)</code> when that saved lock is still
+JSON text or a file. Use <code class="language-plaintext highlighter-rouge">validateLockSnapshot(...)</code> when the saved lock has
+already been rehydrated as a <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetSchemaLockSnapshot</code>. Use
+<code class="language-plaintext highlighter-rouge">requireValidLockMetadata(...)</code>,
+<code class="language-plaintext highlighter-rouge">requireValidLockJson(...)</code>, <code class="language-plaintext highlighter-rouge">requireValidLockPath(...)</code>, or
+<code class="language-plaintext highlighter-rouge">requireCurrentLockValid()</code> when the same check should fail fast on drift. Use
+the <code class="language-plaintext highlighter-rouge">...Report(...)</code> variants when Java consumers want a
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetSchemaLockValidationReport</code> with typed accessors such as
+<code class="language-plaintext highlighter-rouge">valid()</code>, <code class="language-plaintext highlighter-rouge">mismatchCount()</code>, <code class="language-plaintext highlighter-rouge">expectedSchemaSetIdentity()</code>,
+<code class="language-plaintext highlighter-rouge">actualSchemaSetIdentity()</code>, <code class="language-plaintext highlighter-rouge">schemaSetIdentityMatch()</code>,
+<code class="language-plaintext highlighter-rouge">requireSchemaSetIdentityMatch()</code>, <code class="language-plaintext highlighter-rouge">mismatchPaths()</code>, <code class="language-plaintext highlighter-rouge">mismatchDetails()</code>,
+<code class="language-plaintext highlighter-rouge">firstMismatch()</code>, <code class="language-plaintext highlighter-rouge">hasMismatchAtPath(...)</code>, <code class="language-plaintext highlighter-rouge">mismatchesForType(...)</code>,
+<code class="language-plaintext highlighter-rouge">mismatchesByPath()</code>, and <code class="language-plaintext highlighter-rouge">requireValid()</code>. <code class="language-plaintext highlighter-rouge">mismatchDetails()</code> returns typed
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetSchemaLockMismatch</code> entries with <code class="language-plaintext highlighter-rouge">type()</code>, <code class="language-plaintext highlighter-rouge">path()</code>,
+<code class="language-plaintext highlighter-rouge">expected()</code>, <code class="language-plaintext highlighter-rouge">actual()</code>, and <code class="language-plaintext highlighter-rouge">summary()</code> while preserving the raw JSON-shaped
+map through <code class="language-plaintext highlighter-rouge">toMetadata()</code>. Use
+<code class="language-plaintext highlighter-rouge">lockValidationJsonSchemaMetadata()</code> when the validation report shape must be
+pinned by external tooling. The report includes its validation schema
+id/resource and the expected/actual lock-schema ids so persisted CI logs can be
+interpreted without extra context. Use
+<code class="language-plaintext highlighter-rouge">healthScore</code>, <code class="language-plaintext highlighter-rouge">alertLevel</code>, and <code class="language-plaintext highlighter-rouge">healthBadge</code> for UI status rendering. Use
+<code class="language-plaintext highlighter-rouge">checks</code>, <code class="language-plaintext highlighter-rouge">failingChecks</code>, and <code class="language-plaintext highlighter-rouge">checkSummary</code> for category-level lineage
+invariant rows, primary failing-check identity, type, action, full check
+payload, and severity rollups; those priority-aware primary failing-check
+fields are also mirrored at the top level of <code class="language-plaintext highlighter-rouge">healthMetadata()</code>.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointManifestSnapshot</code> on resume paths to rehydrate
+persisted manifest metadata, verify schema/fingerprint/readiness consistency,
+and compare the checkpoint dataset fingerprint with a freshly materialized plan.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeReport</code> when the trainer wants one
+checkpoint-resume preflight object that combines schema compatibility, stored
+dataset readiness, and fingerprint matching before opening checkpoint state.
+When constructed from a current <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetPlanReport</code>, it also blocks
+resume if the freshly materialized report is not accepted by the current gate.
+Call <code class="language-plaintext highlighter-rouge">gateSummary()</code>, <code class="language-plaintext highlighter-rouge">gates()</code>, <code class="language-plaintext highlighter-rouge">gateAccepted(...)</code>,
+<code class="language-plaintext highlighter-rouge">requireGateAccepted(...)</code>, <code class="language-plaintext highlighter-rouge">requireAllGatesAccepted()</code>, <code class="language-plaintext highlighter-rouge">blockedGates()</code>, or
+<code class="language-plaintext highlighter-rouge">warningGates()</code> when extensions need a stable automation view of each resume
+guard: manifest schema, checkpoint dataset readiness, dataset fingerprint,
+resume expectation, and current dataset plan readiness. The summary exposes
+counts, blocked/warning ids, grouped gate ids and counts by status, severity,
+per-category rollups, category status lists, primary blocked or warning gate
+ids/categories, primary headline gate fields, highest severity, and compact
+attention/action flags plus a render-ready badge for dashboards or CI logs.
+Each gate also carries a stable <code class="language-plaintext highlighter-rouge">actionCode()</code> and human <code class="language-plaintext highlighter-rouge">actionHint()</code>; the
+summary and badge expose the primary action so automation can branch on the code
+while UI surfaces can show the hint directly. Use <code class="language-plaintext highlighter-rouge">nextActions()</code> when a report
+has multiple blockers or warnings: it returns blocked actions first, warning
+actions second, and a single <code class="language-plaintext highlighter-rouge">continue</code> action only for a fully ready resume
+decision. <code class="language-plaintext highlighter-rouge">actionCodes()</code>, <code class="language-plaintext highlighter-rouge">requiredActionCodes()</code>, and <code class="language-plaintext highlighter-rouge">warningActionCodes()</code>
+are compact shortcuts for CI rules. Prefer <code class="language-plaintext highlighter-rouge">actionPlan()</code> when an extension or
+dashboard wants the full handoff in one object, including ready flags, counts,
+primary action, ordered actions, and compact metadata. Resume reports and
+read-side snapshots expose <code class="language-plaintext highlighter-rouge">actionPlan()</code>, <code class="language-plaintext highlighter-rouge">readinessBadge()</code>, and the action
+shortcut lists directly, and <code class="language-plaintext highlighter-rouge">toMetadata()</code> includes top-level <code class="language-plaintext highlighter-rouge">actionPlan</code> and
+<code class="language-plaintext highlighter-rouge">readinessBadge</code> aliases for tools that do not want to traverse <code class="language-plaintext highlighter-rouge">gateSummary</code>.
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeActionPlan.fromMetadata(...)</code>,
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeAction.fromMetadata(...)</code>, and
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeReadinessBadge.fromMetadata(...)</code>
+rehydrate those handoff payloads for extensions that receive only JSON.
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeGateCategorySummary.fromMetadata(...)</code>
+validates a single category rollup against the detailed resume gates when a
+dashboard wants category-level rows without trusting stale derived counts.
+Call <code class="language-plaintext highlighter-rouge">explanation()</code> on the resume report when a trainer, extension, or CI job
+needs stable finding codes such as <code class="language-plaintext highlighter-rouge">dataset-fingerprint-mismatch</code>,
+<code class="language-plaintext highlighter-rouge">checkpoint-schema-mismatch</code>, or <code class="language-plaintext highlighter-rouge">current-plan-rejected</code> plus suggested next
+steps. <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeExplanation.fromMetadata(...)</code>
+rehydrates that payload from JSON and verifies its derived primary code,
+primary category, and finding count.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeExpectation</code> when that preflight should
+also require a specific experiment name, run id, model family, seed, exact
+checkpoint step, or minimum checkpoint step.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumePolicy</code> when trainer resume code wants
+one reusable object that chooses the current readiness gate, applies optional
+resume compatibility, and enforces optional identity expectations.
+Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeCompatibilityMode.STRICT</code> for exact
+resume safety, <code class="language-plaintext highlighter-rouge">COMPATIBLE</code> for warning-only current-plan compatibility, and
+<code class="language-plaintext highlighter-rouge">FORCE</code> only when a research/debug workflow intentionally continues through
+dataset fingerprint or current-plan mismatches with warnings.
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumePolicy.fromMetadata(...)</code> rehydrates that
+policy from persisted trainer config or CI metadata.
+Reports produced through a policy include <code class="language-plaintext highlighter-rouge">policyTracked()</code> and
+<code class="language-plaintext highlighter-rouge">policyMetadata()</code> so trainer audit payloads can show the exact gate and
+expectation settings used for the decision.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeReportSnapshot</code> when dashboards, CI,
+or extensions need to read a persisted resume-report sidecar without
+materializing the dataset plan again. It preserves the resume status, rejection
+reasons, gate summary, gate list, policy metadata, checkpoint identity, and
+current-plan report payload. Snapshot loading validates a persisted
+<code class="language-plaintext highlighter-rouge">gateSummary</code>, top-level <code class="language-plaintext highlighter-rouge">actionPlan</code>, and top-level <code class="language-plaintext highlighter-rouge">readinessBadge</code> against
+the detailed gates when present, validates derived grouped gate indexes when
+present, and synthesizes gates, summary, and grouped indexes for older sidecars
+that predate those fields.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointSnapshot</code> when those tools need the
+whole checkpoint-directory sidecar state in one read. It loads the manifest,
+detects whether a resume report exists, reports manifest-only versus ready or
+blocked states, and exposes a compact <code class="language-plaintext highlighter-rouge">trainingReportMetadata()</code> payload.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointInventory</code> when tools need to scan a
+root directory of checkpoint runs. It reports ready, blocked, manifest-only, and
+failed sidecar reads, and can select the latest ready checkpoint by manifest
+creation time.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointSelectionPolicy</code> when those tools need
+the same restore choice everywhere. <code class="language-plaintext highlighter-rouge">latestReady()</code> allows manifest-only
+checkpoints, <code class="language-plaintext highlighter-rouge">latestResumeReady()</code> requires a persisted ready resume report, and
+the strict variants fail if the inventory contains corrupt sidecars. Add
+<code class="language-plaintext highlighter-rouge">withFailOnLineageIssues(true)</code> when a resume path should also reject checkpoint
+roots with duplicate run ids, missing parents, ambiguous parents, parent
+identity mismatches, or cycles before selecting a checkpoint.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointInspectionReport</code> when tools need to
+show why a checkpoint was or was not selected. It keeps accepted and rejected
+candidate decisions, selected checkpoint metadata, strict inventory failure
+details, and a JSON-friendly <code class="language-plaintext highlighter-rouge">toMetadata()</code> payload together.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointRestorePlan</code> when trainer resume code
+needs the selected checkpoint as a typed handoff. It keeps the root directory,
+checkpoint directory, manifest path, resume-report path, policy, checkpoint
+identity, resume readiness, and JSON-friendly <code class="language-plaintext highlighter-rouge">toMetadata()</code> payload together.
+Create one with <code class="language-plaintext highlighter-rouge">inspection.requireRestorePlan()</code>,
+<code class="language-plaintext highlighter-rouge">inventory.requireRestorePlan(policy)</code>, or
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointBridge.requireRestorePlan(root, policy)</code>.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointRestorePreflight</code> as the final guard
+before opening checkpoint state. It combines the selected restore plan with a
+fresh current-plan <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointResumeReport</code>, so a checkpoint
+can be selected by identity and persisted readiness but still be blocked if the
+current dataset plan fingerprint, gate, or expectation no longer matches. It
+also exposes <code class="language-plaintext highlighter-rouge">gateSummary()</code>, <code class="language-plaintext highlighter-rouge">nextActions()</code>, <code class="language-plaintext highlighter-rouge">actionPlan()</code>,
+<code class="language-plaintext highlighter-rouge">readinessBadge()</code>, <code class="language-plaintext highlighter-rouge">requireAllGatesAccepted()</code>, <code class="language-plaintext highlighter-rouge">requireNoRequiredActions()</code>,
+and <code class="language-plaintext highlighter-rouge">requireMetadataMatch(...)</code> directly, and its metadata includes top-level
+<code class="language-plaintext highlighter-rouge">actionPlan</code> and <code class="language-plaintext highlighter-rouge">readinessBadge</code> aliases for CLI and CI consumers.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetCheckpointMetadataJson</code> when checkpoint metadata needs
+dependency-free JSON persistence. It provides deterministic <code class="language-plaintext highlighter-rouge">toJson(...)</code> /
+<code class="language-plaintext highlighter-rouge">toPrettyJson(...)</code>, immutable <code class="language-plaintext highlighter-rouge">fromJson(...)</code>, file <code class="language-plaintext highlighter-rouge">write(...)</code> / <code class="language-plaintext highlighter-rouge">read(...)</code>,
+<code class="language-plaintext highlighter-rouge">readSnapshot(...)</code>, <code class="language-plaintext highlighter-rouge">readPlanReport(...)</code>, and
+<code class="language-plaintext highlighter-rouge">readResumeReportSnapshot(...)</code> helpers for checkpoint manifest, dataset plan
+report, and resume-report files.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerProvenanceSpec</code> as the normal trainer-facing
+entry point. It builds the plan report, manifest, resume policy, sidecar paths,
+bridge helpers, restore-selection policy, restore-plan helpers, and lifecycle
+listener from one immutable setup object, which keeps extensions from
+hand-wiring the same checkpoint provenance flow.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerCheckpointBridge</code> when that metadata should live
+beside canonical trainer checkpoints. It writes stable
+<code class="language-plaintext highlighter-rouge">discrete-token-dataset-manifest.json</code> and
+<code class="language-plaintext highlighter-rouge">discrete-token-dataset-resume-report.json</code> sidecars, runs resume preflight from
+the checkpoint directory, applies checkpoint selection policies across a root of
+runs, returns typed restore plans for selected checkpoints, and can attach a
+<code class="language-plaintext highlighter-rouge">recursiveReasoningDataset</code> section to trainer summary metadata.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTrainerProvenanceListener</code> when the trainer should
+perform that sidecar workflow from lifecycle callbacks. It writes the manifest at
+training start, validates an existing manifest before overwriting it when a
+current plan is supplied, and keeps the enriched <code class="language-plaintext highlighter-rouge">TrainingSummary</code> available
+through <code class="language-plaintext highlighter-rouge">lastEnrichedSummary()</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">toMetadata()</code> returns an immutable <code class="language-plaintext highlighter-rouge">Map&lt;String, Object&gt;</code> with nested <code class="language-plaintext highlighter-rouge">split</code>,
+<code class="language-plaintext highlighter-rouge">batches</code>, <code class="language-plaintext highlighter-rouge">trainingExamples</code>, <code class="language-plaintext highlighter-rouge">trainPadding</code>, and <code class="language-plaintext highlighter-rouge">taskSplits</code> sections. Use it
+when writing checkpoint metadata, JBang inspector payloads, or CI summaries.</p>
+
+<p>Each <code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetTaskSplitDiagnostics</code> entry reports:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taskId()</code></td>
+      <td>Benchmark/task label</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">exampleCount()</code></td>
+      <td>Total examples for that task</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">trainCount()</code></td>
+      <td>Examples in train</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">validationCount()</code></td>
+      <td>Examples in validation</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">testCount()</code></td>
+      <td>Examples in test</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">trainRate()</code></td>
+      <td>Train share for that task</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">validationRate()</code></td>
+      <td>Validation share for that task</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">testRate()</code></td>
+      <td>Test share for that task</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="token-example">Token Example</h2>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetExample</code> is the canonical single-example record for
+structured reasoning datasets.</p>
+
+<p>Required fields:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">taskId</code></td>
+      <td><code class="language-plaintext highlighter-rouge">String</code></td>
+      <td>Stable benchmark label such as <code class="language-plaintext highlighter-rouge">nqueens</code>, <code class="language-plaintext highlighter-rouge">graph-coloring</code>, or <code class="language-plaintext highlighter-rouge">arc-grid</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">exampleIndex</code></td>
+      <td><code class="language-plaintext highlighter-rouge">int</code></td>
+      <td>Non-negative source index</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">inputTokens</code></td>
+      <td><code class="language-plaintext highlighter-rouge">int[]</code></td>
+      <td>Non-empty input token sequence</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">targetTokens</code></td>
+      <td><code class="language-plaintext highlighter-rouge">int[]</code></td>
+      <td>Non-empty target token sequence</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">knownSolutionCount</code></td>
+      <td><code class="language-plaintext highlighter-rouge">int</code></td>
+      <td><code class="language-plaintext highlighter-rouge">-1</code> when unknown, otherwise <code class="language-plaintext highlighter-rouge">&gt;= 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Map&lt;String, Object&gt;</code></td>
+      <td>Optional immutable per-example metadata</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetExample</span> <span class="n">example</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DiscreteTokenDatasetExample</span><span class="o">(</span>
+    <span class="s">"graph-coloring"</span><span class="o">,</span>
+    <span class="mi">0</span><span class="o">,</span>
+    <span class="k">new</span> <span class="kt">int</span><span class="o">[]</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">},</span>
+    <span class="k">new</span> <span class="kt">int</span><span class="o">[]</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">},</span>
+    <span class="mi">3</span><span class="o">,</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"nodeCount"</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="s">"colorCount"</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>Benchmark-specific examples can adapt into this shape:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetExample</span> <span class="n">nQueens</span> <span class="o">=</span> <span class="n">nQueensExample</span><span class="o">.</span><span class="na">toTokenExample</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetExample</span> <span class="n">coloring</span> <span class="o">=</span> <span class="n">graphColoringExample</span><span class="o">.</span><span class="na">toTokenExample</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h2 id="dataset-profile">Dataset Profile</h2>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetProfiler.profile(examples)</code> returns a
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetProfile</code>.</p>
+
+<p>It reports:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>API</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Example count</td>
+      <td><code class="language-plaintext highlighter-rouge">exampleCount()</code></td>
+    </tr>
+    <tr>
+      <td>Task mix</td>
+      <td><code class="language-plaintext highlighter-rouge">taskExampleCounts()</code></td>
+    </tr>
+    <tr>
+      <td>Input length stats</td>
+      <td><code class="language-plaintext highlighter-rouge">inputLengths()</code></td>
+    </tr>
+    <tr>
+      <td>Target length stats</td>
+      <td><code class="language-plaintext highlighter-rouge">targetLengths()</code></td>
+    </tr>
+    <tr>
+      <td>Observed token count</td>
+      <td><code class="language-plaintext highlighter-rouge">observedTokenCount()</code></td>
+    </tr>
+    <tr>
+      <td>Distinct token count</td>
+      <td><code class="language-plaintext highlighter-rouge">distinctTokenCount()</code></td>
+    </tr>
+    <tr>
+      <td>Token range</td>
+      <td><code class="language-plaintext highlighter-rouge">minToken()</code>, <code class="language-plaintext highlighter-rouge">maxToken()</code></td>
+    </tr>
+    <tr>
+      <td>Known-solution coverage</td>
+      <td><code class="language-plaintext highlighter-rouge">knownSolutionExampleCount()</code>, <code class="language-plaintext highlighter-rouge">knownSolutionCoverageRate()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetProfile</span> <span class="n">profile</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetProfiler</span><span class="o">.</span><span class="na">profile</span><span class="o">(</span><span class="n">examples</span><span class="o">);</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">profile</span><span class="o">.</span><span class="na">taskExampleCounts</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">profile</span><span class="o">.</span><span class="na">inputLengths</span><span class="o">().</span><span class="na">maxLength</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">profile</span><span class="o">.</span><span class="na">knownSolutionCoverageRate</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenLengthStats</code> stores compact min/max/total/mean length stats for
+input or target sequences.</p>
+
+<h2 id="trainvalidationtest-split">Train/Validation/Test Split</h2>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetSplitter</code> provides deterministic split policies.</p>
+
+<p>Exact-count splits:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetSplit</span> <span class="n">split</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetSplitter</span><span class="o">.</span><span class="na">sequentialByCounts</span><span class="o">(</span>
+        <span class="n">examples</span><span class="o">,</span>
+        <span class="mi">100</span><span class="o">,</span>  <span class="c1">// validation examples</span>
+        <span class="mi">100</span>   <span class="c1">// test examples</span>
+    <span class="o">);</span>
+</code></pre></div></div>
+
+<p>Fraction splits:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetSplit</span> <span class="n">split</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetSplitter</span><span class="o">.</span><span class="na">shuffledByFractions</span><span class="o">(</span>
+        <span class="n">examples</span><span class="o">,</span>
+        <span class="mf">0.10</span><span class="o">,</span>
+        <span class="mf">0.10</span><span class="o">,</span>
+        <span class="mi">42L</span>
+    <span class="o">);</span>
+</code></pre></div></div>
+
+<p>Task-stratified fraction splits:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetSplit</span> <span class="n">split</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetSplitter</span><span class="o">.</span><span class="na">stratifiedShuffledByFractions</span><span class="o">(</span>
+        <span class="n">examples</span><span class="o">,</span>
+        <span class="mf">0.10</span><span class="o">,</span>
+        <span class="mf">0.10</span><span class="o">,</span>
+        <span class="mi">42L</span>
+    <span class="o">);</span>
+</code></pre></div></div>
+
+<p>Use stratified splits when one dataset mixes several benchmark families. The
+splitter groups examples by <code class="language-plaintext highlighter-rouge">taskId</code>, applies the same floor-fraction policy
+inside each task group, then concatenates train, validation, and test
+partitions.</p>
+
+<p>Convenience profile methods:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetProfile</span> <span class="n">allProfile</span> <span class="o">=</span> <span class="n">split</span><span class="o">.</span><span class="na">profile</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetProfile</span> <span class="n">trainProfile</span> <span class="o">=</span> <span class="n">split</span><span class="o">.</span><span class="na">trainProfile</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetProfile</span> <span class="n">validProfile</span> <span class="o">=</span> <span class="n">split</span><span class="o">.</span><span class="na">validationProfile</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetProfile</span> <span class="n">testProfile</span> <span class="o">=</span> <span class="n">split</span><span class="o">.</span><span class="na">testProfile</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h2 id="epoch-builder">Epoch Builder</h2>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetEpochBatcher</code> materializes padded mini-batches for one
+epoch.</p>
+
+<p>Sequential:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetEpoch</span> <span class="n">epoch</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetEpochBatcher</span><span class="o">.</span><span class="na">sequential</span><span class="o">(</span>
+        <span class="n">split</span><span class="o">.</span><span class="na">trainExamples</span><span class="o">(),</span>
+        <span class="mi">32</span><span class="o">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+        <span class="kc">false</span>
+    <span class="o">);</span>
+</code></pre></div></div>
+
+<p>Seeded shuffle:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetEpoch</span> <span class="n">epoch</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetEpochBatcher</span><span class="o">.</span><span class="na">shuffled</span><span class="o">(</span>
+        <span class="n">split</span><span class="o">.</span><span class="na">trainExamples</span><span class="o">(),</span>
+        <span class="mi">32</span><span class="o">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+        <span class="mi">2026L</span><span class="o">,</span>
+        <span class="kc">false</span>
+    <span class="o">);</span>
+</code></pre></div></div>
+
+<p>Length sorted:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetEpoch</span> <span class="n">epoch</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetEpochBatcher</span><span class="o">.</span><span class="na">lengthSorted</span><span class="o">(</span>
+        <span class="n">split</span><span class="o">.</span><span class="na">trainExamples</span><span class="o">(),</span>
+        <span class="mi">32</span><span class="o">,</span>
+        <span class="o">-</span><span class="mi">1</span><span class="o">,</span>
+        <span class="kc">false</span>
+    <span class="o">);</span>
+</code></pre></div></div>
+
+<p>Length sorting groups shorter examples together before batching. It is useful
+when input or target lengths vary, because it reduces padding capacity without
+coupling the dataset layer to a tensor backend.</p>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetEpoch</code> reports:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>API</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Number of mini-batches</td>
+      <td><code class="language-plaintext highlighter-rouge">batchCount()</code></td>
+    </tr>
+    <tr>
+      <td>Emitted examples</td>
+      <td><code class="language-plaintext highlighter-rouge">emittedExampleCount()</code></td>
+    </tr>
+    <tr>
+      <td>Dropped examples</td>
+      <td><code class="language-plaintext highlighter-rouge">droppedExampleCount()</code></td>
+    </tr>
+    <tr>
+      <td>Observed tokens</td>
+      <td><code class="language-plaintext highlighter-rouge">observedTokenCount()</code></td>
+    </tr>
+    <tr>
+      <td>Padded capacity</td>
+      <td><code class="language-plaintext highlighter-rouge">paddedTokenCapacity()</code></td>
+    </tr>
+    <tr>
+      <td>Padding tokens</td>
+      <td><code class="language-plaintext highlighter-rouge">paddingTokenCount()</code></td>
+    </tr>
+    <tr>
+      <td>Padding rate</td>
+      <td><code class="language-plaintext highlighter-rouge">paddingRate()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="padded-batch">Padded Batch</h2>
+
+<p><code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetBatcher.batch(...)</code> pads a list of examples into one
+<code class="language-plaintext highlighter-rouge">DiscreteTokenDatasetBatch</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetBatch</span> <span class="n">batch</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetBatcher</span><span class="o">.</span><span class="na">batch</span><span class="o">(</span><span class="n">examples</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>The batch includes:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Shape</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">inputTokens()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[batch, maxInputLength]</code></td>
+      <td>Padded input tokens</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">targetTokens()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[batch, maxTargetLength]</code></td>
+      <td>Padded target tokens</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">inputMask()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[batch, maxInputLength]</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code> for real tokens, <code class="language-plaintext highlighter-rouge">0</code> for padding</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">targetMask()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[batch, maxTargetLength]</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code> for real tokens, <code class="language-plaintext highlighter-rouge">0</code> for padding</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">inputLengths()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[batch]</code></td>
+      <td>Original input lengths</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">targetLengths()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[batch]</code></td>
+      <td>Original target lengths</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">knownSolutionCounts()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[batch]</code></td>
+      <td><code class="language-plaintext highlighter-rouge">-1</code> or known solution count</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata()</code></td>
+      <td>list</td>
+      <td>Per-example metadata</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All public array accessors return defensive copies.</p>
+
+<h2 id="practical-defaults">Practical Defaults</h2>
+
+<p>Recommended starter policy:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DiscreteTokenDatasetPlanConfig</span> <span class="n">config</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetPlanConfig</span><span class="o">.</span><span class="na">stratifiedLengthSorted</span><span class="o">(</span>
+        <span class="mf">0.10</span><span class="o">,</span>
+        <span class="mf">0.10</span><span class="o">,</span>
+        <span class="mi">2026L</span><span class="o">,</span>
+        <span class="mi">32</span><span class="o">,</span>
+        <span class="mi">64</span><span class="o">,</span>
+        <span class="o">-</span><span class="mi">1</span>
+    <span class="o">);</span>
+
+<span class="nc">DiscreteTokenDatasetPlan</span> <span class="n">plan</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetPlanner</span><span class="o">.</span><span class="na">plan</span><span class="o">(</span><span class="n">examples</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+
+<span class="nc">DiscreteTokenDatasetPlanDiagnostics</span> <span class="n">diagnostics</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="na">diagnostics</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">diagnostics</span><span class="o">.</span><span class="na">hasWarnings</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">diagnostics</span><span class="o">.</span><span class="na">warnings</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">DiscreteTokenDatasetPlanDiagnostics</span> <span class="n">ciDiagnostics</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="na">diagnostics</span><span class="o">(</span>
+    <span class="nc">DiscreteTokenDatasetPlanDiagnosticsPolicy</span><span class="o">.</span><span class="na">defaults</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">withHighPaddingRateThreshold</span><span class="o">(</span><span class="mf">0.25</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="nc">DiscreteTokenDatasetPlanReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="na">readiness</span><span class="o">(</span>
+    <span class="nc">DiscreteTokenDatasetPlanReadinessGate</span><span class="o">.</span><span class="na">strict</span><span class="o">()</span>
+<span class="o">);</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireAccepted</span><span class="o">();</span>
+
+<span class="nc">DiscreteTokenDatasetFingerprint</span> <span class="n">fingerprint</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="na">fingerprint</span><span class="o">();</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">checkpointFingerprintMetadata</span> <span class="o">=</span> <span class="n">fingerprint</span><span class="o">.</span><span class="na">toMetadata</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetFingerprint</span> <span class="n">expectedFingerprint</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetFingerprint</span><span class="o">.</span><span class="na">fromMetadata</span><span class="o">(</span><span class="n">checkpointFingerprintMetadata</span><span class="o">);</span>
+<span class="nc">DiscreteTokenDatasetFingerprintMatch</span> <span class="n">resumeMatch</span> <span class="o">=</span>
+    <span class="n">plan</span><span class="o">.</span><span class="na">verifyFingerprint</span><span class="o">(</span><span class="n">expectedFingerprint</span><span class="o">);</span>
+<span class="n">resumeMatch</span><span class="o">.</span><span class="na">requireMatch</span><span class="o">();</span>
+
+<span class="nc">DiscreteTokenDatasetPlanReport</span> <span class="n">report</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="na">report</span><span class="o">(</span>
+    <span class="nc">DiscreteTokenDatasetPlanReadinessGate</span><span class="o">.</span><span class="na">strict</span><span class="o">()</span>
+<span class="o">);</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">reportMetadata</span> <span class="o">=</span> <span class="n">report</span><span class="o">.</span><span class="na">toMetadata</span><span class="o">();</span>
+<span class="n">report</span><span class="o">.</span><span class="na">verifyFingerprintMetadataSection</span><span class="o">(</span><span class="n">reportMetadata</span><span class="o">).</span><span class="na">requireMatch</span><span class="o">();</span>
+
+<span class="nc">Path</span> <span class="n">checkpointDir</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"checkpoints/run-001"</span><span class="o">);</span>
+<span class="nc">DiscreteTokenDatasetTrainerProvenanceSpec</span> <span class="n">provenance</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetTrainerProvenanceSpec</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="n">checkpointDir</span><span class="o">,</span> <span class="n">plan</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">strict</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">experimentName</span><span class="o">(</span><span class="s">"gram-structured-reasoning"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">runId</span><span class="o">(</span><span class="s">"run-001"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">seed</span><span class="o">(</span><span class="mi">2026L</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">checkpointStep</span><span class="o">(</span><span class="mi">12L</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">exactResumeExpectation</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointManifest</span> <span class="n">manifest</span> <span class="o">=</span> <span class="n">provenance</span><span class="o">.</span><span class="na">manifest</span><span class="o">();</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">checkpointMetadata</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="na">toMetadata</span><span class="o">();</span>
+<span class="n">provenance</span><span class="o">.</span><span class="na">writeManifest</span><span class="o">();</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">loadedCheckpointMetadata</span> <span class="o">=</span> <span class="n">provenance</span><span class="o">.</span><span class="na">readManifestMetadata</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointManifestSnapshot</span> <span class="n">snapshot</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">readSnapshot</span><span class="o">();</span>
+<span class="n">snapshot</span><span class="o">.</span><span class="na">requireCurrentSchema</span><span class="o">();</span>
+<span class="n">snapshot</span><span class="o">.</span><span class="na">verifyPlan</span><span class="o">(</span><span class="n">plan</span><span class="o">).</span><span class="na">requireMatch</span><span class="o">();</span>
+<span class="n">snapshot</span><span class="o">.</span><span class="na">requireDatasetAccepted</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointResumeReport</span> <span class="n">resumeReport</span> <span class="o">=</span>
+    <span class="n">snapshot</span><span class="o">.</span><span class="na">resumeReport</span><span class="o">(</span><span class="n">plan</span><span class="o">);</span>
+<span class="n">resumeReport</span><span class="o">.</span><span class="na">requireReady</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointResumeExpectation</span> <span class="n">expectedCheckpoint</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">resumeExpectation</span><span class="o">();</span>
+<span class="n">snapshot</span><span class="o">.</span><span class="na">resumeReport</span><span class="o">(</span><span class="n">plan</span><span class="o">,</span> <span class="n">expectedCheckpoint</span><span class="o">).</span><span class="na">requireReady</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetPlanReport</span> <span class="n">currentStrictReport</span> <span class="o">=</span>
+    <span class="n">plan</span><span class="o">.</span><span class="na">report</span><span class="o">(</span><span class="nc">DiscreteTokenDatasetPlanReadinessGate</span><span class="o">.</span><span class="na">strict</span><span class="o">());</span>
+<span class="n">snapshot</span><span class="o">.</span><span class="na">resumeReport</span><span class="o">(</span><span class="n">currentStrictReport</span><span class="o">,</span> <span class="n">expectedCheckpoint</span><span class="o">).</span><span class="na">requireReady</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointResumePolicy</span> <span class="n">resumePolicy</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">resumePolicy</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointResumeReport</span> <span class="n">policyReport</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">requireResumeReadyAndWriteReport</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointResumeReportSnapshot</span> <span class="n">persistedResumeAudit</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">readResumeReportSnapshot</span><span class="o">();</span>
+<span class="n">persistedResumeAudit</span><span class="o">.</span><span class="na">requireReady</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointSnapshot</span> <span class="n">checkpointAudit</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">readCheckpointSnapshot</span><span class="o">();</span>
+<span class="n">checkpointAudit</span><span class="o">.</span><span class="na">requireReady</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointInventory</span> <span class="n">checkpointInventory</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetTrainerCheckpointInventory</span><span class="o">.</span><span class="na">scan</span><span class="o">(</span><span class="n">checkpointDir</span><span class="o">.</span><span class="na">getParent</span><span class="o">());</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointSnapshot</span> <span class="n">latestReadyCheckpoint</span> <span class="o">=</span>
+    <span class="n">checkpointInventory</span><span class="o">.</span><span class="na">requireLatestReadyCheckpoint</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointSelectionPolicy</span> <span class="n">checkpointSelection</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetTrainerCheckpointSelectionPolicy</span><span class="o">.</span><span class="na">latestResumeReady</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">withExpectation</span><span class="o">(</span><span class="n">provenance</span><span class="o">.</span><span class="na">resumeExpectation</span><span class="o">());</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointSnapshot</span> <span class="n">latestResumeReadyCheckpoint</span> <span class="o">=</span>
+    <span class="n">checkpointSelection</span><span class="o">.</span><span class="na">require</span><span class="o">(</span><span class="n">checkpointInventory</span><span class="o">);</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointSnapshot</span> <span class="n">bridgeSelectedCheckpoint</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetTrainerCheckpointBridge</span><span class="o">.</span><span class="na">requireCheckpoint</span><span class="o">(</span>
+        <span class="n">checkpointDir</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span>
+        <span class="n">checkpointSelection</span><span class="o">);</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointInspectionReport</span> <span class="n">checkpointInspection</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetTrainerCheckpointBridge</span><span class="o">.</span><span class="na">inspectCheckpoints</span><span class="o">(</span>
+        <span class="n">checkpointDir</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span>
+        <span class="n">checkpointSelection</span><span class="o">);</span>
+<span class="n">checkpointInspection</span><span class="o">.</span><span class="na">requireSelectedCheckpoint</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointRestorePlan</span> <span class="n">restorePlan</span> <span class="o">=</span>
+    <span class="n">checkpointInspection</span><span class="o">.</span><span class="na">requireRestorePlan</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointRestorePreflight</span> <span class="n">restorePreflight</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetTrainerCheckpointBridge</span><span class="o">.</span><span class="na">requireRestorePreflightReady</span><span class="o">(</span>
+        <span class="n">restorePlan</span><span class="o">,</span>
+        <span class="n">plan</span><span class="o">,</span>
+        <span class="n">provenance</span><span class="o">.</span><span class="na">resumePolicy</span><span class="o">());</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointRestorePlan</span> <span class="n">provenanceRestorePlan</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">requireRestorePlan</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetTrainerCheckpointRestorePreflight</span> <span class="n">provenanceRestorePreflight</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">requireRestorePreflightReady</span><span class="o">();</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">resumeAuditMetadata</span> <span class="o">=</span> <span class="n">policyReport</span><span class="o">.</span><span class="na">toMetadata</span><span class="o">();</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">trainerMetadata</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">attachToTrainingMetadata</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"runId"</span><span class="o">,</span> <span class="s">"run-001"</span><span class="o">),</span> <span class="n">policyReport</span><span class="o">);</span>
+<span class="nc">DiscreteTokenDatasetTrainerProvenanceListener</span> <span class="n">provenanceListener</span> <span class="o">=</span>
+    <span class="n">provenance</span><span class="o">.</span><span class="na">listener</span><span class="o">();</span>
+<span class="c1">// Pass provenanceListener to a canonical trainer via .listener(provenanceListener).</span>
+<span class="nc">TrainingSummary</span> <span class="n">enrichedSummary</span> <span class="o">=</span>
+    <span class="n">provenanceListener</span><span class="o">.</span><span class="na">lastEnrichedSummary</span><span class="o">().</span><span class="na">orElse</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">resumePolicyMetadata</span> <span class="o">=</span> <span class="n">resumePolicy</span><span class="o">.</span><span class="na">toMetadata</span><span class="o">();</span>
+<span class="nc">DiscreteTokenDatasetCheckpointResumePolicy</span> <span class="n">reloadedResumePolicy</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetCheckpointResumePolicy</span><span class="o">.</span><span class="na">fromMetadata</span><span class="o">(</span><span class="n">resumePolicyMetadata</span><span class="o">);</span>
+<span class="n">reloadedResumePolicy</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="n">loadedCheckpointMetadata</span><span class="o">,</span> <span class="n">plan</span><span class="o">);</span>
+<span class="nc">String</span> <span class="n">resumeAuditJson</span> <span class="o">=</span>
+    <span class="nc">DiscreteTokenDatasetCheckpointMetadataJson</span><span class="o">.</span><span class="na">toPrettyJson</span><span class="o">(</span><span class="n">resumeAuditMetadata</span><span class="o">);</span>
+
+</code></pre></div></div>
+
+<p>Use this when:</p>
+
+<ul>
+  <li>the dataset mixes multiple structured reasoning tasks</li>
+  <li>sequence lengths vary</li>
+  <li>training wants deterministic repeatability</li>
+  <li>the backend tensor conversion layer should stay separate from data planning</li>
+</ul>
+
+<h2 id="invariants">Invariants</h2>
+
+<p>The dataset API validates aggressively:</p>
+
+<ul>
+  <li>examples must have non-empty input and target token sequences</li>
+  <li><code class="language-plaintext highlighter-rouge">knownSolutionCount</code> must be <code class="language-plaintext highlighter-rouge">-1</code> or <code class="language-plaintext highlighter-rouge">&gt;= 1</code></li>
+  <li>batches are rectangular after padding</li>
+  <li>masks must exactly match sequence lengths</li>
+  <li>split fractions must be finite and in <code class="language-plaintext highlighter-rouge">[0.0, 1.0]</code></li>
+  <li>validation plus test fraction must not exceed <code class="language-plaintext highlighter-rouge">1.0</code></li>
+  <li>batch size must be greater than zero</li>
+</ul>
+
+<p>These checks are meant to fail early before a trainer or backend sees malformed
+data.</p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

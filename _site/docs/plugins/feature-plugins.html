@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Extension Features | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Extension Features</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="extension-features">Extension Features</h1>
+
+<p>Current Gollek naming uses <strong>extensions</strong> for installable external packages and <strong>plugins</strong> for low-level runtime or built-in modules. This page is kept as historical plugin architecture background; for the current extension workflow, start with <a href="/docs/extensions/">Gollek Extensions</a>.</p>
+
+<p>Domain-specific features can be exposed by extensions or plugins, enabling modular deployment of capabilities like audio, vision, OCR, training, quantization, and text processing.</p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>The Feature Plugin system provides a <strong>two-level plugin architecture</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Level 1: Runner Plugin (GGUF, Safetensor, ONNX, etc.)
+    ↓
+Level 2: Feature Plugins (Audio, Vision, Text, etc.)
+</code></pre></div></div>
+
+<p>This enables:</p>
+<ul>
+  <li><strong>Selective Deployment</strong>: Deploy only needed features</li>
+  <li><strong>Fine-grained Control</strong>: Enable/disable specific capabilities</li>
+  <li><strong>Resource Optimization</strong>: Load only required models</li>
+  <li><strong>Independent Updates</strong>: Update features independently</li>
+</ul>
+
+<hr />
+
+<h2 id="available-feature-plugins">Available Feature Plugins</h2>
+
+<h3 id="safetensor-feature-plugins">Safetensor Feature Plugins</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Capabilities</th>
+      <th>Models</th>
+      <th>Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Audio</strong></td>
+      <td>STT, TTS, Audio Processing</td>
+      <td>Whisper, SpeechT5, Wav2Vec2</td>
+      <td>~52 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Vision</strong></td>
+      <td>Classification, Detection, VQA</td>
+      <td>CLIP, ViT, DETR, LLaVA</td>
+      <td>~800 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Text</strong></td>
+      <td>LLM, Classification, NER</td>
+      <td>Llama, Mistral, BERT</td>
+      <td>~15 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="gguf-feature-plugins">GGUF Feature Plugins</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Capabilities</th>
+      <th>Models</th>
+      <th>Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Text</strong></td>
+      <td>Completion, Chat, Code</td>
+      <td>Llama, Mistral, Mixtral</td>
+      <td>4-16 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│              Runner Plugin                              │
+│  (SafetensorRunner, GGUFRunner, etc.)                   │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│         Feature Plugin Manager                          │
+│  - Feature discovery                                    │
+│  - Enable/disable control                               │
+│  - Request routing                                      │
+│  - Health monitoring                                    │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+        ┌───────────────────┼───────────────────┐
+        ↓                   ↓                   ↓
+┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+│ AudioFeature     │ │ VisionFeature    │ │ TextFeature      │
+│ Plugin           │ │ Plugin           │ │ Plugin           │
+│                  │ │                  │ │                  │
+│ Whisper          │ │ CLIP             │ │ Llama            │
+│ SpeechT5         │ │ ViT              │ │ Mistral          │
+│ Audio Processing │ │ DETR             │ │ BERT             │
+└──────────────────┘ └──────────────────┘ └──────────────────┘
+        ↓                   ↓                   ↓
+┌─────────────────────────────────────────────────────────┐
+│           Existing Engine Modules                       │
+│  (WhisperEngine, LlamaCppRunner, etc.)                  │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="quick-start">Quick Start</h2>
+
+<h3 id="installation">Installation</h3>
+
+<h4 id="step-1-build-feature-plugins">Step 1: Build Feature Plugins</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Safetensor feature plugins</span>
+<span class="nb">cd </span>inference-gollek/plugins/runner/safetensor
+mvn clean <span class="nb">install</span> <span class="nt">-Pinstall-plugin</span>
+
+<span class="c"># GGUF feature plugins</span>
+<span class="nb">cd </span>inference-gollek/plugins/runner/gguf
+mvn clean <span class="nb">install</span> <span class="nt">-Pinstall-plugin</span>
+</code></pre></div></div>
+
+<p>This installs feature plugins to <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/runners/</code></p>
+
+<h4 id="step-2-configure-features">Step 2: Configure Features</h4>
+
+<p>Create <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/runners/runner-config.json</code>:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"safetensor-runner"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"audio"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"default_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"whisper-large-v3"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"task"</span><span class="p">:</span><span class="w"> </span><span class="s2">"transcribe"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"vision"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"default_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"llama-3-8b"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"gguf-runner"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"default_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"llama-3-8b"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="usage-examples">Usage Examples</h2>
+
+<h3 id="example-1-direct-feature-usage">Example 1: Direct Feature Usage</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">AudioFeaturePlugin</span> <span class="n">audioFeature</span><span class="o">;</span>
+
+<span class="c1">// Transcribe audio</span>
+<span class="kt">byte</span><span class="o">[]</span> <span class="n">audio</span> <span class="o">=</span> <span class="n">loadAudio</span><span class="o">(</span><span class="s">"speech.wav"</span><span class="o">);</span>
+<span class="nc">Uni</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">transcription</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Uni</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;)</span> <span class="n">audioFeature</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">audio</span><span class="o">);</span>
+
+<span class="n">transcription</span><span class="o">.</span><span class="na">subscribe</span><span class="o">().</span><span class="na">with</span><span class="o">(</span>
+    <span class="n">text</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Transcription: "</span> <span class="o">+</span> <span class="n">text</span><span class="o">),</span>
+    <span class="n">error</span> <span class="o">-&gt;</span> <span class="n">error</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">()</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="example-2-via-feature-manager">Example 2: Via Feature Manager</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">FeaturePluginManager</span> <span class="n">featureManager</span><span class="o">;</span>
+
+<span class="c1">// Process through specific feature</span>
+<span class="kt">byte</span><span class="o">[]</span> <span class="n">audio</span> <span class="o">=</span> <span class="n">loadAudio</span><span class="o">(</span><span class="s">"speech.wav"</span><span class="o">);</span>
+<span class="nc">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">featureManager</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="s">"audio-feature"</span><span class="o">,</span> <span class="n">audio</span><span class="o">);</span>
+
+<span class="c1">// Auto-select feature based on input type</span>
+<span class="nc">Object</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">featureManager</span><span class="o">.</span><span class="na">processAuto</span><span class="o">(</span><span class="n">imageData</span><span class="o">,</span> <span class="s">"image/png"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="example-3-via-runner-plugin-registry">Example 3: Via Runner Plugin Registry</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">RunnerPluginRegistry</span> <span class="n">runnerRegistry</span><span class="o">;</span>
+
+<span class="c1">// Create session with specific features enabled</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"features"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="s">"audio"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+        <span class="s">"vision"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">false</span><span class="o">),</span>
+        <span class="s">"text"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">)</span>
+<span class="o">);</span>
+
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">session</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"whisper-large-v3.safetensors"</span><span class="o">,</span>
+    <span class="n">config</span>
+<span class="o">);</span>
+
+<span class="c1">// Execute inference</span>
+<span class="nc">InferenceResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">get</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">infer</span><span class="o">(</span><span class="n">request</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">await</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">atMost</span><span class="o">(</span><span class="nc">Duration</span><span class="o">.</span><span class="na">ofSeconds</span><span class="o">(</span><span class="mi">30</span><span class="o">));</span>
+</code></pre></div></div>
+
+<h3 id="example-4-multi-modal-llava">Example 4: Multi-Modal (LLaVA)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Enable both vision and text features for LLaVA</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"features"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="s">"vision"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+        <span class="s">"text"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"enabled"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">)</span>
+<span class="o">);</span>
+
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">RunnerSession</span><span class="o">&gt;</span> <span class="n">session</span> <span class="o">=</span> <span class="n">runnerRegistry</span><span class="o">.</span><span class="na">createSession</span><span class="o">(</span>
+    <span class="s">"llava-13b.safetensors"</span><span class="o">,</span>
+    <span class="n">config</span>
+<span class="o">);</span>
+
+<span class="c1">// Visual question answering</span>
+<span class="kt">byte</span><span class="o">[]</span> <span class="n">image</span> <span class="o">=</span> <span class="n">loadImage</span><span class="o">(</span><span class="s">"diagram.png"</span><span class="o">);</span>
+<span class="nc">String</span> <span class="n">question</span> <span class="o">=</span> <span class="s">"What does this diagram show?"</span><span class="o">;</span>
+
+<span class="nc">VQAInput</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">VQAInput</span><span class="o">(</span><span class="n">image</span><span class="o">,</span> <span class="n">question</span><span class="o">);</span>
+<span class="nc">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">infer</span><span class="o">(</span><span class="n">input</span><span class="o">).</span><span class="na">await</span><span class="o">();</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="configuration-reference">Configuration Reference</h2>
+
+<h3 id="safetensor-feature-configuration">Safetensor Feature Configuration</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">backend</span><span class="pi">:</span> <span class="s">direct</span>
+      <span class="na">device</span><span class="pi">:</span> <span class="s">cuda</span>
+      <span class="na">dtype</span><span class="pi">:</span> <span class="s">f16</span>
+      
+      <span class="na">features</span><span class="pi">:</span>
+        <span class="na">audio</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+          <span class="na">default_model</span><span class="pi">:</span> <span class="s">whisper-large-v3</span>
+          <span class="na">language</span><span class="pi">:</span> <span class="s">en</span>
+          <span class="na">task</span><span class="pi">:</span> <span class="s">transcribe</span>  <span class="c1"># or translate</span>
+          <span class="na">whisper</span><span class="pi">:</span>
+            <span class="na">beam_size</span><span class="pi">:</span> <span class="m">5</span>
+            <span class="na">temperature</span><span class="pi">:</span> <span class="m">0.0</span>
+            <span class="na">vad_enabled</span><span class="pi">:</span> <span class="kc">true</span>
+          <span class="na">speecht5</span><span class="pi">:</span>
+            <span class="na">voice</span><span class="pi">:</span> <span class="s">alloy</span>
+            <span class="na">speed</span><span class="pi">:</span> <span class="m">1.0</span>
+        
+        <span class="na">vision</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+          <span class="na">default_model</span><span class="pi">:</span> <span class="s">clip-vit-large</span>
+          <span class="na">max_image_size</span><span class="pi">:</span> <span class="m">2048</span>
+          <span class="na">clip</span><span class="pi">:</span>
+            <span class="na">projection_dim</span><span class="pi">:</span> <span class="m">768</span>
+          <span class="na">detr</span><span class="pi">:</span>
+            <span class="na">score_threshold</span><span class="pi">:</span> <span class="m">0.5</span>
+        
+        <span class="na">text</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+          <span class="na">default_model</span><span class="pi">:</span> <span class="s">llama-3-8b</span>
+          <span class="na">max_context</span><span class="pi">:</span> <span class="m">4096</span>
+          <span class="na">temperature</span><span class="pi">:</span> <span class="m">0.7</span>
+          <span class="na">top_p</span><span class="pi">:</span> <span class="m">0.9</span>
+</code></pre></div></div>
+
+<h3 id="gguf-feature-configuration">GGUF Feature Configuration</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">gguf-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">n_gpu_layers</span><span class="pi">:</span> <span class="s">-1</span>
+      <span class="na">n_ctx</span><span class="pi">:</span> <span class="m">4096</span>
+      <span class="na">flash_attention</span><span class="pi">:</span> <span class="kc">true</span>
+      
+      <span class="na">features</span><span class="pi">:</span>
+        <span class="na">text</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+          <span class="na">default_model</span><span class="pi">:</span> <span class="s">llama-3-8b</span>
+          <span class="na">temperature</span><span class="pi">:</span> <span class="m">0.7</span>
+          <span class="na">max_tokens</span><span class="pi">:</span> <span class="m">2048</span>
+          <span class="na">top_p</span><span class="pi">:</span> <span class="m">0.9</span>
+          <span class="na">frequency_penalty</span><span class="pi">:</span> <span class="m">0.0</span>
+          <span class="na">presence_penalty</span><span class="pi">:</span> <span class="m">0.0</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="deployment-scenarios">Deployment Scenarios</h2>
+
+<h3 id="scenario-1-audio-only-service-safetensor">Scenario 1: Audio-Only Service (Safetensor)</h3>
+
+<p><strong>Use Case</strong>: Speech transcription service</p>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">features</span><span class="pi">:</span>
+        <span class="na">audio</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">vision</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+        <span class="na">text</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+</code></pre></div></div>
+
+<p><strong>Size</strong>: ~52 MB (97.5% reduction vs full deployment)</p>
+
+<p><strong>Components</strong>: WhisperEngine + SpeechT5Engine + AudioFeaturePlugin</p>
+
+<hr />
+
+<h3 id="scenario-2-llm-service-gguf">Scenario 2: LLM Service (GGUF)</h3>
+
+<p><strong>Use Case</strong>: Text generation service</p>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">gguf-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">features</span><span class="pi">:</span>
+        <span class="na">text</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+          <span class="na">default_model</span><span class="pi">:</span> <span class="s">llama-3-8b</span>
+          <span class="na">quantization</span><span class="pi">:</span> <span class="s">q4_k_m</span>
+</code></pre></div></div>
+
+<p><strong>Size</strong>: ~6 GB (Llama-3-8B Q4_K_M)</p>
+
+<p><strong>Components</strong>: LlamaCppRunner + TextFeaturePlugin</p>
+
+<hr />
+
+<h3 id="scenario-3-multi-modal-service-llava">Scenario 3: Multi-Modal Service (LLaVA)</h3>
+
+<p><strong>Use Case</strong>: Visual question answering</p>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">features</span><span class="pi">:</span>
+        <span class="na">audio</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+        <span class="na">vision</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">text</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>  <span class="c1"># For LLM component</span>
+</code></pre></div></div>
+
+<p><strong>Size</strong>: ~15 GB</p>
+
+<p><strong>Components</strong>: VisionFeaturePlugin + TextFeaturePlugin + LLaVA</p>
+
+<hr />
+
+<h3 id="scenario-4-full-featured-development">Scenario 4: Full-Featured Development</h3>
+
+<p><strong>Use Case</strong>: Development/testing environment</p>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">features</span><span class="pi">:</span>
+        <span class="na">audio</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">vision</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">text</span><span class="pi">:</span>
+          <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<p><strong>Size</strong>: ~20 GB</p>
+
+<p><strong>Components</strong>: All features</p>
+
+<hr />
+
+<h2 id="feature-plugin-spi">Feature Plugin SPI</h2>
+
+<h3 id="creating-a-custom-feature-plugin">Creating a Custom Feature Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomFeaturePlugin</span> <span class="kd">implements</span> <span class="nc">SafetensorFeaturePlugin</span> <span class="o">{</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"custom-feature"</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Custom Processing"</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">description</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Custom feature for specialized processing"</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedModels</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"custom-model-v1"</span><span class="o">,</span> <span class="s">"custom-model-v2"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isAvailable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Check if required resources are available</span>
+        <span class="k">return</span> <span class="n">customEngine</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">customEngine</span><span class="o">.</span><span class="na">isHealthy</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">process</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Custom processing logic</span>
+        <span class="k">return</span> <span class="nf">processCustom</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// ... other methods</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="feature-plugin-interface-methods">Feature Plugin Interface Methods</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SafetensorFeaturePlugin</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">id</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="nf">name</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="nf">version</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="nf">description</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">initialize</span><span class="o">(</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">config</span><span class="o">);</span>
+    <span class="kt">boolean</span> <span class="nf">isAvailable</span><span class="o">();</span>
+    <span class="kt">int</span> <span class="nf">priority</span><span class="o">();</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedModels</span><span class="o">();</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedInputTypes</span><span class="o">();</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedOutputTypes</span><span class="o">();</span>
+    <span class="nc">Object</span> <span class="nf">process</span><span class="o">(</span><span class="nc">Object</span> <span class="n">input</span><span class="o">);</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="nf">metadata</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">shutdown</span><span class="o">();</span>
+    <span class="kt">boolean</span> <span class="nf">isHealthy</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="monitoring">Monitoring</h2>
+
+<h3 id="health-checks">Health Checks</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get feature health status</span>
+curl http://localhost:8080/api/v1/runners/safetensor-runner/features/health
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"audio-feature"</span>: <span class="o">{</span>
+    <span class="s2">"healthy"</span>: <span class="nb">true</span>,
+    <span class="s2">"whisper_available"</span>: <span class="nb">true</span>,
+    <span class="s2">"speecht5_available"</span>: <span class="nb">true</span>
+  <span class="o">}</span>,
+  <span class="s2">"vision-feature"</span>: <span class="o">{</span>
+    <span class="s2">"healthy"</span>: <span class="nb">true</span>,
+    <span class="s2">"clip_available"</span>: <span class="nb">true</span>
+  <span class="o">}</span>,
+  <span class="s2">"text-feature"</span>: <span class="o">{</span>
+    <span class="s2">"healthy"</span>: <span class="nb">true</span>,
+    <span class="s2">"llama_available"</span>: <span class="nb">true</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="metrics">Metrics</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get feature statistics</span>
+curl http://localhost:8080/api/v1/runners/safetensor-runner/features/stats
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"initialized"</span>: <span class="nb">true</span>,
+  <span class="s2">"total_features"</span>: 3,
+  <span class="s2">"enabled_features"</span>: 2,
+  <span class="s2">"available_features"</span>: 3,
+  <span class="s2">"features"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"id"</span>: <span class="s2">"audio-feature"</span>,
+      <span class="s2">"name"</span>: <span class="s2">"Audio Processing"</span>,
+      <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"available"</span>: <span class="nb">true</span>,
+      <span class="s2">"healthy"</span>: <span class="nb">true</span>,
+      <span class="s2">"models"</span>: <span class="o">[</span><span class="s2">"whisper-large-v3"</span>, <span class="s2">"speecht5-tts"</span><span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="performance">Performance</h2>
+
+<h3 id="safetensor-feature-performance">Safetensor Feature Performance</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Task</th>
+      <th>Latency</th>
+      <th>Memory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Audio</td>
+      <td>STT (30s audio)</td>
+      <td>2-5s</td>
+      <td>2 GB</td>
+    </tr>
+    <tr>
+      <td>Audio</td>
+      <td>TTS (100 chars)</td>
+      <td>500ms</td>
+      <td>1 GB</td>
+    </tr>
+    <tr>
+      <td>Vision</td>
+      <td>Classification</td>
+      <td>100ms</td>
+      <td>1.5 GB</td>
+    </tr>
+    <tr>
+      <td>Vision</td>
+      <td>VQA</td>
+      <td>2-3s</td>
+      <td>3 GB</td>
+    </tr>
+    <tr>
+      <td>Text</td>
+      <td>Generation</td>
+      <td>50ms/token</td>
+      <td>8-16 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="gguf-feature-performance">GGUF Feature Performance</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Quantization</th>
+      <th>Tokens/s</th>
+      <th>VRAM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Llama-3-8B</td>
+      <td>Q4_K_M</td>
+      <td>220</td>
+      <td>6 GB</td>
+    </tr>
+    <tr>
+      <td>Llama-3-8B</td>
+      <td>Q8_0</td>
+      <td>180</td>
+      <td>10 GB</td>
+    </tr>
+    <tr>
+      <td>Llama-3-8B</td>
+      <td>FP16</td>
+      <td>150</td>
+      <td>16 GB</td>
+    </tr>
+    <tr>
+      <td>Mixtral-8x7B</td>
+      <td>Q4_K_M</td>
+      <td>120</td>
+      <td>28 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="feature-not-available">Feature Not Available</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Audio feature is not available
+</code></pre></div></div>
+
+<p><strong>Solution</strong>:</p>
+<ol>
+  <li>Check if feature is enabled in configuration</li>
+  <li>Verify model files exist: <code class="language-plaintext highlighter-rouge">ls ~/.gollek/models/</code></li>
+  <li>Check backend health: <code class="language-plaintext highlighter-rouge">curl /api/v1/runners/safetensor-runner/features/health</code></li>
+  <li>Check logs: <code class="language-plaintext highlighter-rouge">tail -f ~/.gollek/logs/gollek.log | grep audio</code></li>
+</ol>
+
+<h3 id="feature-plugin-not-found">Feature Plugin Not Found</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: No producer found for AudioFeaturePlugin
+</code></pre></div></div>
+
+<p><strong>Solution</strong>:</p>
+<ol>
+  <li>Ensure feature plugin JAR is in <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/runners/</code></li>
+  <li>Check CDI bean discovery mode in <code class="language-plaintext highlighter-rouge">beans.xml</code></li>
+  <li>Verify <code class="language-plaintext highlighter-rouge">FeaturePluginProducer</code> is in classpath</li>
+  <li>Restart the engine</li>
+</ol>
+
+<h3 id="model-not-found">Model Not Found</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Model whisper-large-v3 not found
+</code></pre></div></div>
+
+<p><strong>Solution</strong>:</p>
+<ol>
+  <li>Download model: <code class="language-plaintext highlighter-rouge">gollek-cli model download whisper-large-v3</code></li>
+  <li>Verify model path in configuration</li>
+  <li>Check model file permissions: <code class="language-plaintext highlighter-rouge">ls -la ~/.gollek/models/</code></li>
+</ol>
+
+<h3 id="out-of-memory">Out of Memory</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: CUDA out of memory
+</code></pre></div></div>
+
+<p><strong>Solution</strong>:</p>
+<ol>
+  <li>Disable unused features in configuration</li>
+  <li>Reduce model size or use quantization</li>
+  <li>Reduce <code class="language-plaintext highlighter-rouge">max_context</code> or batch size</li>
+  <li>Enable memory-efficient attention</li>
+</ol>
+
+<hr />
+
+<h2 id="creating-feature-plugins">Creating Feature Plugins</h2>
+
+<h3 id="step-1-create-plugin-structure">Step 1: Create Plugin Structure</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> gollek-plugin-feature-custom/src/main/java/tech/kayys/gollek/plugin/runner/safetensor/feature/custom
+</code></pre></div></div>
+
+<h3 id="step-2-implement-feature-plugin">Step 2: Implement Feature Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">tech.kayys.gollek.plugin.runner.safetensor.feature.custom</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomFeaturePlugin</span> <span class="kd">implements</span> <span class="nc">SafetensorFeaturePlugin</span> <span class="o">{</span>
+    <span class="c1">// Implement interface methods</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="step-3-create-pom">Step 3: Create POM</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;project&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>gollek-plugin-feature-custom<span class="nt">&lt;/artifactId&gt;</span>
+    
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>tech.kayys.gollek<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>gollek-plugin-runner-safetensor<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></div></div>
+
+<h3 id="step-4-build-and-deploy">Step 4: Build and Deploy</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean <span class="nb">install</span> <span class="nt">-Pinstall-plugin</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong>Safetensor Feature Plugins</strong>: <code class="language-plaintext highlighter-rouge">plugins/runner/safetensor/gollek-plugin-feature-*/</code></li>
+  <li><strong>GGUF Feature Plugins</strong>: <code class="language-plaintext highlighter-rouge">plugins/runner/gguf/gollek-plugin-feature-*/</code></li>
+  <li><strong>Feature Plugin SPI</strong>: <code class="language-plaintext highlighter-rouge">plugins/runner/safetensor/gollek-plugin-runner-safetensor/.../SafetensorFeaturePlugin.java</code></li>
+  <li><a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/plugins/runner/safetensor/FEATURE_PLUGIN_SYSTEM.md">Safetensor Feature Plugin System</a></li>
+  <li><a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/plugins/runner/gguf/GGUF_FEATURE_PLUGIN_SYSTEM.md">GGUF Feature Plugin System</a></li>
+  <li><a href="/docs/plugins/runner-plugins">Runner Plugin System</a></li>
+</ul>
+
+<hr />
+
+<p><a href="/docs/plugins/runner-plugins">Back to Runner Plugins</a>   <a href="/docs/runtime/architecture">View Architecture</a>   <a href="/docs/plugins/optimization-plugins">Optimization Plugins</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

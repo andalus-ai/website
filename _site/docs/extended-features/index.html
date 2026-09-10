@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Extended Features | Phase 3 | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Extended Features | Phase 3</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="extended-features-phase-3">Extended Features (Phase 3)</h1>
+
+<p>Phase 3 expands Gollek with advanced machine learning components including loss functions, optimizers, transformers, and a pre-trained model zoo.</p>
+
+<h2 id="status">Status</h2>
+
+<p>📋 <strong>Designed</strong> - Architecture and specifications complete, implementation roadmap ready</p>
+<ul>
+  <li><strong>Timeline</strong>: 4-6 weeks (estimated)</li>
+  <li><strong>Priority</strong>: Medium - Advanced features for research and production models</li>
+  <li><strong>Model Additions</strong>: 50+ pre-trained models, 30+ loss functions, 8+ optimizers</li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p>Building on Phase 1 (CNN/RNN) and Phase 2 (GPU Acceleration), Phase 3 provides:</p>
+
+<ul>
+  <li><strong>Advanced Loss Functions</strong> - Task-specific training objectives</li>
+  <li><strong>Optimization Algorithms</strong> - Modern optimizers and learning rate schedules</li>
+  <li><strong>Transformer Architecture</strong> - Self-attention and vision transformers</li>
+  <li><strong>Pre-trained Model Zoo</strong> - Ready-to-use models across domains</li>
+  <li><strong>Computer Vision</strong> - Image classification, detection, segmentation</li>
+  <li><strong>Natural Language Processing</strong> - Language models and embeddings</li>
+</ul>
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌────────────────────────────────────────────┐
+│     Application Layer (Your Code)          │
+└────────────────┬─────────────────────────┘
+                 │
+         ┌───────▼────────────┐
+         │  Model Zoo         │
+         │  (Pre-trained      │
+         │   Models)          │
+         └───────┬────────────┘
+                 │
+    ┌────────────┼────────────┐
+    │            │            │
+┌───▼──┐  ┌─────▼────┐  ┌───▼──┐
+│Vision│  │   NLP    │  │ Audio│
+│Models│  │  Models  │  │Models│
+└───┬──┘  └──────┬───┘  └───┬──┘
+    │           │           │
+    └───────────┼───────────┘
+                │
+    ┌───────────▼──────────────┐
+    │  Transformer Layers      │
+    │  (Self-Attention, MHA)   │
+    └───────────┬──────────────┘
+                │
+    ┌───────────▼──────────────┐
+    │  Loss Functions          │
+    │  • Classification        │
+    │  • Regression            │
+    │  • Metric Learning       │
+    │  • Custom Losses         │
+    └───────────┬──────────────┘
+                │
+    ┌───────────▼──────────────┐
+    │  Optimizers              │
+    │  • Adam, AdamW, LAMB     │
+    │  • SGD, RMSprop, SAM     │
+    │  • LR Schedulers         │
+    └───────────┬──────────────┘
+                │
+    └───────────┬──────────────┐
+        ┌───────▼────────┐
+        │  Phase 1 &amp; 2   │
+        │  Foundation    │
+        └────────────────┘
+</code></pre></div></div>
+
+<h2 id="loss-functions">Loss Functions</h2>
+
+<h3 id="classification">Classification</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Cross Entropy Loss</span>
+<span class="nc">Loss</span> <span class="n">celosss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CrossEntropyLoss</span><span class="o">();</span>
+<span class="nc">Tensor</span> <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>      <span class="c1">// [batch, classes]</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">ceLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">logits</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span> <span class="c1">// target: [batch]</span>
+
+<span class="c1">// Focal Loss - for imbalanced datasets</span>
+<span class="nc">Loss</span> <span class="n">focalLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FocalLoss</span><span class="o">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25f</span><span class="o">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">2.0f</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">focalLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">logits</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+
+<span class="c1">// Label Smoothing</span>
+<span class="nc">Loss</span> <span class="n">lsLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LabelSmoothingLoss</span><span class="o">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1f</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">lsLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">logits</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="regression">Regression</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Mean Squared Error</span>
+<span class="nc">Loss</span> <span class="n">mseLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MSELoss</span><span class="o">();</span>
+<span class="nc">Tensor</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>  <span class="c1">// [batch, features]</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">mseLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">predictions</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+
+<span class="c1">// Huber Loss - robust to outliers</span>
+<span class="nc">Loss</span> <span class="n">huberLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HuberLoss</span><span class="o">(</span><span class="n">delta</span><span class="o">=</span><span class="mf">1.0f</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">huberLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">predictions</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+
+<span class="c1">// Quantile Loss</span>
+<span class="nc">Loss</span> <span class="n">quantileLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">QuantileLoss</span><span class="o">(</span><span class="n">quantile</span><span class="o">=</span><span class="mf">0.5f</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">quantileLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">predictions</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="metric-learning">Metric Learning</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Contrastive Loss</span>
+<span class="nc">Loss</span> <span class="n">contrastiveLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ContrastiveLoss</span><span class="o">(</span><span class="n">margin</span><span class="o">=</span><span class="mf">1.0f</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">anchor</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">anchor_input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">positive</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">positive_input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">contrastiveLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">anchor</span><span class="o">,</span> <span class="n">positive</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+
+<span class="c1">// Triplet Loss - anchor, positive, negative</span>
+<span class="nc">Loss</span> <span class="n">tripletLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TripletLoss</span><span class="o">(</span><span class="n">margin</span><span class="o">=</span><span class="mf">1.0f</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">anchor</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">anchor_input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">positive</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">positive_input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">negative</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">negative_input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">tripletLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">anchor</span><span class="o">,</span> <span class="n">positive</span><span class="o">,</span> <span class="n">negative</span><span class="o">);</span>
+
+<span class="c1">// ArcFace - for face recognition</span>
+<span class="nc">Loss</span> <span class="n">arcFaceLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArcFaceLoss</span><span class="o">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">1000</span><span class="o">,</span> <span class="n">margin</span><span class="o">=</span><span class="mf">0.5f</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">embeddings</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">arcFaceLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">embeddings</span><span class="o">,</span> <span class="n">class_id</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="custom-losses">Custom Losses</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Define custom loss</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomLoss</span> <span class="kd">extends</span> <span class="nc">Loss</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">Tensor</span> <span class="nf">compute</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">prediction</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Tensor</span> <span class="n">diff</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="na">sub</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
+    <span class="nc">Tensor</span> <span class="n">squared</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="na">mul</span><span class="o">(</span><span class="n">diff</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">squared</span><span class="o">.</span><span class="na">mean</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nc">Loss</span> <span class="n">custom</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CustomLoss</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h2 id="optimizers">Optimizers</h2>
+
+<h3 id="gradient-descent-variants">Gradient Descent Variants</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SGD with momentum</span>
+<span class="nc">Optimizer</span> <span class="n">sgd</span> <span class="o">=</span> <span class="k">new</span> <span class="no">SGD</span><span class="o">(</span><span class="n">learningRate</span><span class="o">=</span><span class="mf">0.01f</span><span class="o">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9f</span><span class="o">);</span>
+
+<span class="c1">// Adam - adaptive learning rates</span>
+<span class="nc">Optimizer</span> <span class="n">adam</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="n">learningRate</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9f</span><span class="o">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999f</span><span class="o">);</span>
+
+<span class="c1">// AdamW - decoupled weight decay</span>
+<span class="nc">Optimizer</span> <span class="n">adamW</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AdamW</span><span class="o">(</span><span class="n">learningRate</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01f</span><span class="o">);</span>
+
+<span class="c1">// RMSprop</span>
+<span class="nc">Optimizer</span> <span class="n">rmsProp</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RMSprop</span><span class="o">(</span><span class="n">learningRate</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.99f</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="advanced-optimizers">Advanced Optimizers</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// LAMB - Layer-wise Adaptive Moments optimizer for Batch training</span>
+<span class="nc">Optimizer</span> <span class="n">lamb</span> <span class="o">=</span> <span class="k">new</span> <span class="no">LAMB</span><span class="o">(</span><span class="n">learningRate</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">);</span>
+
+<span class="c1">// SAM - Sharpness Aware Minimization</span>
+<span class="nc">Optimizer</span> <span class="n">sam</span> <span class="o">=</span> <span class="k">new</span> <span class="no">SAM</span><span class="o">(</span>
+  <span class="nl">baseOptimizer:</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(),</span>
+  <span class="n">rho</span><span class="o">=</span><span class="mf">0.05f</span>  <span class="c1">// perturbation radius</span>
+<span class="o">);</span>
+
+<span class="c1">// LARS - Layer-wise Adaptive Rate Scaling</span>
+<span class="nc">Optimizer</span> <span class="n">lars</span> <span class="o">=</span> <span class="k">new</span> <span class="no">LARS</span><span class="o">(</span>
+  <span class="nl">baseOptimizer:</span> <span class="k">new</span> <span class="no">SGD</span><span class="o">(),</span>
+  <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0005f</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="learning-rate-scheduling">Learning Rate Scheduling</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Constant learning rate</span>
+<span class="nc">LRScheduler</span> <span class="n">constant</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ConstantLR</span><span class="o">(</span><span class="n">learningRate</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">);</span>
+
+<span class="c1">// Step decay</span>
+<span class="nc">LRScheduler</span> <span class="n">stepDecay</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StepLR</span><span class="o">(</span>
+  <span class="n">initialLR</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">,</span>
+  <span class="n">stepSize</span><span class="o">=</span><span class="mi">10</span><span class="o">,</span>      <span class="c1">// steps</span>
+  <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1f</span>        <span class="c1">// decay factor</span>
+<span class="o">);</span>
+
+<span class="c1">// Cosine annealing</span>
+<span class="nc">LRScheduler</span> <span class="n">cosineAnnealing</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CosineAnnealingLR</span><span class="o">(</span>
+  <span class="n">initialLR</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">,</span>
+  <span class="n">T_max</span><span class="o">=</span><span class="mi">100</span>         <span class="c1">// max epochs</span>
+<span class="o">);</span>
+
+<span class="c1">// Warm-up + cosine</span>
+<span class="nc">LRScheduler</span> <span class="n">warmupCosine</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">WarmupCosineAnnealing</span><span class="o">(</span>
+  <span class="n">initialLR</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">,</span>
+  <span class="n">warmupSteps</span><span class="o">=</span><span class="mi">1000</span><span class="o">,</span>
+  <span class="n">totalSteps</span><span class="o">=</span><span class="mi">10000</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h2 id="transformer-architecture">Transformer Architecture</h2>
+
+<h3 id="attention-layers">Attention Layers</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Multi-Head Self-Attention</span>
+<span class="nc">Layer</span> <span class="n">mha</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MultiHeadAttention</span><span class="o">(</span>
+  <span class="n">embedDim</span><span class="o">=</span><span class="mi">768</span><span class="o">,</span>
+  <span class="n">numHeads</span><span class="o">=</span><span class="mi">12</span><span class="o">,</span>
+  <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1f</span>
+<span class="o">);</span>
+
+<span class="c1">// Attention mechanism</span>
+<span class="nc">Tensor</span> <span class="n">query</span> <span class="o">=</span> <span class="n">input</span><span class="o">;</span>      <span class="c1">// [batch, seq_len, embed_dim]</span>
+<span class="nc">Tensor</span> <span class="n">key</span> <span class="o">=</span> <span class="n">input</span><span class="o">;</span>
+<span class="nc">Tensor</span> <span class="n">value</span> <span class="o">=</span> <span class="n">input</span><span class="o">;</span>
+<span class="nc">Tensor</span> <span class="n">output</span> <span class="o">=</span> <span class="n">mha</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">query</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="n">mask</span><span class="o">);</span>
+
+<span class="c1">// Cross-Attention (for encoder-decoder)</span>
+<span class="nc">Layer</span> <span class="n">crossAttn</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MultiHeadAttention</span><span class="o">(</span><span class="n">embedDim</span><span class="o">=</span><span class="mi">768</span><span class="o">,</span> <span class="n">numHeads</span><span class="o">=</span><span class="mi">12</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">encoderOutput</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">decoderInput</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">attended</span> <span class="o">=</span> <span class="n">crossAttn</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">decoderInput</span><span class="o">,</span> <span class="n">encoderOutput</span><span class="o">,</span> <span class="n">encoderOutput</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="transformer-block">Transformer Block</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Complete Transformer block</span>
+<span class="nc">Layer</span> <span class="n">transformerBlock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TransformerBlock</span><span class="o">(</span>
+  <span class="n">embedDim</span><span class="o">=</span><span class="mi">768</span><span class="o">,</span>
+  <span class="n">numHeads</span><span class="o">=</span><span class="mi">12</span><span class="o">,</span>
+  <span class="n">mlpDim</span><span class="o">=</span><span class="mi">3072</span><span class="o">,</span>
+  <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1f</span><span class="o">,</span>
+  <span class="n">activationFn</span><span class="o">=</span><span class="s">"gelu"</span>
+<span class="o">);</span>
+
+<span class="nc">Tensor</span> <span class="n">output</span> <span class="o">=</span> <span class="n">transformerBlock</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="vision-transformer-vit">Vision Transformer (ViT)</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Vision Transformer for image classification</span>
+<span class="nc">Model</span> <span class="n">vit</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ViT</span><span class="o">(</span>
+  <span class="n">imageSize</span><span class="o">=</span><span class="mi">224</span><span class="o">,</span>
+  <span class="n">patchSize</span><span class="o">=</span><span class="mi">16</span><span class="o">,</span>
+  <span class="n">numClasses</span><span class="o">=</span><span class="mi">1000</span><span class="o">,</span>
+  <span class="n">embedDim</span><span class="o">=</span><span class="mi">768</span><span class="o">,</span>
+  <span class="n">numHeads</span><span class="o">=</span><span class="mi">12</span><span class="o">,</span>
+  <span class="n">numLayers</span><span class="o">=</span><span class="mi">12</span><span class="o">,</span>
+  <span class="n">mlpDim</span><span class="o">=</span><span class="mi">3072</span>
+<span class="o">);</span>
+
+<span class="nc">Tensor</span> <span class="n">image</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">random</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">224</span><span class="o">,</span> <span class="mi">224</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">logits</span> <span class="o">=</span> <span class="n">vit</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">image</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h2 id="pre-trained-model-zoo">Pre-trained Model Zoo</h2>
+
+<h3 id="computer-vision">Computer Vision</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Image Classification</span>
+<span class="nc">Model</span> <span class="n">resnet50</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"resnet50"</span><span class="o">,</span> 
+  <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">,</span>      <span class="c1">// Use ImageNet weights</span>
+  <span class="n">numClasses</span><span class="o">=</span><span class="mi">1000</span>
+<span class="o">);</span>
+
+<span class="nc">Model</span> <span class="n">efficientnet</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"efficientnet_b4"</span><span class="o">,</span>
+  <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">,</span>
+  <span class="n">imageSize</span><span class="o">=</span><span class="mi">380</span>
+<span class="o">);</span>
+
+<span class="nc">Model</span> <span class="n">vit</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"vit_base_patch16_224"</span><span class="o">,</span>
+  <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span>
+<span class="o">);</span>
+
+<span class="c1">// Object Detection</span>
+<span class="nc">Model</span> <span class="n">yolo</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"yolov8n"</span><span class="o">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">image</span> <span class="o">=</span> <span class="nc">ImageLoader</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"image.jpg"</span><span class="o">);</span>
+<span class="nc">DetectionResult</span><span class="o">[]</span> <span class="n">results</span> <span class="o">=</span> <span class="n">yolo</span><span class="o">.</span><span class="na">detect</span><span class="o">(</span><span class="n">image</span><span class="o">);</span>
+
+<span class="c1">// Semantic Segmentation</span>
+<span class="nc">Model</span> <span class="n">segmentationModel</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"deeplabv3_resnet50"</span><span class="o">,</span>
+  <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">,</span>
+  <span class="n">numClasses</span><span class="o">=</span><span class="mi">21</span>
+<span class="o">);</span>
+
+<span class="c1">// Instance Segmentation</span>
+<span class="nc">Model</span> <span class="n">maskRCNN</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"mask_rcnn_resnet50"</span><span class="o">,</span>
+  <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="natural-language-processing">Natural Language Processing</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// BERT embeddings</span>
+<span class="nc">Model</span> <span class="n">bert</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"bert_base_uncased"</span><span class="o">,</span>
+  <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span>
+<span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">embeddings</span> <span class="o">=</span> <span class="n">bert</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="s">"Hello, world!"</span><span class="o">);</span>
+
+<span class="c1">// GPT-2 language model</span>
+<span class="nc">Model</span> <span class="n">gpt2</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"gpt2"</span><span class="o">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">);</span>
+<span class="nc">String</span> <span class="n">generated</span> <span class="o">=</span> <span class="n">gpt2</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="s">"The future of AI"</span><span class="o">,</span> <span class="n">maxLength</span><span class="o">=</span><span class="mi">100</span><span class="o">);</span>
+
+<span class="c1">// Sentence embeddings</span>
+<span class="nc">Model</span> <span class="n">sentenceTransformer</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"all-MiniLM-L6-v2"</span><span class="o">,</span>
+  <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span>
+<span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">sent_emb</span> <span class="o">=</span> <span class="n">sentenceTransformer</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="audio--multimodal">Audio &amp; Multimodal</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Speech recognition</span>
+<span class="nc">Model</span> <span class="n">whisper</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"whisper_small"</span><span class="o">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">);</span>
+<span class="nc">String</span> <span class="n">transcription</span> <span class="o">=</span> <span class="n">whisper</span><span class="o">.</span><span class="na">transcribe</span><span class="o">(</span><span class="s">"audio.wav"</span><span class="o">);</span>
+
+<span class="c1">// CLIP - vision-language model</span>
+<span class="nc">Model</span> <span class="n">clip</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"clip_vit_base_patch32"</span><span class="o">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">imageEmb</span> <span class="o">=</span> <span class="n">clip</span><span class="o">.</span><span class="na">encodeImage</span><span class="o">(</span><span class="n">image</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">textEmb</span> <span class="o">=</span> <span class="n">clip</span><span class="o">.</span><span class="na">encodeText</span><span class="o">(</span><span class="s">"a dog"</span><span class="o">);</span>
+<span class="kt">float</span> <span class="n">similarity</span> <span class="o">=</span> <span class="n">similarity</span><span class="o">(</span><span class="n">imageEmb</span><span class="o">,</span> <span class="n">textEmb</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h2 id="fine-tuning-guide">Fine-tuning Guide</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Load pre-trained model</span>
+<span class="nc">Model</span> <span class="n">baseModel</span> <span class="o">=</span> <span class="nc">ModelZoo</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"resnet50"</span><span class="o">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">true</span><span class="o">);</span>
+
+<span class="c1">// Add custom classification head</span>
+<span class="nc">Model</span> <span class="n">finetuneModel</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+  <span class="n">baseModel</span><span class="o">,</span>
+  <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">2048</span><span class="o">,</span> <span class="mi">256</span><span class="o">),</span>
+  <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+  <span class="k">new</span> <span class="nf">Dropout</span><span class="o">(</span><span class="mf">0.5f</span><span class="o">),</span>
+  <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">256</span><span class="o">,</span> <span class="n">numCustomClasses</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="c1">// Freeze backbone</span>
+<span class="k">for</span> <span class="o">(</span><span class="nc">Module</span> <span class="n">module</span> <span class="o">:</span> <span class="n">baseModel</span><span class="o">.</span><span class="na">parameters</span><span class="o">())</span> <span class="o">{</span>
+  <span class="n">module</span><span class="o">.</span><span class="na">setRequiresGrad</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// Fine-tune only the head</span>
+<span class="nc">Optimizer</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="mf">0.001f</span><span class="o">);</span>
+<span class="nc">Loss</span> <span class="n">loss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CrossEntropyLoss</span><span class="o">();</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">epoch</span><span class="o">++)</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="nc">Batch</span> <span class="n">batch</span> <span class="o">:</span> <span class="n">trainDataloader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Tensor</span> <span class="n">output</span> <span class="o">=</span> <span class="n">finetuneModel</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">batch</span><span class="o">.</span><span class="na">input</span><span class="o">);</span>
+    <span class="nc">Tensor</span> <span class="n">lossValue</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">batch</span><span class="o">.</span><span class="na">target</span><span class="o">);</span>
+    <span class="n">lossValue</span><span class="o">.</span><span class="na">backward</span><span class="o">();</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">step</span><span class="o">();</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">zeroGrad</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="available-models">Available Models</h2>
+
+<h3 id="vision">Vision</h3>
+<ul>
+  <li>ResNet (18, 34, 50, 101, 152)</li>
+  <li>EfficientNet (B0-B7)</li>
+  <li>Vision Transformer (ViT)</li>
+  <li>MobileNet V2/V3</li>
+  <li>DenseNet (121, 169, 201)</li>
+  <li>YOLOv8 (n, s, m, l, x)</li>
+  <li>Faster R-CNN, Mask R-CNN</li>
+</ul>
+
+<h3 id="language">Language</h3>
+<ul>
+  <li>BERT (base, large)</li>
+  <li>GPT-2</li>
+  <li>RoBERTa</li>
+  <li>ELECTRA</li>
+  <li>T5</li>
+  <li>BART</li>
+  <li>Sentence Transformers</li>
+</ul>
+
+<h3 id="audio">Audio</h3>
+<ul>
+  <li>Whisper</li>
+  <li>HuBERT</li>
+  <li>WaveNet</li>
+</ul>
+
+<h3 id="multimodal">Multimodal</h3>
+<ul>
+  <li>CLIP</li>
+  <li>BLIP</li>
+  <li>LayoutLM</li>
+</ul>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="/docs/framework/framework">Framework Overview</a></li>
+  <li><a href="/docs/framework/training">Training Docs</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models">Model APIs</a></li>
+  <li><a href="/docs/gpu-acceleration/">GPU Acceleration</a> - Phase 2</li>
+  <li><a href="/docs/production-hardening/">Production Deployment</a> - Phases 8-9</li>
+</ul>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong>Hugging Face Hub</strong>: <a href="https://huggingface.co/models">models</a></li>
+  <li><strong>PyTorch Hub</strong>: <a href="https://pytorch.org/hub/">torch.hub</a></li>
+  <li><strong>TensorFlow Hub</strong>: <a href="https://tfhub.dev/">tfhub.dev</a></li>
+  <li><strong>Timm Models</strong>: <a href="https://github.com/rwightman/pytorch-image-models">timm</a></li>
+</ul>
+
+<hr />
+
+<p><em>Status: Phase 3 Designed, Implementation Planned</em>
+<em>Last Updated: April 2025</em></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

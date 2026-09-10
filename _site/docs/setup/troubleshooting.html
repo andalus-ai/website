@@ -1,0 +1,1491 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Troubleshooting Guide | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Troubleshooting Guide</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="comprehensive-troubleshooting-guide">Comprehensive Troubleshooting Guide</h1>
+
+<p><strong>Version</strong>: 2.0.0<br />
+<strong>Status</strong>: ✅ <strong>Production Ready</strong></p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>This guide provides comprehensive troubleshooting for the Gollek Inference Engine, integrated with the standardized error code system for quick diagnosis and resolution.</p>
+
+<hr />
+
+<h2 id="error-code-system">Error Code System</h2>
+
+<p>Gollek uses a standardized error code system for consistent error handling and troubleshooting.</p>
+
+<h3 id="error-code-format">Error Code Format</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CATEGORY_NNN
+</code></pre></div></div>
+
+<ul>
+  <li><strong>CATEGORY</strong>: Error category (MODEL, DEVICE, RUNTIME, etc.)</li>
+  <li><strong>NNN</strong>: Three-digit error number</li>
+</ul>
+
+<h3 id="error-categories">Error Categories</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Code Prefix</th>
+      <th>HTTP Status</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MODEL</td>
+      <td>MODEL_XXX</td>
+      <td>404, 400</td>
+      <td>Model-related errors</td>
+    </tr>
+    <tr>
+      <td>DEVICE</td>
+      <td>DEVICE_XXX</td>
+      <td>503, 500</td>
+      <td>Hardware/device errors</td>
+    </tr>
+    <tr>
+      <td>RUNTIME</td>
+      <td>RUNTIME_XXX</td>
+      <td>500, 504</td>
+      <td>Runtime execution errors</td>
+    </tr>
+    <tr>
+      <td>PLUGIN</td>
+      <td>PLUGIN_XXX</td>
+      <td>500, 504</td>
+      <td>Plugin lifecycle errors</td>
+    </tr>
+    <tr>
+      <td>PROVIDER</td>
+      <td>PROVIDER_XXX</td>
+      <td>400-504</td>
+      <td>Provider integration errors</td>
+    </tr>
+    <tr>
+      <td>CONFIG</td>
+      <td>CONFIG_XXX</td>
+      <td>400, 500</td>
+      <td>Configuration errors</td>
+    </tr>
+    <tr>
+      <td>NETWORK</td>
+      <td>NETWORK_XXX</td>
+      <td>502-504</td>
+      <td>Network errors</td>
+    </tr>
+    <tr>
+      <td>QUOTA</td>
+      <td>QUOTA_XXX</td>
+      <td>429</td>
+      <td>Resource quota errors</td>
+    </tr>
+    <tr>
+      <td>AUTH</td>
+      <td>AUTH_XXX</td>
+      <td>401, 403</td>
+      <td>Authentication errors</td>
+    </tr>
+    <tr>
+      <td>INIT</td>
+      <td>INIT_XXX</td>
+      <td>500</td>
+      <td>Initialization errors</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="error-category-routing">Error Category Routing</h2>
+
+<p>Use these category anchors from the error-code reference when you need the closest troubleshooting path.</p>
+
+<h3 id="model-errors">Model Errors</h3>
+
+<p>Start by verifying the model identifier, local path, manifest entry, and runner compatibility. Then use the runtime, provider, or storage checks below depending on where loading fails.</p>
+
+<h3 id="tensor-errors">Tensor Errors</h3>
+
+<p>Check tensor shape, dtype, device placement, and whether the operation expects batched input. If the tensor lives on an accelerator, also check the device troubleshooting path.</p>
+
+<h3 id="quota-errors">Quota Errors</h3>
+
+<p>Quota errors usually come from provider limits, local concurrency limits, or configured request budgets. Check provider limits first, then reduce batch size or request rate.</p>
+
+<h3 id="auth-errors">Auth Errors</h3>
+
+<p>Verify API keys, token scopes, environment variables, and provider configuration. For local-only workflows, also confirm that protected model downloads are authenticated.</p>
+
+<h3 id="init-errors">Init Errors</h3>
+
+<p>Initialization failures usually mean a runner, plugin, device, or native library could not start. Check plugin errors, device errors, and runtime logs in that order.</p>
+
+<h3 id="storage-errors">Storage Errors</h3>
+
+<p>Confirm <code class="language-plaintext highlighter-rouge">GOLLEK_HOME</code>, cache permissions, model directory existence, and available disk space. Storage issues often surface during model download, conversion, or first load.</p>
+
+<h3 id="conversion-errors">Conversion Errors</h3>
+
+<p>Check source format, output path, quantization options, and whether the target runner supports the converted artifact.</p>
+
+<h3 id="validation-errors">Validation Errors</h3>
+
+<p>Validation errors usually mean a request payload or config value is malformed. Check required fields, enum values, tensor shapes, and model/provider IDs.</p>
+
+<h3 id="circuit-errors">Circuit Breaker Errors</h3>
+
+<p>Circuit breaker errors mean repeated failures have temporarily paused a route. Check the underlying runtime or provider error, then wait for the breaker window or switch provider.</p>
+
+<h3 id="routing-errors">Routing Errors</h3>
+
+<p>Routing errors mean no runner, provider, or fallback route matched the request. Check model format, provider selection, plugin availability, and fallback configuration.</p>
+
+<h3 id="config-errors">Config Errors</h3>
+
+<p>Configuration errors usually come from missing keys, invalid values, or conflicting environment variables. Use the configuration checks below for exact commands.</p>
+
+<h3 id="stream-errors">Stream Errors</h3>
+
+<p>Streaming errors usually come from interrupted clients, provider timeouts, or token-generation failures. Check runtime logs and retry with a shorter generation first.</p>
+
+<h3 id="internal-errors">Internal Errors</h3>
+
+<p>Internal errors need logs and a minimal reproduction. Capture the error payload, runtime logs, model ID, provider, device, and the exact command or request body.</p>
+
+<hr />
+
+<h2 id="error-payload-structure">Error Payload Structure</h2>
+
+<p>All errors follow a standardized payload structure:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RUNTIME_INFERENCE_FAILED"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Inference execution failed"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"errorCode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RUNTIME_001"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RUNTIME"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"retryable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"retryable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"originNode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node-1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"originRunId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"run-123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"attempt"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"maxAttempts"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-03-25T10:00:00Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"suggestedAction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"retry"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"provenanceRef"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ref-456"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="error-payload-fields">Error Payload Fields</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">type</code></td>
+      <td>String</td>
+      <td>Error type/code</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">message</code></td>
+      <td>String</td>
+      <td>Human-readable message</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">details</code></td>
+      <td>Map</td>
+      <td>Additional error details</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">retryable</code></td>
+      <td>Boolean</td>
+      <td>Whether error is retryable</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">originNode</code></td>
+      <td>String</td>
+      <td>Node where error occurred</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">originRunId</code></td>
+      <td>String</td>
+      <td>Run ID for tracing</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">attempt</code></td>
+      <td>Integer</td>
+      <td>Current attempt number</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">maxAttempts</code></td>
+      <td>Integer</td>
+      <td>Maximum retry attempts</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">timestamp</code></td>
+      <td>Instant</td>
+      <td>Error timestamp</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">suggestedAction</code></td>
+      <td>String</td>
+      <td>Suggested resolution action</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">provenanceRef</code></td>
+      <td>String</td>
+      <td>Reference for tracing</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="common-errors-and-solutions">Common Errors and Solutions</h2>
+
+<h3 id="plugin-errors">Plugin Errors</h3>
+
+<h4 id="plugin_001-plugin-initialization-failed">PLUGIN_001: Plugin Initialization Failed</h4>
+
+<p><strong>HTTP Status</strong>: 500<br />
+<strong>Retryable</strong>: No</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Plugin initialization failed
+Plugin: cuda-kernel
+Details: CUDA not available
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check if plugin JAR is present:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> ~/.gollek/plugins/<span class="k">*</span>.jar
+</code></pre></div>    </div>
+  </li>
+  <li>Verify plugin manifest:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jar xf plugin.jar META-INF/MANIFEST.MF
+<span class="nb">cat </span>META-INF/MANIFEST.MF
+</code></pre></div>    </div>
+  </li>
+  <li>Check plugin dependencies:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek plugin check &lt;plugin-id&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Verify hardware availability:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For CUDA</span>
+nvidia-smi
+   
+<span class="c"># For Metal</span>
+system_profiler SPDisplaysDataType
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="plugin_002-plugin-execution-failed">PLUGIN_002: Plugin Execution Failed</h4>
+
+<p><strong>HTTP Status</strong>: 500<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Plugin execution failed
+Plugin: gguf-runner
+Operation: infer
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check plugin health:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek plugin health &lt;plugin-id&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Verify model compatibility:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek model check &lt;model-id&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Check resource availability:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek system resources
+</code></pre></div>    </div>
+  </li>
+  <li>Retry with fallback:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--enable-cpu</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="plugin_003-plugin-configuration-invalid">PLUGIN_003: Plugin Configuration Invalid</h4>
+
+<p><strong>HTTP Status</strong>: 500<br />
+<strong>Retryable</strong>: No</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Plugin configuration invalid
+Plugin: cuda-kernel
+Invalid field: device_id
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check configuration file:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> ~/.gollek/config.yaml
+</code></pre></div>    </div>
+  </li>
+  <li>Validate plugin configuration:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek plugin config &lt;plugin-id&gt; <span class="nt">--validate</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Reset to defaults:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek plugin config &lt;plugin-id&gt; <span class="nt">--reset</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="device-errors">Device Errors</h3>
+
+<h4 id="device_001-device-not-available">DEVICE_001: Device Not Available</h4>
+
+<p><strong>HTTP Status</strong>: 503<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Requested device not available
+Device: cuda
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check device availability:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek device list
+</code></pre></div>    </div>
+  </li>
+  <li>Verify drivers installed:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># CUDA</span>
+nvcc <span class="nt">--version</span>
+   
+<span class="c"># ROCm</span>
+rocminfo
+   
+<span class="c"># Metal</span>
+system_profiler SPDisplaysDataType
+</code></pre></div>    </div>
+  </li>
+  <li>Use CPU fallback:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--use-cpu</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Enable CPU fallback for production:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--enable-cpu</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="device_002-device-out-of-memory">DEVICE_002: Device Out of Memory</h4>
+
+<p><strong>HTTP Status</strong>: 503<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Device out of memory
+Device: cuda
+Available: 2GB
+Required: 8GB
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Reduce model size:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--model</span> &lt;smaller-model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Enable memory optimization:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--optimize-memory</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Use CPU for large models:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--use-cpu</span> <span class="nt">--model</span> &lt;large-model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Close other GPU applications:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvidia-smi  <span class="c"># Check GPU usage</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="device_005-gpu-not-found">DEVICE_005: GPU Not Found</h4>
+
+<p><strong>HTTP Status</strong>: 503<br />
+<strong>Retryable</strong>: No</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: GPU not found
+Platform: cuda
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check GPU detection:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek device detect
+</code></pre></div>    </div>
+  </li>
+  <li>Verify GPU hardware:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Linux</span>
+lspci | <span class="nb">grep</span> <span class="nt">-i</span> vga
+   
+<span class="c"># macOS</span>
+system_profiler SPDisplaysDataType
+   
+<span class="c"># Windows</span>
+dxdiag
+</code></pre></div>    </div>
+  </li>
+  <li>Install/Update drivers:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># NVIDIA</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>nvidia-driver-535
+   
+<span class="c"># AMD</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>rocm-dkms
+</code></pre></div>    </div>
+  </li>
+  <li>Use CPU until GPU available:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--use-cpu</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="runtime-errors">Runtime Errors</h3>
+
+<h4 id="runtime_001-inference-execution-failed">RUNTIME_001: Inference Execution Failed</h4>
+
+<p><strong>HTTP Status</strong>: 500<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Inference execution failed
+Model: llama-3-8b
+Runner: gguf-runner
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check model integrity:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek model verify &lt;model-id&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Verify runner compatibility:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek runner check &lt;runner-id&gt; <span class="nt">--model</span> &lt;model-id&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Reduce batch size:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--batch-size</span> 1 <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Enable fallback:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--enable-cpu</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="runtime_002-inference-request-timeout">RUNTIME_002: Inference Request Timeout</h4>
+
+<p><strong>HTTP Status</strong>: 504<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Inference request timeout
+Timeout: 60s
+Model: llama-3-70b
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Increase timeout:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--timeout</span> 120 <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Use smaller model:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--model</span> &lt;smaller-model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Reduce max tokens:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--max-tokens</span> 256 <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Use GPU acceleration:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--platform</span> cuda <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="runtime_003-out-of-memory-during-inference">RUNTIME_003: Out of Memory During Inference</h4>
+
+<p><strong>HTTP Status</strong>: 500<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Out of memory during inference
+Available: 4GB
+Required: 16GB
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Enable memory optimization:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--optimize-memory</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Use quantized model:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--model</span> &lt;model&gt;-q4 <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Reduce context size:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--context-size</span> 2048 <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Use CPU with swap:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--use-cpu</span> <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="provider-errors">Provider Errors</h3>
+
+<h4 id="provider_001-provider-not-initialized">PROVIDER_001: Provider Not Initialized</h4>
+
+<p><strong>HTTP Status</strong>: 503<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Provider not initialized
+Provider: openai
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check provider configuration:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek provider config openai <span class="nt">--validate</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Verify API key:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$OPENAI_API_KEY</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Initialize provider:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek provider init openai
+</code></pre></div>    </div>
+  </li>
+  <li>Check network connectivity:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://api.openai.com/v1/models
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="provider_003-provider-timeout">PROVIDER_003: Provider Timeout</h4>
+
+<p><strong>HTTP Status</strong>: 504<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Provider timeout
+Provider: openai
+Timeout: 30s
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Increase timeout:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">OPENAI_TIMEOUT</span><span class="o">=</span>60
+</code></pre></div>    </div>
+  </li>
+  <li>Check network latency:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-w</span> <span class="s2">"@curl-format.txt"</span> https://api.openai.com/v1/models
+</code></pre></div>    </div>
+  </li>
+  <li>Use fallback provider:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--provider</span> gemini <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Enable retry:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--retry</span> 3 <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="provider_005-provider-rate-limit-exceeded">PROVIDER_005: Provider Rate Limit Exceeded</h4>
+
+<p><strong>HTTP Status</strong>: 429<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Provider rate limit exceeded
+Provider: openai
+Limit: 100/min
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Wait and retry:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sleep </span>60
+gollek run <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Use different provider:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--provider</span> gemini <span class="nt">--model</span> &lt;model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Enable rate limiting:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config <span class="nb">set </span>rate_limit 50
+</code></pre></div>    </div>
+  </li>
+  <li>Upgrade API plan:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Visit provider website to upgrade plan
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="configuration-errors">Configuration Errors</h3>
+
+<h4 id="config_001-required-configuration-missing">CONFIG_001: Required Configuration Missing</h4>
+
+<p><strong>HTTP Status</strong>: 500<br />
+<strong>Retryable</strong>: No</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Required configuration missing
+Field: api_key
+Provider: openai
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check configuration file:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> ~/.gollek/config.yaml
+</code></pre></div>    </div>
+  </li>
+  <li>Set missing configuration:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config <span class="nb">set </span>openai.api_key sk-...
+</code></pre></div>    </div>
+  </li>
+  <li>Use environment variable:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
+</code></pre></div>    </div>
+  </li>
+  <li>Validate configuration:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config validate
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="config_002-invalid-configuration-value">CONFIG_002: Invalid Configuration Value</h4>
+
+<p><strong>HTTP Status</strong>: 500<br />
+<strong>Retryable</strong>: No</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Invalid configuration value
+Field: timeout
+Value: -1
+Expected: positive integer
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check configuration syntax:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config get &lt;field&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Fix invalid value:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config <span class="nb">set</span> &lt;field&gt; &lt;valid-value&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Reset to default:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config reset &lt;field&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Validate all configuration:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config validate
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="network-errors">Network Errors</h3>
+
+<h4 id="network_001-network-timeout">NETWORK_001: Network Timeout</h4>
+
+<p><strong>HTTP Status</strong>: 504<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Network timeout
+Operation: model download
+Timeout: 300s
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check network connectivity:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping huggingface.co
+</code></pre></div>    </div>
+  </li>
+  <li>Increase timeout:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config <span class="nb">set </span>network.timeout 600
+</code></pre></div>    </div>
+  </li>
+  <li>Use different mirror:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config <span class="nb">set </span>huggingface.mirror https://hf-mirror.com
+</code></pre></div>    </div>
+  </li>
+  <li>Check proxy settings:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$HTTP_PROXY</span>
+<span class="nb">echo</span> <span class="nv">$HTTPS_PROXY</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="network_002-network-unreachable">NETWORK_002: Network Unreachable</h4>
+
+<p><strong>HTTP Status</strong>: 503<br />
+<strong>Retryable</strong>: Yes</p>
+
+<p><strong>Symptoms</strong>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error: Network unreachable
+Host: huggingface.co
+</code></pre></div></div>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check internet connection:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ping 8.8.8.8
+</code></pre></div>    </div>
+  </li>
+  <li>Check DNS resolution:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nslookup huggingface.co
+</code></pre></div>    </div>
+  </li>
+  <li>Check firewall rules:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw status
+</code></pre></div>    </div>
+  </li>
+  <li>Use offline mode:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek run <span class="nt">--offline</span> <span class="nt">--model</span> &lt;local-model&gt; <span class="nt">--prompt</span> &lt;prompt&gt;
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="diagnostic-commands">Diagnostic Commands</h2>
+
+<h3 id="system-diagnostics">System Diagnostics</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check system status</span>
+gollek system status
+
+<span class="c"># Check available devices</span>
+gollek device list
+
+<span class="c"># Check plugin status</span>
+gollek plugin status
+
+<span class="c"># Check model status</span>
+gollek model list
+
+<span class="c"># Check configuration</span>
+gollek config validate
+</code></pre></div></div>
+
+<h3 id="plugin-diagnostics">Plugin Diagnostics</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check plugin health</span>
+gollek plugin health &lt;plugin-id&gt;
+
+<span class="c"># Check plugin configuration</span>
+gollek plugin config &lt;plugin-id&gt; <span class="nt">--validate</span>
+
+<span class="c"># List plugin capabilities</span>
+gollek plugin capabilities &lt;plugin-id&gt;
+
+<span class="c"># Test plugin execution</span>
+gollek plugin <span class="nb">test</span> &lt;plugin-id&gt;
+</code></pre></div></div>
+
+<h3 id="model-diagnostics">Model Diagnostics</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Verify model integrity</span>
+gollek model verify &lt;model-id&gt;
+
+<span class="c"># Check model compatibility</span>
+gollek model check &lt;model-id&gt;
+
+<span class="c"># Get model information</span>
+gollek model info &lt;model-id&gt;
+
+<span class="c"># Test model inference</span>
+gollek model <span class="nb">test</span> &lt;model-id&gt;
+</code></pre></div></div>
+
+<h3 id="network-diagnostics">Network Diagnostics</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Test network connectivity</span>
+gollek network <span class="nb">test</span>
+
+<span class="c"># Check provider connectivity</span>
+gollek provider <span class="nb">test</span> &lt;provider-id&gt;
+
+<span class="c"># Check download speed</span>
+gollek network speed-test
+
+<span class="c"># Check DNS resolution</span>
+gollek network dns-test
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="error-recovery-strategies">Error Recovery Strategies</h2>
+
+<h3 id="automatic-retry">Automatic Retry</h3>
+
+<p>For retryable errors, Gollek automatically retries with exponential backoff:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">retry</span><span class="pi">:</span>
+  <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+  <span class="na">max_attempts</span><span class="pi">:</span> <span class="m">3</span>
+  <span class="na">initial_delay</span><span class="pi">:</span> <span class="s">1s</span>
+  <span class="na">max_delay</span><span class="pi">:</span> <span class="s">30s</span>
+  <span class="na">multiplier</span><span class="pi">:</span> <span class="m">2.0</span>
+</code></pre></div></div>
+
+<h3 id="fallback-execution">Fallback Execution</h3>
+
+<p>Configure fallback for non-retryable errors:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">fallback</span><span class="pi">:</span>
+  <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+  <span class="na">strategy</span><span class="pi">:</span> <span class="s">cpu</span>  <span class="c1"># Use CPU if GPU fails</span>
+  <span class="c1"># or</span>
+  <span class="na">strategy</span><span class="pi">:</span> <span class="s">provider</span>  <span class="c1"># Use cloud provider if local fails</span>
+</code></pre></div></div>
+
+<h3 id="circuit-breaker">Circuit Breaker</h3>
+
+<p>Enable circuit breaker for repeated failures:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">circuit_breaker</span><span class="pi">:</span>
+  <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+  <span class="na">failure_threshold</span><span class="pi">:</span> <span class="m">5</span>
+  <span class="na">success_threshold</span><span class="pi">:</span> <span class="m">3</span>
+  <span class="na">timeout</span><span class="pi">:</span> <span class="s">60s</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="getting-help">Getting Help</h2>
+
+<h3 id="logs">Logs</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># View recent logs</span>
+gollek logs <span class="nt">--recent</span>
+
+<span class="c"># View error logs</span>
+gollek logs <span class="nt">--level</span> ERROR
+
+<span class="c"># Follow live logs</span>
+gollek logs <span class="nt">--follow</span>
+
+<span class="c"># Export logs</span>
+gollek logs <span class="nt">--export</span> <span class="o">&gt;</span> logs.txt
+</code></pre></div></div>
+
+<h3 id="support-channels">Support Channels</h3>
+
+<ul>
+  <li><strong>Documentation</strong>: https://gollek.ai/docs</li>
+  <li><strong>GitHub Issues</strong>: https://github.com/gollek-ai/gollek/issues</li>
+  <li><strong>Discord</strong>: https://discord.gg/gollek</li>
+  <li><strong>Email</strong>: support@gollek.ai</li>
+</ul>
+
+<h3 id="error-reporting">Error Reporting</h3>
+
+<p>When reporting errors, include:</p>
+
+<ol>
+  <li>Error code and message</li>
+  <li>Steps to reproduce</li>
+  <li>System information:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek system info
+</code></pre></div>    </div>
+  </li>
+  <li>Logs:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek logs <span class="nt">--recent</span> 100
+</code></pre></div>    </div>
+  </li>
+  <li>Configuration (sanitized):
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek config <span class="nb">export</span> <span class="nt">--sanitize</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong><a href="/docs/setup/error-codes">Error Codes Reference</a></strong> - Complete error code list</li>
+  <li><strong><a href="/docs/plugins/plugin-system-v2">Plugin System v2.0</a></strong> - Plugin documentation</li>
+  <li><strong><a href="/docs/runtime/kernel-auto-detection">Kernel Auto-Detection</a></strong> - Platform detection</li>
+  <li><strong><a href="/docs/optimization-config">Configuration Guide</a></strong> - Configuration options</li>
+</ul>
+
+<hr />
+
+<p><a href="/docs">Back to Documentation</a>   <a href="/docs/setup/error-codes">Error Codes</a>   <a href="/docs/runtime/gpu-runtime-docs">GPU Runtime Docs</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

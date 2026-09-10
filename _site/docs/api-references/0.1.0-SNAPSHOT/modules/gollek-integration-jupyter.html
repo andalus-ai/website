@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gollek-integration-jupyter | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">gollek-integration-jupyter</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="gollek-integration-jupyter">gollek-integration-jupyter</h1>
+
+<p>The <code class="language-plaintext highlighter-rouge">gollek-integration-jupyter</code> module provides the standalone Gollek Java
+kernel for Jupyter Notebook and JupyterLab. It wraps a JShell-backed runtime,
+preloads common Gollek classes, renders rich MIME outputs, and exposes notebook
+magics for workspace, dependency, and artifact inspection.</p>
+
+<h2 id="module-location">Module Location</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek/integration/jupyter/gollek-jupyter-kernel
+</code></pre></div></div>
+
+<h2 id="install-surface">Install Surface</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Command</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">./rebuild_kernel.sh local-fat</code></td>
+      <td style="text-align: left">Builds the runnable local kernel artifact.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 install.py --dry-run --user</code></td>
+      <td style="text-align: left">Prints the user-level kernel install plan.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 doctor.py</code></td>
+      <td style="text-align: left">Checks kernel spec, Java, Jupyter, and launcher readiness.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">python3 install.py --user</code></td>
+      <td style="text-align: left">Installs the kernel spec for the current user.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="preloaded-runtime">Preloaded Runtime</h2>
+
+<p>The kernel preloads common imports and helpers so the first notebook cell can
+start with Gollek objects immediately.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Surface</th>
+      <th style="text-align: left">Contract</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">GradTensor</code></td>
+      <td style="text-align: left">Autograd tensor class for quick tensor demos.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">Linear</code>, <code class="language-plaintext highlighter-rouge">ReLU</code>, <code class="language-plaintext highlighter-rouge">Sequential</code></td>
+      <td style="text-align: left">Common neural-network layers for first model cells.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekHelp()</code></td>
+      <td style="text-align: left">Lists built-in helper functions.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekTensorDemo()</code></td>
+      <td style="text-align: left">Returns a simple tensor.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekPreviewTensorDemo()</code></td>
+      <td style="text-align: left">Returns a small tensor suitable for rich preview checks.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekMetricsDemo()</code></td>
+      <td style="text-align: left">Returns tabular metrics rows.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekLossCurveDemo()</code></td>
+      <td style="text-align: left">Returns a notebook-renderable line chart.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekImageDemo()</code></td>
+      <td style="text-align: left">Returns a small image object for MIME rendering checks.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekAudioDemo()</code></td>
+      <td style="text-align: left">Returns a WAV audio clip wrapper.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekModelDemo()</code></td>
+      <td style="text-align: left">Returns a small model object.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">gollekModelSummary()</code></td>
+      <td style="text-align: left">Returns a readable model summary.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="magic-api">Magic API</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Magic</th>
+      <th style="text-align: left">Contract</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%magics</code></td>
+      <td style="text-align: left">Lists available magic commands and short usage hints.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%help &lt;magic&gt;</code></td>
+      <td style="text-align: left">Shows focused help for one magic.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%reset</code></td>
+      <td style="text-align: left">Clears JShell state, dynamic dependencies, and reloads default helpers.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%time &lt;expr&gt;</code></td>
+      <td style="text-align: left">Runs one Java expression or cell and reports elapsed milliseconds.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%timeit [-n N] &lt;expr&gt;</code></td>
+      <td style="text-align: left">Runs the expression multiple times and reports run, average, min, and max timings.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%classpath</code></td>
+      <td style="text-align: left">Shows the active classpath.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%pwd</code></td>
+      <td style="text-align: left">Shows the notebook working directory.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%cd &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Changes the notebook working directory.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%ls</code></td>
+      <td style="text-align: left">Lists entries in the current notebook working directory.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%tree [PATH]</code></td>
+      <td style="text-align: left">Shows a shallow directory tree.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%du [PATH]</code></td>
+      <td style="text-align: left">Summarizes file count, directory count, total bytes, human size, and scan count.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%cat &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews a UTF-8 text file with truncation.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%head [-n N] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Shows the first lines of a text file.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%tail [-n N] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Shows the last lines of a text file.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%grep &lt;TEXT&gt; [PATH]</code></td>
+      <td style="text-align: left">Searches plain text in one file or a shallow directory tree.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%findfile &lt;TEXT&gt; [PATH]</code></td>
+      <td style="text-align: left">Searches file and directory names.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%wc &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Shows line, word, character, and byte counts.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%diff &lt;LEFT_PATH&gt; &lt;RIGHT_PATH&gt;</code></td>
+      <td style="text-align: left">Shows a lightweight line diff.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%sha256 &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Computes a SHA-256 digest for one file.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="format-preview-api">Format Preview API</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Magic</th>
+      <th style="text-align: left">Contract</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%json &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Pretty-prints JSON.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%csv [-n N] [--profile] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews CSV as a dataframe-style table with total rows, preview rows, truncation state, and optional column stats.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%tsv [-n N] [--profile] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews TSV with the same dataframe-style table and optional profile workflow.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%sample [--tsv] [-n N] [--seed S] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Samples random CSV or TSV rows. <code class="language-plaintext highlighter-rouge">-n</code> controls sample size and <code class="language-plaintext highlighter-rouge">--seed</code> makes sampling reproducible.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%sort [--tsv] [-n N] [--desc] &lt;PATH&gt; &lt;COLUMN&gt;</code></td>
+      <td style="text-align: left">Previews rows sorted by a CSV or TSV column. Numeric columns sort numerically when possible; <code class="language-plaintext highlighter-rouge">--desc</code> shows highest values first and blanks stay at the end.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%filter [--tsv] [-n N] &lt;PATH&gt; &lt;COLUMN&gt; &lt;OP&gt; [VALUE]</code></td>
+      <td style="text-align: left">Previews CSV or TSV rows matching a column predicate. Supports <code class="language-plaintext highlighter-rouge">==</code>, <code class="language-plaintext highlighter-rouge">!=</code>, <code class="language-plaintext highlighter-rouge">&gt;</code>, <code class="language-plaintext highlighter-rouge">&gt;=</code>, <code class="language-plaintext highlighter-rouge">&lt;</code>, <code class="language-plaintext highlighter-rouge">&lt;=</code>, <code class="language-plaintext highlighter-rouge">contains</code>, <code class="language-plaintext highlighter-rouge">starts</code>, <code class="language-plaintext highlighter-rouge">ends</code>, <code class="language-plaintext highlighter-rouge">blank</code>, and <code class="language-plaintext highlighter-rouge">notblank</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%describe [--tsv] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Summarizes numeric CSV or TSV columns with count, missing, mean, std, min, p25, median, p75, and max.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%schema [--tsv] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Infers lightweight CSV or TSV column types: empty, boolean, integer, decimal, date, datetime, or text, with missing counts and example values.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%missing [--tsv] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Summarizes blank cells by CSV or TSV column with missing count, present count, missing percent, and an inline SVG bar chart.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%valuecounts [--tsv] [--top N] &lt;PATH&gt; &lt;COLUMN&gt;</code></td>
+      <td style="text-align: left">Counts distinct CSV or TSV column values, including blanks as <code class="language-plaintext highlighter-rouge">(blank)</code>, with counts, percentages, and an inline SVG bar chart.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%groupby [--tsv] &lt;PATH&gt; &lt;GROUP_COLUMN&gt; [VALUE_COLUMN] [AGG]</code></td>
+      <td style="text-align: left">Groups CSV or TSV rows. Without a value column it counts rows; with a value column it defaults to <code class="language-plaintext highlighter-rouge">mean</code> and supports <code class="language-plaintext highlighter-rouge">count</code>, <code class="language-plaintext highlighter-rouge">sum</code>, <code class="language-plaintext highlighter-rouge">mean</code>, <code class="language-plaintext highlighter-rouge">min</code>, and <code class="language-plaintext highlighter-rouge">max</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%corr [--tsv] [--heatmap] &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Shows a Pearson correlation matrix for numeric CSV or TSV columns, computed pairwise from numeric row pairs. <code class="language-plaintext highlighter-rouge">--heatmap</code> adds an inline SVG heatmap above the matrix table.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%scatter [--tsv] &lt;PATH&gt; &lt;X_COLUMN&gt; &lt;Y_COLUMN&gt;</code></td>
+      <td style="text-align: left">Renders a quick inline SVG scatter plot from paired numeric CSV or TSV columns, with skipped-value reporting.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%lineplot [--tsv] &lt;PATH&gt; &lt;X_COLUMN&gt; &lt;Y_COLUMN&gt;</code></td>
+      <td style="text-align: left">Renders a quick inline SVG line plot from CSV or TSV data. The X column is used for labels and the Y column must be numeric.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%hist [--tsv] [--bins N] &lt;PATH&gt; &lt;COLUMN&gt;</code></td>
+      <td style="text-align: left">Renders a quick inline SVG histogram from one numeric CSV or TSV column, with skipped-value reporting.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%md &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Renders Markdown as rich notebook HTML and keeps plain text.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%html &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Renders an HTML file directly.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%yaml &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews YAML text with notebook-friendly formatting.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%toml &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews TOML text with notebook-friendly formatting.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%xml &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews XML text with notebook-friendly formatting.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%ini &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews INI text with notebook-friendly formatting.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%properties &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews Java <code class="language-plaintext highlighter-rouge">.properties</code> files as key/value entries.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%envfile &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Previews <code class="language-plaintext highlighter-rouge">.env</code>-style files as key/value entries.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="archive-and-artifact-api">Archive And Artifact API</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Magic</th>
+      <th style="text-align: left">Contract</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%zipls &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Lists entries inside a zip archive.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%zipcat &lt;ZIP_PATH&gt; &lt;ENTRY_PATH&gt;</code></td>
+      <td style="text-align: left">Previews one UTF-8 text entry from a zip archive.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%tarls &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Lists entries inside a tar, tar.gz, or tgz archive.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%tarcat &lt;TAR_PATH&gt; &lt;ENTRY_PATH&gt;</code></td>
+      <td style="text-align: left">Previews one UTF-8 text entry from a tar archive.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%extract [--dry-run] &lt;ARCHIVE_PATH&gt; &lt;ENTRY_PATH&gt; [OUT_PATH]</code></td>
+      <td style="text-align: left">Extracts one archive entry under the notebook working directory.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="language-plaintext highlighter-rouge">%extract</code> refuses overwrite, caps extracted entry size, keeps writes inside the
+notebook working directory, and supports <code class="language-plaintext highlighter-rouge">--dry-run</code> for path verification.</p>
+
+<h2 id="dependency-and-runtime-api">Dependency And Runtime API</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Magic</th>
+      <th style="text-align: left">Contract</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%env &lt;NAME&gt;</code></td>
+      <td style="text-align: left">Shows one environment variable from the kernel process.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%addjar &lt;PATH&gt;</code></td>
+      <td style="text-align: left">Adds one local jar to the live notebook classpath.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%maven [--allow-remote] [--fetch] [--explain] &lt;G:A:V&gt;</code></td>
+      <td style="text-align: left">Resolves a Maven artifact from local caches, with guarded remote-fetch support.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%deps</code></td>
+      <td style="text-align: left">Lists dynamically added notebook dependency entries.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">%whichclass &lt;FQCN&gt;</code></td>
+      <td style="text-align: left">Shows where a class was loaded from.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="mime-output-contract">MIME Output Contract</h2>
+
+<p>Most magics return <code class="language-plaintext highlighter-rouge">text/plain</code> plus rich <code class="language-plaintext highlighter-rouge">text/html</code> for notebook rendering.
+Renderable Java values can also produce image, audio, SVG/chart, table, or
+HTML-style outputs through the kernel display layer.</p>
+
+<h2 id="examples">Examples</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">magics</span>
+<span class="o">%</span><span class="n">help</span> <span class="o">%</span><span class="n">du</span>
+<span class="o">%</span><span class="n">pwd</span>
+<span class="o">%</span><span class="n">tree</span>
+<span class="o">%</span><span class="n">du</span> <span class="o">.</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">csv</span> <span class="o">-</span><span class="n">n</span> <span class="mi">20</span> <span class="o">--</span><span class="n">profile</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span>
+<span class="o">%</span><span class="n">tsv</span> <span class="o">-</span><span class="n">n</span> <span class="mi">20</span> <span class="o">--</span><span class="n">profile</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span>
+<span class="o">%</span><span class="n">sample</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="o">--</span><span class="n">seed</span> <span class="mi">42</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span>
+<span class="o">%</span><span class="n">sample</span> <span class="o">--</span><span class="n">tsv</span> <span class="o">-</span><span class="n">n</span> <span class="mi">5</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span>
+<span class="o">%</span><span class="n">sort</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span> <span class="o">--</span><span class="n">desc</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">score</span>
+<span class="o">%</span><span class="n">sort</span> <span class="o">--</span><span class="n">tsv</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span> <span class="n">latency</span>
+<span class="o">%</span><span class="n">filter</span> <span class="o">-</span><span class="n">n</span> <span class="mi">10</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mf">0.8</span>
+<span class="o">%</span><span class="n">filter</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span> <span class="n">status</span> <span class="o">==</span> <span class="n">ok</span>
+<span class="o">%</span><span class="n">describe</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span>
+<span class="o">%</span><span class="n">describe</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span>
+<span class="o">%</span><span class="n">schema</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span>
+<span class="o">%</span><span class="n">schema</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span>
+<span class="o">%</span><span class="n">missing</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span>
+<span class="o">%</span><span class="n">missing</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span>
+<span class="o">%</span><span class="n">valuecounts</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">label</span>
+<span class="o">%</span><span class="n">valuecounts</span> <span class="o">--</span><span class="n">tsv</span> <span class="o">--</span><span class="n">top</span> <span class="mi">10</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span> <span class="n">status</span>
+<span class="o">%</span><span class="n">groupby</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">label</span>
+<span class="o">%</span><span class="n">groupby</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">label</span> <span class="n">score</span> <span class="n">mean</span>
+<span class="o">%</span><span class="n">groupby</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span> <span class="n">status</span> <span class="n">latency</span> <span class="n">sum</span>
+<span class="o">%</span><span class="n">corr</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span>
+<span class="o">%</span><span class="n">corr</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span>
+<span class="o">%</span><span class="n">corr</span> <span class="o">--</span><span class="n">heatmap</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span>
+<span class="o">%</span><span class="n">scatter</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">weight</span> <span class="n">height</span>
+<span class="o">%</span><span class="n">scatter</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span> <span class="n">step</span> <span class="n">accuracy</span>
+<span class="o">%</span><span class="n">lineplot</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">epoch</span> <span class="n">loss</span>
+<span class="o">%</span><span class="n">lineplot</span> <span class="o">--</span><span class="n">tsv</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span> <span class="n">step</span> <span class="n">accuracy</span>
+<span class="o">%</span><span class="n">hist</span> <span class="o">--</span><span class="n">bins</span> <span class="mi">12</span> <span class="n">metrics</span><span class="o">.</span><span class="na">csv</span> <span class="n">loss</span>
+<span class="o">%</span><span class="n">hist</span> <span class="o">--</span><span class="n">tsv</span> <span class="o">--</span><span class="n">bins</span> <span class="mi">12</span> <span class="n">features</span><span class="o">.</span><span class="na">tsv</span> <span class="n">accuracy</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">zipls</span> <span class="n">bundle</span><span class="o">.</span><span class="na">zip</span>
+<span class="o">%</span><span class="n">zipcat</span> <span class="n">bundle</span><span class="o">.</span><span class="na">zip</span> <span class="n">nested</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="na">txt</span>
+<span class="o">%</span><span class="n">tarls</span> <span class="n">bundle</span><span class="o">.</span><span class="na">tar</span><span class="o">.</span><span class="na">gz</span>
+<span class="o">%</span><span class="n">tarcat</span> <span class="n">bundle</span><span class="o">.</span><span class="na">tar</span><span class="o">.</span><span class="na">gz</span> <span class="n">nested</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="na">txt</span>
+<span class="o">%</span><span class="n">extract</span> <span class="o">--</span><span class="n">dry</span><span class="o">-</span><span class="n">run</span> <span class="n">bundle</span><span class="o">.</span><span class="na">tar</span><span class="o">.</span><span class="na">gz</span> <span class="n">nested</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="na">txt</span> <span class="n">extracted</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="na">txt</span>
+<span class="o">%</span><span class="n">extract</span> <span class="n">bundle</span><span class="o">.</span><span class="na">tar</span><span class="o">.</span><span class="na">gz</span> <span class="n">nested</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="na">txt</span> <span class="n">extracted</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="na">txt</span>
+<span class="o">%</span><span class="n">sha256</span> <span class="n">bundle</span><span class="o">.</span><span class="na">tar</span><span class="o">.</span><span class="na">gz</span>
+</code></pre></div></div>
+
+<hr />
+
+<p><a href="../">Back to API Hub</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

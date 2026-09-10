@@ -1,1003 +1,355 @@
 ---
 layout: default
-title: Documentation
+title: Gollek Documentation
 ---
 
-# Documentation
+# Gollek Documentation
 
-Get started with Wayang AI and learn how to build powerful AI agent workflows.
-
----
-
-## API Reference
-
-- **[Javadoc API Reference](./javadoc)** - Complete Java API documentation
-- **[Projects API](./projects-api)** - Project management and execution APIs
-- **[Schema Catalog](./schema-catalog)** - Schema registry and WayangSpec
-- **[SDK Gateway](./sdk-gateway)** - Gollek SDK Gateway & SPI
-- **[Wayang Assistant API](./wayang-assistant)** - Chat, project generation, and troubleshooting APIs
+Welcome to the Gollek documentation. Gollek is the AI platform layer for inference, serving, embeddings, ML/NN/DL APIs, training, plugins, and runtime backends. Wayang-Gollek is the agentic system engine that runs on top of Gollek through SDK and API contracts.
 
 ---
 
-## Deep Dive Guides
+## Which Docs Area Should I Start With?
 
-### Executors & Integrations
+If you want installation, CLI, JBang, or first-run setup:
 
-- **[Executor Integrations](./executor-integrations)** - Unified retrieval across Vector, Graph, Memory, and RAG
-- **[Vector Executor](./executors/vector)** - Semantic similarity search with embeddings
-- **[Graph Executor](./executors/graph)** - Relationship-based reasoning and knowledge graphs
-- **[Graph vs Vector](./executors/graph-vs-vector)** - Choosing the right backend
-- **[Gollek Multimodal Integration](./gollek-integration)** - GPU-accelerated inference with streaming
-- **[Sandbox Runtime](./sandbox-runtime)** - Isolated execution environments with security and resource control
+- [Setup Docs](/docs/setup/)
+- [Examples Docs](/docs/setup/examples-docs)
 
-### Core Features
+If you want Java-side modeling, training, or framework APIs:
 
-- [Agent Skills](./agent-skills)
-- [ReAct Tool Execution](./react-mechanism)
-- [Gollek SDK Gateway & SPI](./sdk-gateway)
-- [Agent Audit Mechanism](./audit-mechanism)
-- [Wayang Kulit User Guide](./designer-user-guide)
-- [Wayang Kulit Release Notes](./designer-release-notes)
-- [Schema Catalog and WayangSpec](./schema-catalog)
-- [Projects API](./projects-api)
-- [Wayang Assistant](./wayang-assistant)
-- [Trigger Integrations](./triggers)
-- [HITL Execution Flow](./hitl)
-- [RAG API](./rag)
-- [MCP API Coverage](./mcp)
-- [Guardrails API & Execution](./guardrails)
-- [Execution Telemetry API](./telemetry-api)
-- [Execution Debugger API](./debugger-api)
-- [Sandbox Runtime](./sandbox-runtime) - Isolated execution environments
-- [Standalone Troubleshooting](./standalone-troubleshooting)
-- [Testing Coverage](./testing-coverage)
+- [Framework Overview](/docs/framework/framework)
+- [Training Docs](/docs/framework/training)
+- [Training Fast Gate](/docs/framework/training-fast-gate)
 
----
+If you want runtime operations, deployment paths, or backend troubleshooting:
 
-## Quick Start Guide
+- [GPU Runtime Docs](/docs/runtime/gpu-runtime-docs)
+- [Cloud Provider Docs](/docs/runtime/cloud-provider-docs)
+- [Native Runtime Docs](/docs/runtime/native-runtime-docs)
 
-### 1. Installation
+If you want to integrate Gollek with agent systems such as Wayang-Gollek:
 
-Install the Wayang AI CLI tool:
+- [Agent Serving Quick Start](/docs/tutorials/integrations/agent-serving)
+- [Agent Integration Boundary](/docs/agent-integration-boundary)
+- [Agent Integration API](/docs/agent-integration-api)
+- [Wayang-Gollek Agent System](/docs/agent-framework/)
+- [Inference Serving](/docs/runtime/inference-serving)
 
-```bash
-npm install -g @wayang-ai/cli
-```
+If you want modular model-family plugins, detachable model farm builds, or visual node workflow engines:
 
-Or use npx for one-off commands:
+- [Model Family Plugins](/docs/plugins/model-family-plugins)
+- [Visual Node Workflows](/docs/plugins/node-plugins)
+- [Gollek Extensions](/docs/extensions/)
 
-```bash
-npx @wayang-ai/cli
-```
+If you want guided workflows instead of reference pages:
 
-### 2. Create Your First Project
-
-```bash
-# Create a new project
-wayang create my-first-workflow
-
-# Navigate to the project
-cd my-first-workflow
-```
-
-### 3. Configure Your API Keys
-
-Set up your AI provider credentials:
-
-```bash
-# For OpenAI
-wayang config set OPENAI_API_KEY your-api-key
-
-# For Anthropic
-wayang config set ANTHROPIC_API_KEY your-api-key
-```
-
-### 4. Create a Simple Workflow
-
-Create a file named `workflow.yaml`:
-
-```yaml
-name: Hello World
-description: A simple greeting workflow
-
-agents:
-  - id: greeter
-    type: llm
-    model: openai/gpt-4
-    prompt: "Greet the user and ask how you can help them today."
-
-execution:
-  start: greeter
-```
-
-### 5. Run Your Workflow
-
-```bash
-# Development mode with hot reload
-wayang dev
-
-# Or run once
-wayang run workflow.yaml
-```
+- [Tutorials Overview](/docs/tutorials/)
+- [Trainer JBang Workflow](/docs/tutorials/advanced/trainer-jbang-workflow)
 
 ---
 
-## Core Concepts
+## Latest: MOSS TTS ONNX Audio Runtime
 
-### Agents & Skills
+**Local text-to-speech | Voice presets | Suling WAV/FLAC/MP3 | Live audio preview | Audio-native run metrics**
 
-Agents are the building blocks of Wayang AI workflows. In the latest architecture, agents are driven by **Skills** — data-driven personas defined in JSON.
-
-- **Skills** define the persona, system prompts, and parameters.
-- **Native Vector Search (FAISS)** - JDK 25 powered high-performance memory and RAG backend.
-- **Unified Executor** handles the inference logic for all skills.
-- **Dynamic** - Create new agent personas without code changes.
-
-For a detailed look at the architecture, see the [Agent Skills Guide](./agent-skills).
-
-#### Orchestrator Loop Pattern
-
-In multi-agent execution, the **orchestrator-skill** managing the control-plane coordination:
-
-1. **planner-skill** creates or revises plan steps
-2. **execution skills** run plan steps (`coder`, `analytics`, etc.)
-3. **evaluator-skill** assesses outputs and quality
-4. **orchestrator-skill** decides continue, retry, or re-plan
-
-This pattern keeps specialized logic in individual skills while loop state stays centralized in the orchestrator.
-
-```mermaid
-sequenceDiagram
-  participant O as Orchestrator Skill
-  participant P as Planner Skill
-  participant X as Executor Skill (Coder/Basic)
-  participant E as Evaluator Skill
-
-  O->>P: Create initial plan
-  P-->>O: Plan v1
-  O->>X: Execute planned step(s)
-  X-->>O: Execution result(s)
-  O->>E: Evaluate quality/completeness
-  E-->>O: Evaluation + feedback
-  alt Needs re-plan
-    O->>P: Revise plan with feedback
-    P-->>O: Plan v2
-    O->>X: Execute revised plan
-    X-->>O: Revised result(s)
-    O->>E: Re-evaluate
-    E-->>O: Pass
-  else Pass on first cycle
-    E-->>O: Pass
-  end
-  O-->>O: Finalize workflow result
-```
-
-#### Built-in Skill Aliases
-
-The following built-in skills are available:
-
-| Canonical ID | Aliases |
-|---------|-------------|
-| `planner` | `planner-agent`, `agent-planner` |
-| `coder` | `coder-agent`, `agent-coder` |
-| `analytics` | `analytics-agent`, `agent-analytic` |
-| `evaluator` | `evaluator-agent`, `agent-evaluator` |
-| `common` | `common-agent`, `agent-basic` |
-
-#### Typed Inputs by Agent Type
-
-For schema-driven execution payloads, these typed fields are available and recommended:
-
-- basic (`agent-basic`): generic common-task context + shared provider/vault fields
-- coder (`agent-coder`): `instruction`, optional `taskType` (default: `GENERATE`)
-- analytic (`agent-analytic`): `question`, optional `taskType` (default: `DESCRIPTIVE`)
-- planner (`agent-planner`): `goal`, `strategy` (also supports `objective` / `instruction`)
-- evaluator (`agent-evaluator`): `candidateOutput`, `criteria` (fallbacks: `output` / `result` / `content`)
-- orchestrator (`agent-orchestrator`): `objective` or `agentTasks` with `orchestrationType` / `coordinationStrategy`, and loop budgets `maxIterations` / `maxDelegations` / `maxLatencyMs` / `maxAgentLatencyMs` / `maxRetriesPerDelegation`
-
-These fields are exposed in `/v1/schema/catalog` and validated by runtime schema/API and executor tests.
-
-Example orchestration payload (planner -> coder -> evaluator -> planner re-plan):
-
-```json
-{
-  "orchestrationType": "SEQUENTIAL",
-  "coordinationStrategy": "CENTRALIZED",
-  "agentTasks": [
-    { "agentType": "planner-agent", "context": { "step": "plan-v1" } },
-    { "agentType": "coder-agent", "context": { "step": "execute" } },
-    { "agentType": "evaluator-agent", "context": { "step": "evaluate" } },
-    { "agentType": "planner-agent", "context": { "step": "plan-v2" } }
-  ]
-}
-```
-
-### Workflows
-
-Workflows define how agents collaborate to achieve a goal.
-
-```yaml
-workflow:
-  name: Research Assistant
-  agents:
-    - researcher
-    - writer
-    - reviewer
-  
-  flow:
-    - researcher -> writer
-    - writer -> reviewer
-    - reviewer -> (end)
-```
-
-### Tools
-
-Tools extend agent capabilities with external integrations.
-
-```yaml
-tools:
-  - name: web_search
-    type: builtin
-    provider: google
-  
-  - name: database
-    type: custom
-    connection: postgres://localhost/mydb
-```
+[Read the MOSS TTS ONNX Guide](/docs/runtime/moss-tts-onnx)
 
 ---
 
-## CLI Reference
+## Latest: Production-Safe Model Farm Plugins
 
-| Command | Description |
-|---------|-------------|
-| `wayang create <name>` | Create a new project |
-| `wayang dev` | Start development server |
-| `wayang run <workflow>` | Execute a workflow |
-| `wayang deploy` | Deploy to production |
-| `wayang logs` | View execution logs |
-| `wayang config` | Manage configuration |
-| `wayang agents` | List available agents |
-| `wayang --help` | Show help information |
+**Detachable model families | `prod_*` bundle presets | tokenizer readiness gates | plugin doctor diagnostics**
+
+[Read the Model Family Plugins Guide](/docs/plugins/model-family-plugins)
 
 ---
 
-## Configuration Reference
+## SDK v0.2 Release
 
-### Environment Variables
+**Advanced Tensor Operations | Vision Transforms | NLP Tokenizers | Complete Examples**
 
-```bash
-# Required
-WAYANG_API_KEY=your-wayang-api-key
-
-# AI Providers
-OPENAI_API_KEY=sk-...
-ANTHROPIC_API_KEY=sk-ant-...
-GOOGLE_API_KEY=...
-
-# Optional
-WAYANG_LOG_LEVEL=debug
-WAYANG_PORT=3000
-WAYANG_ENV=development
-```
-
-### Standalone Runtime Logging
-
-Wayang Standalone writes server logs to:
-
-```bash
-~/.wayang/logs/server/server.log
-```
-
-Default severity is `INFO` (which includes `INFO`, `WARN`, and `ERROR` messages).
-
-You can configure logging using environment variables:
-
-| Variable | Default | Description |
-|---------|---------|-------------|
-| `WAYANG_LOG_LEVEL` | `INFO` | Root log severity |
-| `WAYANG_LOG_LEVEL_TECH_KAYYS` | `${WAYANG_LOG_LEVEL}` | Log level for `tech.kayys.*` |
-| `WAYANG_LOG_LEVEL_QUARKUS` | `WARN` | Log level for `io.quarkus.*` |
-| `WAYANG_LOG_LEVEL_GGUF_MIN` | `INFO` | Minimum level for GGUF converter logs |
-| `WAYANG_LOG_FILE_ENABLED` | `true` | Enable/disable file logging |
-| `WAYANG_SERVER_LOG_DIR` | `~/.wayang/logs/server` | Server log directory |
-| `WAYANG_LOG_FILE_PATH` | `${WAYANG_SERVER_LOG_DIR}/server.log` | Server log file path |
-| `WAYANG_LOG_FILE_LEVEL` | `${WAYANG_LOG_LEVEL}` | File log severity |
-| `WAYANG_LOG_FILE_FORMAT` | `%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{2.}] (%t) %s%e%n` | File log pattern |
-| `WAYANG_LOG_ROTATE_MAX_FILE_SIZE` | `20M` | Rotation size threshold |
-| `WAYANG_LOG_ROTATE_MAX_BACKUP_INDEX` | `10` | Number of retained rotated files |
-
-Example:
-
-```bash
-export WAYANG_LOG_LEVEL=WARN
-export WAYANG_SERVER_LOG_DIR=$HOME/.wayang/logs/server
-export WAYANG_LOG_FILE_PATH=$WAYANG_SERVER_LOG_DIR/server.log
-export WAYANG_LOG_ROTATE_MAX_FILE_SIZE=50M
-export WAYANG_LOG_ROTATE_MAX_BACKUP_INDEX=20
-```
-
-### Project Configuration (wayang.config.js)
-
-```javascript
-module.exports = {
-  name: 'my-workflow',
-  version: '1.0.0',
-  
-  agents: {
-    default: {
-      model: 'openai/gpt-4',
-      temperature: 0.7,
-    },
-  },
-  
-  execution: {
-    timeout: 30000,
-    retries: 3,
-  },
-  
-  integrations: {
-    slack: {
-      webhook: process.env.SLACK_WEBHOOK,
-    },
-  },
-};
-```
-
-### Project Execution API (WayangSpec Payload)
-
-Execute a `WayangSpec` directly within a project:
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -H "X-Tenant-Id: community" \
-  -d '{
-    "name": "demo-execution",
-    "description": "Run ad-hoc spec",
-    "spec": { "workflow": { "name": "Demo" } },
-    "inputs": { "query": "hello" },
-    "createdBy": "api"
-  }'
-```
-
-`/api/v1/projects/{projectId}/execute-spec` is also supported as an alias.
-The request accepts `spec`, `wayangSpec`, or `workflowSpec` as payload keys.
-
-Dry-run (validation only, no execution started):
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -H "X-Tenant-Id: community" \
-  -d '{
-    "name": "demo-dry-run",
-    "dryRun": true,
-    "spec": { "workflow": { "name": "Demo" } }
-  }'
-```
-
-Dry-run returns `status: DRY_RUN_VALID` and does not create an execution record.
-
-Idempotent execution submit (safe retry):
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -H "X-Tenant-Id: community" \
-  -H "Idempotency-Key: run-123" \
-  -d '{
-    "name": "demo-execution",
-    "spec": { "workflow": { "name": "Demo" } }
-  }'
-```
-
-If the same key is submitted again for the same project+tenant, API returns the existing execution with `idempotentReplay: true` and does not start a duplicate run.
-
-Replay window control:
-
-- request field `idempotencyReplayWindowSeconds` controls per-request replay TTL
-- runtime property `wayang.runtime.standalone.execution.idempotency.replay-window-seconds` controls default replay TTL (default `86400`)
-- set replay window to `0` to disable dedup replay for that submit
-
-Request correlation (trace execution across API, logs, and events):
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -H "X-Tenant-Id: community" \
-  -H "X-Request-Id: req-abc-123" \
-  -d '{
-    "name": "demo-execution",
-    "spec": { "workflow": { "name": "Demo" } }
-  }'
-```
-
-`X-Request-Id` is echoed as `requestId` in the execution response and persisted in execution timeline event metadata.
-
-Execution submit responses also include rate-limit headers:
-
-- `X-RateLimit-Limit`
-- `X-RateLimit-Remaining`
-- `X-RateLimit-Reset`
-
-If submit rate is exceeded, API returns `429 EXECUTION_RATE_LIMITED` with `Retry-After`.
-Backpressure saturation returns `503 EXECUTION_BACKPRESSURE` with `Retry-After`.
-Runtime properties:
-
-- `wayang.runtime.standalone.execution.rate-limit.enabled` (default `true`)
-- `wayang.runtime.standalone.execution.rate-limit.per-minute` (default `120`)
-- `wayang.runtime.standalone.execution.max-in-flight-submits` (default `64`)
-
-### Schema Catalog and Workflow Spec
-
-See the dedicated guide: [Schema Catalog and WayangSpec](./schema-catalog).
-
-### Trigger Integrations (Server-Side)
-
-See the dedicated guide: [Trigger Integrations](./triggers).
-
-#### Orchestrator API Examples
-
-You can run orchestrator behavior through project execution payloads by including an `orchestrator-agent` node context in your `WayangSpec`.
-
-Objective-driven orchestration:
-
-```json
-{
-  "name": "orchestrator-objective-run",
-  "spec": {
-    "workflow": {
-      "name": "orchestrator-objective",
-      "nodes": [
-        {
-          "id": "orchestrator_1",
-          "type": "orchestrator-agent",
-          "configuration": {
-            "objective": "Build API, verify quality, and produce final summary",
-            "taskType": "DELEGATE",
-            "agentType": "orchestrator-agent"
-          }
-        }
-      ]
-    }
-  }
-}
-```
-
-Loop-style multi-agent orchestration (`planner -> coder -> evaluator -> planner`):
-
-```json
-{
-  "name": "orchestrator-loop-run",
-  "spec": {
-    "workflow": {
-      "name": "orchestrator-loop",
-      "nodes": [
-        {
-          "id": "orchestrator_1",
-          "type": "orchestrator-agent",
-          "configuration": {
-            "agentType": "orchestrator-agent",
-            "orchestrationType": "SEQUENTIAL",
-            "coordinationStrategy": "CENTRALIZED",
-            "maxIterations": 4,
-            "maxLatencyMs": 5000,
-            "agentTasks": [
-              { "agentType": "planner-agent", "context": { "step": "plan-v1" } },
-              { "agentType": "coder-agent", "context": { "step": "execute" } },
-              { "agentType": "evaluator-agent", "context": { "step": "evaluate" } },
-              { "agentType": "planner-agent", "context": { "step": "plan-v2" } }
-            ]
-          }
-        }
-      ]
-    }
-  }
-}
-```
-
-Run objective mode via API:
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -H "X-Tenant-Id: community" \
-  -d '{
-    "name": "orchestrator-objective-run",
-    "spec": {
-      "workflow": {
-        "name": "orchestrator-objective",
-        "nodes": [
-          {
-            "id": "orchestrator_1",
-            "type": "orchestrator-agent",
-            "configuration": {
-              "objective": "Build API, verify quality, and produce final summary",
-              "taskType": "DELEGATE",
-              "agentType": "orchestrator-agent"
-            }
-          }
-        ]
-      }
-    }
-  }'
-```
-
-Example response (`202 Accepted`):
-
-```json
-{
-  "projectId": "f3c26d6a-4e8a-4dbe-9216-9ef2c99eb68e",
-  "definitionId": "37ef89b7-7e4a-4eca-a978-f1fe5ea7f523",
-  "workflowDefinitionId": "wf_orchestrator_objective",
-  "executionId": "run_orch_obj_001",
-  "status": "STARTED"
-}
-```
-
-Run loop mode via API:
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -H "X-Tenant-Id: community" \
-  -d '{
-    "name": "orchestrator-loop-run",
-    "spec": {
-      "workflow": {
-        "name": "orchestrator-loop",
-        "nodes": [
-          {
-            "id": "orchestrator_1",
-            "type": "orchestrator-agent",
-            "configuration": {
-              "agentType": "orchestrator-agent",
-              "orchestrationType": "SEQUENTIAL",
-              "coordinationStrategy": "CENTRALIZED",
-              "agentTasks": [
-                { "agentType": "planner-agent", "context": { "step": "plan-v1" } },
-                { "agentType": "coder-agent", "context": { "step": "execute" } },
-                { "agentType": "evaluator-agent", "context": { "step": "evaluate" } },
-                { "agentType": "planner-agent", "context": { "step": "plan-v2" } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  }'
-```
-
-Example response (`202 Accepted`):
-
-```json
-{
-  "projectId": "f3c26d6a-4e8a-4dbe-9216-9ef2c99eb68e",
-  "definitionId": "efbd50a3-3dcf-4dc4-9c42-4c00657d8d8a",
-  "workflowDefinitionId": "wf_orchestrator_loop",
-  "executionId": "run_orch_loop_001",
-  "status": "STARTED"
-}
-```
-
-Check orchestrator execution status:
-
-```bash
-curl -H "accept: application/json" \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}"
-```
-
-Example status response:
-
-```json
-{
-  "executionId": "run_orch_loop_001",
-  "projectId": "f3c26d6a-4e8a-4dbe-9216-9ef2c99eb68e",
-  "status": "RUNNING",
-  "createdBy": "api",
-  "createdAt": "2026-03-05T15:10:00Z",
-  "updatedAt": "2026-03-05T15:10:04Z"
-}
-```
-
-Get orchestrator loop timeline events:
-
-```bash
-curl -H "accept: application/json" \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}/events"
-```
-
-Example timeline response:
-
-```json
-{
-  "events": [
-    {
-      "eventType": "NODE_STARTED",
-      "nodeId": "orchestrator_1-planner-agent",
-      "message": "Planner created initial plan",
-      "timestamp": "2026-03-05T15:10:05Z"
-    },
-    {
-      "eventType": "NODE_COMPLETED",
-      "nodeId": "orchestrator_1-coder-agent",
-      "message": "Coder executed planned task",
-      "timestamp": "2026-03-05T15:10:08Z"
-    },
-    {
-      "eventType": "NODE_COMPLETED",
-      "nodeId": "orchestrator_1-evaluator-agent",
-      "message": "Evaluator scored output and requested re-plan",
-      "timestamp": "2026-03-05T15:10:10Z"
-    },
-    {
-      "eventType": "NODE_COMPLETED",
-      "nodeId": "orchestrator_1-planner-agent",
-      "message": "Planner produced revised plan (loop iteration 2)",
-      "timestamp": "2026-03-05T15:10:13Z"
-    }
-  ]
-}
-```
-
-Response (`202 Accepted`):
-
-```json
-{
-  "projectId": "f3c26d6a-4e8a-4dbe-9216-9ef2c99eb68e",
-  "definitionId": "37ef89b7-7e4a-4eca-a978-f1fe5ea7f523",
-  "workflowDefinitionId": "wf_abc123",
-  "executionId": "run_abc123",
-  "queuedAt": "2026-03-07T00:10:00Z",
-  "startedAt": "2026-03-07T00:10:01Z",
-  "queueDurationMs": 120,
-  "status": "STARTED"
-}
-```
-
-Check execution status:
-
-```bash
-curl -H "accept: application/json" \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}"
-```
-
-Execution status response includes `ETag` based on execution version.
-Use conditional GET to reduce polling payload:
-
-```bash
-curl -i -H 'accept: application/json' \
-  -H 'If-None-Match: "2"' \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}"
-```
-
-If unchanged, server returns `304 Not Modified`.
-
-Example status response:
-
-```json
-{
-  "executionId": "run_abc123",
-  "projectId": "f3c26d6a-4e8a-4dbe-9216-9ef2c99eb68e",
-  "tenantId": "community",
-  "definitionId": "37ef89b7-7e4a-4eca-a978-f1fe5ea7f523",
-  "workflowDefinitionId": "wf_abc123",
-  "status": "RUNNING",
-  "createdBy": "api",
-  "createdAt": "2026-03-05T13:10:00Z",
-  "updatedAt": "2026-03-05T13:10:04Z"
-}
-```
-
-List executions for a project:
-
-```bash
-curl -H "accept: application/json" \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions"
-```
-
-Stop an execution:
-
-```bash
-curl -X POST -H "accept: application/json" \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}/stop"
-```
-
-Stop with reason taxonomy and operator note:
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}/stop" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "reason": "MANUAL_INTERVENTION",
-    "note": "Operator initiated stop from control UI"
-  }'
-```
-
-Supported stop reasons:
-`USER_REQUEST`, `TIMEOUT`, `POLICY_VIOLATION`, `DEPENDENCY_FAILURE`, `MANUAL_INTERVENTION`, `UNKNOWN`.
-
-Optimistic concurrency for lifecycle actions:
-
-- `stop`, `resume`, and `delete` accept `If-Match` version header
-- `stop` and `resume` also accept body field `expectedVersion`
-- mismatch returns `409` with `errorCode: EXECUTION_VERSION_CONFLICT`
-
-Get execution timeline/events:
-
-```bash
-curl -H "accept: application/json" \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}/events"
-```
-
-The standalone runtime records engine events (including node-level events such as node scheduled/started/completed/failed) and lifecycle actions (resume/stop/delete) in the same timeline stream.
-Execution timeline now also includes `EXECUTION_QUEUED` followed by `EXECUTION_STARTED` for each accepted run.
-
-Lifecycle errors use a standardized payload:
-
-```json
-{
-  "errorCode": "EXECUTION_INVALID_TRANSITION",
-  "message": "Invalid execution status transition",
-  "httpStatus": 409,
-  "retryable": false,
-  "timestamp": "2026-03-07T00:20:00Z",
-  "details": {
-    "executionId": "run_abc123",
-    "fromStatus": "STOPPED",
-    "toStatus": "RUNNING"
-  }
-}
-```
-
-For retryable lifecycle errors, API also includes:
-
-- response header `Retry-After`
-- payload field `retryAfterSeconds`
-
-Default value is controlled by runtime property:
-`wayang.runtime.standalone.execution.retry-after-seconds` (default `2`).
-
-Delete an execution record:
-
-```bash
-curl -X DELETE -H "accept: application/json" \
-  "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}"
-```
-
-Resume a paused/waiting execution (for HITL task):
-
-```bash
-curl -X POST "http://localhost:31713/api/v1/projects/{projectId}/executions/{executionId}/resume" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "humanTaskId": "task_123",
-    "data": {
-      "approved": true,
-      "comment": "continue"
-    }
-  }'
-```
-
-For node-level pause/resume, use HITL nodes (for example `hitl-human-task`) in the workflow where you want execution to wait for manual continuation.
-
-Execution lifecycle transitions are validated server-side. Invalid transitions return `409 Conflict` with `fromStatus` and `toStatus` in the response body (for example, `STOPPED -> RUNNING` resume attempts).
-
-### HITL Behavior and Execution Flow
-
-See the dedicated guide: [HITL Execution Flow](./hitl).
-
-Execution metadata for standalone mode is persisted at:
-
-```bash
-~/.wayang/logs/server/cloud-project-executions.json
-```
-
-Execution event timeline for standalone mode is persisted at:
-
-```bash
-~/.wayang/logs/server/cloud-project-execution-events.json
-```
-
-### Execute From Wayang Kulit UI
-
-For full desktop usage flow (project lifecycle, execute/retry, failure focus, logs, and shortcuts), see:
-
-- [Wayang Kulit User Guide](./designer-user-guide)
-
-Tip: to add a manual pause point quickly, right-click a node and choose `Insert HITL Checkpoint`.  
-This inserts a `hitl-human-task` checkpoint after that node and rewires outgoing edges through it.
-
-Project metadata is persisted at:
-
-```bash
-~/.wayang/logs/server/cloud-projects.json
-```
-
-### RAG API (Standalone)
-
-See the dedicated guide: [RAG API](./rag).
-
-### Standalone API Routing Note
-
-See the dedicated guide: [Standalone Troubleshooting](./standalone-troubleshooting).
-
-### Troubleshooting (Standalone Startup)
-
-See the dedicated guide: [Standalone Troubleshooting](./standalone-troubleshooting).
+[View v0.2 Release Notes](/docs/release-notes-v0.2)
 
 ---
 
-## MCP API Test Coverage
+## 🎯 Platform Overview
 
-See the dedicated guide: [MCP API Coverage](./mcp).
+**Complete Platform Roadmap (9 Phases)**
+
+The Gollek and Wayang-Gollek ecosystem spans 9 phases of development:
+
+1. **Phases 1-3**: Deep Learning Foundation (Gollek SDK) - All 3 Complete ✅
+2. **Phases 4-7**: Wayang-Gollek Agent System (Runs on top of Gollek) - All 4 Complete ✅
+3. **Phases 8-9**: Production Hardening & Optimization - All 3 Complete ✅ (8, 8B, 9), 1 Designed (9B)
+
+**Start Your Journey:**
+- [**📊 Platform Phases Overview**](/docs/phases-overview) - Complete roadmap of all 9 phases
+- **[Agent Serving Quick Start](/docs/tutorials/integrations/agent-serving)** - Preflight route templates for Wayang-Gollek and external agent runtimes
+- **[Agent Integration Boundary](/docs/agent-integration-boundary)** - Clear ownership between Gollek and Wayang-Gollek
+- **[Agent Integration API](/docs/agent-integration-api)** - Serving contract, endpoints, SDK bridge, and Wayang-Gollek recipe
+- **[Wayang-Gollek Agent System (Phases 4-7)](/docs/agent-framework/)** - Build intelligent agents on top of Gollek
+- **[🚀 Production Hardening (Phases 8-9)](/docs/production-hardening/)** - Deploy to production
+- **[⚡ GPU Acceleration (Phase 2)](/docs/gpu-acceleration/)** - 30-100x speedup with Gollek Kernels
+- **[🔧 Extended Features (Phase 3)](/docs/extended-features/)** - Transformers and model zoo
 
 ---
 
-## Trigger and HITL Test Coverage
+## Getting Started
 
-See the dedicated guide: [Testing Coverage](./testing-coverage).
+### New Users
+
+1. **[Platform Overview](/docs/phases-overview)** - Understand the complete system
+2. **[Quick Start Guide](/docs/setup/sdk-installation)** - Install and set up Gollek in 5 minutes
+3. **[First Neural Network Tutorial](/docs/tutorials/basic/first-nn)** - Build a simple neural network
+4. **[Training Docs](/docs/framework/training)** - Choose the standard supervised or trainer-first workflow
+
+### Building Agents (Wayang-Gollek)
+
+1. **[Agent Integration Boundary](/docs/agent-integration-boundary)** - Understand what belongs in Gollek versus Wayang-Gollek
+2. **[Agent Serving Quick Start](/docs/tutorials/integrations/agent-serving)** - Run preflight templates for chat, Responses, embeddings/RAG, and MCP tools
+3. **[Agent Integration API](/docs/agent-integration-api)** - Use Gollek's serving contract from Wayang-Gollek
+4. **[Wayang-Gollek Agent System](/docs/agent-framework/)** - Overview of the upper agent runtime layer
+5. **[Inference Serving](/docs/runtime/inference-serving)** - Use Gollek as the model serving substrate
+6. **[Production Deployment](/docs/production-hardening/)** - Deploy agents safely
+
+### Migrating from PyTorch
+
+1. **[PyTorch to Gollek](/docs/migration-pytorch)** - Mapping PyTorch APIs to Gollek
+2. **[ML SDK Guide](/docs/framework/ml-sdk)** - Core Java-side modeling and training surface
+3. **[Examples Docs](/docs/setup/examples-docs)** - Current example hubs, JBang catalog, and walkthroughs
 
 ---
 
-## Advanced Topics
+## Featured Paths
 
-### Multi-Agent Collaboration
+### Setup-First
 
-Design workflows where multiple agents work together:
+1. [Setup Docs](/docs/setup/)
+2. [Quick Start Guide](/docs/setup/sdk-installation)
+3. [Examples Docs](/docs/setup/examples-docs)
 
-```yaml
-workflow:
-  name: Content Pipeline
-  
-  agents:
-    - id: researcher
-      prompt: "Research the topic thoroughly."
-    
-    - id: writer
-      prompt: "Write an engaging article based on research."
-    
-    - id: editor
-      prompt: "Review and improve the content."
-  
-  flow:
-    - researcher
-    - writer (depends_on: researcher)
-    - editor (depends_on: writer)
-    - end (depends_on: editor)
-```
+### Trainer-First
 
-### Custom Agents
+1. [Training Docs](/docs/framework/training)
+2. [Trainer JBang Docs](/docs/setup/trainer-jbang-docs)
+3. [Trainer JBang Workflow](/docs/tutorials/advanced/trainer-jbang-workflow)
 
-Create specialized agents for your use case:
+### Runtime Ops
 
-```javascript
-// agents/customer-support.js
-module.exports = {
-  name: 'customer-support',
-  
-  async execute(context) {
-    const { message, history } = context;
-    
-    // Analyze sentiment
-    const sentiment = await this.analyzeSentiment(message);
-    
-    // Route based on urgency
-    if (sentiment.urgency > 0.8) {
-      return { escalate: true, reason: 'High urgency detected' };
-    }
-    
-    // Generate response
-    const response = await this.generateResponse(message, history);
-    
-    return { response, sentiment };
-  },
-};
-```
+1. [GPU Runtime Docs](/docs/runtime/gpu-runtime-docs)
+2. [Cloud Provider Docs](/docs/runtime/cloud-provider-docs)
+3. [Native Runtime Docs](/docs/runtime/native-runtime-docs)
 
-### Error Handling
+### Framework Developer
 
-Implement robust error handling in your workflows:
+1. [Framework Overview](/docs/framework/framework)
+2. [ML SDK Guide](/docs/framework/ml-sdk)
+3. [API References](/docs/api-references/0.1.0-SNAPSHOT/)
 
-```yaml
-workflow:
-  name: Resilient Workflow
-  
-  agents:
-    - id: main
-      on_error:
-        retry: 3
-        fallback: backup_agent
-  
-  execution:
-    timeout: 60000
-    on_timeout:
-      notify: slack
-      action: escalate
-```
+---
+
+## Documentation Hubs
+
+### Gollek and Wayang-Gollek Platform
+
+| Section | Description | Status |
+|---------|-------------|--------|
+| [**Platform Phases Overview**](/docs/phases-overview) | 9-phase roadmap | 📊 Complete |
+| [**Agent Serving Quick Start**](/docs/tutorials/integrations/agent-serving) | Preflight route templates and serving gate examples | ✅ Available |
+| [**Agent Integration Boundary**](/docs/agent-integration-boundary) | Gollek vs Wayang-Gollek ownership | ✅ Available |
+| [**Agent Integration API**](/docs/agent-integration-api) | Agent-facing serving contract and Wayang-Gollek recipe | ✅ Available |
+| [**Wayang-Gollek Agent System**](/docs/agent-framework/) | Intelligent agent runtime and skills above Gollek | ✅ Production Ready |
+| [**Production Hardening (Phases 8-9)**](/docs/production-hardening/) | Observability, optimization, testing | ✅ Production Ready |
+| [**🚀 Inference Serving**](/docs/runtime/inference-serving) | Continuous batching and paged attention | ✅ Production Ready |
+| [**🎮 GPU Runtime Docs**](/docs/runtime/gpu-runtime-docs) | Kernels, SPI, auto-detection, and placement | ✅ Available |
+| [**☁️ Cloud Provider Docs**](/docs/runtime/cloud-provider-docs) | Plugin installation and provider configuration | ✅ Available |
+| [**🧩 Native Runtime Docs**](/docs/runtime/native-runtime-docs) | Native-image, executables, and FFI entrypoints | ✅ Available |
+| [**Visual Node Workflows**](/docs/plugins/node-plugins) | Strongly-typed visual NodePlugin execution SPI | ✅ Production Ready |
+| [**⚙️ Optimization Config**](/docs/optimization-config) | Runtime and plugin tuning | ✅ Production Ready |
+
+Additional platform references:
+
+- [MOSS TTS ONNX](/docs/runtime/moss-tts-onnx)
+- [GPU Runtime Troubleshooting](/docs/runtime/gpu-runtime-troubleshooting)
+- [GPU Kernel SPI](/docs/runtime/gpu-kernel-spi)
+- [Cloud Provider Glossary](/docs/runtime/cloud-provider-glossary)
+- [Cloud Provider Config Examples](/docs/runtime/cloud-provider-config-examples)
+- [Native Runtime Glossary](/docs/runtime/native-runtime-glossary)
+- [Native Runtime Examples](/docs/runtime/native-runtime-examples)
+- [Provider Fallback Router](/docs/runtime/provider-fallback-router)
+- [GPU Acceleration (Phase 2)](/docs/gpu-acceleration/)
+- [Extended Features (Phase 3)](/docs/extended-features/)
+
+### Framework & Training
+
+| Document | Description |
+|----------|-------------|
+| [Framework Overview](/docs/framework/framework) | Main ML framework and module overview |
+| [ML SDK Guide](/docs/framework/ml-sdk) | Core Java-side modeling and training surface |
+| [Training Docs](/docs/framework/training) | Generic training and trainer runtime entrypoint |
+| [Training Fast Gate](/docs/framework/training-fast-gate) | Training metadata gate, advisory candidates, promotion plans, and validation receipts |
+| [DiffusionOPD Docs](/docs/framework/diffusion-opd-docs) | DiffusionOPD overview, workflows, and selectors |
+| [Byte-Latent Docs](/docs/framework/byte-latent-docs) | Byte-Latent checkpoints, workflows, and compare flows |
+| [Recursive Reasoning Docs](/docs/framework/recursive-reasoning-docs) | GRAM-style rollout, compare, bundle, and dataset flows |
+| [Audio Processing Docs](/docs/framework/audio-processing-docs) | STT, TTS, VAD, and audio runtime routing |
+| [Quantization Docs](/docs/framework/quantization-docs) | Strategy selection, Java usage, and REST usage |
+| [API References](/docs/api-references/0.1.0-SNAPSHOT/) | Generated framework and trainer module reference |
+
+### API Snapshot
+
+| Version | Description | Status |
+|:--------|:------------|:-------|
+| [**0.1.0-SNAPSHOT**](/docs/api-references/0.1.0-SNAPSHOT/) | Modern ML/DL/NN framework modules reference | 📚 Available |
+
+### Core Guides
+
+| Document | Description |
+|----------|-------------|
+| [TensorOps API](/docs/api-tensorops) | Advanced slicing, gathering, masking, and tensor utility operations |
+| [Tokenizer API](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp) | Text tokenization interface and vocabulary surface |
+| [Vision Transforms](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision) | Image preprocessing and transform composition |
+| [Multimodal SDK](/docs/framework/multimodal-sdk) | Java-side multimodal framework entrypoint |
+| [Model Family Plugins](/docs/plugins/model-family-plugins) | Detachable Hugging Face style model-family metadata, tokenizer profiles, and bundle selection |
+
+### Examples, Tutorials, and Terminal Paths
+
+| Document | Description |
+|----------|-------------|
+| [Examples Docs](/docs/setup/examples-docs) | Main examples chooser across setup, tutorials, and runnable demos |
+| [Agent Serving Quick Start](/docs/tutorials/integrations/agent-serving) | Preflight route templates for agent runtimes that use Gollek serving |
+| [JBang Examples Catalog](/docs/setup/jbang-examples) | Runnable terminal-first scripts across ML, multimodal, and trainer lanes |
+| [Jupyter Integration](/docs/tutorials/integrations/jupyter) | Standalone Gollek Java notebooks with helpers, magics, and artifact inspection |
+| [Trainer JBang Docs](/docs/setup/trainer-jbang-docs) | Terminal-first trainer families and report workflows |
+| [Trainer JBang Workflow](/docs/tutorials/advanced/trainer-jbang-workflow) | Guided trainer-first tutorial path |
+| [Tutorials Overview](/docs/tutorials/) | Basic, intermediate, and advanced guided walkthroughs |
 
 ---
 
 ## API Reference
 
-### REST API
+### Core Classes
 
-```bash
-# Start a workflow execution
-curl -X POST https://api.wayang.ai/v1/executions \
-  -H "Authorization: Bearer $WAYANG_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"workflow": "my-workflow", "input": {"key": "value"}}'
+- **[Tensor](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor)** - Multi-dimensional array abstraction
+- **[GradTensor](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd)** - Tensor with gradient tracking
+- **[TensorOps](/docs/api-tensorops)** - Advanced tensor operations ⭐ NEW
+- **[Module](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)** - Base class for neural network components
+- **[Sequential](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)** - Container for stacked modules
 
-# Get execution status
-curl https://api.wayang.ai/v1/executions/{execution_id} \
-  -H "Authorization: Bearer $WAYANG_API_KEY"
-```
+### Neural Network Modules (118+ classes)
 
-### SDK Usage
+**Layers:**
+- [Linear](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)
+- [Conv2d](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn)
+- [RNN, LSTM, GRU](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn)
+- [MultiHeadAttention](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer)
+- [Embedding](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)
 
-```typescript
-import { WayangClient } from '@wayang-ai/sdk';
+**Full List:** [All NN Modules](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)
 
-const client = new WayangClient(process.env.WAYANG_API_KEY);
+### Loss Functions
 
-// Execute a workflow
-const execution = await client.execute('my-workflow', {
-  input: { topic: 'AI Agents' },
-});
+- [CrossEntropyLoss](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)
+- [MSELoss](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)
+- [BCELoss](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)
+- [Full List](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn)
 
-// Wait for completion
-const result = await execution.waitForCompletion();
-console.log(result.output);
-```
+### Optimizers
 
----
+- [Adam](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize)
+- [SGD](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize)
+- [RMSprop](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize)
+- [Full List](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize)
 
-## Troubleshooting
+### Data & Vision ⭐ NEW
 
-### Common Issues
-
-**Agent not responding**
-- Check API key configuration
-- Verify model availability
-- Review rate limits
-
-**Workflow fails to start**
-- Validate YAML syntax
-- Check agent definitions
-- Ensure all dependencies are installed
-
-**Slow execution**
-- Enable parallel processing
-- Optimize agent prompts
-- Consider caching responses
+- [Tokenizer](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp)
+- [VisionTransforms](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision)
+- [Compose](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision)
+- [Normalize](/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision)
 
 ---
 
-## Need Help?
+## Examples & Tutorials
 
-- 📚 [Full Documentation](https://docs.wayang.ai)
-- 💬 [Community Discord](https://discord.gg/wayang-ai)
-- 🐛 [Report an Issue](https://github.com/wayang-ai/wayang-platform/issues)
-- 📝 [Examples Repository](https://github.com/wayang-ai/examples)
-
----
-
-## Legal & Policies
-
-- [Cookies Policy](/cookies-policy.html) - How we use cookies
-- [Privacy Policy](/privacy-policy.html) - Data protection and privacy
-- [Terms of Service](/terms-of-service.html) - Usage terms and conditions
+- [Examples Docs](/docs/setup/examples-docs) - Main chooser for setup-side examples, tutorials, and runnable demos
+- [JBang Examples Catalog](/docs/setup/jbang-examples) - Runnable terminal-first scripts across ML, multimodal, and trainer lanes
+- [Jupyter Integration](/docs/tutorials/integrations/jupyter) - Standalone Gollek Java notebooks with helpers, magics, and artifact inspection
+- [Trainer JBang Docs](/docs/setup/trainer-jbang-docs) - Trainer-family demos, inspectors, and workflows
+- [Tutorials Overview](/docs/tutorials/) - Guided basic, intermediate, and advanced walkthroughs
+- [Trainer JBang Workflow](/docs/tutorials/advanced/trainer-jbang-workflow) - End-to-end trainer-first tutorial path
 
 ---
 
-[Back to Home](/) &nbsp; [View Features](/features/)
+## Setup & Runtime
+
+- [Setup Docs](/docs/setup/) - Install, configure, and bootstrap Gollek
+- [CLI Installation](/docs/setup/cli-installation) - CLI setup and first-run path
+- [CLI Reference](/docs/setup/cli-reference) - Command usage and options
+- [Extensions](/docs/extensions/) - Scaffold pipeline projects and global `FeatureAdapter` packages
+- [MOSS TTS ONNX Audio](/docs/runtime/moss-tts-onnx) - Local text-to-speech runtime path
+- [Optimization Config](/docs/optimization-config)
+- [GPU Runtime Docs](/docs/runtime/gpu-runtime-docs)
+- [GPU Runtime Troubleshooting](/docs/runtime/gpu-runtime-troubleshooting)
+- [Cloud Provider Docs](/docs/runtime/cloud-provider-docs)
+- [Native Runtime Docs](/docs/runtime/native-runtime-docs)
+- [Quantization Docs](/docs/framework/quantization-docs)
+- [Native Library Guide](/docs/runtime/native-library-guide)
+
+---
+
+## Architecture & Design
+
+- [Runtime Architecture](/docs/runtime/architecture)
+- [Core Runtime Architecture](/docs/runtime/core-runtime-architecture)
+- [Device Responsibility Architecture](/docs/runtime/device-responsibility-architecture)
+- [Framework Overview](/docs/framework/framework)
+- [Developer Guidance](/docs/dev-log/developer-guidance)
+
+---
+
+## Troubleshooting & FAQ
+
+- [Troubleshooting Guide](/docs/setup/troubleshooting)
+- [Error Codes](/docs/setup/error-codes)
+- [GPU Runtime Troubleshooting](/docs/runtime/gpu-runtime-troubleshooting)
+- [Native Library Guide](/docs/runtime/native-library-guide)
+
+---
+
+## Contributing
+
+- [SDK Installation](/docs/setup/sdk-installation)
+- [CLI Installation](/docs/setup/cli-installation)
+- [Developer Guidance](/docs/dev-log/developer-guidance)
+- [GitHub Packages Deployment](/docs/dev-log/github-packages-deployment)
+- [Git Repository Cleanup](/docs/dev-log/git-repository-cleanup)
+
+---
+
+## Release Notes
+
+- **[SDK v0.2](/docs/release-notes-v0.2)** ⭐ Latest - Advanced Tensor Ops, Vision Transforms, NLP Tokenizers
+- [Enhancement History](/docs/dev-log/enhancement-history) - Historical implementation notes
+- [PyTorch Migration Guide](/docs/migration-pytorch) - Migrating model and API patterns into Gollek
+
+---
+
+## Community & Support
+
+- [GitHub Repository](https://github.com/bhangun/gollek)
+- [GitHub Discussions](https://github.com/bhangun/gollek/discussions)
+- [Issue Tracker](https://github.com/bhangun/gollek/issues)
+- [Email](mailto:support@gollek.io)
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--subtle-bg); border-radius: 12px;">
+  <h3>Ready to Build?</h3>
+  <p>Start with the <strong><a href="/docs/setup/sdk-installation">Quick Start Guide</a></strong> or dive into <strong><a href="/docs/setup/examples-docs">Examples Docs</a></strong></p>
+  <p style="font-size: 0.9rem; margin-top: 1rem;">
+    <a href="https://github.com/bhangun/gollek">⭐ Star on GitHub</a> •
+    <a href="https://github.com/bhangun/gollek/discussions">💬 Join Discussions</a> •
+    <a href="mailto:support@gollek.io">📧 Email Support</a>
+  </p>
+</div>

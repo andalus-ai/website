@@ -1,0 +1,29 @@
+{
+  "model": "demo-model",
+  "surface": "chat",
+  "feature_profile": "mcp_tools",
+  "preflight_policy": {
+    "profile": "requested_route"
+  },
+  "discover_mcp_tools": true,
+  "mcp_discovery_required": true,
+  "validate_tools": true,
+  "tool_validation_required": true,
+  "validate_request": false,
+  "request_validation_required": false,
+  "openai_tool_compatibility": true,
+  "enabled_only": true,
+  "request": {
+    "model": "demo-model",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Use available tool definitions only when the caller asks for them."
+      },
+      {
+        "role": "user",
+        "content": "Validate MCP tool discovery for this route."
+      }
+    ]
+  }
+}

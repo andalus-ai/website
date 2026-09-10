@@ -1,0 +1,2222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPU Kernel Acceleration | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">GPU Kernel Acceleration</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="gpu-kernel-acceleration">GPU Kernel Acceleration</h1>
+
+<p>For the guided landing page that groups kernels, SPI, platform detection,
+device placement, and native-library setup in one place, start with
+<a href="/docs/runtime/gpu-runtime-docs">GPU Runtime Docs</a>.</p>
+
+<p>High-performance GPU acceleration kernels for NVIDIA CUDA, Blackwell, AMD ROCm, and Apple Metal.</p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>Gollek provides native GPU kernel implementations for optimal inference performance across multiple hardware platforms. Each kernel module is optimized for its target architecture while maintaining a consistent API.</p>
+
+<h3 id="-optimization-plugins">🆕 Optimization Plugins</h3>
+
+<p>New! Hot-reload GPU optimization plugins without recompiling:</p>
+
+<ul>
+  <li><strong>FlashAttention-3</strong> for Hopper+ GPUs (2-3x speedup)</li>
+  <li><strong>FlashAttention-4</strong> for Blackwell (3-5x speedup)</li>
+  <li><strong>PagedAttention</strong> for efficient KV caching (2-4x speedup)</li>
+  <li><strong>Prompt Cache</strong>, <strong>QLoRA</strong>, and 8+ more optimizations</li>
+</ul>
+
+<p><a href="/docs/plugins/optimization-plugins">Learn more about Optimization Plugins →</a></p>
+
+<h3 id="quick-comparison">Quick Comparison</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Best For</th>
+      <th>Max Memory</th>
+      <th>Key Advantage</th>
+      <th>Optimizations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>CUDA</strong></td>
+      <td>Production AI</td>
+      <td>80 GB</td>
+      <td>Mature ecosystem, FA2/FA3</td>
+      <td>FA3, Paged, KV Cache</td>
+    </tr>
+    <tr>
+      <td><strong>Blackwell</strong></td>
+      <td>Large-scale inference</td>
+      <td>192 GB</td>
+      <td>TMEM + FP4 = 3.5x speedup</td>
+      <td>FA4, All optimizations</td>
+    </tr>
+    <tr>
+      <td><strong>ROCm</strong></td>
+      <td>AMD datacenters</td>
+      <td>192 GB</td>
+      <td>Open alternative to CUDA</td>
+      <td>Paged, KV Cache</td>
+    </tr>
+    <tr>
+      <td><strong>Metal</strong></td>
+      <td>Apple Silicon Macs</td>
+      <td>128 GB</td>
+      <td>Zero-copy unified memory</td>
+      <td>Limited</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="architecture-deep-dive">Architecture Deep Dive</h2>
+
+<h3 id="kernel-execution-flow">Kernel Execution Flow</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────┐
+│                    Application Layer                             │
+│  GollekLocalClient → InferenceRequest → Runner Selection        │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    Runner Layer (*Runner)                        │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │  Prefill     │  │   Decode     │  │   Sample     │          │
+│  │  (KV Cache)  │  │   (Token)    │  │  (Logits)    │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    Binding Layer (*Binding)                      │
+│  FFM Native Calls → GPU Driver API → Hardware Execution         │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    Hardware Layer                                │
+│  Tensor Cores │ TMEM │ Unified Memory │ Paged KV Cache         │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<h3 id="transformer-layer-execution">Transformer Layer Execution</h3>
+
+<p>Each transformer layer executes the following kernel pipeline:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input → RMSNorm → QKV GEMM → FlashAttention → Output Proj → Residual
+                                                      ↓
+Input → RMSNorm → Gate/Up GEMM → SiLU → Down GEMM → Residual → Output
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------------------------------------------+
+|                    Gollek Kernel Modules                           |
++------------------------------------------------------------------+
+|  +--------------+  +--------------+  +--------------+  +-------+ |
+|  | CUDA         |  | Blackwell    |  | ROCm         |  | Metal | |
+|  | (NVIDIA)     |  | (B100/B200)  |  | (AMD)        |  | (M1+) | |
+|  +--------------+  +--------------+  +--------------+  +-------+ |
+|  - FlashAttn 2/3 - FA3 + TMEM   - HIP Kernels   - MPS Kernels   |
+|  - FP8/FP4       - FP4 TCores   - FA2/FA3      - Unified Mem    |
+|  - Tensor Cores  - 192GB HBM3e  - MI300X       - AMX Blocks     |
++------------------------------------------------------------------+
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="supported-platforms">Supported Platforms</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Module</th>
+      <th>Architecture</th>
+      <th>Memory</th>
+      <th>Key Features</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>NVIDIA CUDA</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-kernel-cuda</code></td>
+      <td>sm_80+ (A100+)</td>
+      <td>40-80 GB</td>
+      <td>FlashAttention-2/3, FP8</td>
+    </tr>
+    <tr>
+      <td><strong>NVIDIA Blackwell</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-kernel-blackwell</code></td>
+      <td>sm_100 (B100/B200)</td>
+      <td>180-192 GB</td>
+      <td>FA3+TMEM, FP4, Async</td>
+    </tr>
+    <tr>
+      <td><strong>AMD ROCm</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-kernel-rocm</code></td>
+      <td>gfx942 (MI300X)</td>
+      <td>128-192 GB</td>
+      <td>HIP Kernels, Unified Mem</td>
+    </tr>
+    <tr>
+      <td><strong>Apple Metal</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-backend-metal</code></td>
+      <td>M1/M2/M3/M4</td>
+      <td>8-128 GB</td>
+      <td>MPS Graph, Unified Mem</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="cuda-kernel-module">CUDA Kernel Module</h2>
+
+<h3 id="architecture-support">Architecture Support</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>GPU</th>
+      <th>Compute Cap</th>
+      <th>Memory</th>
+      <th>FlashAttention</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A100</td>
+      <td>sm_80 (8.0)</td>
+      <td>40/80 GB HBM2e</td>
+      <td>FA2</td>
+    </tr>
+    <tr>
+      <td>H100</td>
+      <td>sm_90 (9.0)</td>
+      <td>80 GB HBM3</td>
+      <td>FA3 + FP8</td>
+    </tr>
+    <tr>
+      <td>H200</td>
+      <td>sm_90 (9.0)</td>
+      <td>141 GB HBM3e</td>
+      <td>FA3 + FP8</td>
+    </tr>
+    <tr>
+      <td>RTX 4090</td>
+      <td>sm_89 (8.9)</td>
+      <td>24 GB GDDR6X</td>
+      <td>FA2</td>
+    </tr>
+    <tr>
+      <td>RTX A6000</td>
+      <td>sm_86 (8.6)</td>
+      <td>48 GB GDDR6</td>
+      <td>FA2</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="features">Features</h3>
+
+<ul>
+  <li><strong>FlashAttention-2</strong>: Fused attention for A100+ (sm_80+)</li>
+  <li><strong>FlashAttention-3</strong>: Optimized for H100+ (sm_90+) with FP8</li>
+  <li><strong>Unified Memory</strong>: Zero-copy on A100/H100</li>
+  <li><strong>Paged KV Cache</strong>: Efficient long context handling</li>
+  <li><strong>Multi-GPU Ready</strong>: Device selection via config</li>
+</ul>
+
+<h3 id="configuration">Configuration</h3>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable CUDA runner
+</span><span class="py">gollek.runners.cuda.enabled</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># Runner mode: auto|standard|offload|force|disabled
+</span><span class="py">gollek.runners.cuda.mode</span><span class="p">=</span><span class="s">auto</span>
+
+<span class="c"># CUDA library path
+</span><span class="py">gollek.runners.cuda.library-path</span><span class="p">=</span><span class="s">/usr/local/cuda/lib64/libgollek_cuda.so</span>
+
+<span class="c"># Device ID (0-based)
+</span><span class="py">gollek.runners.cuda.device-id</span><span class="p">=</span><span class="s">0</span>
+
+<span class="c"># Model dimensions
+</span><span class="py">gollek.runners.cuda.num-layers</span><span class="p">=</span><span class="s">32</span>
+<span class="py">gollek.runners.cuda.num-heads</span><span class="p">=</span><span class="s">32</span>
+<span class="py">gollek.runners.cuda.num-heads-kv</span><span class="p">=</span><span class="s">8</span>
+<span class="py">gollek.runners.cuda.head-dim</span><span class="p">=</span><span class="s">128</span>
+<span class="py">gollek.runners.cuda.model-dim</span><span class="p">=</span><span class="s">4096</span>
+</code></pre></div></div>
+
+<h3 id="java-api-example">Java API Example</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.cuda.runner.CudaRunner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.spi.model.ModelManifest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.runner.RunnerConfiguration</span><span class="o">;</span>
+
+<span class="c1">// Create and configure runner</span>
+<span class="nc">CudaRunner</span> <span class="n">runner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CudaRunner</span><span class="o">();</span>
+
+<span class="c1">// Build model manifest</span>
+<span class="nc">ModelManifest</span> <span class="n">manifest</span> <span class="o">=</span> <span class="nc">ModelManifest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"llama-3.2-3b-instruct"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"Llama 3.2 3B Instruct"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">version</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">artifacts</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">ModelFormat</span><span class="o">.</span><span class="na">GGUF</span><span class="o">,</span> <span class="n">location</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Configure runner</span>
+<span class="nc">RunnerConfiguration</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">RunnerConfiguration</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"num_layers"</span><span class="o">,</span> <span class="mi">32</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"num_heads"</span><span class="o">,</span> <span class="mi">32</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"num_heads_kv"</span><span class="o">,</span> <span class="mi">8</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"head_dim"</span><span class="o">,</span> <span class="mi">128</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"model_dim"</span><span class="o">,</span> <span class="mi">4096</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Initialize</span>
+<span class="n">runner</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">manifest</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+
+<span class="c1">// Execute inference</span>
+<span class="nc">InferenceRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="nc">InferenceRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">prompt</span><span class="o">(</span><span class="s">"Explain quantum computing"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">maxTokens</span><span class="o">(</span><span class="mi">512</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">InferenceResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="na">infer</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getContent</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h3 id="performance">Performance</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>A100 (FP16)</th>
+      <th>H100 (FP8)</th>
+      <th>Speedup</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GEMM</td>
+      <td>1x</td>
+      <td>2.5x</td>
+      <td>2.5x</td>
+    </tr>
+    <tr>
+      <td>FlashAttention-2</td>
+      <td>1x</td>
+      <td>1.5x</td>
+      <td>1.5x</td>
+    </tr>
+    <tr>
+      <td>FlashAttention-3</td>
+      <td>N/A</td>
+      <td>2x</td>
+      <td>2x</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="build-instructions">Build Instructions</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Prerequisites</span>
+<span class="nb">export </span><span class="nv">CUDA_HOME</span><span class="o">=</span>/usr/local/cuda
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$CUDA_HOME</span>/bin:<span class="nv">$PATH</span>
+
+<span class="c"># Build for A100 (sm_80)</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-cuda/src/main/cpp/cuda <span class="se">\</span>
+    <span class="nv">CUDA_ARCH</span><span class="o">=</span>sm_80
+
+<span class="c"># Build for H100 (sm_90)</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-cuda/src/main/cpp/cuda <span class="se">\</span>
+    <span class="nv">CUDA_ARCH</span><span class="o">=</span>sm_90
+
+<span class="c"># Build for multiple architectures</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-cuda/src/main/cpp/cuda <span class="se">\</span>
+    <span class="nv">CUDA_ARCHS</span><span class="o">=</span><span class="s2">"sm_80 sm_90 sm_86"</span>
+
+<span class="c"># Output location</span>
+target/native/linux-x86_64/libgollek_cuda.so
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="blackwell-kernel-module">Blackwell Kernel Module</h2>
+
+<h3 id="architecture-support-1">Architecture Support</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>GPU</th>
+      <th>Architecture</th>
+      <th>Memory</th>
+      <th>TMEM</th>
+      <th>FP4</th>
+      <th>Throughput</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>B100</td>
+      <td>Blackwell</td>
+      <td>180 GB HBM3e</td>
+      <td>64 MB</td>
+      <td>✓</td>
+      <td>2x H100</td>
+    </tr>
+    <tr>
+      <td>B200</td>
+      <td>Blackwell</td>
+      <td>180 GB HBM3e</td>
+      <td>64 MB</td>
+      <td>✓</td>
+      <td>2x H100</td>
+    </tr>
+    <tr>
+      <td>GB200</td>
+      <td>Blackwell (Grace)</td>
+      <td>192 GB HBM3e</td>
+      <td>64 MB</td>
+      <td>✓</td>
+      <td>2x H100</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="blackwell-specific-features">Blackwell-Specific Features</h3>
+
+<h4 id="tmem-tensor-memory">TMEM (Tensor Memory)</h4>
+
+<p>64MB on-chip tensor memory accumulator for FlashAttention-3:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────┐
+│              Blackwell SM                │
+├──────────────────────────────────────────┤
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  │
+│  │ FP4 TC  │  │ FP4 TC  │  │  TMEM   │  │
+│  │  Core   │  │  Core   │  │  64MB   │  │
+│  └─────────┘  └─────────┘  └─────────┘  │
+│                    ↑                     │
+│         QK^T accumulation               │
+│         (no HBM traffic)                │
+└──────────────────────────────────────────┘
+</code></pre></div></div>
+
+<p><strong>Benefits:</strong></p>
+<ul>
+  <li><strong>2x faster</strong> than H100 FlashAttention-3</li>
+  <li><strong>No HBM traffic</strong> for attention matrix</li>
+  <li><strong>Lower power</strong> consumption per token</li>
+</ul>
+
+<h4 id="fp4-tensor-cores">FP4 Tensor Cores</h4>
+
+<ul>
+  <li><strong>2x throughput</strong> over FP8</li>
+  <li><strong>4x throughput</strong> over FP16</li>
+  <li>Ideal for inference with minimal accuracy loss</li>
+</ul>
+
+<h4 id="async-execution">Async Execution</h4>
+
+<p>Concurrent copy and compute operations:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">MemorySegment</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">blackwell</span><span class="o">.</span><span class="na">streamCreate</span><span class="o">();</span>
+<span class="nc">MemorySegment</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">blackwell</span><span class="o">.</span><span class="na">mallocManaged</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+
+<span class="c1">// Start async copy</span>
+<span class="n">blackwell</span><span class="o">.</span><span class="na">memcpyAsync</span><span class="o">(</span><span class="n">dst</span><span class="o">,</span> <span class="n">src</span><span class="o">,</span> <span class="n">bytes</span><span class="o">,</span> <span class="n">stream</span><span class="o">);</span>
+
+<span class="c1">// Wait for semaphore</span>
+<span class="n">blackwell</span><span class="o">.</span><span class="na">streamWaitValue</span><span class="o">(</span><span class="n">stream</span><span class="o">,</span> <span class="n">semaphore</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+
+<span class="c1">// ... compute while copy progresses ...</span>
+
+<span class="c1">// Signal completion</span>
+<span class="n">blackwell</span><span class="o">.</span><span class="na">streamWriteValue</span><span class="o">(</span><span class="n">semaphore</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="configuration-1">Configuration</h3>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable Blackwell runner
+</span><span class="py">gollek.runners.blackwell.enabled</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># Runner mode
+</span><span class="py">gollek.runners.blackwell.mode</span><span class="p">=</span><span class="s">auto</span>
+
+<span class="c"># Library path
+</span><span class="py">gollek.runners.blackwell.library-path</span><span class="p">=</span><span class="s">/usr/local/cuda/lib64/libgollek_blackwell.so</span>
+
+<span class="c"># Device ID
+</span><span class="py">gollek.runners.blackwell.device-id</span><span class="p">=</span><span class="s">0</span>
+
+<span class="c"># Blackwell optimizations
+</span><span class="py">gollek.runners.blackwell.use-fp4</span><span class="p">=</span><span class="s">true</span>
+<span class="py">gollek.runners.blackwell.use-tmem</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div></div>
+
+<h3 id="java-api-example-1">Java API Example</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.blackwell.runner.BlackwellRunner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.blackwell.binding.BlackwellBinding</span><span class="o">;</span>
+
+<span class="c1">// Create runner with FP4 + TMEM enabled</span>
+<span class="nc">BlackwellRunner</span> <span class="n">runner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BlackwellRunner</span><span class="o">();</span>
+
+<span class="c1">// Configure for maximum performance</span>
+<span class="nc">RunnerConfiguration</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">RunnerConfiguration</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"num_layers"</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>  <span class="c1">// Llama-3 70B</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"num_heads"</span><span class="o">,</span> <span class="mi">64</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"num_heads_kv"</span><span class="o">,</span> <span class="mi">8</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"head_dim"</span><span class="o">,</span> <span class="mi">128</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"model_dim"</span><span class="o">,</span> <span class="mi">8192</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"ffn_dim"</span><span class="o">,</span> <span class="mi">28672</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Initialize</span>
+<span class="n">runner</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">manifest</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+
+<span class="c1">// Check capabilities</span>
+<span class="nc">RunnerCapabilities</span> <span class="n">caps</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="na">capabilities</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"FP4 supported: "</span> <span class="o">+</span> 
+    <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">caps</span><span class="o">.</span><span class="na">getSupportedDataTypes</span><span class="o">()).</span><span class="na">contains</span><span class="o">(</span><span class="s">"fp4"</span><span class="o">));</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Max batch: "</span> <span class="o">+</span> <span class="n">caps</span><span class="o">.</span><span class="na">getMaxBatchSize</span><span class="o">());</span>
+
+<span class="c1">// Streaming inference</span>
+<span class="nc">Multi</span><span class="o">&lt;</span><span class="nc">StreamingInferenceChunk</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">with</span><span class="o">(</span><span class="n">chunk</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">chunk</span><span class="o">.</span><span class="na">getToken</span><span class="o">()));</span>
+</code></pre></div></div>
+
+<h3 id="performance-comparison">Performance Comparison</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>H100 (FP8)</th>
+      <th>B200 (FP8)</th>
+      <th>B200 (FP4)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GEMM</td>
+      <td>1x</td>
+      <td>1.5x</td>
+      <td>3x</td>
+    </tr>
+    <tr>
+      <td>FlashAttention-2</td>
+      <td>1x</td>
+      <td>1.2x</td>
+      <td>1.2x</td>
+    </tr>
+    <tr>
+      <td>FlashAttention-3</td>
+      <td>N/A</td>
+      <td>2x</td>
+      <td>2.5x</td>
+    </tr>
+    <tr>
+      <td>FA3 + TMEM</td>
+      <td>N/A</td>
+      <td>2.5x</td>
+      <td>3.5x</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="memory-bandwidth-comparison">Memory Bandwidth Comparison</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>GPU</th>
+      <th>Bandwidth</th>
+      <th>Relative</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>H100</td>
+      <td>3.35 TB/s</td>
+      <td>1x</td>
+    </tr>
+    <tr>
+      <td>B200</td>
+      <td>8.0 TB/s</td>
+      <td>2.4x</td>
+    </tr>
+    <tr>
+      <td>GB200</td>
+      <td>8.0 TB/s</td>
+      <td>2.4x</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="build-instructions-1">Build Instructions</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Prerequisites - CUDA 12.3+ required for Blackwell</span>
+<span class="nb">export </span><span class="nv">CUDA_HOME</span><span class="o">=</span>/usr/local/cuda-12.3
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$CUDA_HOME</span>/bin:<span class="nv">$PATH</span>
+
+<span class="c"># Build for Blackwell (sm_100)</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-blackwell/src/main/cpp/blackwell <span class="se">\</span>
+    <span class="nv">CUDA_ARCH</span><span class="o">=</span>sm_100
+
+<span class="c"># Build with FP4 support</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-blackwell/src/main/cpp/blackwell <span class="se">\</span>
+    <span class="nv">CUDA_ARCH</span><span class="o">=</span>sm_100 <span class="nv">USE_FP4</span><span class="o">=</span>1
+
+<span class="c"># Output location</span>
+target/native/linux-x86_64/libgollek_blackwell.so
+</code></pre></div></div>
+
+<h3 id="tmem-optimization-guide">TMEM Optimization Guide</h3>
+
+<p>For maximum FlashAttention-3 performance:</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable TMEM (default: true)
+</span><span class="py">gollek.runners.blackwell.use-tmem</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># TMEM block size (default: 64MB)
+</span><span class="py">gollek.runners.blackwell.tmem-size-mb</span><span class="p">=</span><span class="s">64</span>
+
+<span class="c"># Async copy overlap (default: true)
+</span><span class="py">gollek.runners.blackwell.async-copy</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div></div>
+
+<p><strong>Expected speedup:</strong> 2.5-3.5x over H100 depending on model size</p>
+
+<hr />
+
+<h2 id="rocm-kernel-module">ROCm Kernel Module</h2>
+
+<h3 id="architecture-support-2">Architecture Support</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>GPU</th>
+      <th>Architecture</th>
+      <th>Memory</th>
+      <th>Unified</th>
+      <th>Best For</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MI300X</td>
+      <td>gfx942</td>
+      <td>192 GB HBM3</td>
+      <td>✓</td>
+      <td>Large models</td>
+    </tr>
+    <tr>
+      <td>MI250X</td>
+      <td>gfx90a</td>
+      <td>128 GB HBM2e</td>
+      <td>✗</td>
+      <td>Mid-range</td>
+    </tr>
+    <tr>
+      <td>RX 7900 XTX</td>
+      <td>gfx1100</td>
+      <td>24 GB GDDR6</td>
+      <td>✗</td>
+      <td>Consumer</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="features-1">Features</h3>
+
+<ul>
+  <li><strong>HIP Kernels</strong>: Native AMD GPU acceleration via hipify-clang</li>
+  <li><strong>Unified Memory</strong>: MI300X zero-copy support (CPU+GPU shared HBM3)</li>
+  <li><strong>FlashAttention</strong>: FA2/FA3 via hipified kernels</li>
+  <li><strong>Multi-Architecture</strong>: gfx942, gfx90a, gfx1100 support</li>
+  <li><strong>FP8 Support</strong>: MI300X FP8 tensor cores</li>
+</ul>
+
+<h3 id="configuration-2">Configuration</h3>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable ROCm runner
+</span><span class="py">gollek.runners.rocm.enabled</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># HIP library path
+</span><span class="py">gollek.runners.rocm.library-path</span><span class="p">=</span><span class="s">/opt/rocm/lib/libamdhip64.so</span>
+
+<span class="c"># Kernel path (architecture-specific)
+</span><span class="py">gollek.runners.rocm.kernel-path</span><span class="p">=</span><span class="s">/opt/gollek/lib/gollek_rocm_gfx942.hsaco</span>
+
+<span class="c"># Device ID
+</span><span class="py">gollek.runners.rocm.device-id</span><span class="p">=</span><span class="s">0</span>
+
+<span class="c"># Use managed memory (MI300X only)
+</span><span class="py">gollek.runners.rocm.use-managed-memory</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div></div>
+
+<h3 id="java-api-example-2">Java API Example</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.rocm.runner.RocmRunner</span><span class="o">;</span>
+
+<span class="nc">RocmRunner</span> <span class="n">runner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RocmRunner</span><span class="o">();</span>
+
+<span class="c1">// Configure for MI300X</span>
+<span class="nc">RunnerConfiguration</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">RunnerConfiguration</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"num_layers"</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"use_managed_memory"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>  <span class="c1">// MI300X zero-copy</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">runner</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">manifest</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+
+<span class="c1">// Check if unified memory is active</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Unified memory: "</span> <span class="o">+</span> <span class="n">runner</span><span class="o">.</span><span class="na">isUnifiedMemory</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h3 id="build-instructions-2">Build Instructions</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Prerequisites</span>
+<span class="nb">export </span><span class="nv">ROCM_PATH</span><span class="o">=</span>/opt/rocm
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$ROCM_PATH</span>/bin:<span class="nv">$PATH</span>
+
+<span class="c"># Install hipify-clang</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>hipify-clang
+
+<span class="c"># Build for MI300X (gfx942)</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-rocm/src/main/cpp/rocm <span class="se">\</span>
+    <span class="nv">AMDGPU_TARGET</span><span class="o">=</span>gfx942
+
+<span class="c"># Build for MI250X (gfx90a)</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-rocm/src/main/cpp/rocm <span class="se">\</span>
+    <span class="nv">AMDGPU_TARGET</span><span class="o">=</span>gfx90a
+
+<span class="c"># Build for multiple targets</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-kernel-rocm/src/main/cpp/rocm <span class="se">\</span>
+    <span class="nv">AMDGPU_TARGETS</span><span class="o">=</span><span class="s2">"gfx942 gfx90a gfx1100"</span>
+
+<span class="c"># Output</span>
+target/native/linux-x86_64/libgollek_rocm_gfx942.hsaco
+</code></pre></div></div>
+
+<h3 id="mi300x-optimization">MI300X Optimization</h3>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable unified memory (zero-copy)
+</span><span class="py">gollek.runners.rocm.use-managed-memory</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># Pre-fetch layers to GPU
+</span><span class="py">gollek.runners.rocm.prefetch-layers</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># Use FP8 tensor cores
+</span><span class="py">gollek.runners.rocm.use-fp8</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div></div>
+
+<p><strong>Expected performance:</strong> 1.5-2x faster than MI250X for large models</p>
+
+<hr />
+
+<h2 id="metal-kernel-module">Metal Kernel Module</h2>
+
+<h3 id="architecture-support-3">Architecture Support</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Chip</th>
+      <th>GPU Cores</th>
+      <th>Memory</th>
+      <th>Unified</th>
+      <th>Best For</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>M1</td>
+      <td>7-8</td>
+      <td>8-16 GB</td>
+      <td>✓</td>
+      <td>Entry-level</td>
+    </tr>
+    <tr>
+      <td>M1 Pro/Max</td>
+      <td>14-16</td>
+      <td>16-32 GB</td>
+      <td>✓</td>
+      <td>Development</td>
+    </tr>
+    <tr>
+      <td>M2</td>
+      <td>8-10</td>
+      <td>8-24 GB</td>
+      <td>✓</td>
+      <td>General use</td>
+    </tr>
+    <tr>
+      <td>M2 Pro/Max/Ultra</td>
+      <td>16-38</td>
+      <td>16-96 GB</td>
+      <td>✓</td>
+      <td>Production</td>
+    </tr>
+    <tr>
+      <td>M3</td>
+      <td>8-10</td>
+      <td>8-24 GB</td>
+      <td>✓</td>
+      <td>General use</td>
+    </tr>
+    <tr>
+      <td>M3 Pro/Max</td>
+      <td>14-40</td>
+      <td>18-128 GB</td>
+      <td>✓</td>
+      <td>Production</td>
+    </tr>
+    <tr>
+      <td>M4</td>
+      <td>8-10</td>
+      <td>8-16 GB</td>
+      <td>✓</td>
+      <td>Latest entry</td>
+    </tr>
+    <tr>
+      <td>M4 Pro/Max</td>
+      <td>14-40</td>
+      <td>24-128 GB</td>
+      <td>✓</td>
+      <td>Latest pro</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="features-2">Features</h3>
+
+<ul>
+  <li><strong>MPS Graph</strong>: Metal Performance Shaders acceleration</li>
+  <li><strong>Unified Memory</strong>: Zero-copy CPU/GPU shared DRAM</li>
+  <li><strong>FlashAttention-4 Equivalent</strong>: MPSGraph SDPA (macOS 14+)</li>
+  <li><strong>AMX Blocks</strong>: Apple silicon matrix acceleration</li>
+  <li><strong>Weight Offloading</strong>: Run large models with limited RAM</li>
+</ul>
+
+<h3 id="configuration-3">Configuration</h3>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enable Metal runner
+</span><span class="py">gollek.runners.metal.enabled</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># Runner mode: auto|standard|offload|force|disabled
+</span><span class="py">gollek.runners.metal.mode</span><span class="p">=</span><span class="s">auto</span>
+
+<span class="c"># Library path
+</span><span class="py">gollek.runners.metal.library-path</span><span class="p">=</span><span class="s">~/.gollek/libs/libgollek_metal.dylib</span>
+
+<span class="c"># Model dimensions
+</span><span class="py">gollek.runners.metal.num-layers</span><span class="p">=</span><span class="s">32</span>
+<span class="py">gollek.runners.metal.num-heads</span><span class="p">=</span><span class="s">32</span>
+<span class="py">gollek.runners.metal.head-dim</span><span class="p">=</span><span class="s">128</span>
+<span class="py">gollek.runners.metal.model-dim</span><span class="p">=</span><span class="s">4096</span>
+</code></pre></div></div>
+
+<h3 id="java-api-example-3">Java API Example</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.metal.runner.MetalRunner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.metal.detection.AppleSiliconDetector</span><span class="o">;</span>
+
+<span class="c1">// Detect Apple Silicon</span>
+<span class="nc">AppleSiliconDetector</span> <span class="n">detector</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AppleSiliconDetector</span><span class="o">();</span>
+<span class="kt">var</span> <span class="n">caps</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="na">detect</span><span class="o">();</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Chip: "</span> <span class="o">+</span> <span class="n">caps</span><span class="o">.</span><span class="na">chipName</span><span class="o">());</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Unified memory: "</span> <span class="o">+</span> <span class="n">caps</span><span class="o">.</span><span class="na">unifiedMemoryGb</span><span class="o">()</span> <span class="o">+</span> <span class="s">" GB"</span><span class="o">);</span>
+
+<span class="c1">// Create runner</span>
+<span class="nc">MetalRunner</span> <span class="n">runner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MetalRunner</span><span class="o">();</span>
+
+<span class="c1">// Use weight offloading for large models on limited RAM</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">caps</span><span class="o">.</span><span class="na">unifiedMemoryBytes</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">32L</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"gollek.runners.metal.mode"</span><span class="o">,</span> <span class="s">"offload"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="n">runner</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">manifest</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="build-instructions-3">Build Instructions</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Prerequisites - macOS 14+ with Xcode Command Line Tools</span>
+xcode-select <span class="nt">--install</span>
+
+<span class="c"># Build Metal bridge</span>
+make <span class="nt">-C</span> inference-gollek/extension/kernel/gollek-backend-metal/src/main/cpp/metal
+
+<span class="c"># Output</span>
+target/native/macos-aarch64/libgollek_metal.dylib
+
+<span class="c"># Install to default location</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> ~/.gollek/libs
+<span class="nb">cp </span>target/native/macos-aarch64/libgollek_metal.dylib ~/.gollek/libs/
+</code></pre></div></div>
+
+<h3 id="metal-runner-modes">Metal Runner Modes</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Description</th>
+      <th>Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">auto</code></td>
+      <td>Detect and select based on model size</td>
+      <td>Default</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">standard</code></td>
+      <td>Load full model to unified memory</td>
+      <td>M2 Max+ with 32GB+</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">offload</code></td>
+      <td>Stream weights from CPU to GPU</td>
+      <td>M1/M2 with &lt;32GB</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">force</code></td>
+      <td>Use Metal even if detection fails</td>
+      <td>Debug/testing</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">disabled</code></td>
+      <td>Don’t use Metal</td>
+      <td>CPU-only fallback</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="performance-by-chip">Performance by Chip</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Chip</th>
+      <th>Tokens/sec (7B)</th>
+      <th>Tokens/sec (70B)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>M1</td>
+      <td>15-20</td>
+      <td>3-5 (offload)</td>
+    </tr>
+    <tr>
+      <td>M1 Max</td>
+      <td>25-30</td>
+      <td>8-10 (offload)</td>
+    </tr>
+    <tr>
+      <td>M2 Ultra</td>
+      <td>40-50</td>
+      <td>15-18</td>
+    </tr>
+    <tr>
+      <td>M3 Max</td>
+      <td>45-55</td>
+      <td>18-22</td>
+    </tr>
+    <tr>
+      <td>M4 Max</td>
+      <td>50-60</td>
+      <td>20-25</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="kernel-architecture">Kernel Architecture</h2>
+
+<h3 id="common-design-pattern">Common Design Pattern</h3>
+
+<p>All kernel modules follow the same architecture:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│                    KernelRunner                         │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │
+│  │  RMSNorm    │  │   GEMM      │  │ FlashAttn   │     │
+│  │  Kernel     │  │  (Tensor)   │  │  (FA2/FA3)  │     │
+│  └─────────────┘  └─────────────┘  └─────────────┘     │
+│                                                          │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │
+│  │   SiLU      │  │  Paged KV   │  │  Unified    │     │
+│  │   FFN       │  │   Cache     │  │   Memory    │     │
+│  └─────────────┘  └─────────────┘  └─────────────┘     │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                  KernelBinding (FFM)                    │
+├─────────────────────────────────────────────────────────┤
+│  Native Library → GPU Driver API → Hardware            │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<h3 id="component-classes">Component Classes</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Class</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*Runner</code></td>
+      <td>Main inference execution</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*Binding</code></td>
+      <td>FFM native library binding</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*Capabilities</code></td>
+      <td>Device capability detection</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*Detector</code></td>
+      <td>Hardware detection logic</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*RunnerMode</code></td>
+      <td>Configuration enum</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*CpuFallback</code></td>
+      <td>CPU fallback implementations</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="troubleshooting-guide">Troubleshooting Guide</h2>
+
+<h3 id="cudablackwell-issues">CUDA/Blackwell Issues</h3>
+
+<h4 id="cuda-not-found-or-cuinit-failed">“CUDA not found” or “cuInit failed”</h4>
+
+<p><strong>Symptoms:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RunnerInitializationException: CUDA unavailable on this host
+</code></pre></div></div>
+
+<p><strong>Solutions:</strong></p>
+
+<ol>
+  <li><strong>Verify CUDA installation:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvcc <span class="nt">--version</span>
+nvidia-smi
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Check library paths:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">CUDA_HOME</span><span class="o">=</span>/usr/local/cuda
+<span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$CUDA_HOME</span>/lib64:<span class="nv">$LD_LIBRARY_PATH</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Verify GPU visibility:</strong>
+```bash
+    <h1 id="check-if-gpu-is-visible">Check if GPU is visible</h1>
+    <p>echo $CUDA_VISIBLE_DEVICES</p>
+  </li>
+</ol>
+
+<h1 id="should-show-device-ids-eg-0-or-01">Should show device IDs (e.g., “0” or “0,1”)</h1>
+<h1 id="if-empty-or-none-set-it">If empty or “none”, set it:</h1>
+<p>export CUDA_VISIBLE_DEVICES=0</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### "Out of memory" errors
+
+**Symptoms:**
+</code></pre></div></div>
+<p>cudaErrorMemoryAllocation: out of memory</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+**Solutions:**
+
+1. **Reduce batch size:**
+```properties
+gollek.runners.cuda.max-batch-size=1
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Enable unified memory (A100/H100 only):</strong>
+    <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.cuda.use-unified-memory</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Use weight offloading:</strong>
+    <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.cuda.mode</span><span class="p">=</span><span class="s">offload</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Monitor GPU memory:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>watch <span class="nt">-n</span> 1 nvidia-smi
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="compute-capability-mismatch">“Compute capability mismatch”</h4>
+
+<p><strong>Symptoms:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Invalid device image - no kernel image is available
+</code></pre></div></div>
+
+<p><strong>Solution:</strong> Rebuild kernels for your GPU architecture:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># A100</span>
+make <span class="nv">CUDA_ARCH</span><span class="o">=</span>sm_80
+
+<span class="c"># H100</span>
+make <span class="nv">CUDA_ARCH</span><span class="o">=</span>sm_90
+
+<span class="c"># RTX 4090</span>
+make <span class="nv">CUDA_ARCH</span><span class="o">=</span>sm_89
+</code></pre></div></div>
+
+<h3 id="rocm-issues">ROCm Issues</h3>
+
+<h4 id="hip-library-not-found">“HIP library not found”</h4>
+
+<p><strong>Symptoms:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UnsatisfiedLinkError: libamdhip64.so not found
+</code></pre></div></div>
+
+<p><strong>Solutions:</strong></p>
+
+<ol>
+  <li><strong>Install ROCm:</strong>
+```bash
+    <h1 id="ubuntudebian">Ubuntu/Debian</h1>
+    <p>sudo apt install rocm-dkms</p>
+  </li>
+</ol>
+
+<h1 id="verify-installation">Verify installation</h1>
+<p>rocminfo | grep “Name:”</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+2. **Set library path:**
+```bash
+export ROCM_PATH=/opt/rocm
+export LD_LIBRARY_PATH=$ROCM_PATH/lib:$LD_LIBRARY_PATH
+</code></pre></div></div>
+
+<h4 id="kernel-load-failed">“Kernel load failed”</h4>
+
+<p><strong>Symptoms:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Could not load kernel: gollek_rocm_gfx942.hsaco
+</code></pre></div></div>
+
+<p><strong>Solution:</strong> Build for correct architecture:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># MI300X</span>
+make <span class="nv">AMDGPU_TARGET</span><span class="o">=</span>gfx942
+
+<span class="c"># MI250X</span>
+make <span class="nv">AMDGPU_TARGET</span><span class="o">=</span>gfx90a
+
+<span class="c"># Verify target</span>
+rocminfo | <span class="nb">grep</span> <span class="s2">"gfx"</span>
+</code></pre></div></div>
+
+<h3 id="metal-issues">Metal Issues</h3>
+
+<h4 id="metal-unavailable">“Metal unavailable”</h4>
+
+<p><strong>Symptoms:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MetalCapabilities{unavailable: Not Apple Silicon}
+</code></pre></div></div>
+
+<p><strong>Solutions:</strong></p>
+
+<ol>
+  <li><strong>Verify Apple Silicon:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">uname</span> <span class="nt">-m</span>  <span class="c"># Should show "arm64"</span>
+sysctl <span class="nt">-n</span> machdep.cpu.brand_string
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Check macOS version:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sw_vers <span class="nt">-productVersion</span>  <span class="c"># Should be 14.0+</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Install Xcode tools:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcode-select <span class="nt">--install</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="library-not-loaded">“Library not loaded”</h4>
+
+<p><strong>Symptoms:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UnsatisfiedLinkError: libgollek_metal.dylib not found
+</code></pre></div></div>
+
+<p><strong>Solution:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Build and install</span>
+make <span class="nt">-C</span> src/main/cpp/metal
+<span class="nb">mkdir</span> <span class="nt">-p</span> ~/.gollek/libs
+<span class="nb">cp </span>target/native/macos-aarch64/libgollek_metal.dylib ~/.gollek/libs/
+</code></pre></div></div>
+
+<h4 id="oom-on-large-models">OOM on large models</h4>
+
+<p><strong>Symptoms:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Metal error: Out of memory
+</code></pre></div></div>
+
+<p><strong>Solutions:</strong></p>
+
+<ol>
+  <li><strong>Use weight offloading mode:</strong>
+    <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.metal.mode</span><span class="p">=</span><span class="s">offload</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Reduce model size:</strong>
+    <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.metal.num-layers</span><span class="p">=</span><span class="s">16  # Instead of 32</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Close other applications</strong> to free unified memory</li>
+</ol>
+
+<hr />
+
+<h2 id="deployment-guide">Deployment Guide</h2>
+
+<h3 id="docker-deployment">Docker Deployment</h3>
+
+<h4 id="cuda-container">CUDA Container</h4>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> nvidia/cuda:12.3.0-runtime-ubuntu22.04</span>
+
+<span class="c"># Install Java 21</span>
+<span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>    openjdk-21-jdk <span class="se">\
+</span>    <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+
+<span class="c"># Set environment</span>
+<span class="k">ENV</span><span class="s"> CUDA_HOME=/usr/local/cuda</span>
+<span class="k">ENV</span><span class="s"> LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH</span>
+
+<span class="c"># Copy application</span>
+<span class="k">COPY</span><span class="s"> target/gollek-app.jar /app/gollek-app.jar</span>
+<span class="k">COPY</span><span class="s"> libgollek_cuda.so /usr/local/lib/</span>
+
+<span class="c"># Configure</span>
+<span class="k">ENV</span><span class="s"> GOLLEK_RUNNERS_CUDA_ENABLED=true</span>
+<span class="k">ENV</span><span class="s"> GOLLEK_RUNNERS_CUDA_DEVICE_ID=0</span>
+
+<span class="k">WORKDIR</span><span class="s"> /app</span>
+<span class="k">CMD</span><span class="s"> ["java", "-jar", "gollek-app.jar"]</span>
+</code></pre></div></div>
+
+<p><strong>Run with GPU:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--gpus</span> all <span class="nt">-p</span> 8080:8080 gollek-cuda-app
+</code></pre></div></div>
+
+<h4 id="blackwell-container">Blackwell Container</h4>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> nvidia/cuda:12.3.0-runtime-ubuntu22.04</span>
+
+<span class="c"># Blackwell requires CUDA 12.3+</span>
+<span class="k">ENV</span><span class="s"> CUDA_VERSION=12.3.0</span>
+
+<span class="c"># Install Java 21</span>
+<span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> openjdk-21-jdk
+
+<span class="c"># Copy Blackwell library</span>
+<span class="k">COPY</span><span class="s"> libgollek_blackwell.so /usr/local/lib/</span>
+
+<span class="k">ENV</span><span class="s"> GOLLEK_RUNNERS_BLACKWELL_ENABLED=true</span>
+<span class="k">ENV</span><span class="s"> GOLLEK_RUNNERS_BLACKWELL_USE_FP4=true</span>
+<span class="k">ENV</span><span class="s"> GOLLEK_RUNNERS_BLACKWELL_USE_TMEM=true</span>
+
+<span class="k">CMD</span><span class="s"> ["java", "-jar", "gollek-app.jar"]</span>
+</code></pre></div></div>
+
+<h4 id="rocm-container">ROCm Container</h4>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> rocm/dev-ubuntu-22.04:6.0</span>
+
+<span class="c"># Install Java 21</span>
+<span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> openjdk-21-jdk
+
+<span class="k">ENV</span><span class="s"> ROCM_PATH=/opt/rocm</span>
+<span class="k">ENV</span><span class="s"> LD_LIBRARY_PATH=$ROCM_PATH/lib:$LD_LIBRARY_PATH</span>
+
+<span class="k">COPY</span><span class="s"> libgollek_rocm_gfx942.hsaco /opt/gollek/lib/</span>
+
+<span class="k">ENV</span><span class="s"> GOLLEK_RUNNERS_ROCM_ENABLED=true</span>
+<span class="k">ENV</span><span class="s"> GOLLEK_RUNNERS_ROCM_DEVICE_ID=0</span>
+
+<span class="k">CMD</span><span class="s"> ["java", "-jar", "gollek-app.jar"]</span>
+</code></pre></div></div>
+
+<p><strong>Run with ROCm GPU:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--device</span> /dev/kfd <span class="nt">--device</span> /dev/dri <span class="se">\</span>
+  <span class="nt">-v</span> /opt/rocm:/opt/rocm <span class="se">\</span>
+  gollek-rocm-app
+</code></pre></div></div>
+
+<h3 id="kubernetes-deployment">Kubernetes Deployment</h3>
+
+<h4 id="cuda-pod-example">CUDA Pod Example</h4>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">gollek-cuda-inference</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">containers</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">gollek</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">gollek-ai/gollek-cuda:latest</span>
+    <span class="na">resources</span><span class="pi">:</span>
+      <span class="na">limits</span><span class="pi">:</span>
+        <span class="na">nvidia.com/gpu</span><span class="pi">:</span> <span class="m">1</span>  <span class="c1"># Request 1 GPU</span>
+    <span class="na">env</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">GOLLEK_RUNNERS_CUDA_ENABLED</span>
+      <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">true"</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">GOLLEK_RUNNERS_CUDA_DEVICE_ID</span>
+      <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">0"</span>
+    <span class="na">volumeMounts</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">model-storage</span>
+      <span class="na">mountPath</span><span class="pi">:</span> <span class="s">/models</span>
+  <span class="na">volumes</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">model-storage</span>
+    <span class="na">persistentVolumeClaim</span><span class="pi">:</span>
+      <span class="na">claimName</span><span class="pi">:</span> <span class="s">model-pvc</span>
+</code></pre></div></div>
+
+<h4 id="multi-gpu-deployment">Multi-GPU Deployment</h4>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spec</span><span class="pi">:</span>
+  <span class="na">containers</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">gollek</span>
+    <span class="na">resources</span><span class="pi">:</span>
+      <span class="na">limits</span><span class="pi">:</span>
+        <span class="na">nvidia.com/gpu</span><span class="pi">:</span> <span class="m">4</span>  <span class="c1"># Request 4 GPUs</span>
+    <span class="na">env</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">GOLLEK_RUNNERS_CUDA_DEVICE_ID</span>
+      <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">0,1,2,3"</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="benchmarking-guide">Benchmarking Guide</h2>
+
+<h3 id="running-benchmarks">Running Benchmarks</h3>
+
+<h4 id="cuda-benchmark">CUDA Benchmark</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single GPU benchmark</span>
+<span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span>0 <span class="se">\</span>
+java <span class="nt">-jar</span> benchmark.jar <span class="se">\</span>
+  <span class="nt">--runner</span> cuda <span class="se">\</span>
+  <span class="nt">--model</span> llama-3.2-3b <span class="se">\</span>
+  <span class="nt">--batch-size</span> 1,4,8,16 <span class="se">\</span>
+  <span class="nt">--precision</span> fp16,fp8 <span class="se">\</span>
+  <span class="nt">--duration</span> 60s
+
+<span class="c"># Multi-GPU benchmark</span>
+<span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span>0,1,2,3 <span class="se">\</span>
+java <span class="nt">-jar</span> benchmark.jar <span class="se">\</span>
+  <span class="nt">--runner</span> cuda <span class="se">\</span>
+  <span class="nt">--model</span> llama-3-70b <span class="se">\</span>
+  <span class="nt">--tensor-parallel</span> 4
+</code></pre></div></div>
+
+<h4 id="blackwell-benchmark">Blackwell Benchmark</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># FP4 vs FP8 comparison</span>
+<span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span>0 <span class="se">\</span>
+java <span class="nt">-jar</span> benchmark.jar <span class="se">\</span>
+  <span class="nt">--runner</span> blackwell <span class="se">\</span>
+  <span class="nt">--model</span> llama-3-70b <span class="se">\</span>
+  <span class="nt">--precision</span> fp4,fp8 <span class="se">\</span>
+  <span class="nt">--tmem-enabled</span> <span class="nb">true</span> <span class="se">\</span>
+  <span class="nt">--report</span> benchmark-report.md
+</code></pre></div></div>
+
+<h3 id="benchmark-metrics">Benchmark Metrics</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Description</th>
+      <th>Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Tokens/sec</strong></td>
+      <td>Generation throughput</td>
+      <td>&gt;50 (7B), &gt;20 (70B)</td>
+    </tr>
+    <tr>
+      <td><strong>Time to First Token</strong></td>
+      <td>Prefill latency</td>
+      <td>&lt;100ms</td>
+    </tr>
+    <tr>
+      <td><strong>GPU Memory</strong></td>
+      <td>VRAM usage</td>
+      <td>&lt;80% of total</td>
+    </tr>
+    <tr>
+      <td><strong>Power Efficiency</strong></td>
+      <td>Tokens per watt</td>
+      <td>&gt;2 tokens/W</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="sample-benchmark-results">Sample Benchmark Results</h3>
+
+<h4 id="llama-32-3b-performance">Llama-3.2-3B Performance</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Tokens/sec</th>
+      <th>TTFT (ms)</th>
+      <th>Memory (GB)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A100 (FP16)</td>
+      <td>45</td>
+      <td>25</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>H100 (FP8)</td>
+      <td>95</td>
+      <td>15</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>B200 (FP4)</td>
+      <td>180</td>
+      <td>10</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>MI300X (FP16)</td>
+      <td>55</td>
+      <td>22</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>M3 Max</td>
+      <td>50</td>
+      <td>30</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="llama-3-70b-performance">Llama-3-70B Performance</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Tokens/sec</th>
+      <th>TTFT (ms)</th>
+      <th>Memory (GB)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A100 80GB (FP16)</td>
+      <td>12</td>
+      <td>80</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <td>H100 80GB (FP8)</td>
+      <td>28</td>
+      <td>45</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>B200 180GB (FP4)</td>
+      <td>55</td>
+      <td>25</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <td>MI300X 192GB</td>
+      <td>32</td>
+      <td>40</td>
+      <td>42</td>
+    </tr>
+    <tr>
+      <td>M3 Max 128GB</td>
+      <td>18</td>
+      <td>60</td>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="performance-optimization">Performance Optimization</h3>
+
+<ol>
+  <li><strong>Use unified memory</strong> on A100/H100/B200/MI300X for zero-copy</li>
+  <li><strong>Enable FlashAttention</strong> for 2-3x speedup on attention layers</li>
+  <li><strong>Use lower precision</strong> (FP8/FP4) when accuracy allows</li>
+  <li><strong>Pin batch sizes</strong> to multiples of warp size (32 for NVIDIA, 64 for AMD)</li>
+  <li><strong>Pre-allocate KV cache</strong> for long context inference</li>
+</ol>
+
+<h3 id="memory-management">Memory Management</h3>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set maximum GPU memory usage
+</span><span class="py">gollek.runners.cuda.max-memory-percent</span><span class="p">=</span><span class="s">90</span>
+
+<span class="c"># Enable memory-efficient attention
+</span><span class="py">gollek.runners.cuda.use-flash-attention</span><span class="p">=</span><span class="s">true</span>
+
+<span class="c"># Pre-allocate KV cache blocks
+</span><span class="py">gollek.runners.cuda.kv-cache-blocks</span><span class="p">=</span><span class="s">1024</span>
+</code></pre></div></div>
+
+<h3 id="production-checklist">Production Checklist</h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />GPU drivers installed and verified</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />CUDA/ROCm/Metal libraries built for correct architecture</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Environment variables configured</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />GPU memory monitoring enabled</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Fallback to CPU configured</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Health checks implemented</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Metrics collection active</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Load testing completed</li>
+</ul>
+
+<hr />
+
+<h2 id="configuration-guide">Configuration Guide</h2>
+
+<p>For detailed optimization configuration options, see the <strong><a href="https://github.com/gollek-ai/gollek/tree/main/inference-gollek/extension/optimization/OPTIMIZATION_CONFIGURATION.md">Optimization Configuration Guide</a></strong>.</p>
+
+<h3 id="quick-configuration-reference">Quick Configuration Reference</h3>
+
+<h4 id="cuda-a100h100b200">CUDA (A100/H100/B200)</h4>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.cuda.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">gollek.runners.cuda.use-fp8</span><span class="p">=</span><span class="s">true      # Auto on H100+</span>
+<span class="py">gollek.runners.cuda.use-fp4</span><span class="p">=</span><span class="s">true      # Auto on B200</span>
+<span class="py">gollek.runners.cuda.use-unified-memory</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div></div>
+
+<h4 id="blackwell-b100b200gb200">Blackwell (B100/B200/GB200)</h4>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.blackwell.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">gollek.runners.blackwell.use-tmem</span><span class="p">=</span><span class="s">true    # 64MB on-chip</span>
+<span class="py">gollek.runners.blackwell.use-fp4</span><span class="p">=</span><span class="s">true     # 2x speedup</span>
+<span class="py">gollek.runners.blackwell.async-copy</span><span class="p">=</span><span class="s">true  # Overlap copy/compute</span>
+</code></pre></div></div>
+
+<h4 id="rocm-mi300xmi250x">ROCm (MI300X/MI250X)</h4>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.rocm.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">gollek.runners.rocm.use-managed-memory</span><span class="p">=</span><span class="s">true  # MI300X zero-copy</span>
+<span class="py">gollek.runners.rocm.use-fp8</span><span class="p">=</span><span class="s">true             # MI300X FP8 cores</span>
+<span class="py">gollek.runners.rocm.gpu-arch</span><span class="p">=</span><span class="s">gfx942          # Auto-detected</span>
+</code></pre></div></div>
+
+<h4 id="metal-m1m2m3m4">Metal (M1/M2/M3/M4)</h4>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">gollek.runners.metal.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">gollek.runners.metal.mode</span><span class="p">=</span><span class="s">auto          # Auto standard/offload</span>
+<span class="py">gollek.runners.metal.use-sdpa</span><span class="p">=</span><span class="s">true      # MPSGraph FA4 equiv (macOS 14+)</span>
+<span class="py">gollek.runners.metal.use-bf16</span><span class="p">=</span><span class="s">true      # M3/M4 BF16 support</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<h3 id="kernel-module-documentation">Kernel Module Documentation</h3>
+
+<ul>
+  <li><strong><a href="https://github.com/gollek-ai/gollek/tree/main/inference-gollek/extension/kernel/gollek-kernel-cuda">CUDA Kernel README</a></strong>
+    <ul>
+      <li>FlashAttention-2/3/4 auto-selection</li>
+      <li>FP8/FP4 tensor core optimization</li>
+      <li>Unified memory support (A100/H100/B200)</li>
+    </ul>
+  </li>
+  <li><strong><a href="https://github.com/gollek-ai/gollek/tree/main/inference-gollek/extension/kernel/gollek-kernel-blackwell">Blackwell Kernel README</a></strong>
+    <ul>
+      <li>FlashAttention-4 with TMEM (64MB on-chip)</li>
+      <li>FP4 tensor cores (2x FP8 throughput)</li>
+      <li>Async execution with stream wait/write</li>
+    </ul>
+  </li>
+  <li><strong><a href="https://github.com/gollek-ai/gollek/tree/main/inference-gollek/extension/kernel/gollek-kernel-rocm">ROCm Kernel README</a></strong>
+    <ul>
+      <li>FlashAttention-2/3 for MI300X/MI250X</li>
+      <li>Unified memory on MI300X (zero-copy)</li>
+      <li>FP8 tensor cores on MI300X</li>
+    </ul>
+  </li>
+  <li><strong><a href="https://github.com/gollek-ai/gollek/tree/main/inference-gollek/extension/kernel/gollek-backend-metal">Metal Kernel README</a></strong>
+    <ul>
+      <li>MPSGraph SDPA (FA4 equivalent for macOS 14+)</li>
+      <li>Unified memory on all Apple Silicon</li>
+      <li>Weight offloading for large models</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="optimization-integration">Optimization Integration</h3>
+
+<ul>
+  <li><strong><a href="https://github.com/gollek-ai/gollek/tree/main/inference-gollek/extension/optimization/OPTIMIZATION_INTEGRATION.md">Optimization Integration Guide</a></strong>
+    <ul>
+      <li>CudaOptimizationManager</li>
+      <li>BlackwellOptimizationManager</li>
+      <li>RocmOptimizationManager</li>
+      <li>MetalOptimizationManager</li>
+    </ul>
+  </li>
+  <li><strong>GGUF/llama.cpp note</strong>
+    <ul>
+      <li>GGUF uses llama.cpp and does not call the optimization managers directly.</li>
+      <li>The GGUF runner only detects installed optimization modules and exposes them as capabilities for visibility.</li>
+    </ul>
+  </li>
+  <li><strong>Optimization compatibility</strong></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Optimization Module</th>
+      <th>Scope</th>
+      <th>GGUF (llama.cpp)</th>
+      <th>Kernel Runners</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-ext-prompt-cache</code></td>
+      <td>Engine + KV cache</td>
+      <td>Detectable only</td>
+      <td>Supported</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-plugin-kv-cache</code></td>
+      <td>Kernel KV memory</td>
+      <td>Detectable only</td>
+      <td>Supported</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-ext-paged-attention</code></td>
+      <td>Kernel attention</td>
+      <td>Detectable only</td>
+      <td>Supported</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-ext-prefilldecode</code></td>
+      <td>Kernel prefill/decode</td>
+      <td>Detectable only</td>
+      <td>Supported</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-ext-hybridattn</code></td>
+      <td>Kernel attention</td>
+      <td>Detectable only</td>
+      <td>Supported</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-ext-fa3</code></td>
+      <td>Kernel attention</td>
+      <td>Detectable only</td>
+      <td>Supported</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-ext-fa4</code></td>
+      <td>Kernel attention</td>
+      <td>Detectable only</td>
+      <td>Supported</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="external-resources">External Resources</h3>
+
+<ul>
+  <li><a href="https://docs.nvidia.com/cuda/">NVIDIA CUDA Documentation</a></li>
+  <li><a href="https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/">NVIDIA Blackwell Architecture</a></li>
+  <li><a href="https://rocm.docs.amd.com/">AMD ROCm Documentation</a></li>
+  <li><a href="https://developer.apple.com/metal/">Apple Metal Documentation</a></li>
+  <li><a href="https://arxiv.org/abs/2603.05451">FlashAttention-4 Paper (arXiv:2603.05451)</a></li>
+  <li><a href="https://arxiv.org/abs/2307.08691">FlashAttention-3 Paper (arXiv:2307.08691)</a></li>
+  <li><a href="https://arxiv.org/abs/2412.06464">Hybrid Attention Paper (arXiv:2412.06464)</a></li>
+</ul>
+
+<h3 id="community">Community</h3>
+
+<ul>
+  <li><a href="https://github.com/gollek-ai/gollek/discussions">GitHub Discussions</a></li>
+  <li><a href="https://github.com/gollek-ai/gollek/issues">Issue Tracker</a></li>
+</ul>
+
+<hr />
+
+<p><a href="/features/">Back to Features</a>   <a href="/docs/runtime/architecture">View Architecture</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plugin System Architecture v2.0 | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Plugin System Architecture v2.0</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="plugin-system-architecture-v20">Plugin System Architecture v2.0</h1>
+
+<p>Flexible, agnostic, and portable plugin system with manifest-based discovery, modular deployment, and comprehensive SDK integration.</p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>The Gollek platform v2.0 features a <strong>manifest-based plugin system</strong> that is:</p>
+
+<ul>
+  <li>✅ <strong>Flexible</strong> - Plug in any plugin needed without hardcoded mappings</li>
+  <li>✅ <strong>Portable</strong> - Deploy as standalone (all-in-one JAR) or microservice</li>
+  <li>✅ <strong>Agnostic</strong> - No hardcoded plugin IDs or capabilities</li>
+  <li>✅ <strong>Extensible</strong> - Add new plugins without modifying core code</li>
+  <li>✅ <strong>Discoverable</strong> - Capability-based routing and discovery</li>
+</ul>
+
+<p>For detachable Hugging Face style architecture and tokenizer metadata, see <a href="/docs/plugins/model-family-plugins">Model Family Plugins</a>. Model-family plugins use the same core plugin contract but keep model knowledge separate from runner, kernel, and provider plugins.</p>
+
+<hr />
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│              Application Layer                          │
+│  CLI / Microservice / SDK                               │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│              Gollek SDK Core                            │
+│  - PluginAvailabilityChecker                            │
+│  - PluginDescriptor (manifest parsing)                  │
+│  - Capability Index                                     │
+│  - Exceptions                                           │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│              Plugin Discovery                           │
+│  - ServiceLoader (built-in)                             │
+│  - Manifest Parsing (dynamic)                           │
+│  - Capability Indexing                                  │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│              Plugin Layers                              │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │ Runners  │ │ Kernels  │ │Providers │ │  Opt.    │  │
+│  │  v2.0    │ │  v2.0    │ │  v2.0    │ │  v2.0    │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="deployment-modes">Deployment Modes</h2>
+
+<h3 id="standalone-mode">STANDALONE Mode</h3>
+
+<p><strong>Description</strong>: All plugins built-in, compiled in one JAR</p>
+
+<p><strong>Use Case</strong>: Simple deployment, no dynamic loading</p>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-Dgollek</span>.deployment.mode<span class="o">=</span>standalone
+</code></pre></div></div>
+
+<p><strong>Characteristics</strong>:</p>
+<ul>
+  <li>Only ServiceLoader discovery</li>
+  <li>No plugin directory scanning</li>
+  <li>All plugins included at build time</li>
+  <li>Fastest startup</li>
+  <li>Largest JAR size</li>
+</ul>
+
+<h3 id="microservice-mode">MICROSERVICE Mode</h3>
+
+<p><strong>Description</strong>: Dynamic plugin loading from plugin directory</p>
+
+<p><strong>Use Case</strong>: Flexible deployment, hot-reload support</p>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-Dgollek</span>.deployment.mode<span class="o">=</span>microservice
+<span class="nt">-Dgollek</span>.plugin.directory<span class="o">=</span>~/.gollek/plugins
+</code></pre></div></div>
+
+<p><strong>Characteristics</strong>:</p>
+<ul>
+  <li>ServiceLoader + directory scanning</li>
+  <li>Hot-reload support</li>
+  <li>Minimal base JAR</li>
+  <li>Slower startup (plugin loading)</li>
+  <li>Maximum flexibility</li>
+</ul>
+
+<h3 id="hybrid-mode-default">HYBRID Mode (Default)</h3>
+
+<p><strong>Description</strong>: Built-in + dynamic plugins</p>
+
+<p><strong>Use Case</strong>: Best of both worlds</p>
+
+<p><strong>Configuration</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-Dgollek</span>.deployment.mode<span class="o">=</span>hybrid
+</code></pre></div></div>
+
+<p><strong>Characteristics</strong>:</p>
+<ul>
+  <li>ServiceLoader (built-in plugins)</li>
+  <li>Directory scanning (dynamic plugins)</li>
+  <li>Balanced startup time</li>
+  <li>Flexible deployment</li>
+</ul>
+
+<hr />
+
+<h2 id="plugin-manifest-format">Plugin Manifest Format</h2>
+
+<h3 id="required-entries">Required Entries</h3>
+
+<pre><code class="language-manifest">Plugin-Id: gguf-runner
+Plugin-Type: runner
+Plugin-Version: 2.0.0
+Plugin-Name: GGUF Runner
+Plugin-Provider: tech.kayys.gollek.plugin.runner.gguf.GGUFRunnerPlugin
+</code></pre>
+
+<h3 id="optional-entries">Optional Entries</h3>
+
+<pre><code class="language-manifest"># Capabilities provided
+Plugin-Capabilities: gguf-inference, llama-architecture, mistral-architecture
+
+# Dependencies
+Plugin-Dependencies: kernel-plugin
+
+# Supported deployment modes
+Plugin-Deployment: standalone,microservice
+
+# Metadata
+Plugin-Author: Gollek Team
+Plugin-Vendor: Kayys.tech
+Plugin-License: MIT
+Plugin-GPU-Requirement: CUDA 11.0+
+Plugin-Performance-Speedup: 2-3x
+</code></pre>
+
+<hr />
+
+<h2 id="plugin-layers">Plugin Layers</h2>
+
+<h3 id="level-1-runner-plugins">Level 1: Runner Plugins</h3>
+
+<p><strong>Purpose</strong>: Model format support</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Runner</th>
+      <th>Formats</th>
+      <th>Capabilities</th>
+      <th>Deployment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>GGUF</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">.gguf</code></td>
+      <td>gguf-inference, llama-arch, mistral-arch</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>Safetensor</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">.safetensors</code></td>
+      <td>safetensor-inference, multimodal</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>ONNX</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">.onnx</code></td>
+      <td>onnx-inference, cpu-inference</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>LibTorch</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">.pt</code>, <code class="language-plaintext highlighter-rouge">.pth</code></td>
+      <td>libtorch-inference, pytorch-support</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>TensorRT</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">.engine</code></td>
+      <td>tensorrt-inference, nvidia-optimized</td>
+      <td>Microservice</td>
+    </tr>
+    <tr>
+      <td><strong>TFLite</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">.litertlm</code></td>
+      <td>litert-inference, mobile-optimized</td>
+      <td>All</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="level-2-kernel-plugins">Level 2: Kernel Plugins</h3>
+
+<p><strong>Purpose</strong>: Platform-specific GPU acceleration</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Kernel</th>
+      <th>Platform</th>
+      <th>Capabilities</th>
+      <th>Requirements</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>CUDA</strong></td>
+      <td>NVIDIA</td>
+      <td>cuda-acceleration, flash-attn-2, flash-attn-3</td>
+      <td>CUDA 11.0+, CC 6.0+</td>
+    </tr>
+    <tr>
+      <td><strong>Metal</strong></td>
+      <td>Apple</td>
+      <td>metal-acceleration, unified-memory</td>
+      <td>macOS, Apple Silicon</td>
+    </tr>
+    <tr>
+      <td><strong>ROCm</strong></td>
+      <td>AMD</td>
+      <td>rocm-acceleration, amd-gpu</td>
+      <td>ROCm 5.0+, MI250+</td>
+    </tr>
+    <tr>
+      <td><strong>DirectML</strong></td>
+      <td>Windows</td>
+      <td>directml-acceleration, directx-12</td>
+      <td>Windows 10+</td>
+    </tr>
+    <tr>
+      <td><strong>Blackwell</strong></td>
+      <td>NVIDIA B100/B200</td>
+      <td>blackwell-accel, fp4, tmem</td>
+      <td>CUDA 12.3+, CC 10.0+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="level-3-provider-plugins">Level 3: Provider Plugins</h3>
+
+<p><strong>Purpose</strong>: Cloud API integration</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Models</th>
+      <th>Capabilities</th>
+      <th>Deployment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>OpenAI</strong></td>
+      <td>GPT-4, GPT-3.5</td>
+      <td>openai-api, gpt-4, embeddings</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>Gemini</strong></td>
+      <td>Gemini Pro/Ultra</td>
+      <td>gemini-api, multimodal</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>Anthropic</strong></td>
+      <td>Claude 3</td>
+      <td>anthropic-api, claude-3</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>Cerebras</strong></td>
+      <td>Llama 3.1</td>
+      <td>cerebras-api, fast-inference</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td><strong>Mistral</strong></td>
+      <td>Mistral, Mixtral</td>
+      <td>mistral-api, mixtral</td>
+      <td>All</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="level-4-optimization-plugins">Level 4: Optimization Plugins</h3>
+
+<p><strong>Purpose</strong>: Performance enhancements</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Optimization</th>
+      <th>Speedup</th>
+      <th>Requirements</th>
+      <th>Capabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>FlashAttention-3</strong></td>
+      <td>2-3x</td>
+      <td>Hopper+ (CC 9.0+)</td>
+      <td>flash-attn-3, optimized-attn</td>
+    </tr>
+    <tr>
+      <td><strong>FlashAttention-4</strong></td>
+      <td>3-5x</td>
+      <td>Blackwell (CC 10.0+)</td>
+      <td>flash-attn-4, tmem-accel</td>
+    </tr>
+    <tr>
+      <td><strong>PagedAttention</strong></td>
+      <td>2-4x</td>
+      <td>Any CUDA</td>
+      <td>paged-attn, kv-cache-opt</td>
+    </tr>
+    <tr>
+      <td><strong>Prompt Cache</strong></td>
+      <td>5-10x*</td>
+      <td>Any</td>
+      <td>prompt-cache, repeated-prompts</td>
+    </tr>
+    <tr>
+      <td><strong>QLoRA</strong></td>
+      <td>2-3x</td>
+      <td>16GB+ VRAM</td>
+      <td>qlora, lora-adapters</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>*For repeated prompts</p>
+
+<hr />
+
+<h2 id="capability-based-discovery">Capability-Based Discovery</h2>
+
+<h3 id="how-it-works">How It Works</h3>
+
+<ol>
+  <li><strong>Plugin Loading</strong>: Plugins loaded via ServiceLoader or directory</li>
+  <li><strong>Manifest Parsing</strong>: Extract PluginDescriptor from JAR manifest</li>
+  <li><strong>Capability Indexing</strong>: Build index of capabilities → plugins</li>
+  <li><strong>Capability Checking</strong>: Applications check capabilities, not plugin IDs</li>
+</ol>
+
+<h3 id="usage-example">Usage Example</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">PluginAvailabilityChecker</span> <span class="n">pluginChecker</span><span class="o">;</span>
+
+<span class="c1">// Check capability</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">pluginChecker</span><span class="o">.</span><span class="na">hasCapability</span><span class="o">(</span><span class="s">"gguf-inference"</span><span class="o">))</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"GGUF inference available"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// Get plugins for capability</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">PluginDescriptor</span><span class="o">&gt;</span> <span class="n">plugins</span> <span class="o">=</span> 
+    <span class="n">pluginChecker</span><span class="o">.</span><span class="na">getPluginsForCapability</span><span class="o">(</span><span class="s">"cuda-acceleration"</span><span class="o">);</span>
+
+<span class="c1">// Get required plugins</span>
+<span class="nc">String</span> <span class="n">required</span> <span class="o">=</span> <span class="n">pluginChecker</span><span class="o">.</span><span class="na">getRequiredPluginsForCapability</span><span class="o">(</span>
+    <span class="s">"flash-attention-3"</span><span class="o">);</span>
+
+<span class="c1">// List all capabilities</span>
+<span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">capabilities</span> <span class="o">=</span> <span class="n">pluginChecker</span><span class="o">.</span><span class="na">getAvailableCapabilities</span><span class="o">();</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="installation">Installation</h2>
+
+<h3 id="option-1-download-plugins">Option 1: Download Plugins</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create plugin directory</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> ~/.gollek/plugins
+
+<span class="c"># Download plugins</span>
+wget https://gollek.ai/plugins/gollek-plugin-runner-gguf-2.0.0.jar
+wget https://gollek.ai/plugins/gollek-plugin-kernel-cuda-2.0.0.jar
+
+<span class="c"># Place in directory</span>
+<span class="nb">mv</span> <span class="k">*</span>.jar ~/.gollek/plugins/
+
+<span class="c"># Restart application</span>
+gollek run <span class="nt">--model</span> llama3-8b <span class="nt">--prompt</span> <span class="s2">"Hello"</span>
+</code></pre></div></div>
+
+<h3 id="option-2-cli-package-manager">Option 2: CLI Package Manager</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install all plugins</span>
+gollek <span class="nb">install</span> <span class="nt">--all</span>
+
+<span class="c"># Install specific plugin</span>
+gollek <span class="nb">install </span>gguf-runner
+
+<span class="c"># Install multiple</span>
+gollek <span class="nb">install </span>gguf-runner cuda-kernel fa3
+
+<span class="c"># List available</span>
+gollek plugin list
+
+<span class="c"># Check status</span>
+gollek plugin status
+</code></pre></div></div>
+
+<h3 id="option-3-build-from-source">Option 3: Build from Source</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Build all plugins</span>
+<span class="nb">cd </span>inference-gollek
+mvn clean <span class="nb">install</span> <span class="nt">-DskipTests</span>
+
+<span class="c"># Copy to plugin directory</span>
+find <span class="nb">.</span> <span class="nt">-name</span> <span class="s2">"*.jar"</span> <span class="nt">-path</span> <span class="s2">"*/target/*"</span> | <span class="se">\</span>
+  <span class="nb">grep</span> <span class="nt">-E</span> <span class="s2">"(runner|kernel|provider)"</span> | <span class="se">\</span>
+  xargs <span class="nt">-I</span> <span class="o">{}</span> <span class="nb">cp</span> <span class="o">{}</span> ~/.gollek/plugins/
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="recommended-setups">Recommended Setups</h2>
+
+<h3 id="minimal-local-inference">Minimal Local Inference</h3>
+
+<p><strong>Use Case</strong>: Run local models with GPU acceleration</p>
+
+<p><strong>Required Plugins</strong>:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gguf-runner</code> - GGUF format support</li>
+  <li><code class="language-plaintext highlighter-rouge">cuda-kernel</code> OR <code class="language-plaintext highlighter-rouge">metal-kernel</code> - GPU acceleration</li>
+</ul>
+
+<p><strong>Installation</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek <span class="nb">install </span>gguf-runner cuda-kernel
+<span class="c"># OR for Apple Silicon</span>
+gollek <span class="nb">install </span>gguf-runner metal-kernel
+</code></pre></div></div>
+
+<p><strong>Performance</strong>:</p>
+<ul>
+  <li>Startup: ~2-3 seconds</li>
+  <li>Memory: ~500 MB base</li>
+  <li>Speedup: 5-10x (vs CPU)</li>
+</ul>
+
+<h3 id="full-local-inference">Full Local Inference</h3>
+
+<p><strong>Use Case</strong>: Maximum performance for local models</p>
+
+<p><strong>Required Plugins</strong>:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gguf-runner</code> - GGUF format</li>
+  <li><code class="language-plaintext highlighter-rouge">safetensor-runner</code> - Safetensor format</li>
+  <li><code class="language-plaintext highlighter-rouge">cuda-kernel</code> - CUDA acceleration</li>
+  <li><code class="language-plaintext highlighter-rouge">flash-attention-3</code> - FA3 (Hopper+)</li>
+  <li><code class="language-plaintext highlighter-rouge">paged-attention</code> - PagedAttention</li>
+</ul>
+
+<p><strong>Installation</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek <span class="nb">install </span>gguf-runner safetensor-runner cuda-kernel fa3 paged-attention
+</code></pre></div></div>
+
+<p><strong>Performance</strong>:</p>
+<ul>
+  <li>Startup: ~4-5 seconds</li>
+  <li>Memory: ~800 MB base</li>
+  <li>Speedup: 15-30x (vs CPU baseline)</li>
+</ul>
+
+<h3 id="cloud-inference">Cloud Inference</h3>
+
+<p><strong>Use Case</strong>: Cloud provider only</p>
+
+<p><strong>Required Plugins</strong>:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">openai-provider</code> OR <code class="language-plaintext highlighter-rouge">gemini-provider</code></li>
+</ul>
+
+<p><strong>Installation</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek <span class="nb">install </span>openai-provider
+<span class="c"># OR</span>
+gollek <span class="nb">install </span>gemini-provider
+</code></pre></div></div>
+
+<p><strong>Performance</strong>:</p>
+<ul>
+  <li>Startup: ~1-2 seconds</li>
+  <li>Memory: ~300 MB base</li>
+  <li>Latency: Network dependent</li>
+</ul>
+
+<h3 id="hybrid-local--cloud">Hybrid (Local + Cloud)</h3>
+
+<p><strong>Use Case</strong>: Local with cloud fallback</p>
+
+<p><strong>Required Plugins</strong>:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gguf-runner</code> - Local GGUF models</li>
+  <li><code class="language-plaintext highlighter-rouge">cuda-kernel</code> - GPU acceleration</li>
+  <li><code class="language-plaintext highlighter-rouge">openai-provider</code> - Cloud fallback</li>
+</ul>
+
+<p><strong>Installation</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek <span class="nb">install </span>gguf-runner cuda-kernel openai-provider
+</code></pre></div></div>
+
+<p><strong>Performance</strong>:</p>
+<ul>
+  <li>Startup: ~3 seconds</li>
+  <li>Memory: ~600 MB base</li>
+  <li>Flexibility: Maximum</li>
+</ul>
+
+<hr />
+
+<h2 id="error-handling">Error Handling</h2>
+
+<h3 id="no-plugins-available">No Plugins Available</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>╔═══════════════════════════════════════════════════════════╗
+║  ⚠️  NO PLUGINS AVAILABLE                                ║
+╚═══════════════════════════════════════════════════════════╝
+
+📦 INSTALLATION OPTIONS:
+
+   Option 1: Download Plugins
+   ────────────────────────────
+   1. Visit: https://gollek.ai/plugins
+   2. Download plugins you need
+   3. Place in: ~/.gollek/plugins
+   4. Restart application
+
+   Option 2: Use Package Manager
+   ──────────────────────────────
+   gollek install --all
+   gollek install &lt;plugin-id&gt;
+
+📁 PLUGIN DIRECTORY: ~/.gollek/plugins
+   Status: ✓ Exists
+
+🔍 AVAILABLE CAPABILITIES:
+   • gguf-inference
+   • cuda-acceleration
+   • metal-acceleration
+
+💡 TIP: Plugins declare capabilities in manifest.
+   Check JAR manifest for Plugin-Capabilities entry.
+</code></pre></div></div>
+
+<h3 id="plugin-not-found">Plugin Not Found</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❌ Provider 'openai' is not available.
+
+📦 Plugin directory: ~/.gollek/plugins
+
+🔍 Available providers:
+   - gemini (Gemini Provider)
+   - anthropic (Anthropic Provider)
+</code></pre></div></div>
+
+<h3 id="capability-not-available">Capability Not Available</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❌ Capability 'flash-attention-3' is not available.
+
+📦 Required plugins:
+   • flash-attention-3
+     Requires: NVIDIA Hopper+ (H100), CUDA 12.0+
+     Minimum compute capability: 9.0
+
+📦 To install:
+   1. Download from: https://gollek.ai/plugins
+   2. Place in: ~/.gollek/plugins
+   3. Restart application
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="performance-comparison">Performance Comparison</h2>
+
+<h3 id="startup-time">Startup Time</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Setup</th>
+      <th>Plugins</th>
+      <th>Startup</th>
+      <th>Memory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Minimal Local</strong></td>
+      <td>GGUF + CUDA</td>
+      <td>~2-3s</td>
+      <td>~500 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Full Local</strong></td>
+      <td>GGUF + Safetensor + CUDA + FA3 + PagedAttn</td>
+      <td>~4-5s</td>
+      <td>~800 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud Only</strong></td>
+      <td>OpenAI Provider</td>
+      <td>~1-2s</td>
+      <td>~300 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Hybrid</strong></td>
+      <td>GGUF + CUDA + OpenAI</td>
+      <td>~3s</td>
+      <td>~600 MB</td>
+    </tr>
+    <tr>
+      <td><strong>All Plugins</strong></td>
+      <td>Everything</td>
+      <td>~8-10s</td>
+      <td>~1.5 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="inference-performance-llama-3-8b-a100">Inference Performance (Llama-3-8B, A100)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th>Tokens/s</th>
+      <th>VRAM</th>
+      <th>Speedup</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU Only</td>
+      <td>20</td>
+      <td>16 GB</td>
+      <td>1.0x</td>
+    </tr>
+    <tr>
+      <td>+ CUDA Kernel</td>
+      <td>100</td>
+      <td>16 GB</td>
+      <td>5.0x</td>
+    </tr>
+    <tr>
+      <td>+ FlashAttention-3</td>
+      <td>280</td>
+      <td>16 GB</td>
+      <td>14.0x</td>
+    </tr>
+    <tr>
+      <td>+ PagedAttention</td>
+      <td>350</td>
+      <td>13 GB</td>
+      <td>17.5x</td>
+    </tr>
+    <tr>
+      <td>+ Prompt Cache*</td>
+      <td>500</td>
+      <td>18 GB</td>
+      <td>25.0x</td>
+    </tr>
+    <tr>
+      <td><strong>All Combined</strong></td>
+      <td><strong>600</strong></td>
+      <td><strong>14 GB</strong></td>
+      <td><strong>30.0x</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>*For cached prompts</p>
+
+<hr />
+
+<h2 id="building-plugins">Building Plugins</h2>
+
+<h3 id="maven-pom-configuration">Maven POM Configuration</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;project&gt;</span>
+    ...
+    <span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>3.5.0<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;archive&gt;</span>
+                        <span class="nt">&lt;manifest&gt;</span>
+                            <span class="nt">&lt;addDefaultImplementationEntries&gt;</span>true<span class="nt">&lt;/addDefaultImplementationEntries&gt;</span>
+                        <span class="nt">&lt;/manifest&gt;</span>
+                        <span class="nt">&lt;manifestEntries&gt;</span>
+                            <span class="c">&lt;!-- Required --&gt;</span>
+                            <span class="nt">&lt;Plugin-Id&gt;</span>gguf-runner<span class="nt">&lt;/Plugin-Id&gt;</span>
+                            <span class="nt">&lt;Plugin-Type&gt;</span>runner<span class="nt">&lt;/Plugin-Type&gt;</span>
+                            <span class="nt">&lt;Plugin-Version&gt;</span>${project.version}<span class="nt">&lt;/Plugin-Version&gt;</span>
+                            <span class="nt">&lt;Plugin-Name&gt;</span>GGUF Runner<span class="nt">&lt;/Plugin-Name&gt;</span>
+                            <span class="nt">&lt;Plugin-Provider&gt;</span>tech.kayys.gollek.plugin.runner.gguf.GGUFRunnerPlugin<span class="nt">&lt;/Plugin-Provider&gt;</span>
+                            
+                            <span class="c">&lt;!-- Optional --&gt;</span>
+                            <span class="nt">&lt;Plugin-Capabilities&gt;</span>gguf-inference, llama-architecture<span class="nt">&lt;/Plugin-Capabilities&gt;</span>
+                            <span class="nt">&lt;Plugin-Deployment&gt;</span>standalone,microservice,hybrid<span class="nt">&lt;/Plugin-Deployment&gt;</span>
+                            <span class="nt">&lt;Plugin-Performance-Speedup&gt;</span>1x (baseline)<span class="nt">&lt;/Plugin-Performance-Speedup&gt;</span>
+                        <span class="nt">&lt;/manifestEntries&gt;</span>
+                    <span class="nt">&lt;/archive&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="testing">Testing</h2>
+
+<h3 id="plugin-availability-test">Plugin Availability Test</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@QuarkusTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PluginAvailabilityTest</span> <span class="o">{</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="nc">PluginAvailabilityChecker</span> <span class="n">pluginChecker</span><span class="o">;</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testCapabilities</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Check capability</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">pluginChecker</span><span class="o">.</span><span class="na">hasCapability</span><span class="o">(</span><span class="s">"gguf-inference"</span><span class="o">));</span>
+        
+        <span class="c1">// Get plugins for capability</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">PluginDescriptor</span><span class="o">&gt;</span> <span class="n">plugins</span> <span class="o">=</span> 
+            <span class="n">pluginChecker</span><span class="o">.</span><span class="na">getPluginsForCapability</span><span class="o">(</span><span class="s">"cuda-acceleration"</span><span class="o">);</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">plugins</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+        
+        <span class="c1">// List all capabilities</span>
+        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">capabilities</span> <span class="o">=</span> <span class="n">pluginChecker</span><span class="o">.</span><span class="na">getAvailableCapabilities</span><span class="o">();</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">capabilities</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testDeploymentMode</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Check deployment mode</span>
+        <span class="n">assertEquals</span><span class="o">(</span>
+            <span class="nc">DeploymentMode</span><span class="o">.</span><span class="na">HYBRID</span><span class="o">,</span>
+            <span class="n">pluginChecker</span><span class="o">.</span><span class="na">getDeploymentMode</span><span class="o">());</span>
+        
+        <span class="c1">// Check plugin directory</span>
+        <span class="n">assertNotNull</span><span class="o">(</span><span class="n">pluginChecker</span><span class="o">.</span><span class="na">getPluginDirectory</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong><a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/MANIFEST_BASED_PLUGIN_SYSTEM.md">Manifest-Based Plugin System Guide</a></strong> - Complete guide</li>
+  <li><strong><a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/MODULAR_PLUGIN_DEPLOYMENT.md">Modular Deployment Strategy</a></strong> - Deployment guide</li>
+  <li><strong><a href="/docs/plugins/enhanced-plugin-system-v2">Enhanced Plugin System v2.0</a></strong> - v2.0 features</li>
+  <li><strong><a href="/docs/runtime/safetensor-runner-integration">Safetensor Integration</a></strong> - Safetensor runner</li>
+  <li><strong><a href="https://gollek.ai/plugins">Plugin Repository</a></strong> - Download plugins</li>
+</ul>
+
+<hr />
+
+<p><a href="/docs/runtime/architecture">Back to Architecture</a>   <a href="/docs/plugins/enhanced-plugin-system-v2">Enhanced Plugin System</a>   <a href="/docs/runtime/gpu-runtime-docs">GPU Runtime Docs</a>   <a href="/docs/plugins/runner-plugins">Runner Plugins</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

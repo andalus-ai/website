@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safetensor Runner Integration | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Safetensor Runner Integration</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="safetensor-runner-integration">Safetensor Runner Integration</h1>
+
+<p>Comprehensive Safetensor format support with v2.0 plugin system, multimodal processing, and LibTorch integration.</p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>The Safetensor runner has been enhanced with v2.0 plugin system features and integrated with multimodal processing capabilities, providing:</p>
+
+<ul>
+  <li><strong>Type-Safe Operations</strong> - Generic <code class="language-plaintext highlighter-rouge">RunnerResult&lt;T&gt;</code> with compile-time safety</li>
+  <li><strong>Comprehensive Validation</strong> - Backend health, device check, memory validation</li>
+  <li><strong>Multimodal Processing</strong> - Text, Image, Audio support</li>
+  <li><strong>LibTorch Integration</strong> - Direct Safetensor model loading for LibTorch runner</li>
+  <li><strong>Multi-Device Support</strong> - CPU, CUDA, MPS acceleration</li>
+  <li><strong>Flash Attention</strong> - Optimized attention mechanisms</li>
+</ul>
+
+<hr />
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│              SafetensorRunnerPlugin                     │
+│  - RunnerPlugin SPI v2.0                                │
+│  - DirectSafetensorBackend                              │
+│  - Multimodal Processor                                 │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│         SafetensorMultimodalProcessor                   │
+│  - Text processing                                      │
+│  - Vision processing (images)                           │
+│  - Audio processing                                     │
+│  - Streaming support                                    │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│              DirectSafetensorBackend                    │
+│  - FFM-based loading                                    │
+│  - Sharded model support                                │
+│  - LRU caching                                          │
+│  - GPU acceleration                                     │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="safetensor-runner-plugin-v20">Safetensor Runner Plugin (v2.0)</h2>
+
+<h3 id="features">Features</h3>
+
+<ul>
+  <li>✅ Comprehensive validation (backend health, device, memory)</li>
+  <li>✅ Lifecycle management (initialize/health/shutdown)</li>
+  <li>✅ Type-safe operations (INFER, EMBED, CLASSIFY)</li>
+  <li>✅ Error handling with specific exceptions</li>
+  <li>✅ Health monitoring with backend details</li>
+  <li>✅ Support for 17+ architectures</li>
+  <li>✅ Multi-device support (CPU, CUDA, MPS)</li>
+  <li>✅ Flash attention support</li>
+  <li>✅ Multimodal processing integration</li>
+</ul>
+
+<h3 id="supported-formats">Supported Formats</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.safetensors</code> - Safetensor format (Hugging Face)</li>
+  <li><code class="language-plaintext highlighter-rouge">.safetensor</code> - Alternative extension</li>
+  <li><code class="language-plaintext highlighter-rouge">.gguf</code> - GGUF format (via conversion)</li>
+  <li><code class="language-plaintext highlighter-rouge">.bin</code> - PyTorch bin format</li>
+</ul>
+
+<h3 id="supported-architectures">Supported Architectures</h3>
+
+<p><strong>Language Models</strong> (14 architectures):</p>
+<ul>
+  <li>Llama 2/3/3.1</li>
+  <li>Mistral/Mixtral</li>
+  <li>Qwen/Qwen2</li>
+  <li>Gemma/Gemma2</li>
+  <li>Phi/Phi2/Phi3</li>
+  <li>Falcon</li>
+  <li>BERT</li>
+</ul>
+
+<p><strong>Vision Models</strong> (3 architectures):</p>
+<ul>
+  <li>ViT (Vision Transformer)</li>
+  <li>CLIP</li>
+  <li>LLaVA</li>
+</ul>
+
+<p><strong>Audio Models</strong> (1 architecture):</p>
+<ul>
+  <li>Whisper</li>
+</ul>
+
+<h3 id="usage">Usage</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">SafetensorRunnerPlugin</span> <span class="n">runnerPlugin</span><span class="o">;</span>
+
+<span class="c1">// Initialize</span>
+<span class="nc">RunnerContext</span> <span class="n">context</span> <span class="o">=</span> <span class="nc">RunnerContext</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+<span class="n">runnerPlugin</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+
+<span class="c1">// Validate</span>
+<span class="nc">RunnerValidationResult</span> <span class="n">validation</span> <span class="o">=</span> <span class="n">runnerPlugin</span><span class="o">.</span><span class="na">validate</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">validation</span><span class="o">.</span><span class="na">isValid</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Validation failed: "</span> <span class="o">+</span> <span class="n">validation</span><span class="o">.</span><span class="na">getErrors</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="c1">// Create request</span>
+<span class="nc">RunnerRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="nc">RunnerRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">RequestType</span><span class="o">.</span><span class="na">INFER</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">inferenceRequest</span><span class="o">(</span><span class="n">inferenceRequest</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Execute</span>
+<span class="nc">RunnerResult</span><span class="o">&lt;</span><span class="nc">InferenceResponse</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> 
+    <span class="n">runnerPlugin</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">context</span><span class="o">);</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">isSuccess</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">InferenceResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Generated: "</span> <span class="o">+</span> <span class="n">response</span><span class="o">.</span><span class="na">getContent</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="multimodal-processing">Multimodal Processing</h2>
+
+<h3 id="safetensormultimodalprocessor">SafetensorMultimodalProcessor</h3>
+
+<p><strong>File</strong>: <code class="language-plaintext highlighter-rouge">plugins/runner/safetensor/gollek-plugin-runner-safetensor/.../multimodal/SafetensorMultimodalProcessor.java</code></p>
+
+<p><strong>Features</strong>:</p>
+<ul>
+  <li>✅ Text-only inference</li>
+  <li>✅ Text + Image inference (Vision-Language)</li>
+  <li>✅ Text + Audio inference</li>
+  <li>✅ Multi-image inference</li>
+  <li>✅ Streaming multimodal responses</li>
+  <li>✅ Input validation</li>
+  <li>✅ Capability reporting</li>
+</ul>
+
+<h3 id="supported-modalities">Supported Modalities</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modality</th>
+      <th>Support</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TEXT</strong></td>
+      <td>✅ Always</td>
+      <td>Text prompts and responses</td>
+    </tr>
+    <tr>
+      <td><strong>IMAGE</strong></td>
+      <td>✅ Vision enabled</td>
+      <td>Image analysis, VQA, captioning</td>
+    </tr>
+    <tr>
+      <td><strong>AUDIO</strong></td>
+      <td>✅ Audio enabled</td>
+      <td>Speech recognition, audio analysis</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="usage-1">Usage</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">SafetensorMultimodalProcessor</span> <span class="n">processor</span><span class="o">;</span>
+
+<span class="c1">// Create multimodal request with text and image</span>
+<span class="nc">MultimodalRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="nc">MultimodalRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">model</span><span class="o">(</span><span class="s">"llava-1.5"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">addInput</span><span class="o">(</span><span class="nc">MultimodalContent</span><span class="o">.</span><span class="na">ofText</span><span class="o">(</span><span class="s">"What's in this image?"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">addInput</span><span class="o">(</span><span class="nc">MultimodalContent</span><span class="o">.</span><span class="na">ofImageUri</span><span class="o">(</span>
+        <span class="s">"http://example.com/image.jpg"</span><span class="o">,</span> 
+        <span class="s">"image/jpeg"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Process</span>
+<span class="nc">Uni</span><span class="o">&lt;</span><span class="nc">MultimodalResponse</span><span class="o">&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+<span class="c1">// Subscribe</span>
+<span class="n">response</span><span class="o">.</span><span class="na">subscribe</span><span class="o">().</span><span class="na">with</span><span class="o">(</span><span class="n">r</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">getChoices</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">getMessage</span><span class="o">().</span><span class="na">getContent</span><span class="o">());</span>
+<span class="o">});</span>
+</code></pre></div></div>
+
+<h3 id="streaming-multimodal">Streaming Multimodal</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">SafetensorMultimodalProcessor</span> <span class="n">processor</span><span class="o">;</span>
+
+<span class="nc">MultimodalRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="nc">MultimodalRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">model</span><span class="o">(</span><span class="s">"llava-1.5"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">addInput</span><span class="o">(</span><span class="nc">MultimodalContent</span><span class="o">.</span><span class="na">ofText</span><span class="o">(</span><span class="s">"Describe this image"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">addInput</span><span class="o">(</span><span class="nc">MultimodalContent</span><span class="o">.</span><span class="na">ofImageUri</span><span class="o">(</span>
+        <span class="s">"http://example.com/image.jpg"</span><span class="o">,</span> 
+        <span class="s">"image/jpeg"</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">outputConfig</span><span class="o">(</span><span class="nc">MultimodalRequest</span><span class="o">.</span><span class="na">OutputConfig</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Process with streaming</span>
+<span class="nc">Multi</span><span class="o">&lt;</span><span class="nc">MultimodalResponse</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="na">processStream</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+<span class="c1">// Subscribe to stream</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">subscribe</span><span class="o">().</span><span class="na">with</span><span class="o">(</span><span class="n">chunk</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">chunk</span><span class="o">.</span><span class="na">getChoices</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">getDelta</span><span class="o">().</span><span class="na">getContent</span><span class="o">());</span>
+<span class="o">});</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="libtorch-safetensor-integration">LibTorch-Safetensor Integration</h2>
+
+<h3 id="overview-1">Overview</h3>
+
+<p>The LibTorch runner can now load and execute Safetensor models directly, providing seamless integration between Safetensor format and LibTorch backend.</p>
+
+<h3 id="architecture-1">Architecture</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│              LibTorchRunnerPlugin                       │
+│  - @Inject LibTorchSafetensorIntegration                │
+│  - supportsFormat(".safetensors")                       │
+│  - loadSafetensorModel(Path)                            │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│         LibTorchSafetensorIntegration                   │
+│  - @Inject SafetensorLoaderFacade                       │
+│  - @Inject SafetensorShardLoader                        │
+│  - convertToLibTorch()                                  │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│              Safetensor Loader                          │
+│  - SafetensorFFMLoader (FFM API)                        │
+│  - SafetensorShardLoader (sharded models)               │
+│  - SafetensorLoadCache (LRU caching)                    │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<h3 id="features-1">Features</h3>
+
+<ul>
+  <li>✅ Load Safetensor models directly</li>
+  <li>✅ Convert Safetensor weights to LibTorch tensors</li>
+  <li>✅ Execute inference using LibTorch backend</li>
+  <li>✅ Support sharded Safetensor models</li>
+  <li>✅ Model metadata extraction</li>
+  <li>✅ Format detection</li>
+</ul>
+
+<h3 id="usage-2">Usage</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">LibTorchRunnerPlugin</span> <span class="n">runner</span><span class="o">;</span>
+
+<span class="c1">// Load Safetensor model</span>
+<span class="nc">Path</span> <span class="n">modelPath</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"/models/llama3-8b.safetensors"</span><span class="o">);</span>
+
+<span class="c1">// Check if Safetensor model</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">runner</span><span class="o">.</span><span class="na">isSafetensorModel</span><span class="o">(</span><span class="n">modelPath</span><span class="o">))</span> <span class="o">{</span>
+    <span class="c1">// Load Safetensor model</span>
+    <span class="nc">LibTorchModule</span> <span class="n">module</span> <span class="o">=</span> <span class="n">runner</span><span class="o">.</span><span class="na">loadSafetensorModel</span><span class="o">(</span><span class="n">modelPath</span><span class="o">);</span>
+    
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Loaded "</span> <span class="o">+</span> <span class="n">module</span><span class="o">.</span><span class="na">getTensorCount</span><span class="o">()</span> <span class="o">+</span> <span class="s">" tensors"</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Total size: "</span> <span class="o">+</span> 
+        <span class="n">module</span><span class="o">.</span><span class="na">totalWeightSizeBytes</span><span class="o">()</span> <span class="o">+</span> <span class="s">" bytes"</span><span class="o">);</span>
+    
+    <span class="c1">// Get specific weight</span>
+    <span class="nc">LibTorchTensor</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="na">getWeight</span><span class="o">(</span><span class="s">"lm_head.weight"</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Weight shape: "</span> <span class="o">+</span> 
+        <span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">weight</span><span class="o">.</span><span class="na">getShape</span><span class="o">()));</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Weight dtype: "</span> <span class="o">+</span> <span class="n">weight</span><span class="o">.</span><span class="na">getDtype</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="sharded-model-support">Sharded Model Support</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">LibTorchSafetensorIntegration</span> <span class="n">integration</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">loadShardedModel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Path</span> <span class="n">modelDir</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"/models/llama3-70b"</span><span class="o">);</span>
+    
+    <span class="c1">// Load sharded Safetensor model</span>
+    <span class="nc">LibTorchModule</span> <span class="n">module</span> <span class="o">=</span> 
+        <span class="n">integration</span><span class="o">.</span><span class="na">loadShardedSafetensorModel</span><span class="o">(</span><span class="n">modelDir</span><span class="o">);</span>
+    
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Loaded sharded model"</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Tensors: "</span> <span class="o">+</span> <span class="n">module</span><span class="o">.</span><span class="na">getTensorCount</span><span class="o">());</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Size: "</span> <span class="o">+</span> <span class="n">module</span><span class="o">.</span><span class="na">totalWeightSizeBytes</span><span class="o">()</span> <span class="o">+</span> <span class="s">" bytes"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="model-metadata">Model Metadata</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">LibTorchSafetensorIntegration</span> <span class="n">integration</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">getModelMetadata</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Path</span> <span class="n">modelPath</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"/models/llama3-8b.safetensors"</span><span class="o">);</span>
+    
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">metadata</span> <span class="o">=</span> 
+        <span class="n">integration</span><span class="o">.</span><span class="na">getSafetensorMetadata</span><span class="o">(</span><span class="n">modelPath</span><span class="o">);</span>
+    
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Format: "</span> <span class="o">+</span> <span class="n">metadata</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"format"</span><span class="o">));</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Sharded: "</span> <span class="o">+</span> <span class="n">metadata</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"sharded"</span><span class="o">));</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Tensor count: "</span> <span class="o">+</span> <span class="n">metadata</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"tensor_count"</span><span class="o">));</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Valid: "</span> <span class="o">+</span> <span class="n">metadata</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"valid"</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="safetensor-runner-config">Safetensor Runner Config</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">safetensor-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">backend</span><span class="pi">:</span> <span class="s">direct</span>  <span class="c1"># or "gguf-conversion"</span>
+      <span class="na">device</span><span class="pi">:</span> <span class="s">cuda</span>     <span class="c1"># or "cpu", "mps"</span>
+      <span class="na">dtype</span><span class="pi">:</span> <span class="s">f16</span>       <span class="c1"># or "f32", "int8"</span>
+      <span class="na">max_context</span><span class="pi">:</span> <span class="m">4096</span>
+      <span class="na">flash_attention</span><span class="pi">:</span> <span class="kc">true</span>
+</code></pre></div></div>
+
+<h3 id="multimodal-processor-config">Multimodal Processor Config</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">multimodal</span><span class="pi">:</span>
+    <span class="na">safetensor</span><span class="pi">:</span>
+      <span class="na">vision_enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">audio_enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">max_images</span><span class="pi">:</span> <span class="m">4</span>
+      <span class="na">max_audio_duration_sec</span><span class="pi">:</span> <span class="m">300</span>
+</code></pre></div></div>
+
+<h3 id="libtorch-safetensor-config">LibTorch-Safetensor Config</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">libtorch</span><span class="pi">:</span>
+      <span class="na">safetensor</span><span class="pi">:</span>
+        <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">cache_enabled</span><span class="pi">:</span> <span class="kc">true</span>
+        <span class="na">cache_size</span><span class="pi">:</span> <span class="m">100</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="health-monitoring">Health Monitoring</h2>
+
+<h3 id="runner-health">Runner Health</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">SafetensorRunnerPlugin</span> <span class="n">runnerPlugin</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkHealth</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">RunnerHealth</span> <span class="n">health</span> <span class="o">=</span> <span class="n">runnerPlugin</span><span class="o">.</span><span class="na">health</span><span class="o">();</span>
+    
+    <span class="k">if</span> <span class="o">(</span><span class="n">health</span><span class="o">.</span><span class="na">isHealthy</span><span class="o">())</span> <span class="o">{</span>
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">details</span> <span class="o">=</span> <span class="n">health</span><span class="o">.</span><span class="na">getDetails</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Backend: "</span> <span class="o">+</span> <span class="n">details</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"backend"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Device: "</span> <span class="o">+</span> <span class="n">details</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"device"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Dtype: "</span> <span class="o">+</span> <span class="n">details</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"dtype"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Flash Attention: "</span> <span class="o">+</span> 
+            <span class="n">details</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"flash_attention"</span><span class="o">));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Active Sessions: "</span> <span class="o">+</span> 
+            <span class="n">details</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active_sessions"</span><span class="o">));</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Unhealthy: "</span> <span class="o">+</span> <span class="n">health</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="multimodal-capabilities">Multimodal Capabilities</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">SafetensorMultimodalProcessor</span> <span class="n">processor</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkCapabilities</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">capabilities</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="na">getCapabilities</span><span class="o">();</span>
+    
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Processor: "</span> <span class="o">+</span> 
+        <span class="n">capabilities</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"processor_id"</span><span class="o">));</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Vision Enabled: "</span> <span class="o">+</span> 
+        <span class="n">capabilities</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"vision_enabled"</span><span class="o">));</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Audio Enabled: "</span> <span class="o">+</span> 
+        <span class="n">capabilities</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"audio_enabled"</span><span class="o">));</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Available: "</span> <span class="o">+</span> 
+        <span class="n">capabilities</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"available"</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="performance">Performance</h2>
+
+<h3 id="load-times">Load Times</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Format</th>
+      <th>Size</th>
+      <th>Load Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Llama-3-8B</td>
+      <td>Safetensor</td>
+      <td>16 GB</td>
+      <td>~2s (mmap)</td>
+    </tr>
+    <tr>
+      <td>Llama-3-70B</td>
+      <td>Safetensor (sharded)</td>
+      <td>140 GB</td>
+      <td>~10s (mmap)</td>
+    </tr>
+    <tr>
+      <td>LLaVA-1.5</td>
+      <td>Safetensor</td>
+      <td>8 GB</td>
+      <td>~1s (mmap)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="memory-usage">Memory Usage</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Memory Overhead</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single model load</td>
+      <td>Base size</td>
+    </tr>
+    <tr>
+      <td>Sharded model</td>
+      <td>Base size + index</td>
+    </tr>
+    <tr>
+      <td>LRU cache (100 models)</td>
+      <td>~10x base size</td>
+    </tr>
+    <tr>
+      <td>Multimodal processing</td>
+      <td>+100-500 MB</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="testing">Testing</h2>
+
+<h3 id="unit-test">Unit Test</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@QuarkusTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SafetensorRunnerPluginTest</span> <span class="o">{</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="nc">SafetensorRunnerPlugin</span> <span class="n">runnerPlugin</span><span class="o">;</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testValidation</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">RunnerValidationResult</span> <span class="n">result</span> <span class="o">=</span> <span class="n">runnerPlugin</span><span class="o">.</span><span class="na">validate</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">isValid</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testHealth</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">RunnerHealth</span> <span class="n">health</span> <span class="o">=</span> <span class="n">runnerPlugin</span><span class="o">.</span><span class="na">health</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">health</span><span class="o">.</span><span class="na">isHealthy</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testInference</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">RunnerRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="nc">RunnerRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="nc">RequestType</span><span class="o">.</span><span class="na">INFER</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">inferenceRequest</span><span class="o">(</span><span class="n">inferenceRequest</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        
+        <span class="nc">RunnerResult</span><span class="o">&lt;</span><span class="nc">InferenceResponse</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> 
+            <span class="n">runnerPlugin</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="nc">RunnerContext</span><span class="o">.</span><span class="na">empty</span><span class="o">());</span>
+        
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">isSuccess</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="multimodal-test">Multimodal Test</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@QuarkusTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SafetensorMultimodalTest</span> <span class="o">{</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="nc">SafetensorMultimodalProcessor</span> <span class="n">processor</span><span class="o">;</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testMultimodalInference</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">MultimodalRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="nc">MultimodalRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">model</span><span class="o">(</span><span class="s">"llava-1.5"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">addInput</span><span class="o">(</span><span class="nc">MultimodalContent</span><span class="o">.</span><span class="na">ofText</span><span class="o">(</span><span class="s">"What's in this image?"</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">addInput</span><span class="o">(</span><span class="nc">MultimodalContent</span><span class="o">.</span><span class="na">ofImageUri</span><span class="o">(</span>
+                <span class="s">"http://example.com/image.jpg"</span><span class="o">,</span> 
+                <span class="s">"image/jpeg"</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        
+        <span class="nc">Uni</span><span class="o">&lt;</span><span class="nc">MultimodalResponse</span><span class="o">&gt;</span> <span class="n">response</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+        
+        <span class="n">assertNotNull</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">subscribe</span><span class="o">().</span><span class="na">with</span><span class="o">(</span><span class="n">r</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">assertNotNull</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">getChoices</span><span class="o">());</span>
+            <span class="n">assertFalse</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">getChoices</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">());</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="libtorch-safetensor-test">LibTorch-Safetensor Test</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@QuarkusTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibTorchSafetensorIntegrationTest</span> <span class="o">{</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="nc">LibTorchSafetensorIntegration</span> <span class="n">integration</span><span class="o">;</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testLoadSafetensorModel</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Path</span> <span class="n">modelPath</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"/test/models/test.safetensors"</span><span class="o">);</span>
+        
+        <span class="nc">LibTorchModule</span> <span class="n">module</span> <span class="o">=</span> 
+            <span class="n">integration</span><span class="o">.</span><span class="na">loadSafetensorModel</span><span class="o">(</span><span class="n">modelPath</span><span class="o">);</span>
+        
+        <span class="n">assertNotNull</span><span class="o">(</span><span class="n">module</span><span class="o">);</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">module</span><span class="o">.</span><span class="na">getTensorCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testIsSafetensorModel</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Path</span> <span class="n">safetensorPath</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"/test/models/test.safetensors"</span><span class="o">);</span>
+        <span class="nc">Path</span> <span class="n">torchPath</span> <span class="o">=</span> <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"/test/models/test.pt"</span><span class="o">);</span>
+        
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">integration</span><span class="o">.</span><span class="na">isSafetensorModel</span><span class="o">(</span><span class="n">safetensorPath</span><span class="o">));</span>
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">integration</span><span class="o">.</span><span class="na">isSafetensorModel</span><span class="o">(</span><span class="n">torchPath</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong><a href="/docs/plugins/enhanced-plugin-system-v2">Enhanced Plugin System v2.0</a></strong> - Complete v2.0 documentation</li>
+  <li><strong><a href="/docs/plugins/enhanced-runner-plugin-architecture">Enhanced Runner Plugins</a></strong> - Runner plugin v2.0</li>
+  <li><strong><a href="/docs/framework/multimodal-sdk">Multimodal Core</a></strong> - Multimodal inference guide</li>
+  <li><strong><a href="/docs/plugins/runner-plugins#libtorch-runner">LibTorch Runner</a></strong> - LibTorch runner documentation</li>
+</ul>
+
+<hr />
+
+<p><a href="/docs/plugins/enhanced-plugin-system-v2">Back to Plugin System</a>   <a href="/docs/plugins/runner-plugins">Runner Plugins</a>   <a href="/docs/framework/multimodal-sdk">Multimodal</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

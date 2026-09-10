@@ -1,0 +1,1524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enhanced Plugin System Architecture v2.0 | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Enhanced Plugin System Architecture v2.0</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="enhanced-plugin-system-architecture-v20">Enhanced Plugin System Architecture v2.0</h1>
+
+<p>Complete four-level plugin architecture with enhanced kernel plugin system (v2.0), featuring ClassLoader isolation, hot-reload support, comprehensive validation, and full engine integration.</p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>The Gollek Inference Engine implements a <strong>comprehensive four-level plugin architecture</strong> that provides:</p>
+
+<ul>
+  <li><strong>Flexibility</strong>: Hot-reload, selective deployment, ClassLoader isolation</li>
+  <li><strong>Performance</strong>: Up to 30x speedup with all optimizations</li>
+  <li><strong>Efficiency</strong>: 70% code reuse, minimal duplication</li>
+  <li><strong>Portability</strong>: Platform-specific kernels with auto-detection</li>
+  <li><strong>Extensibility</strong>: Easy to add new plugins at any level</li>
+  <li><strong>Observability</strong>: Comprehensive metrics and health monitoring</li>
+</ul>
+
+<hr />
+
+<h2 id="whats-new-in-v20">What’s New in v2.0</h2>
+
+<h3 id="enhanced-kernel-plugin-system">Enhanced Kernel Plugin System</h3>
+
+<p>The kernel plugin system has been completely redesigned with production-ready features:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>v1.0</th>
+      <th>v2.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Type Safety</strong></td>
+      <td>Basic</td>
+      <td>✅ Generic operations</td>
+    </tr>
+    <tr>
+      <td><strong>Lifecycle</strong></td>
+      <td>Simple</td>
+      <td>✅ validate/initialize/health/shutdown</td>
+    </tr>
+    <tr>
+      <td><strong>Isolation</strong></td>
+      <td>None</td>
+      <td>✅ ClassLoader per plugin</td>
+    </tr>
+    <tr>
+      <td><strong>Hot-Reload</strong></td>
+      <td>Limited</td>
+      <td>✅ Full support</td>
+    </tr>
+    <tr>
+      <td><strong>Validation</strong></td>
+      <td>Basic</td>
+      <td>✅ Comprehensive with errors/warnings</td>
+    </tr>
+    <tr>
+      <td><strong>Error Handling</strong></td>
+      <td>Generic</td>
+      <td>✅ Specific exception hierarchy</td>
+    </tr>
+    <tr>
+      <td><strong>Metrics</strong></td>
+      <td>Basic</td>
+      <td>✅ Comprehensive observability</td>
+    </tr>
+    <tr>
+      <td><strong>Configuration</strong></td>
+      <td>Map-based</td>
+      <td>✅ Type-safe with builder</td>
+    </tr>
+    <tr>
+      <td><strong>CDI Integration</strong></td>
+      <td>Manual</td>
+      <td>✅ Automatic producers</td>
+    </tr>
+    <tr>
+      <td><strong>Engine Integration</strong></td>
+      <td>Partial</td>
+      <td>✅ Full integration</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="architecture-improvements">Architecture Improvements</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────┐
+│              Application Layer                          │
+│  InferenceRequest → Engine                              │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│         Gollek Inference Engine                         │
+│  - PluginSystemIntegrator                               │
+│  - KernelPluginProducer (CDI) ← NEW                     │
+│  - KernelPluginIntegration ← NEW                        │
+│  - InferenceOrchestrator                                │
+│  - Metrics &amp; Monitoring                                 │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│       Level 1: Runner Plugins                           │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │  GGUF    │ │ Safetensor│ │   ONNX   │ │TensorRT  │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│       Level 2: Feature Plugins                          │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐                │
+│  │  Audio   │ │  Vision  │ │   Text   │                │
+│  └──────────┘ └──────────┘ └──────────┘                │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│      Level 3: Optimization Plugins                      │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │   FA3    │ │   FA4    │ │  Paged   │ │  Prompt  │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│    Level 4: Kernel Plugins (Enhanced v2.0)              │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │
+│  │  CUDA    │ │  ROCm    │ │  Metal   │ │ DirectML │  │
+│  │  Kernel  │ │  Kernel  │ │  Kernel  │ │  Kernel  │  │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘  │
+│         ↑                                              │
+│  ┌──────────────────────────────────────────┐          │
+│  │  KernelPluginManager (v2.0)              │          │
+│  │  - ClassLoader Isolation                 │          │
+│  │  - Health Monitoring                     │          │
+│  │  - Metrics Collection                    │          │
+│  │  - Hot-Reload Support                    │          │
+│  └──────────────────────────────────────────┘          │
+└─────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="enhanced-kernel-plugin-system-v20">Enhanced Kernel Plugin System (v2.0)</h2>
+
+<h3 id="key-components">Key Components</h3>
+
+<h4 id="1-kernelplugin-spi-enhanced">1. KernelPlugin SPI (Enhanced)</h4>
+
+<p>The core SPI interface with comprehensive lifecycle management:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">KernelPlugin</span> <span class="o">{</span>
+    <span class="c1">// Identity</span>
+    <span class="nc">String</span> <span class="nf">id</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="nf">name</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="nf">version</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="nf">platform</span><span class="o">();</span>
+    
+    <span class="c1">// Lifecycle</span>
+    <span class="nc">KernelValidationResult</span> <span class="nf">validate</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">initialize</span><span class="o">(</span><span class="nc">KernelContext</span> <span class="n">context</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">KernelException</span><span class="o">;</span>
+    <span class="kt">boolean</span> <span class="nf">isAvailable</span><span class="o">();</span>
+    <span class="kt">boolean</span> <span class="nf">isHealthy</span><span class="o">();</span>
+    <span class="nc">KernelHealth</span> <span class="nf">health</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">shutdown</span><span class="o">();</span>
+    
+    <span class="c1">// Operations (Typed)</span>
+    <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">KernelResult</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">execute</span><span class="o">(</span>
+        <span class="nc">KernelOperation</span> <span class="n">operation</span><span class="o">,</span>
+        <span class="nc">KernelContext</span> <span class="n">context</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">KernelException</span><span class="o">;</span>
+    
+    <span class="c1">// Async Support</span>
+    <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">CompletionStage</span><span class="o">&lt;</span><span class="nc">KernelResult</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;&gt;</span> <span class="nf">executeAsync</span><span class="o">(</span>
+        <span class="nc">KernelOperation</span> <span class="n">operation</span><span class="o">,</span>
+        <span class="nc">KernelContext</span> <span class="n">context</span><span class="o">);</span>
+    
+    <span class="c1">// Capabilities</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedOperations</span><span class="o">();</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedArchitectures</span><span class="o">();</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedVersions</span><span class="o">();</span>
+    <span class="nc">KernelConfig</span> <span class="nf">getConfig</span><span class="o">();</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="nf">dependencies</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="2-kernelpluginmanager">2. KernelPluginManager</h4>
+
+<p>Enhanced manager with comprehensive features:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">KernelPluginManager</span> <span class="o">{</span>
+    
+    <span class="c1">// Lifecycle</span>
+    <span class="kt">void</span> <span class="nf">initialize</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">shutdown</span><span class="o">();</span>
+    
+    <span class="c1">// Plugin Management</span>
+    <span class="kt">void</span> <span class="nf">register</span><span class="o">(</span><span class="nc">KernelPlugin</span> <span class="n">kernel</span><span class="o">);</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">KernelPlugin</span><span class="o">&gt;</span> <span class="nf">getActiveKernel</span><span class="o">();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">KernelPlugin</span><span class="o">&gt;</span> <span class="nf">getAllKernels</span><span class="o">();</span>
+    
+    <span class="c1">// Execution</span>
+    <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">KernelResult</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">execute</span><span class="o">(</span>
+        <span class="nc">KernelOperation</span> <span class="n">operation</span><span class="o">,</span>
+        <span class="nc">KernelContext</span> <span class="n">context</span><span class="o">);</span>
+    <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">CompletionStage</span><span class="o">&lt;</span><span class="nc">KernelResult</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;&gt;</span> <span class="nf">executeAsync</span><span class="o">(</span>
+        <span class="nc">KernelOperation</span> <span class="n">operation</span><span class="o">,</span>
+        <span class="nc">KernelContext</span> <span class="n">context</span><span class="o">);</span>
+    
+    <span class="c1">// Observability</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">KernelHealth</span><span class="o">&gt;</span> <span class="nf">getHealthStatus</span><span class="o">();</span>
+    <span class="nc">KernelMetrics</span> <span class="nf">getMetrics</span><span class="o">();</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="nf">getStats</span><span class="o">();</span>
+    
+    <span class="c1">// Platform</span>
+    <span class="nc">String</span> <span class="nf">getCurrentPlatform</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">selectKernelForPlatform</span><span class="o">(</span><span class="nc">String</span> <span class="n">platform</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="3-kernelpluginloader">3. KernelPluginLoader</h4>
+
+<p>Advanced loader with ClassLoader isolation:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">KernelPluginLoader</span> <span class="o">{</span>
+    
+    <span class="c1">// Load all plugins from directory</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">KernelPlugin</span><span class="o">&gt;</span> <span class="nf">loadAll</span><span class="o">();</span>
+    
+    <span class="c1">// Load specific plugin</span>
+    <span class="nc">KernelPlugin</span> <span class="nf">loadPlugin</span><span class="o">(</span><span class="nc">Path</span> <span class="n">jarPath</span><span class="o">);</span>
+    
+    <span class="c1">// Hot-reload</span>
+    <span class="nc">KernelPlugin</span> <span class="nf">reloadPlugin</span><span class="o">(</span><span class="nc">Path</span> <span class="n">jarPath</span><span class="o">);</span>
+    
+    <span class="c1">// Unload</span>
+    <span class="kt">boolean</span> <span class="nf">unloadPlugin</span><span class="o">(</span><span class="nc">String</span> <span class="n">pluginId</span><span class="o">);</span>
+    
+    <span class="c1">// Isolated ClassLoader</span>
+    <span class="kd">class</span> <span class="nc">KernelPluginClassLoader</span> <span class="kd">extends</span> <span class="nc">URLClassLoader</span> <span class="o">{</span>
+        <span class="c1">// Parent-first for core packages</span>
+        <span class="c1">// Plugin isolation</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="type-safe-operations">Type-Safe Operations</h3>
+
+<h4 id="kerneloperation">KernelOperation</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">KernelOperation</span> <span class="n">operation</span> <span class="o">=</span> <span class="nc">KernelOperation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"gemm"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"m"</span><span class="o">,</span> <span class="mi">1024</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"n"</span><span class="o">,</span> <span class="mi">1024</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"k"</span><span class="o">,</span> <span class="mi">1024</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"matrix_a"</span><span class="o">,</span> <span class="n">matrixA</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"matrix_b"</span><span class="o">,</span> <span class="n">matrixB</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">metadata</span><span class="o">(</span><span class="s">"priority"</span><span class="o">,</span> <span class="s">"high"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">metadata</span><span class="o">(</span><span class="s">"stream"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h4 id="kernelcontext">KernelContext</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">KernelContext</span> <span class="n">context</span> <span class="o">=</span> <span class="nc">KernelContext</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">config</span><span class="o">(</span><span class="n">kernelConfig</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"batch_size"</span><span class="o">,</span> <span class="mi">4</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"sequence_length"</span><span class="o">,</span> <span class="mi">4096</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">metadata</span><span class="o">(</span><span class="s">"trace_id"</span><span class="o">,</span> <span class="s">"abc123"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">executionContext</span><span class="o">(</span><span class="n">execContext</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h4 id="kernelresult">KernelResult</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">KernelResult</span><span class="o">&lt;</span><span class="nc">Matrix</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">operation</span><span class="o">,</span> <span class="n">context</span><span class="o">);</span>
+
+<span class="c1">// Access typed result</span>
+<span class="nc">Matrix</span> <span class="n">output</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+
+<span class="c1">// Check status</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">isSuccess</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Completed in "</span> <span class="o">+</span> 
+        <span class="n">result</span><span class="o">.</span><span class="na">getDuration</span><span class="o">().</span><span class="na">toMillis</span><span class="o">()</span> <span class="o">+</span> <span class="s">"ms"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// Access metadata</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">getMetadata</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h3 id="comprehensive-validation">Comprehensive Validation</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">KernelValidationResult</span> <span class="nf">validate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">errors</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">warnings</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    
+    <span class="c1">// Check hardware</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">isGpuAvailable</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"GPU not available"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// Check drivers</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">areDriversInstalled</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"GPU drivers not installed"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// Check compute capability</span>
+    <span class="kt">int</span> <span class="n">cap</span> <span class="o">=</span> <span class="n">getComputeCapability</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cap</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">errors</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"Compute capability 6.0+ required"</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">cap</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"Limited performance on CC &lt; 8.0"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="k">return</span> <span class="nc">KernelValidationResult</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">valid</span><span class="o">(</span><span class="n">errors</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">errors</span><span class="o">(</span><span class="n">errors</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">warnings</span><span class="o">(</span><span class="n">warnings</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="exception-hierarchy">Exception Hierarchy</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KernelException (base)
+├── KernelInitializationException (unchecked)
+├── KernelExecutionException (unchecked)
+├── KernelNotFoundException (unchecked)
+└── UnknownOperationException (unchecked)
+</code></pre></div></div>
+
+<p><strong>Usage:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span> <span class="o">{</span>
+    <span class="n">kernelManager</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">operation</span><span class="o">,</span> <span class="n">context</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">KernelNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// No kernel for platform</span>
+    <span class="no">LOG</span><span class="o">.</span><span class="na">errorf</span><span class="o">(</span><span class="s">"No kernel for: %s"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getPlatform</span><span class="o">());</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">UnknownOperationException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Unsupported operation</span>
+    <span class="no">LOG</span><span class="o">.</span><span class="na">errorf</span><span class="o">(</span><span class="s">"Unknown op: %s"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getOperationName</span><span class="o">());</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">KernelExecutionException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Execution failed</span>
+    <span class="no">LOG</span><span class="o">.</span><span class="na">errorf</span><span class="o">(</span><span class="s">"Exec failed: %s"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">(),</span> <span class="n">e</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="observability--metrics">Observability &amp; Metrics</h3>
+
+<h4 id="kernelmetrics">KernelMetrics</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">KernelMetrics</span> <span class="n">metrics</span> <span class="o">=</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">getMetrics</span><span class="o">();</span>
+
+<span class="c1">// Counters</span>
+<span class="kt">long</span> <span class="n">totalOps</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="na">getCounter</span><span class="o">(</span><span class="s">"total_operations"</span><span class="o">);</span>
+<span class="kt">long</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="na">getCounter</span><span class="o">(</span><span class="s">"total_errors"</span><span class="o">);</span>
+
+<span class="c1">// Operation stats</span>
+<span class="nc">OperationStats</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="na">getOperationStats</span><span class="o">(</span><span class="s">"gemm"</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">"GEMM: count=%d, avg=%.2fms, min=%dms, max=%dms, success=%.2f%%\n"</span><span class="o">,</span>
+    <span class="n">stats</span><span class="o">.</span><span class="na">getCount</span><span class="o">(),</span>
+    <span class="n">stats</span><span class="o">.</span><span class="na">getAverageDuration</span><span class="o">(),</span>
+    <span class="n">stats</span><span class="o">.</span><span class="na">getMinDuration</span><span class="o">(),</span>
+    <span class="n">stats</span><span class="o">.</span><span class="na">getMaxDuration</span><span class="o">(),</span>
+    <span class="n">stats</span><span class="o">.</span><span class="na">getSuccessRate</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">);</span>
+
+<span class="c1">// Full export</span>
+<span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">metricsMap</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="na">toMap</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h4 id="health-monitoring">Health Monitoring</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">KernelHealth</span><span class="o">&gt;</span> <span class="n">health</span> <span class="o">=</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">getHealthStatus</span><span class="o">();</span>
+<span class="n">health</span><span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="n">platform</span><span class="o">,</span> <span class="n">h</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">isHealthy</span><span class="o">())</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">platform</span> <span class="o">+</span> <span class="s">": ✓ "</span> <span class="o">+</span> <span class="n">h</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"  Details: "</span> <span class="o">+</span> <span class="n">h</span><span class="o">.</span><span class="na">getDetails</span><span class="o">());</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">platform</span> <span class="o">+</span> <span class="s">": ✗ "</span> <span class="o">+</span> <span class="n">h</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="engine-integration">Engine Integration</h2>
+
+<h3 id="cdi-integration">CDI Integration</h3>
+
+<p>The kernel plugin system is fully integrated with CDI for automatic dependency injection:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyInferenceService</span> <span class="o">{</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="nc">KernelPluginManager</span> <span class="n">kernelManager</span><span class="o">;</span>  <span class="c1">// Auto-injected</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="nc">KernelPluginIntegration</span> <span class="n">kernelIntegration</span><span class="o">;</span>  <span class="c1">// Auto-injected</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">KernelOperation</span> <span class="n">op</span> <span class="o">=</span> <span class="nc">KernelOperation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"gemm"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"m"</span><span class="o">,</span> <span class="mi">1024</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        
+        <span class="nc">KernelResult</span><span class="o">&lt;</span><span class="nc">Matrix</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span>
+            <span class="n">op</span><span class="o">,</span> <span class="nc">KernelContext</span><span class="o">.</span><span class="na">empty</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="pluginsystemintegrator">PluginSystemIntegrator</h3>
+
+<p>Enhanced integrator with kernel plugin support:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PluginSystemIntegrator</span> <span class="o">{</span>
+    
+    <span class="nd">@Inject</span>
+    <span class="nc">KernelPluginProducer</span> <span class="n">kernelPluginProducer</span><span class="o">;</span>
+    
+    <span class="nd">@PostConstruct</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Initialize in order</span>
+        <span class="n">initializeKernelPlugins</span><span class="o">();</span>    <span class="c1">// Level 4 (Enhanced)</span>
+        <span class="n">initializeOptimizationPlugins</span><span class="o">();</span> <span class="c1">// Level 3</span>
+        <span class="n">initializeFeaturePlugins</span><span class="o">();</span>   <span class="c1">// Level 2</span>
+        <span class="n">initializeRunnerPlugins</span><span class="o">();</span>    <span class="c1">// Level 1</span>
+        
+        <span class="n">logPluginStatus</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initializeKernelPlugins</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Initialize via producer</span>
+        <span class="n">kernelPluginProducer</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+        
+        <span class="nc">KernelPluginManager</span> <span class="n">manager</span> <span class="o">=</span> 
+            <span class="n">kernelPluginProducer</span><span class="o">.</span><span class="na">getKernelManager</span><span class="o">();</span>
+        
+        <span class="c1">// Log details</span>
+        <span class="no">LOG</span><span class="o">.</span><span class="na">infof</span><span class="o">(</span><span class="s">"Platform: %s"</span><span class="o">,</span> <span class="n">manager</span><span class="o">.</span><span class="na">getCurrentPlatform</span><span class="o">());</span>
+        <span class="no">LOG</span><span class="o">.</span><span class="na">infof</span><span class="o">(</span><span class="s">"Kernels: %d"</span><span class="o">,</span> <span class="n">manager</span><span class="o">.</span><span class="na">getAllKernels</span><span class="o">().</span><span class="na">size</span><span class="o">());</span>
+        <span class="no">LOG</span><span class="o">.</span><span class="na">infof</span><span class="o">(</span><span class="s">"Health: %s"</span><span class="o">,</span> 
+            <span class="n">manager</span><span class="o">.</span><span class="na">getActiveKernel</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">k</span> <span class="o">-&gt;</span> <span class="n">k</span><span class="o">.</span><span class="na">isHealthy</span><span class="o">()</span> <span class="o">?</span> <span class="s">"✓"</span> <span class="o">:</span> <span class="s">"✗"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">"✗"</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="kernelpluginproducer">KernelPluginProducer</h3>
+
+<p>CDI producer for automatic injection:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">KernelPluginProducer</span> <span class="o">{</span>
+    
+    <span class="nd">@Produces</span>
+    <span class="nd">@Singleton</span>
+    <span class="kd">public</span> <span class="nc">KernelPluginManager</span> <span class="nf">produceKernelPluginManager</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">initialized</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">initialize</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">kernelPluginManager</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Produces</span>
+    <span class="nd">@Singleton</span>
+    <span class="kd">public</span> <span class="nc">KernelPluginIntegration</span> <span class="nf">produceKernelPluginIntegration</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">initialized</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">initialize</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">kernelIntegration</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="complete-configuration-example">Complete Configuration Example</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gollek</span><span class="pi">:</span>
+  <span class="na">engine</span><span class="pi">:</span>
+    <span class="na">plugin-system</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">auto-detect</span><span class="pi">:</span> <span class="kc">true</span>
+
+  <span class="c1"># Level 4: Kernel Plugins (Enhanced)</span>
+  <span class="na">kernels</span><span class="pi">:</span>
+    <span class="na">auto-detect</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="na">plugin-directory</span><span class="pi">:</span> <span class="s">~/.gollek/plugins/kernels</span>
+    <span class="na">cuda</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">device_id</span><span class="pi">:</span> <span class="m">0</span>
+      <span class="na">memory_fraction</span><span class="pi">:</span> <span class="m">0.9</span>
+      <span class="na">allow_growth</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">compute_mode</span><span class="pi">:</span> <span class="s">default</span>
+      <span class="na">timeout_ms</span><span class="pi">:</span> <span class="m">300000</span>
+    <span class="na">rocm</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+    <span class="na">metal</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+    <span class="na">directml</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+
+  <span class="c1"># Level 3: Optimization Plugins</span>
+  <span class="na">optimizations</span><span class="pi">:</span>
+    <span class="na">flash-attention-3</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">tile_size</span><span class="pi">:</span> <span class="m">128</span>
+    <span class="na">paged-attention</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">block_size</span><span class="pi">:</span> <span class="m">16</span>
+
+  <span class="c1"># Level 2: Feature Plugins</span>
+  <span class="na">features</span><span class="pi">:</span>
+    <span class="na">audio</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+    <span class="na">vision</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">false</span>
+    <span class="na">text</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+
+  <span class="c1"># Level 1: Runner Plugins</span>
+  <span class="na">runners</span><span class="pi">:</span>
+    <span class="na">gguf-runner</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+      <span class="na">n_gpu_layers</span><span class="pi">:</span> <span class="s">-1</span>
+      <span class="na">n_ctx</span><span class="pi">:</span> <span class="m">4096</span>
+</code></pre></div></div>
+
+<h3 id="system-properties">System Properties</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Plugin directory</span>
+<span class="nt">-Dgollek</span>.plugin.directory<span class="o">=</span>~/.gollek/plugins
+
+<span class="c"># Platform override</span>
+<span class="nt">-Dgollek</span>.kernel.platform<span class="o">=</span>cuda
+
+<span class="c"># Device selection</span>
+<span class="nt">-Dgollek</span>.kernel.device_id<span class="o">=</span>0
+
+<span class="c"># Enable metrics</span>
+<span class="nt">-Dgollek</span>.kernel.metrics.enabled<span class="o">=</span><span class="nb">true</span>
+
+<span class="c"># Enable hot-reload</span>
+<span class="nt">-Dgollek</span>.kernel.hot_reload.enabled<span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="usage-examples">Usage Examples</h2>
+
+<h3 id="example-1-basic-kernel-execution">Example 1: Basic Kernel Execution</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">KernelPluginManager</span> <span class="n">kernelManager</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="nc">Matrix</span> <span class="nf">multiply</span><span class="o">(</span><span class="nc">Matrix</span> <span class="n">a</span><span class="o">,</span> <span class="nc">Matrix</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">KernelOperation</span> <span class="n">operation</span> <span class="o">=</span> <span class="nc">KernelOperation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"gemm"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"matrix_a"</span><span class="o">,</span> <span class="n">a</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"matrix_b"</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    
+    <span class="nc">KernelResult</span><span class="o">&lt;</span><span class="nc">Matrix</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span>
+        <span class="n">operation</span><span class="o">,</span> <span class="nc">KernelContext</span><span class="o">.</span><span class="na">empty</span><span class="o">());</span>
+    
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="example-2-async-execution">Example 2: Async Execution</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">KernelPluginManager</span> <span class="n">kernelManager</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="nc">CompletionStage</span><span class="o">&lt;</span><span class="nc">Matrix</span><span class="o">&gt;</span> <span class="nf">multiplyAsync</span><span class="o">(</span><span class="nc">Matrix</span> <span class="n">a</span><span class="o">,</span> <span class="nc">Matrix</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">KernelOperation</span> <span class="n">operation</span> <span class="o">=</span> <span class="nc">KernelOperation</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"gemm"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"matrix_a"</span><span class="o">,</span> <span class="n">a</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">parameter</span><span class="o">(</span><span class="s">"matrix_b"</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    
+    <span class="k">return</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">executeAsync</span><span class="o">(</span><span class="n">operation</span><span class="o">,</span> <span class="nc">KernelContext</span><span class="o">.</span><span class="na">empty</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">thenApply</span><span class="o">(</span><span class="nl">KernelResult:</span><span class="o">:</span><span class="n">getData</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="example-3-health-monitoring">Example 3: Health Monitoring</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">KernelPluginManager</span> <span class="n">kernelManager</span><span class="o">;</span>
+
+<span class="nd">@Scheduled</span><span class="o">(</span><span class="n">every</span> <span class="o">=</span> <span class="s">"10s"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkHealth</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">KernelHealth</span><span class="o">&gt;</span> <span class="n">health</span> <span class="o">=</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">getHealthStatus</span><span class="o">();</span>
+    <span class="n">health</span><span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="n">platform</span><span class="o">,</span> <span class="n">h</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">h</span><span class="o">.</span><span class="na">isHealthy</span><span class="o">())</span> <span class="o">{</span>
+            <span class="no">LOG</span><span class="o">.</span><span class="na">warnf</span><span class="o">(</span><span class="s">"Unhealthy: %s - %s"</span><span class="o">,</span> <span class="n">platform</span><span class="o">,</span> <span class="n">h</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">});</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="example-4-metrics-collection">Example 4: Metrics Collection</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">KernelPluginManager</span> <span class="n">kernelManager</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">logMetrics</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">KernelMetrics</span> <span class="n">metrics</span> <span class="o">=</span> <span class="n">kernelManager</span><span class="o">.</span><span class="na">getMetrics</span><span class="o">();</span>
+    
+    <span class="no">LOG</span><span class="o">.</span><span class="na">infof</span><span class="o">(</span><span class="s">"Uptime: %dms"</span><span class="o">,</span> <span class="n">metrics</span><span class="o">.</span><span class="na">getUptime</span><span class="o">());</span>
+    <span class="no">LOG</span><span class="o">.</span><span class="na">infof</span><span class="o">(</span><span class="s">"Operations: %d"</span><span class="o">,</span> <span class="n">metrics</span><span class="o">.</span><span class="na">getCounter</span><span class="o">(</span><span class="s">"total_operations"</span><span class="o">));</span>
+    <span class="no">LOG</span><span class="o">.</span><span class="na">infof</span><span class="o">(</span><span class="s">"Errors: %d"</span><span class="o">,</span> <span class="n">metrics</span><span class="o">.</span><span class="na">getCounter</span><span class="o">(</span><span class="s">"total_errors"</span><span class="o">));</span>
+    
+    <span class="nc">OperationStats</span> <span class="n">gemmStats</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="na">getOperationStats</span><span class="o">(</span><span class="s">"gemm"</span><span class="o">);</span>
+    <span class="no">LOG</span><span class="o">.</span><span class="na">infof</span><span class="o">(</span><span class="s">"GEMM: count=%d, avg=%.2fms, success=%.2f%%"</span><span class="o">,</span>
+        <span class="n">gemmStats</span><span class="o">.</span><span class="na">getCount</span><span class="o">(),</span>
+        <span class="n">gemmStats</span><span class="o">.</span><span class="na">getAverageDuration</span><span class="o">(),</span>
+        <span class="n">gemmStats</span><span class="o">.</span><span class="na">getSuccessRate</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="example-5-hot-reload-plugin">Example 5: Hot-Reload Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Inject</span>
+<span class="nc">KernelPluginIntegration</span> <span class="n">kernelIntegration</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">reloadPlugin</span><span class="o">(</span><span class="nc">Path</span> <span class="n">newJar</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">KernelPluginManager</span> <span class="n">manager</span> <span class="o">=</span> 
+        <span class="n">kernelIntegration</span><span class="o">.</span><span class="na">getKernelPluginManager</span><span class="o">();</span>
+    
+    <span class="c1">// Get loader (implementation detail)</span>
+    <span class="nc">KernelPluginLoader</span> <span class="n">loader</span> <span class="o">=</span> <span class="n">getPluginLoader</span><span class="o">(</span><span class="n">manager</span><span class="o">);</span>
+    
+    <span class="c1">// Reload</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">loader</span><span class="o">.</span><span class="na">reloadPlugin</span><span class="o">(</span><span class="n">newJar</span><span class="o">);</span>
+        <span class="no">LOG</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Plugin reloaded successfully"</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">KernelException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="no">LOG</span><span class="o">.</span><span class="na">errorf</span><span class="o">(</span><span class="s">"Reload failed: %s"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="creating-custom-plugins">Creating Custom Plugins</h2>
+
+<h3 id="custom-kernel-plugin">Custom Kernel Plugin</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomKernelPlugin</span> <span class="kd">implements</span> <span class="nc">KernelPlugin</span> <span class="o">{</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">ID</span> <span class="o">=</span> <span class="s">"custom-kernel"</span><span class="o">;</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">id</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="no">ID</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">name</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"Custom Kernel"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">version</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"1.0.0"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">platform</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="s">"custom"</span><span class="o">;</span> <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">KernelValidationResult</span> <span class="nf">validate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">isHardwareAvailable</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nc">KernelValidationResult</span><span class="o">.</span><span class="na">invalid</span><span class="o">(</span>
+                <span class="s">"Custom hardware not available"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="nc">KernelValidationResult</span><span class="o">.</span><span class="na">valid</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">(</span><span class="nc">KernelContext</span> <span class="n">context</span><span class="o">)</span> 
+            <span class="kd">throws</span> <span class="nc">KernelException</span> <span class="o">{</span>
+        <span class="c1">// Initialize custom hardware</span>
+        <span class="n">initializeHardware</span><span class="o">(</span><span class="n">context</span><span class="o">.</span><span class="na">getConfig</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isAvailable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">isHardwareAvailable</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">KernelResult</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">execute</span><span class="o">(</span>
+            <span class="nc">KernelOperation</span> <span class="n">operation</span><span class="o">,</span>
+            <span class="nc">KernelContext</span> <span class="n">context</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">KernelException</span> <span class="o">{</span>
+        
+        <span class="k">return</span> <span class="nf">switch</span> <span class="o">(</span><span class="n">operation</span><span class="o">.</span><span class="na">getName</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="s">"gemm"</span> <span class="o">-&gt;</span> <span class="n">executeGemm</span><span class="o">(</span><span class="n">operation</span><span class="o">,</span> <span class="n">context</span><span class="o">);</span>
+            <span class="k">case</span> <span class="s">"attention"</span> <span class="o">-&gt;</span> <span class="n">executeAttention</span><span class="o">(</span><span class="n">operation</span><span class="o">,</span> <span class="n">context</span><span class="o">);</span>
+            <span class="k">default</span> <span class="o">-&gt;</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">UnknownOperationException</span><span class="o">(</span>
+                <span class="n">platform</span><span class="o">(),</span> <span class="n">operation</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedOperations</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"gemm"</span><span class="o">,</span> <span class="s">"attention"</span><span class="o">,</span> <span class="s">"layer_norm"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedArchitectures</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"custom_v1"</span><span class="o">,</span> <span class="s">"custom_v2"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">supportedVersions</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Set</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"1.0"</span><span class="o">,</span> <span class="s">"2.0"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="service-provider-configuration">Service Provider Configuration</h3>
+
+<p>Create <code class="language-plaintext highlighter-rouge">src/main/resources/META-INF/services/tech.kayys.gollek.plugin.kernel.KernelPlugin</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tech.kayys.CustomKernelPlugin
+</code></pre></div></div>
+
+<h3 id="jar-manifest">JAR Manifest</h3>
+
+<p>In <code class="language-plaintext highlighter-rouge">pom.xml</code>:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;build&gt;</span>
+    <span class="nt">&lt;plugins&gt;</span>
+        <span class="nt">&lt;plugin&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;configuration&gt;</span>
+                <span class="nt">&lt;archive&gt;</span>
+                    <span class="nt">&lt;manifestEntries&gt;</span>
+                        <span class="nt">&lt;Plugin-Id&gt;</span>custom-kernel<span class="nt">&lt;/Plugin-Id&gt;</span>
+                        <span class="nt">&lt;Plugin-Type&gt;</span>kernel<span class="nt">&lt;/Plugin-Type&gt;</span>
+                        <span class="nt">&lt;Plugin-Version&gt;</span>${project.version}<span class="nt">&lt;/Plugin-Version&gt;</span>
+                        <span class="nt">&lt;Platform&gt;</span>custom<span class="nt">&lt;/Platform&gt;</span>
+                        <span class="nt">&lt;Plugin-Class&gt;</span>tech.kayys.CustomKernelPlugin<span class="nt">&lt;/Plugin-Class&gt;</span>
+                    <span class="nt">&lt;/manifestEntries&gt;</span>
+                <span class="nt">&lt;/archive&gt;</span>
+            <span class="nt">&lt;/configuration&gt;</span>
+        <span class="nt">&lt;/plugin&gt;</span>
+    <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="performance">Performance</h2>
+
+<h3 id="complete-stack-performance-h100">Complete Stack Performance (H100)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th>Tokens/s</th>
+      <th>VRAM</th>
+      <th>Speedup</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU Only (Baseline)</td>
+      <td>20</td>
+      <td>16 GB</td>
+      <td>1.0x</td>
+    </tr>
+    <tr>
+      <td>+ CUDA Kernel</td>
+      <td>100</td>
+      <td>16 GB</td>
+      <td>5.0x</td>
+    </tr>
+    <tr>
+      <td>+ FlashAttention-3</td>
+      <td>280</td>
+      <td>16 GB</td>
+      <td>14.0x</td>
+    </tr>
+    <tr>
+      <td>+ PagedAttention</td>
+      <td>350</td>
+      <td>13 GB</td>
+      <td>17.5x</td>
+    </tr>
+    <tr>
+      <td>+ Prompt Cache*</td>
+      <td>500</td>
+      <td>18 GB</td>
+      <td>25.0x</td>
+    </tr>
+    <tr>
+      <td><strong>All Combined</strong></td>
+      <td><strong>600</strong></td>
+      <td><strong>14 GB</strong></td>
+      <td><strong>30.0x</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>*For cached prompts</p>
+
+<h3 id="overhead-analysis">Overhead Analysis</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Overhead</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ClassLoader Isolation</td>
+      <td>+5-10ms</td>
+      <td>One-time load</td>
+    </tr>
+    <tr>
+      <td>Metrics Collection</td>
+      <td>&lt;1%</td>
+      <td>Async aggregation</td>
+    </tr>
+    <tr>
+      <td>Health Checks</td>
+      <td>&lt;0.1ms</td>
+      <td>Cached results</td>
+    </tr>
+    <tr>
+      <td>Adapter Pattern</td>
+      <td>Negligible</td>
+      <td>Direct delegation</td>
+    </tr>
+    <tr>
+      <td>Validation</td>
+      <td>+1-2ms</td>
+      <td>Pre-initialization</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="monitoring">Monitoring</h2>
+
+<h3 id="plugin-status-api">Plugin Status API</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get plugin system status</span>
+curl http://localhost:8080/api/v1/plugins/status
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"initialized"</span>: <span class="nb">true</span>,
+  <span class="s2">"fully_operational"</span>: <span class="nb">true</span>,
+  <span class="s2">"levels"</span>: <span class="o">{</span>
+    <span class="s2">"kernel"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_platform"</span>: <span class="s2">"cuda"</span>,
+      <span class="s2">"total_kernels"</span>: 1,
+      <span class="s2">"health"</span>: <span class="s2">"healthy"</span>
+    <span class="o">}</span>,
+    <span class="s2">"optimization"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_optimizations"</span>: <span class="o">[</span><span class="s2">"flash-attention-3"</span><span class="o">]</span>
+    <span class="o">}</span>,
+    <span class="s2">"feature"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_features"</span>: <span class="o">[</span><span class="s2">"text"</span><span class="o">]</span>
+    <span class="o">}</span>,
+    <span class="s2">"runner"</span>: <span class="o">{</span>
+      <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+      <span class="s2">"active_runners"</span>: <span class="o">[</span><span class="s2">"gguf-runner"</span><span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="health-api">Health API</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get kernel health</span>
+curl http://localhost:8080/api/v1/kernels/health
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"cuda"</span>: <span class="o">{</span>
+    <span class="s2">"healthy"</span>: <span class="nb">true</span>,
+    <span class="s2">"available"</span>: <span class="nb">true</span>,
+    <span class="s2">"details"</span>: <span class="o">{</span>
+      <span class="s2">"device_count"</span>: 1,
+      <span class="s2">"device_name"</span>: <span class="s2">"NVIDIA H100"</span>,
+      <span class="s2">"memory_fraction"</span>: 0.9
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="metrics-api">Metrics API</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get kernel metrics</span>
+curl http://localhost:8080/api/v1/kernels/metrics
+
+<span class="c"># Response:</span>
+<span class="o">{</span>
+  <span class="s2">"uptime_ms"</span>: 3600000,
+  <span class="s2">"total_operations"</span>: 10000,
+  <span class="s2">"total_errors"</span>: 5,
+  <span class="s2">"operations"</span>: <span class="o">{</span>
+    <span class="s2">"gemm"</span>: <span class="o">{</span>
+      <span class="s2">"count"</span>: 5000,
+      <span class="s2">"avg_duration_ms"</span>: 2.3,
+      <span class="s2">"success_rate"</span>: 0.999
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="plugin-not-loading">Plugin Not Loading</h3>
+
+<p><strong>Symptom</strong>: Plugin not appearing in <code class="language-plaintext highlighter-rouge">getAllKernels()</code></p>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check JAR manifest has <code class="language-plaintext highlighter-rouge">Plugin-Type: kernel</code></li>
+  <li>Verify ServiceLoader configuration</li>
+  <li>Check plugin directory: <code class="language-plaintext highlighter-rouge">ls ~/.gollek/plugins/kernels/</code></li>
+  <li>Review logs: <code class="language-plaintext highlighter-rouge">tail -f ~/.gollek/logs/gollek.log | grep "Loading"</code></li>
+</ol>
+
+<h3 id="validation-failing">Validation Failing</h3>
+
+<p><strong>Symptom</strong>: <code class="language-plaintext highlighter-rouge">KernelValidationResult</code> returns errors</p>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Check hardware present (<code class="language-plaintext highlighter-rouge">nvidia-smi</code>)</li>
+  <li>Verify drivers installed</li>
+  <li>Check library dependencies (CUDA, ROCm)</li>
+  <li>Review errors: <code class="language-plaintext highlighter-rouge">result.getErrors()</code></li>
+</ol>
+
+<h3 id="cdi-injection-failing">CDI Injection Failing</h3>
+
+<p><strong>Symptom</strong>: <code class="language-plaintext highlighter-rouge">NullPointerException</code> when injecting <code class="language-plaintext highlighter-rouge">KernelPluginManager</code></p>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Ensure <code class="language-plaintext highlighter-rouge">PluginSystemIntegrator.initialize()</code> called</li>
+  <li>Check <code class="language-plaintext highlighter-rouge">KernelPluginProducer</code> is initialized</li>
+  <li>Verify CDI bean discovery enabled</li>
+  <li>Check logs for initialization errors</li>
+</ol>
+
+<h3 id="classloader-issues">ClassLoader Issues</h3>
+
+<p><strong>Symptom</strong>: <code class="language-plaintext highlighter-rouge">ClassNotFoundException</code></p>
+
+<p><strong>Solutions</strong>:</p>
+<ol>
+  <li>Ensure dependencies in plugin JAR</li>
+  <li>Check parent-first package config</li>
+  <li>Verify no conflicting library versions</li>
+  <li>Review ClassLoader isolation</li>
+</ol>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><strong>Implementation Guide</strong>: <a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/core/gollek-plugin-kernel-core/ENHANCED_KERNEL_PLUGIN_SYSTEM.md">Enhanced Kernel Plugin System</a></li>
+  <li><strong>Integration Guide</strong>: <a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/core/gollek-engine/KERNEL_PLUGIN_INTEGRATION_GUIDE.md">Engine Integration</a></li>
+  <li><strong>Summary</strong>: <a href="https://github.com/gollek-ai/gollek/blob/main/inference-gollek/core/gollek-plugin-kernel-core/KERNEL_PLUGIN_IMPROVEMENTS_SUMMARY.md">Implementation Summary</a></li>
+  <li><strong>GPU Runtime Docs</strong>: <a href="/docs/runtime/gpu-runtime-docs">GPU Runtime Docs</a></li>
+  <li><strong>Optimization Plugins</strong>: <a href="/docs/plugins/optimization-plugins">Optimization Plugins</a></li>
+  <li><strong>Runner Plugins</strong>: <a href="/docs/plugins/runner-plugins">Runner Plugins</a></li>
+</ul>
+
+<hr />
+
+<p><a href="/docs/runtime/architecture">Back to Architecture</a>   <a href="/docs/runtime/gpu-runtime-docs">GPU Runtime Docs</a>   <a href="/docs/plugins/optimization-plugins">Optimization Plugins</a>   <a href="/docs/plugins/runner-plugins">Runner Plugins</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

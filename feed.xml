@@ -1,0 +1,29 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Gollek Blog</title>
+    <link>{{ '/blog/' | relative_url }}</link>
+    <description>Gollek release notes, architecture updates, and developer guides.</description>
+    <language>en-us</language>
+    <lastBuildDate>{{ "now" | date_to_rfc822 }}</lastBuildDate>
+    {% assign sorted_pages = site.pages | sort: "date" | reverse %}
+    {% assign count = 0 %}
+    {% for post in sorted_pages %}
+      {% if post.url contains '/blog/' and post.url != '/blog/' and post.title and post.date %}
+        {% assign count = count | plus: 1 %}
+        {% if count <= 20 %}
+    <item>
+      <title>{{ post.title | xml_escape }}</title>
+      <link>{{ post.url | relative_url }}</link>
+      <guid>{{ post.url | relative_url }}</guid>
+      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+      <description>{{ post.description | default: post.title | xml_escape }}</description>
+    </item>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </channel>
+</rss>

@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JBang & Jupyter Tutorial | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">JBang & Jupyter Tutorial</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <section class="hero hero-compact">
+  <p class="eyebrow">Interactive Scripting</p>
+  <h1>Mastering Gollek SDK with JBang &amp; Jupyter</h1>
+  <p class="lead">Build, train, and deploy neural networks using simple Java scripts. No complex build tools required.</p>
+</section>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Both</strong></td>
+      <td>End-to-end workflows from prototype to production</td>
+      <td>10 minutes</td>
+      <td><a href="#combined-workflows">Combined Workflows</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="quick-start">Quick Start</h2>
+
+<h3 id="option-1-remote-setup-recommended">Option 1: Remote Setup (Recommended)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install jbang and Gollek SDK components directly from the repo</span>
+curl <span class="nt">-sSL</span> https://raw.githubusercontent.com/bhangun/gollek/main/scripts/install.sh | bash
+</code></pre></div></div>
+
+<p>This one-liner automatically:</p>
+<ul>
+  <li>✅ Checks for Java 11+</li>
+  <li>✅ Installs or verifies jbang</li>
+  <li>✅ Checks for Jupyter and Maven</li>
+  <li>✅ Provides direct execution links for Gollek examples</li>
+  <li>✅ Checks prerequisites (Java, Maven)</li>
+  <li>✅ Builds Gollek SDK</li>
+  <li>✅ Installs Jupyter kernel</li>
+  <li>✅ Verifies jbang setup</li>
+  <li>✅ Shows next steps</li>
+</ul>
+
+<h3 id="option-2-jupyter-only">Option 2: Jupyter Only</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Jupyter</span>
+pip <span class="nb">install </span>jupyter
+
+<span class="c"># Install Java kernel</span>
+pip <span class="nb">install </span>ijava
+
+<span class="c"># Start notebook</span>
+jupyter notebook
+</code></pre></div></div>
+
+<p>Create a new notebook with kernel: <strong>“Gollek SDK (Java)”</strong></p>
+
+<h3 id="option-3-jbang-only">Option 3: jbang Only</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install jbang</span>
+curl <span class="nt">-Ls</span> https://sh.jbang.dev | bash <span class="nt">-s</span> - app setup
+
+<span class="c"># Run example</span>
+jbang gollek/sdk/jbang-templates/gollek-template.java
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="jupyter-integration">Jupyter Integration</h2>
+
+<h3 id="what-is-jupyter">What is Jupyter?</h3>
+
+<p>Jupyter is an interactive computing environment where you can:</p>
+<ul>
+  <li>Write and execute code in cells</li>
+  <li>Document with Markdown</li>
+  <li>Visualize outputs and results</li>
+  <li>Build reproducible workflows</li>
+  <li>Share notebooks with team members</li>
+</ul>
+
+<h3 id="installation">Installation</h3>
+
+<h4 id="prerequisites">Prerequisites</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check Java version</span>
+java <span class="nt">-version</span>          <span class="c"># Requires Java 11+</span>
+
+<span class="c"># Check Python/pip</span>
+python3 <span class="nt">--version</span>      <span class="c"># Requires Python 3.7+</span>
+pip <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h4 id="step-by-step-installation">Step-by-Step Installation</h4>
+<h2 id="option-1-installing-jupyter-kernels-using-pip">Option 1: Installing Jupyter Kernels using pip</h2>
+<p><strong>1. Install Jupyter</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>jupyter
+</code></pre></div></div>
+
+<p><strong>2. Install Java Kernel (ijava)</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>ijava
+</code></pre></div></div>
+
+<p><strong>3. Verify Installation</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter kernelspec list
+</code></pre></div></div>
+
+<p>You should see: <code class="language-plaintext highlighter-rouge">java</code> kernel in the list.</p>
+
+<h2 id="option-2-installing-jupyter-kernels-locally">Option 2: Installing Jupyter Kernels locally</h2>
+
+<p>The simplest way to run Java based Jupyter kernels is to install JBang and run the following:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang install-kernel@jupyter-java
+</code></pre></div></div>
+
+<h4 id="alternative-using-the-automated-installer">Alternative: Using the Automated Installer</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>gollek/sdk/jupyter-kernel
+bash install.sh
+</code></pre></div></div>
+
+<h3 id="your-first-jupyter-notebook">Your First Jupyter Notebook</h3>
+
+<h4 id="step-1-start-jupyter">Step 1: Start Jupyter</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jupyter notebook
+</code></pre></div></div>
+
+<p>Browser opens at <code class="language-plaintext highlighter-rouge">http://localhost:8888</code></p>
+
+<h4 id="step-2-create-new-notebook">Step 2: Create New Notebook</h4>
+
+<ol>
+  <li>Click <strong>“New”</strong> → <strong>“Gollek SDK (Java)”</strong></li>
+  <li>Name your notebook (e.g., “My First Model”)</li>
+</ol>
+
+<h4 id="step-3-import-gollek-sdk">Step 3: Import Gollek SDK</h4>
+
+<p>In the first cell, import the modules:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.activation.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.loss.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.optimizer.*</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p>Press <code class="language-plaintext highlighter-rouge">Shift+Enter</code> to execute.</p>
+
+<h4 id="step-4-build-a-neural-network">Step 4: Build a Neural Network</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create a simple neural network</span>
+<span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">128</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">128</span><span class="o">,</span> <span class="mi">64</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">64</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Model created successfully!"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h4 id="step-5-create-training-setup">Step 5: Create Training Setup</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Loss function</span>
+<span class="nc">CrossEntropyLoss</span> <span class="n">loss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CrossEntropyLoss</span><span class="o">();</span>
+
+<span class="c1">// Optimizer</span>
+<span class="nc">Adam</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="mf">0.001</span><span class="o">);</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Training setup ready!"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="jupyter-examples">Jupyter Examples</h3>
+
+<h4 id="example-1-binary-classification-with-custom-data">Example 1: Binary Classification with Custom Data</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.tensor.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+
+<span class="c1">// Create sample data</span>
+<span class="kt">double</span><span class="o">[][]</span> <span class="no">X</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="o">{</span><span class="mf">0.0</span><span class="o">,</span> <span class="mf">0.0</span><span class="o">},</span> <span class="o">{</span><span class="mf">0.0</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">},</span> <span class="o">{</span><span class="mf">1.0</span><span class="o">,</span> <span class="mf">0.0</span><span class="o">},</span> <span class="o">{</span><span class="mf">1.0</span><span class="o">,</span> <span class="mf">1.0</span><span class="o">}</span>
+<span class="o">};</span>
+<span class="kt">double</span><span class="o">[][]</span> <span class="n">y</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="o">{</span><span class="mf">0.0</span><span class="o">},</span> <span class="o">{</span><span class="mf">1.0</span><span class="o">},</span> <span class="o">{</span><span class="mf">1.0</span><span class="o">},</span> <span class="o">{</span><span class="mf">0.0</span><span class="o">}</span>
+<span class="o">};</span>
+
+<span class="c1">// Build model</span>
+<span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">4</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">1</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">Sigmoid</span><span class="o">()</span>
+<span class="o">);</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Binary classification model created!"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h4 id="example-2-training-loop-with-metrics">Example 2: Training Loop with Metrics</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training hyperparameters</span>
+<span class="kt">int</span> <span class="n">epochs</span> <span class="o">=</span> <span class="mi">50</span><span class="o">;</span>
+<span class="kt">double</span> <span class="n">learningRate</span> <span class="o">=</span> <span class="mf">0.01</span><span class="o">;</span>
+
+<span class="c1">// Training loop</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="n">epochs</span><span class="o">;</span> <span class="n">epoch</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="c1">// Forward pass</span>
+    <span class="nc">Tensor</span> <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    
+    <span class="c1">// Loss computation</span>
+    <span class="nc">Tensor</span> <span class="n">loss_val</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+    
+    <span class="c1">// Backward pass</span>
+    <span class="n">loss_val</span><span class="o">.</span><span class="na">backward</span><span class="o">();</span>
+    
+    <span class="c1">// Optimizer step</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">step</span><span class="o">();</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">zeroGrad</span><span class="o">();</span>
+    
+    <span class="k">if</span> <span class="o">((</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Epoch "</span> <span class="o">+</span> <span class="o">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="s">", Loss: "</span> <span class="o">+</span> <span class="n">loss_val</span><span class="o">.</span><span class="na">item</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="example-3-model-evaluation">Example 3: Model Evaluation</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Disable training mode</span>
+<span class="n">model</span><span class="o">.</span><span class="na">eval</span><span class="o">();</span>
+
+<span class="c1">// Predict on test data</span>
+<span class="nc">Tensor</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">testInput</span><span class="o">);</span>
+
+<span class="c1">// Calculate accuracy</span>
+<span class="nc">Accuracy</span> <span class="n">metric</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Accuracy</span><span class="o">();</span>
+<span class="kt">double</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">predictions</span><span class="o">,</span> <span class="n">testLabels</span><span class="o">);</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Test Accuracy: "</span> <span class="o">+</span> <span class="nc">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"%.2f%%"</span><span class="o">,</span> <span class="n">accuracy</span> <span class="o">*</span> <span class="mi">100</span><span class="o">));</span>
+</code></pre></div></div>
+
+<h4 id="example-4-saving-and-loading-models">Example 4: Saving and Loading Models</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Save model weights</span>
+<span class="n">model</span><span class="o">.</span><span class="na">saveWeights</span><span class="o">(</span><span class="s">"my_model.bin"</span><span class="o">);</span>
+
+<span class="c1">// Load model weights</span>
+<span class="n">model</span><span class="o">.</span><span class="na">loadWeights</span><span class="o">(</span><span class="s">"my_model.bin"</span><span class="o">);</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Model saved and loaded successfully!"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h4 id="example-5-hyperparameter-tuning">Example 5: Hyperparameter Tuning</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Try different learning rates</span>
+<span class="kt">double</span><span class="o">[]</span> <span class="n">learningRates</span> <span class="o">=</span> <span class="o">{</span><span class="mf">0.001</span><span class="o">,</span> <span class="mf">0.01</span><span class="o">,</span> <span class="mf">0.1</span><span class="o">};</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">double</span> <span class="n">lr</span> <span class="o">:</span> <span class="n">learningRates</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Create fresh optimizer</span>
+    <span class="nc">Adam</span> <span class="n">opt</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="n">lr</span><span class="o">);</span>
+    
+    <span class="c1">// Train with this LR</span>
+    <span class="c1">// ... training code ...</span>
+    
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Learning rate "</span> <span class="o">+</span> <span class="n">lr</span> <span class="o">+</span> <span class="s">" tested"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="jupyter-tips--tricks">Jupyter Tips &amp; Tricks</h3>
+
+<p><strong>Performance</strong></p>
+<ul>
+  <li>First Java execution is slow (JIT compilation) — 10-30 seconds</li>
+  <li>Subsequent cells run fast</li>
+  <li>Keep imports in the first cell for best performance</li>
+</ul>
+
+<p><strong>Memory</strong></p>
+<ul>
+  <li>Default heap: 512MB</li>
+  <li>Increase if needed by modifying <code class="language-plaintext highlighter-rouge">kernel.json</code>:
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"java_executable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"java -Xmx2g"</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><strong>Variables Across Cells</strong></p>
+<ul>
+  <li>Variables persist automatically between cells</li>
+  <li>Clear with: <code class="language-plaintext highlighter-rouge">%reset</code> magic command</li>
+</ul>
+
+<p><strong>Rich Output</strong></p>
+<ul>
+  <li>Print tables with <code class="language-plaintext highlighter-rouge">System.out.printf()</code></li>
+  <li>Output arrays for visualization</li>
+  <li>Use HTML output for custom visualization</li>
+</ul>
+
+<p><strong>Debugging</strong></p>
+<ul>
+  <li>Add <code class="language-plaintext highlighter-rouge">System.out.println()</code> statements</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">try-catch</code> for error handling</li>
+  <li>Inspect variables with <code class="language-plaintext highlighter-rouge">System.out.println(variable)</code></li>
+</ul>
+
+<hr />
+
+<h2 id="jbang-integration">jbang Integration</h2>
+
+<h3 id="what-is-jbang">What is jbang?</h3>
+
+<p>jbang is a tool that lets you write single-file Java scripts without compilation:</p>
+<ul>
+  <li>No build tool required</li>
+  <li>Automatic dependency resolution</li>
+  <li>Direct script execution</li>
+  <li>Perfect for automation and CLI tools</li>
+</ul>
+
+<h3 id="installation-1">Installation</h3>
+
+<h4 id="prerequisites-1">Prerequisites</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check Java version</span>
+java <span class="nt">-version</span>          <span class="c"># Requires Java 11+</span>
+</code></pre></div></div>
+
+<h4 id="install-jbang">Install jbang</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-Ls</span> https://sh.jbang.dev | bash <span class="nt">-s</span> - app setup
+</code></pre></div></div>
+
+<h4 id="verify-installation">Verify Installation</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang <span class="nt">--version</span>
+</code></pre></div></div>
+
+<h3 id="your-first-jbang-script">Your First jbang Script</h3>
+
+<h4 id="step-1-create-a-script">Step 1: Create a Script</h4>
+
+<p>Create <code class="language-plaintext highlighter-rouge">hello-gollek.java</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//DEPS tech.kayys.gollek:gollek-sdk-nn:0.1.0-SNAPSHOT</span>
+<span class="c1">//REPOS local,mavencentral,github=https://maven.pkg.github.com/bhangun/gollek</span>
+
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">hello_gollek</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello from Gollek!"</span><span class="o">);</span>
+        
+        <span class="c1">// Create a simple model</span>
+        <span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+        <span class="o">);</span>
+        
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Model created successfully!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="step-2-run-the-script">Step 2: Run the Script</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang hello-gollek.java
+</code></pre></div></div>
+
+<p>That’s it! No compilation needed.</p>
+
+<h3 id="jbang-examples">jbang Examples</h3>
+
+<h4 id="example-1-template-copy--use">Example 1: Template (Copy &amp; Use)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//DEPS tech.kayys.gollek:gollek-sdk-nn:0.1.0-SNAPSHOT</span>
+<span class="c1">//REPOS local,mavencentral,github=https://maven.pkg.github.com/bhangun/gollek</span>
+
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.autograd.GradTensor</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">my_script</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=== Gollek Neural Network ==="</span><span class="o">);</span>
+        
+        <span class="c1">// TODO: Add your code here</span>
+        
+        <span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">128</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">128</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+        <span class="o">);</span>
+        
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Model ready for training!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="example-2-training-script">Example 2: Training Script</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//DEPS tech.kayys.gollek:gollek-sdk-nn:0.1.0-SNAPSHOT</span>
+<span class="c1">//REPOS local,mavencentral,github=https://maven.pkg.github.com/bhangun/gollek</span>
+
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.loss.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.optim.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.autograd.GradTensor</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">train_model</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Model</span>
+        <span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="o">,</span> <span class="mi">128</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">128</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+        <span class="o">);</span>
+        
+        <span class="c1">// Loss and optimizer</span>
+        <span class="nc">CrossEntropyLoss</span> <span class="n">loss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CrossEntropyLoss</span><span class="o">();</span>
+        <span class="nc">Adam</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="mf">0.001</span><span class="o">);</span>
+        
+        <span class="c1">// Training (pseudo-code)</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">epoch</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="o">;</span> <span class="n">epoch</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Epoch "</span> <span class="o">+</span> <span class="n">epoch</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Training complete!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="example-3-cli-tool-with-arguments">Example 3: CLI Tool with Arguments</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//DEPS tech.kayys.gollek:gollek-sdk-nn:0.1.0-SNAPSHOT</span>
+<span class="c1">//REPOS local,mavencentral,github=https://maven.pkg.github.com/bhangun/gollek</span>
+
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.optim.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.autograd.GradTensor</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">train_cli</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">epochs</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">])</span> <span class="o">:</span> <span class="mi">10</span><span class="o">;</span>
+        <span class="kt">double</span> <span class="n">lr</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">?</span> <span class="nc">Double</span><span class="o">.</span><span class="na">parseDouble</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">1</span><span class="o">])</span> <span class="o">:</span> <span class="mf">0.001</span><span class="o">;</span>
+        
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Training for "</span> <span class="o">+</span> <span class="n">epochs</span> <span class="o">+</span> <span class="s">" epochs"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Learning rate: "</span> <span class="o">+</span> <span class="n">lr</span><span class="o">);</span>
+        
+        <span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">128</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">128</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+        <span class="o">);</span>
+        
+        <span class="nc">Adam</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="n">lr</span><span class="o">);</span>
+        
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">e</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">e</span> <span class="o">&lt;=</span> <span class="n">epochs</span><span class="o">;</span> <span class="n">e</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Epoch "</span> <span class="o">+</span> <span class="n">e</span> <span class="o">+</span> <span class="s">"..."</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Done!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Usage:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang train_cli.java 20 0.01
+</code></pre></div></div>
+
+<h4 id="example-4-batch-processing">Example 4: Batch Processing</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//DEPS tech.kayys.gollek:gollek-sdk-nn:0.1.0-SNAPSHOT</span>
+<span class="c1">//REPOS local,mavencentral,github=https://maven.pkg.github.com/bhangun/gollek</span>
+
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">batch_process</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">),</span>
+            <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+            <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+        <span class="o">);</span>
+        
+        <span class="c1">// Batch data</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">files</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"file1.txt"</span><span class="o">,</span> <span class="s">"file2.txt"</span><span class="o">,</span> <span class="s">"file3.txt"</span><span class="o">);</span>
+        
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">file</span> <span class="o">:</span> <span class="n">files</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Processing "</span> <span class="o">+</span> <span class="n">file</span><span class="o">);</span>
+            <span class="c1">// Process...</span>
+        <span class="o">}</span>
+        
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Batch processing complete!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="example-5-error-handling">Example 5: Error Handling</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//DEPS tech.kayys.gollek:gollek-sdk-nn:0.1.0-SNAPSHOT</span>
+<span class="c1">//REPOS local,mavencentral,github=https://maven.pkg.github.com/bhangun/gollek</span>
+
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.nn.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">error_handling</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Sequential</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+                <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">128</span><span class="o">),</span>
+                <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+                <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">128</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+            <span class="o">);</span>
+            
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Model created successfully!"</span><span class="o">);</span>
+            
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Invalid model configuration: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Unexpected error: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="jbang-advanced-features">jbang Advanced Features</h3>
+
+<p><strong>Export to JAR</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang <span class="nt">-o</span> my_app.jar my_script.java
+java <span class="nt">-jar</span> my_app.jar
+</code></pre></div></div>
+
+<p><strong>Build for Distribution</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang <span class="nt">-o</span> gollek-app.jar my_script.java <span class="nt">--build</span>
+</code></pre></div></div>
+
+<p><strong>Run from GitHub</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang https://raw.githubusercontent.com/user/repo/main/script.java
+</code></pre></div></div>
+
+<p><strong>IDE Integration</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang <span class="nt">-o</span> pom.xml my_script.java  <span class="c"># Generate pom.xml for IDE</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="combined-workflows">Combined Workflows</h2>
+
+<h3 id="workflow-1-prototype-to-production">Workflow 1: Prototype to Production</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Step 1: Prototype in Jupyter
+  └─ Explore concepts
+  └─ Test architectures
+  └─ Visualize results
+     
+Step 2: Convert to jbang
+  └─ Move working code
+  └─ Clean up notebook
+  └─ Add CLI arguments
+     
+Step 3: Deploy as Script
+  └─ Run as scheduled job
+  └─ Integrate with systems
+  └─ Package for distribution
+</code></pre></div></div>
+
+<h3 id="workflow-2-interactive-development">Workflow 2: Interactive Development</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Day 1: Jupyter Exploration
+  └─ Load datasets
+  └─ Build model
+  └─ Test hyperparameters
+  └─ Document findings
+     
+Day 2: jbang Automation
+  └─ Convert to jbang
+  └─ Add scheduling
+  └─ Run batch experiments
+  └─ Collect results
+</code></pre></div></div>
+
+<h3 id="workflow-3-team-collaboration">Workflow 3: Team Collaboration</h3>
+
+<p><strong>Scientist:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Build model in Jupyter
+2. Export notebook to script
+3. Share script with team
+</code></pre></div></div>
+
+<p><strong>Engineer:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Take jbang script
+2. Integrate with CI/CD
+3. Deploy to production
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="examples-in-golleksdk">Examples in gollek/sdk</h2>
+
+<p>The SDK includes ready-to-use examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek/sdk/
+├── jbang-templates/
+│   ├── gollek-template.java          # Main template
+│   └── examples/
+│       └── neural-network-example.java  # Complete example
+└── jupyter-kernel/
+    ├── JUPYTER_SETUP.md              # Full guide
+    └── kernel.json                   # Configuration
+</code></pre></div></div>
+
+<p><strong>Run Examples:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># jbang example</span>
+jbang gollek/sdk/jbang-templates/examples/neural-network-example.java
+
+<span class="c"># Jupyter example</span>
+jupyter notebook  <span class="c"># Create new with gollek-template.java contents</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="environment-variables">Environment Variables</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Java options</span>
+<span class="nb">export </span><span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">"-Xmx2g -Xms1g"</span>
+
+<span class="c"># Gollek model repository</span>
+<span class="nb">export </span><span class="nv">GOLLEK_MODEL_REPO_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/.gollek/models
+
+<span class="c"># Jupyter kernel classpath (if custom)</span>
+<span class="nb">export </span><span class="nv">GOLLEK_SDK_CLASSPATH</span><span class="o">=</span><span class="nv">$HOME</span>/.m2/repository/tech/kayys/gollek/gollek-sdk-nn/0.1.0-SNAPSHOT/gollek-sdk-nn-0.1.0-SNAPSHOT.jar
+</code></pre></div></div>
+
+<h3 id="maven-dependencies">Maven Dependencies</h3>
+
+<p><strong>pom.xml:</strong></p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>tech.kayys.gollek<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>gollek-sdk-nn<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<h3 id="jbang-dependencies">jbang Dependencies</h3>
+
+<p>In your script:</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// DEPS tech.kayys.gollek:gollek-sdk-nn:0.1.0-SNAPSHOT</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="jupyter-issues">Jupyter Issues</h3>
+
+<p><strong>Problem: Kernel not found</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Reinstall kernel</span>
+pip <span class="nb">install</span> <span class="nt">--upgrade</span> ijava
+jupyter kernelspec list
+</code></pre></div></div>
+
+<p><strong>Problem: Import errors</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Rebuild Maven</span>
+<span class="nb">cd </span>gollek/sdk
+mvn clean <span class="nb">install</span> <span class="nt">-DskipTests</span>
+</code></pre></div></div>
+
+<p><strong>Problem: Out of memory</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Increase heap size in kernel.json</span>
+<span class="s2">"java_executable"</span>: <span class="s2">"java -Xmx4g"</span>
+</code></pre></div></div>
+
+<h3 id="jbang-issues">jbang Issues</h3>
+
+<p><strong>Problem: Dependency not found</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Clear cache and retry</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> ~/.jbang
+jbang script.java
+</code></pre></div></div>
+
+<p><strong>Problem: Java version error</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Use Java 11+</span>
+java <span class="nt">-version</span>  <span class="c"># Check version</span>
+jbang <span class="nt">--version</span>  <span class="c"># Check jbang</span>
+</code></pre></div></div>
+
+<p><strong>Problem: Script exits immediately</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Add error handling</span>
+jbang script.java 2&gt;&amp;1
+</code></pre></div></div>
+
+<h3 id="common-errors">Common Errors</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Error</th>
+      <th>Cause</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">NoClassDefFoundError</code></td>
+      <td>Missing dependency</td>
+      <td>Check DEPS comments</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ClassCastException</code></td>
+      <td>Wrong tensor type</td>
+      <td>Verify shape/dtype</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">OutOfMemoryError</code></td>
+      <td>Too large model/data</td>
+      <td>Increase heap size</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">FileNotFoundException</code></td>
+      <td>Missing file</td>
+      <td>Check file paths</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="performance-tips">Performance Tips</h2>
+
+<h3 id="jupyter">Jupyter</h3>
+<ul>
+  <li>Keep imports in first cell (5-10% faster)</li>
+  <li>Batch operations over loops (100x faster)</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">.eval()</code> mode for inference (20% faster)</li>
+  <li>Monitor memory with <code class="language-plaintext highlighter-rouge">Runtime.getRuntime().totalMemory()</code></li>
+</ul>
+
+<h3 id="jbang">jbang</h3>
+<ul>
+  <li>Compilation cached in <code class="language-plaintext highlighter-rouge">~/.jbang</code> (2x faster after first run)</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">-o output.jar</code> for repeated runs</li>
+  <li>Add <code class="language-plaintext highlighter-rouge">// DEPS</code> at top for faster dependency resolution</li>
+  <li>Use Maven Central vs JCenter (faster)</li>
+</ul>
+
+<h3 id="both">Both</h3>
+<ul>
+  <li>Load models once, reuse many times</li>
+  <li>Pre-allocate tensors when possible</li>
+  <li>Batch inference over single inference</li>
+  <li>Use native libraries for heavy computation</li>
+</ul>
+
+<hr />
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ol>
+  <li><strong>Start with One-Command Setup</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>gollek/sdk <span class="o">&amp;&amp;</span> bash install-jupyter-jbang.sh
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Choose Your Path</strong>
+    <ul>
+      <li><strong>Interactive</strong>: Read <a href="/docs/tutorials/integrations/jupyter">Jupyter Integration</a></li>
+      <li><strong>Scripting</strong>: Read <a href="/docs/tutorials/integrations/jbang">JBang Integration</a></li>
+      <li><strong>Learning</strong>: Check <a href="/docs/setup/examples-docs">Examples Docs</a></li>
+    </ul>
+  </li>
+  <li><strong>Build Something</strong>
+    <ul>
+      <li>Create first notebook</li>
+      <li>Write first script</li>
+      <li>Combine for end-to-end workflow</li>
+    </ul>
+  </li>
+  <li><strong>Get Help</strong>
+    <ul>
+      <li><a href="/docs/setup/troubleshooting">Troubleshooting Guide</a></li>
+      <li><a href="/docs/framework/ml-sdk">API Documentation</a></li>
+      <li><a href="/docs/setup/examples-docs">Examples Docs</a></li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="key-resources">Key Resources</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>Purpose</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quick Overview</td>
+      <td>5-min intro</td>
+      <td><a href="https://github.com/wayang-platform/gollek-sdk">JUPYTER_JBANG_README.md</a></td>
+    </tr>
+    <tr>
+      <td>Jupyter Guide</td>
+      <td>Complete setup</td>
+      <td><a href="https://github.com/wayang-platform/gollek-sdk">JUPYTER_SETUP.md</a></td>
+    </tr>
+    <tr>
+      <td>jbang Guide</td>
+      <td>Complete setup</td>
+      <td><a href="https://github.com/wayang-platform/gollek-sdk">JBANG_SETUP.md</a></td>
+    </tr>
+    <tr>
+      <td>Examples</td>
+      <td>Working patterns</td>
+      <td><a href="https://github.com/wayang-platform/gollek-sdk">EXAMPLES.md</a></td>
+    </tr>
+    <tr>
+      <td>Troubleshooting</td>
+      <td>Problem solutions</td>
+      <td><a href="https://github.com/wayang-platform/gollek-sdk">TROUBLESHOOTING.md</a></td>
+    </tr>
+    <tr>
+      <td>ML SDK API</td>
+      <td>API reference</td>
+      <td><a href="/docs/framework/ml-sdk">ML SDK Docs</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Jupyter</th>
+      <th>jbang</th>
+      <th>Both</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Use Case</strong></td>
+      <td>Exploration</td>
+      <td>Automation</td>
+      <td>Full Workflow</td>
+    </tr>
+    <tr>
+      <td><strong>Setup</strong></td>
+      <td>5 min</td>
+      <td>2 min</td>
+      <td>10 min</td>
+    </tr>
+    <tr>
+      <td><strong>Best For</strong></td>
+      <td>Learning</td>
+      <td>Production</td>
+      <td>Teams</td>
+    </tr>
+    <tr>
+      <td><strong>Visualization</strong></td>
+      <td>Rich output</td>
+      <td>Console</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <td><strong>Sharing</strong></td>
+      <td>Notebooks</td>
+      <td>Scripts</td>
+      <td>Both</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ready to start? Run:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash gollek/sdk/install-jupyter-jbang.sh
+</code></pre></div></div>
+
+<p><a href="/docs/index">Home</a> · <a href="/docs/framework/ml-sdk">ML SDK</a> · <a href="/docs/setup/examples-docs">Examples Docs</a> · <a href="/docs/setup/troubleshooting">Troubleshooting</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

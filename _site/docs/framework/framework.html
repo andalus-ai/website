@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ML Framework Guide | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">ML Framework Guide</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <section class="hero hero-compact">
+  <p class="eyebrow">PyTorch-like API for Java</p>
+  <h1>Gollek ML Framework Guide</h1>
+  <p class="lead">Build and train neural networks with a comprehensive PyTorch-like API in pure Java. Tensors, autograd, 36+ modules, optimizers, and the full toolkit for ML research and development.</p>
+</section>
+
+<section class="quick-grid">
+  <a class="quick-card" href="#tensors">
+    <h3>📊 Tensors &amp; Autograd</h3>
+    <p>GradTensor with automatic differentiation and dynamic computational graphs.</p>
+  </a>
+  <a class="quick-card" href="#nn-modules">
+    <h3>🧠 NN Modules</h3>
+    <p>36+ components: Linear, Conv2d, Attention, Transformers, and more.</p>
+  </a>
+  <a class="quick-card" href="#training">
+    <h3>🏋️ Training</h3>
+    <p>Complete training loops with optimizers, schedulers, and early stopping.</p>
+  </a>
+  <a class="quick-card" href="#examples">
+    <h3>💡 Examples</h3>
+    <p>23+ ready-to-run scripts from Hello World to Transformer classifiers.</p>
+  </a>
+</section>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<p>Gollek ML SDK provides a <strong>PyTorch-like development experience</strong> for Java developers, with:</p>
+
+<ul>
+  <li><strong>Tensor Operations</strong>: Multi-dimensional arrays with hardware-accelerated dispatch</li>
+  <li><strong>Automatic Differentiation</strong>: Tape-based autograd engine with dynamic computational graphs</li>
+  <li><strong>Neural Network Modules</strong>: 36+ production-ready components with 100% JavaDoc coverage</li>
+  <li><strong>Training Support</strong>: Complete ecosystem for model development and experimentation</li>
+  <li><strong>Interactive Development</strong>: JBang scripting and Jupyter notebook support</li>
+  <li><strong>Hardware Acceleration</strong>: CUDA, Metal, ROCm kernels with FlashAttention 2/3/4</li>
+</ul>
+
+<hr />
+
+<h2 id="tensors">GradTensor &amp; Autograd</h2>
+
+<h3 id="creating-tensors">Creating Tensors</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create tensors</span>
+<span class="nc">GradTensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">rand</span><span class="o">(</span><span class="k">new</span> <span class="kt">long</span><span class="o">[]{</span><span class="mi">32</span><span class="o">,</span> <span class="mi">64</span><span class="o">});</span>  <span class="c1">// Random [32, 64]</span>
+<span class="nc">GradTensor</span> <span class="n">y</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="k">new</span> <span class="kt">long</span><span class="o">[]{</span><span class="mi">64</span><span class="o">,</span> <span class="mi">10</span><span class="o">});</span> <span class="c1">// Zeros [64, 10]</span>
+<span class="nc">GradTensor</span> <span class="n">z</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mf">1.0f</span><span class="o">,</span> <span class="mf">2.0f</span><span class="o">,</span> <span class="mf">3.0f</span><span class="o">},</span> <span class="mi">3</span><span class="o">);</span> <span class="c1">// From data</span>
+
+<span class="c1">// Enable gradient tracking</span>
+<span class="nc">GradTensor</span> <span class="n">w</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">rand</span><span class="o">(</span><span class="k">new</span> <span class="kt">long</span><span class="o">[]{</span><span class="mi">64</span><span class="o">,</span> <span class="mi">128</span><span class="o">})</span>
+    <span class="o">.</span><span class="na">requiresGrad</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="automatic-differentiation">Automatic Differentiation</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Build computational graph</span>
+<span class="nc">GradTensor</span> <span class="n">w</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">rand</span><span class="o">(</span><span class="k">new</span> <span class="kt">long</span><span class="o">[]{</span><span class="mi">64</span><span class="o">,</span> <span class="mi">128</span><span class="o">}).</span><span class="na">requiresGrad</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+<span class="nc">GradTensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">rand</span><span class="o">(</span><span class="k">new</span> <span class="kt">long</span><span class="o">[]{</span><span class="mi">128</span><span class="o">,</span> <span class="mi">64</span><span class="o">});</span>
+
+<span class="c1">// Forward pass</span>
+<span class="nc">GradTensor</span> <span class="n">out</span> <span class="o">=</span> <span class="nc">Functions</span><span class="o">.</span><span class="na">Matmul</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">w</span><span class="o">,</span> <span class="n">x</span><span class="o">);</span>
+<span class="nc">GradTensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="nc">Functions</span><span class="o">.</span><span class="na">Sum</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">out</span><span class="o">);</span>
+
+<span class="c1">// Backward pass (autograd)</span>
+<span class="n">loss</span><span class="o">.</span><span class="na">backward</span><span class="o">();</span>
+
+<span class="c1">// Access gradients</span>
+<span class="nc">GradTensor</span> <span class="n">wGrad</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="na">grad</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h3 id="hardware-accelerated-dispatch">Hardware-Accelerated Dispatch</h3>
+
+<p>Tensors automatically dispatch to available hardware kernels:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// CPU fallback</span>
+<span class="nc">GradTensor</span> <span class="n">cpu</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">rand</span><span class="o">(</span><span class="k">new</span> <span class="kt">long</span><span class="o">[]{</span><span class="mi">32</span><span class="o">,</span> <span class="mi">64</span><span class="o">});</span>
+
+<span class="c1">// GPU acceleration (if available)</span>
+<span class="c1">// Metal (Apple Silicon), CUDA (NVIDIA), ROCm (AMD)</span>
+<span class="c1">// Transparent to user - SDK handles device selection</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="nn-modules">Neural Network Modules</h2>
+
+<h3 id="basic-layers">Basic Layers</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Linear (fully connected) layer</span>
+<span class="nc">Linear</span> <span class="n">linear</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">256</span><span class="o">);</span>
+
+<span class="c1">// Embedding layer for NLP</span>
+<span class="nc">Embedding</span> <span class="n">embedding</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Embedding</span><span class="o">(</span><span class="n">vocabSize</span><span class="o">=</span><span class="mi">30000</span><span class="o">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">512</span><span class="o">);</span>
+
+<span class="c1">// Normalization layers</span>
+<span class="nc">LayerNorm</span> <span class="n">layerNorm</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LayerNorm</span><span class="o">(</span><span class="mi">256</span><span class="o">);</span>
+<span class="nc">BatchNorm1d</span> <span class="n">batchNorm</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BatchNorm1d</span><span class="o">(</span><span class="mi">256</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="attention--transformers">Attention &amp; Transformers</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Multi-head self-attention</span>
+<span class="nc">MultiHeadAttention</span> <span class="n">attention</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MultiHeadAttention</span><span class="o">(</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">512</span><span class="o">,</span> <span class="n">numHeads</span><span class="o">=</span><span class="mi">8</span><span class="o">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1f</span>
+<span class="o">);</span>
+
+<span class="c1">// Transformer encoder layer</span>
+<span class="nc">TransformerEncoderLayer</span> <span class="n">encoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TransformerEncoderLayer</span><span class="o">(</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">512</span><span class="o">,</span> <span class="n">numHeads</span><span class="o">=</span><span class="mi">8</span><span class="o">,</span> <span class="n">ffnDim</span><span class="o">=</span><span class="mi">2048</span><span class="o">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1f</span>
+<span class="o">);</span>
+
+<span class="c1">// Transformer decoder layer</span>
+<span class="nc">TransformerDecoderLayer</span> <span class="n">decoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TransformerDecoderLayer</span><span class="o">(</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">512</span><span class="o">,</span> <span class="n">numHeads</span><span class="o">=</span><span class="mi">8</span><span class="o">,</span> <span class="n">ffnDim</span><span class="o">=</span><span class="mi">2048</span><span class="o">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1f</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="activation-functions">Activation Functions</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Standard activations</span>
+<span class="nc">ReLU</span> <span class="n">relu</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReLU</span><span class="o">();</span>
+<span class="nc">Sigmoid</span> <span class="n">sigmoid</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sigmoid</span><span class="o">();</span>
+<span class="nc">Tanh</span> <span class="n">tanh</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Tanh</span><span class="o">();</span>
+
+<span class="c1">// Modern activations</span>
+<span class="no">GELU</span> <span class="n">gelu</span> <span class="o">=</span> <span class="k">new</span> <span class="no">GELU</span><span class="o">();</span>
+<span class="nc">SiLU</span> <span class="n">silu</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SiLU</span><span class="o">();</span>
+<span class="nc">Mish</span> <span class="n">mish</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Mish</span><span class="o">();</span>
+
+<span class="c1">// Advanced</span>
+<span class="nc">LeakyReLU</span> <span class="n">leaky</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LeakyReLU</span><span class="o">(</span><span class="mf">0.01f</span><span class="o">);</span>
+<span class="no">ELU</span> <span class="n">elu</span> <span class="o">=</span> <span class="k">new</span> <span class="no">ELU</span><span class="o">(</span><span class="mf">1.0f</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="building-models">Building Models</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Sequential model (like PyTorch nn.Sequential)</span>
+<span class="nc">Module</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">256</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">Dropout</span><span class="o">(</span><span class="mf">0.2f</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">256</span><span class="o">,</span> <span class="mi">128</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">Dropout</span><span class="o">(</span><span class="mf">0.2f</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">128</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="c1">// Forward pass</span>
+<span class="nc">GradTensor</span> <span class="n">input</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">rand</span><span class="o">(</span><span class="k">new</span> <span class="kt">long</span><span class="o">[]{</span><span class="mi">32</span><span class="o">,</span> <span class="mi">784</span><span class="o">});</span>
+<span class="nc">GradTensor</span> <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="custom-modules">Custom Modules</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create custom module</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResidualBlock</span> <span class="kd">extends</span> <span class="nc">Module</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Linear</span> <span class="n">fc1</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Linear</span> <span class="n">fc2</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ReLU</span> <span class="n">relu</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">LayerNorm</span> <span class="n">norm</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">ResidualBlock</span><span class="o">(</span><span class="kt">int</span> <span class="n">dim</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fc1</span> <span class="o">=</span> <span class="n">register</span><span class="o">(</span><span class="s">"fc1"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Linear</span><span class="o">(</span><span class="n">dim</span><span class="o">,</span> <span class="n">dim</span><span class="o">));</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fc2</span> <span class="o">=</span> <span class="n">register</span><span class="o">(</span><span class="s">"fc2"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Linear</span><span class="o">(</span><span class="n">dim</span><span class="o">,</span> <span class="n">dim</span><span class="o">));</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">relu</span> <span class="o">=</span> <span class="n">register</span><span class="o">(</span><span class="s">"relu"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ReLU</span><span class="o">());</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">norm</span> <span class="o">=</span> <span class="n">register</span><span class="o">(</span><span class="s">"norm"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">LayerNorm</span><span class="o">(</span><span class="n">dim</span><span class="o">));</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">GradTensor</span> <span class="nf">forward</span><span class="o">(</span><span class="nc">GradTensor</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">GradTensor</span> <span class="n">h</span> <span class="o">=</span> <span class="n">relu</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">fc1</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">x</span><span class="o">));</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">fc2</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">h</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="nc">Functions</span><span class="o">.</span><span class="na">Add</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">h</span><span class="o">));</span> <span class="c1">// Skip connection</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="loss-functions">Loss Functions</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Classification</span>
+<span class="nc">CrossEntropyLoss</span> <span class="n">ceLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CrossEntropyLoss</span><span class="o">();</span>
+<span class="nc">BCEWithLogitsLoss</span> <span class="n">bceLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BCEWithLogitsLoss</span><span class="o">();</span>
+
+<span class="c1">// Regression</span>
+<span class="nc">MSELoss</span> <span class="n">mseLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MSELoss</span><span class="o">();</span>
+<span class="nc">L1Loss</span> <span class="n">l1Loss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">L1Loss</span><span class="o">();</span>
+<span class="nc">SmoothL1Loss</span> <span class="n">huberLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SmoothL1Loss</span><span class="o">();</span>
+
+<span class="c1">// Embedding</span>
+<span class="nc">CosineEmbeddingLoss</span> <span class="n">cosineLoss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CosineEmbeddingLoss</span><span class="o">();</span>
+
+<span class="c1">// Usage</span>
+<span class="nc">GradTensor</span> <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+<span class="nc">GradTensor</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">ceLoss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="optimizers">Optimizers</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Adam optimizer</span>
+<span class="nc">Adam</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="n">model</span><span class="o">.</span><span class="na">parameters</span><span class="o">(),</span> <span class="n">learningRate</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">);</span>
+
+<span class="c1">// SGD with momentum</span>
+<span class="no">SGD</span> <span class="n">sgd</span> <span class="o">=</span> <span class="k">new</span> <span class="no">SGD</span><span class="o">(</span><span class="n">model</span><span class="o">.</span><span class="na">parameters</span><span class="o">(),</span> <span class="n">learningRate</span><span class="o">=</span><span class="mf">0.01f</span><span class="o">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9f</span><span class="o">);</span>
+
+<span class="c1">// Training step</span>
+<span class="n">loss</span><span class="o">.</span><span class="na">backward</span><span class="o">();</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="na">step</span><span class="o">();</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="na">zeroGrad</span><span class="o">();</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="learning-rate-schedulers">Learning Rate Schedulers</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Step decay</span>
+<span class="nc">StepLR</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StepLR</span><span class="o">(</span><span class="n">optimizer</span><span class="o">,</span> <span class="n">stepSize</span><span class="o">=</span><span class="mi">10</span><span class="o">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1f</span><span class="o">);</span>
+
+<span class="c1">// Cosine annealing</span>
+<span class="nc">CosineAnnealingLR</span> <span class="n">cosineScheduler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CosineAnnealingLR</span><span class="o">(</span>
+    <span class="n">optimizer</span><span class="o">,</span> <span class="n">maxEpochs</span><span class="o">=</span><span class="mi">100</span>
+<span class="o">);</span>
+
+<span class="c1">// Update after each epoch</span>
+<span class="n">scheduler</span><span class="o">.</span><span class="na">step</span><span class="o">();</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="training">Training Loop</h2>
+
+<h3 id="basic-training">Basic Training</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Setup</span>
+<span class="nc">Module</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">256</span><span class="o">),</span> <span class="k">new</span> <span class="nc">ReLU</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">Dropout</span><span class="o">(</span><span class="mf">0.2f</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">256</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adam</span><span class="o">(</span><span class="n">model</span><span class="o">.</span><span class="na">parameters</span><span class="o">(),</span> <span class="mf">0.001f</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">scheduler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StepLR</span><span class="o">(</span><span class="n">optimizer</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mf">0.1f</span><span class="o">);</span>
+<span class="kt">var</span> <span class="n">loss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CrossEntropyLoss</span><span class="o">();</span>
+
+<span class="c1">// Training loop</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="o">;</span> <span class="n">epoch</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="c1">// Forward pass</span>
+    <span class="kt">var</span> <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">lossVal</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">target</span><span class="o">);</span>
+    
+    <span class="c1">// Backward pass</span>
+    <span class="n">lossVal</span><span class="o">.</span><span class="na">backward</span><span class="o">();</span>
+    
+    <span class="c1">// Optimizer step</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">step</span><span class="o">();</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">zeroGrad</span><span class="o">();</span>
+    
+    <span class="c1">// Update learning rate</span>
+    <span class="n">scheduler</span><span class="o">.</span><span class="na">step</span><span class="o">();</span>
+    
+    <span class="c1">// Log progress</span>
+    <span class="k">if</span> <span class="o">((</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Epoch "</span> <span class="o">+</span> <span class="o">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> 
+            <span class="s">", Loss: "</span> <span class="o">+</span> <span class="n">lossVal</span><span class="o">.</span><span class="na">item</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="advanced-training-with-early-stopping">Advanced Training with Early Stopping</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Early stopping callback</span>
+<span class="nc">EarlyStopping</span> <span class="n">earlyStopping</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">EarlyStopping</span><span class="o">(</span>
+    <span class="n">patience</span><span class="o">=</span><span class="mi">5</span><span class="o">,</span>
+    <span class="n">minDelta</span><span class="o">=</span><span class="mf">0.001f</span><span class="o">,</span>
+    <span class="n">restoreBestWeights</span><span class="o">=</span><span class="kc">true</span>
+<span class="o">);</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">epoch</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="o">;</span> <span class="n">epoch</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">trainInput</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">lossVal</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">trainTarget</span><span class="o">);</span>
+    
+    <span class="n">lossVal</span><span class="o">.</span><span class="na">backward</span><span class="o">();</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">step</span><span class="o">();</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="na">zeroGrad</span><span class="o">();</span>
+    
+    <span class="c1">// Check early stopping</span>
+    <span class="kt">var</span> <span class="n">valOutput</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">valInput</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">valLoss</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">valOutput</span><span class="o">,</span> <span class="n">valTarget</span><span class="o">);</span>
+    
+    <span class="k">if</span> <span class="o">(</span><span class="n">earlyStopping</span><span class="o">.</span><span class="na">step</span><span class="o">(</span><span class="n">valLoss</span><span class="o">.</span><span class="na">item</span><span class="o">()))</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Early stopping at epoch "</span> <span class="o">+</span> <span class="n">epoch</span><span class="o">);</span>
+        <span class="k">break</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="traineval-modes">Train/Eval Modes</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Training mode (enables dropout, batch norm updates)</span>
+<span class="n">model</span><span class="o">.</span><span class="na">train</span><span class="o">();</span>
+
+<span class="c1">// Evaluation mode (disables dropout, uses running stats)</span>
+<span class="n">model</span><span class="o">.</span><span class="na">eval</span><span class="o">();</span>
+
+<span class="c1">// Make predictions</span>
+<span class="n">model</span><span class="o">.</span><span class="na">eval</span><span class="o">();</span>
+<span class="nc">GradTensor</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">testInput</span><span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="data-loading">Data Loading</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Dataset abstraction</span>
+<span class="nc">Dataset</span><span class="o">&lt;</span><span class="nc">InputStruct</span><span class="o">&gt;</span> <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MultiModalDataset</span><span class="o">(</span><span class="s">"/opt/data"</span><span class="o">);</span>
+
+<span class="c1">// DataLoader with batching and shuffling</span>
+<span class="nc">DataLoader</span><span class="o">&lt;</span><span class="nc">InputStruct</span><span class="o">&gt;</span> <span class="n">loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DataLoader</span><span class="o">&lt;&gt;(</span><span class="n">ds</span><span class="o">,</span> <span class="mi">64</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+
+<span class="c1">// Iterate over batches</span>
+<span class="k">for</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">InputStruct</span><span class="o">&gt;</span> <span class="n">batch</span> <span class="o">:</span> <span class="n">loader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">tensors</span> <span class="o">=</span> <span class="n">collateInputs</span><span class="o">(</span><span class="n">batch</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">collateTargets</span><span class="o">(</span><span class="n">batch</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">tensors</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">loss</span> <span class="o">=</span> <span class="n">lossFn</span><span class="o">.</span><span class="na">compute</span><span class="o">(</span><span class="n">output</span><span class="o">,</span> <span class="n">targets</span><span class="o">);</span>
+    <span class="c1">// ... training step</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>For tensor-ready examples, see <a href="/docs/tutorials/intermediate/data-pipelines">Building Efficient Data Pipelines</a>.</p>
+
+<hr />
+
+<h2 id="model-persistence">Model Persistence</h2>
+
+<h3 id="saving-models">Saving Models</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Save model weights (SafeTensors format)</span>
+<span class="n">model</span><span class="o">.</span><span class="na">saveWeights</span><span class="o">(</span><span class="s">"my_model.safetensors"</span><span class="o">);</span>
+
+<span class="c1">// Save entire model state</span>
+<span class="n">model</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="s">"my_model.gollek"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="loading-models">Loading Models</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create model architecture</span>
+<span class="nc">Module</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Sequential</span><span class="o">(</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">784</span><span class="o">,</span> <span class="mi">256</span><span class="o">),</span>
+    <span class="k">new</span> <span class="nf">ReLU</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">Linear</span><span class="o">(</span><span class="mi">256</span><span class="o">,</span> <span class="mi">10</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="c1">// Load pre-trained weights</span>
+<span class="n">model</span><span class="o">.</span><span class="na">loadWeights</span><span class="o">(</span><span class="s">"my_model.safetensors"</span><span class="o">);</span>
+
+<span class="c1">// Use for inference</span>
+<span class="n">model</span><span class="o">.</span><span class="na">eval</span><span class="o">();</span>
+<span class="nc">GradTensor</span> <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="examples">JBang Examples</h2>
+
+<p>Gollek SDK includes <strong>23+ ready-to-run examples</strong> that demonstrate all framework capabilities:</p>
+
+<h3 id="beginner-examples">Beginner Examples</h3>
+<ul>
+  <li><strong>Hello Gollek</strong>: Basic tensor operations</li>
+  <li><strong>My Script</strong>: Template for experiments</li>
+  <li><strong>Error Handling</strong>: Production-ready patterns</li>
+</ul>
+
+<h3 id="neural-networks">Neural Networks</h3>
+<ul>
+  <li><strong>XOR Training</strong>: Complete training loop</li>
+  <li><strong>MNIST Setup</strong>: Image classification</li>
+  <li><strong>Custom Modules</strong>: Residual blocks</li>
+  <li><strong>Model Persistence</strong>: Save/load weights</li>
+</ul>
+
+<h3 id="nlp--text">NLP &amp; Text</h3>
+<ul>
+  <li><strong>Sentiment Analysis</strong>: Real movie reviews</li>
+  <li><strong>Transformer Classifier</strong>: Multi-head attention</li>
+  <li><strong>Chat with Qwen</strong>: GGUF model loading</li>
+</ul>
+
+<h3 id="ml-integrations">ML Integrations</h3>
+<ul>
+  <li><strong>Deeplearning4j</strong>: Tensor conversion, ensemble</li>
+  <li><strong>Stanford NLP</strong>: Linguistic features</li>
+  <li><strong>Smile ML</strong>: Feature selection, ensembles</li>
+  <li><strong>Oracle Tribuo</strong>: XGBoost integration</li>
+</ul>
+
+<p><strong>Run any example</strong>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jbang https://raw.githubusercontent.com/bhangun/gollek/main/gollek/sdk/integration/jbang-templates/examples/common/hello_gollek.java
+</code></pre></div></div>
+
+<p><a href="/docs/setup/jbang-examples">View All Examples</a></p>
+
+<hr />
+
+<h2 id="langchain4j-integration">LangChain4j Integration</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create Gollek instance</span>
+<span class="nc">Gollek</span> <span class="n">gnk</span> <span class="o">=</span> <span class="nc">Gollek</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">model</span><span class="o">(</span><span class="s">"Llama-3.2-3B-Instruct"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">device</span><span class="o">(</span><span class="s">"METAL"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="c1">// Use with LangChain4j</span>
+<span class="nc">ChatLanguageModel</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GollekChatModel</span><span class="o">(</span><span class="n">gnk</span><span class="o">);</span>
+<span class="nc">String</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="s">"Hi, how are you?"</span><span class="o">);</span>
+
+<span class="c1">// Streaming</span>
+<span class="nc">StreamingChatLanguageModel</span> <span class="n">streaming</span> <span class="o">=</span> 
+    <span class="k">new</span> <span class="nf">GollekStreamingChatModel</span><span class="o">(</span><span class="n">gnk</span><span class="o">);</span>
+<span class="n">streaming</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="s">"Tell me a story"</span><span class="o">,</span> 
+    <span class="n">token</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">token</span><span class="o">));</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="gpu-acceleration">GPU Acceleration</h2>
+
+<p>Gollek automatically detects and uses available GPU hardware:</p>
+
+<h3 id="apple-silicon-metal">Apple Silicon (Metal)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Automatic on M1-M4 chips</span>
+<span class="c"># Supports: FA4, unified memory, BF16, AMX GEMM</span>
+</code></pre></div></div>
+
+<h3 id="nvidia-cuda">NVIDIA (CUDA)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Automatic on NVIDIA GPUs</span>
+<span class="c"># Supports: FlashAttention 2/3/4, FP8/FP4, paged KV cache</span>
+</code></pre></div></div>
+
+<h3 id="amd-rocm">AMD (ROCm)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Automatic on AMD GPUs</span>
+<span class="c"># Supports: ROCm acceleration, unified memory</span>
+</code></pre></div></div>
+
+<h3 id="check-device-selection">Check Device Selection</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SDK logs device detection on startup</span>
+<span class="c1">// Look for: "Metal device detected" or "CUDA device detected"</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ol>
+  <li><strong>Start with Examples</strong>: Run the JBang examples to see the API in action</li>
+  <li><strong>Build Your First Model</strong>: Follow the training loop patterns above</li>
+  <li><strong>Explore Advanced Features</strong>: Try custom modules, attention, transformers</li>
+  <li><strong>Integrate with Ecosystem</strong>: Use LangChain4j, Deeplearning4j, Stanford NLP</li>
+  <li><strong>Deploy to Production</strong>: Switch to inference runtime for serving</li>
+</ol>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="/docs/setup/jbang-examples">JBang Examples Catalog</a> - 23+ ready-to-run scripts</li>
+  <li><a href="/docs/dev-log/jupyter-jbang-integration">Jupyter &amp; JBang Integration</a> - Interactive development</li>
+  <li><a href="/docs/runtime/gpu-runtime-docs">GPU Runtime Docs</a> - Hardware acceleration details</li>
+  <li><a href="/docs/runtime/gguf-enhancements">Model Formats</a> - GGUF, SafeTensors, ONNX support</li>
+  <li><a href="/docs/plugins/plugin-system-v2">Plugin System</a> - Extending the framework</li>
+</ul>
+
+<hr />
+
+<p><a href="/docs/">Back to Documentation</a> · <a href="/docs/setup/cli-installation">CLI Guide</a> · <a href="/docs/runtime/core-api">Runtime Guide</a></p>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

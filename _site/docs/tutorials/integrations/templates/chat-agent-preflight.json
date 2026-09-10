@@ -1,0 +1,53 @@
+{
+  "model": "demo-model",
+  "surface": "chat",
+  "feature_profile": "chat_agent",
+  "preflight_policy": {
+    "profile": "requested_route"
+  },
+  "discover_mcp_tools": true,
+  "mcp_discovery_required": true,
+  "validate_tools": true,
+  "tool_validation_required": true,
+  "validate_request": true,
+  "request_validation_required": true,
+  "request": {
+    "model": "demo-model",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Use supplied context and tools when relevant."
+      },
+      {
+        "role": "user",
+        "content": "Answer the task using the provided context."
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "search_context",
+          "description": "Search caller-owned knowledge.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      }
+    ],
+    "rag_context": [
+      {
+        "source": "docs",
+        "text": "The agent runtime selected this context before calling Gollek."
+      }
+    ]
+  }
+}

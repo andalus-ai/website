@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ML Framework Modules | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">ML Framework Modules</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="gollek-ml-framework-modules">Gollek ML Framework Modules</h1>
+
+<p>This page replaces the older “SDK modules” view.</p>
+
+<p>Gollek is moving toward a Gradle-only module layout with:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ml/*</code> for the Java ML framework itself</li>
+  <li><code class="language-plaintext highlighter-rouge">trainer/*</code> for training lifecycle and orchestration</li>
+  <li><code class="language-plaintext highlighter-rouge">integration/*</code> for JBang, Jupyter, LangChain4j, and other adapters</li>
+</ul>
+
+<p>Older <code class="language-plaintext highlighter-rouge">gollek-sdk-*</code> names still appear in some examples and historical docs, but they should be treated as compatibility surfaces during the migration, not the canonical structure.</p>
+
+<p>This page intentionally stays at <code class="language-plaintext highlighter-rouge">/docs/sdk-modules.md</code> so older links do not
+break, but the content is now about the broader Gollek platform module naming,
+not just the SDK layer.</p>
+
+<hr />
+
+<h2 id="build-and-install-path">Build and Install Path</h2>
+
+<p>For local development installs on macOS, use:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">./run-install-local-macos.sh</code></li>
+</ul>
+
+<p>This path now runs a Gradle-only install flow by default. Legacy Maven command
+fallback is intentionally removed from the default installer path to keep build
+behavior consistent.</p>
+
+<hr />
+
+<h2 id="platform-naming-rules">Platform Naming Rules</h2>
+
+<p>Gollek should use distinct naming families for distinct responsibilities.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Family</th>
+      <th>Canonical naming</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Inference and serving</td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-backend-*</code>, <code class="language-plaintext highlighter-rouge">gollek-runner-*</code>, <code class="language-plaintext highlighter-rouge">gollek-plugin-runner-*</code>, <code class="language-plaintext highlighter-rouge">gollek-provider-*</code>, <code class="language-plaintext highlighter-rouge">gollek-spi-*</code></td>
+      <td>runtime engine, hardware adapters, format runners, serving contracts</td>
+    </tr>
+    <tr>
+      <td>Client and application SDK</td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-sdk-*</code></td>
+      <td>application-facing SDKs, sessions, local/remote client access</td>
+    </tr>
+    <tr>
+      <td>Java ML framework</td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-ml-*</code></td>
+      <td>model building, data, optimization, export, hub, framework utilities</td>
+    </tr>
+    <tr>
+      <td>Trainer</td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-trainer-*</code></td>
+      <td>training lifecycle, experiment orchestration, trainer runtime contracts</td>
+    </tr>
+    <tr>
+      <td>Integrations</td>
+      <td><code class="language-plaintext highlighter-rouge">gollek-integration-*</code></td>
+      <td>JBang, Jupyter, LangChain4j, and other adapters</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="jupyter-integration">Jupyter Integration</h3>
+
+<p>The Jupyter adapter is documented as
+<a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-integration-jupyter"><code class="language-plaintext highlighter-rouge">gollek-integration-jupyter</code></a>.
+It is a standalone Gollek Java kernel with preloaded ML helpers, rich notebook
+outputs, dependency magics, and artifact-inspection commands such as <code class="language-plaintext highlighter-rouge">%tree</code>,
+<code class="language-plaintext highlighter-rouge">%du</code>, <code class="language-plaintext highlighter-rouge">%zipls</code>, <code class="language-plaintext highlighter-rouge">%tarls</code>, <code class="language-plaintext highlighter-rouge">%extract</code>, and <code class="language-plaintext highlighter-rouge">%sha256</code>. Its CSV/TSV magics also
+support dataframe-style previews with <code class="language-plaintext highlighter-rouge">-n</code> row limits, <code class="language-plaintext highlighter-rouge">--profile</code> column
+stats, <code class="language-plaintext highlighter-rouge">%sample</code> random row checks, <code class="language-plaintext highlighter-rouge">%sort</code> top/bottom row previews,
+<code class="language-plaintext highlighter-rouge">%filter</code> row subsets, <code class="language-plaintext highlighter-rouge">%describe</code> numeric summaries, <code class="language-plaintext highlighter-rouge">%schema</code> dtype-style
+inference, <code class="language-plaintext highlighter-rouge">%missing</code> missingness checks, <code class="language-plaintext highlighter-rouge">%valuecounts</code> categorical counts,
+<code class="language-plaintext highlighter-rouge">%scatter</code> relationship checks, <code class="language-plaintext highlighter-rouge">%groupby</code> grouped summaries, <code class="language-plaintext highlighter-rouge">%lineplot</code>
+inline SVG trends, and <code class="language-plaintext highlighter-rouge">%hist</code> distribution checks, plus <code class="language-plaintext highlighter-rouge">%corr --heatmap</code>
+Pearson correlation matrices from CSV/TSV artifacts.</p>
+
+<p>That split matches the Gollek vision:</p>
+
+<ul>
+  <li>inference/serving is the core identity</li>
+  <li>Java ML/training is a first-class framework layer</li>
+  <li>SDKs and integrations are adapters around those cores, not the core itself</li>
+</ul>
+
+<hr />
+
+<h2 id="inference-and-serving">Inference and Serving</h2>
+
+<p>For the serving side, prefer these naming patterns:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">backend/*</code>
+    <ul>
+      <li>hardware-specific acceleration surfaces such as Metal, CUDA, ROCm, Vulkan</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">runner/*</code>
+    <ul>
+      <li>model-format execution adapters such as GGUF, Safetensor, ONNX, LiteRT</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">provider/*</code> and <code class="language-plaintext highlighter-rouge">spi/*</code>
+    <ul>
+      <li>provider routing and runtime contracts</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">sdk/*</code>
+    <ul>
+      <li>application-facing client access, not the ML framework itself</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Architecture naming should also stay explicit:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">native-java</code>
+    <ul>
+      <li>preferred long-term path where Gollek handles execution in Java directly</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">binding</code>
+    <ul>
+      <li>short-term compatibility and fallback path for llama.cpp, libtorch, LiteRT, ONNX runtime, and similar native bridges</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For mobile and portable library usage, the most natural naming surfaces are:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">:runner:onnx:*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">:runner:litert:*</code></li>
+</ul>
+
+<p>Those are the right places to emphasize Quarkus/GraalVM portability and
+platform-specific delivery.</p>
+
+<hr />
+
+<h2 id="canonical-layout">Canonical Layout</h2>
+
+<h3 id="core-ml-framework">Core ML Framework</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Canonical Gradle module</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-api</code></td>
+      <td>umbrella framework entrypoint</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-core</code></td>
+      <td>shared estimator and transformer foundations</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-selection</code></td>
+      <td>metrics, cross-validation, model selection</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-data</code></td>
+      <td>dataset and dataloader APIs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-diffusion-api</code></td>
+      <td>diffusion-training contracts for Java task, prompt, scheduler, and session APIs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-diffusion-opd</code></td>
+      <td>Java implementation scaffold for DiffusionOPD-style multi-task distillation</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-runner-api</code></td>
+      <td>runner abstraction for ONNX, LiteRT, and future adapters</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For diffusion alignment, Gollek now exposes a Java-first OPD surface described in:</p>
+
+<ul>
+  <li><a href="/docs/framework/diffusion-opd">DiffusionOPD in Gollek</a></li>
+</ul>
+
+<p>Current public training data and metric conveniences live behind
+<code class="language-plaintext highlighter-rouge">tech.kayys.gollek.ml.Gollek.DL</code>:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">TrainingPreset.REGRESSION_HUBER_*</code>, <code class="language-plaintext highlighter-rouge">huberLoss(...)</code>, and
+<code class="language-plaintext highlighter-rouge">trainingOptions().regressionMetrics()</code> support outlier-tolerant regression
+with MAE, MSE, RMSE, and R2 reporting.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().checkpointDir(...).restoreBestModelAtEnd()</code> saves
+validation-driven best-model snapshots to <code class="language-plaintext highlighter-rouge">canonical-best-model.safetensors</code>
+and reloads the best epoch before returning. By default the monitor is
+validation loss, but <code class="language-plaintext highlighter-rouge">.bestModelMonitorMetric("f1", BestModelMonitorMode.MAX)</code>
+can select by a named validation metric such as F1, accuracy, AUROC, or
+average precision.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().earlyStopping(...).earlyStoppingMonitorMetric(...)</code> uses
+the same validation metric stream to stop by task quality, so classification
+runs can stop on F1 or AUROC while regression runs keep the validation-loss
+default.</li>
+  <li><code class="language-plaintext highlighter-rouge">TrainingSummary.metadata().get("epochHistory")</code> gives one row per completed
+epoch with train/validation losses, metric values, learning rate, optimizer
+steps, and scheduler steps for dashboards and reproducible debugging.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().stepLrBatches(...)</code>, <code class="language-plaintext highlighter-rouge">.cosineAnnealingLrBatches(...)</code>,
+<code class="language-plaintext highlighter-rouge">.warmupCosineLrBatches(...)</code>, and their <code class="language-plaintext highlighter-rouge">Epochs</code> variants expose public
+scheduler policies for one-call <code class="language-plaintext highlighter-rouge">fit(...)</code>. Warmup/cosine starts new runs at
+LR <code class="language-plaintext highlighter-rouge">0.0</code>, supports scheduler checkpoint resume, and reports
+<code class="language-plaintext highlighter-rouge">learningRateSchedulerState.*</code> metadata.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().reduceLrOnPlateauValidationLoss(...)</code> lowers LR when
+validation loss stalls, while <code class="language-plaintext highlighter-rouge">.reduceLrOnPlateauMetric(...)</code> can follow a
+named validation metric. Plateau state is checkpointed and reported through
+<code class="language-plaintext highlighter-rouge">learningRateSchedulerState.*</code>.</li>
+  <li>Summary and history metadata include gradient/parameter diagnostics such as
+<code class="language-plaintext highlighter-rouge">latestGradientL2NormBeforeClip</code>, <code class="language-plaintext highlighter-rouge">latestGradientL2Norm</code>,
+<code class="language-plaintext highlighter-rouge">latestGradientClipped</code>, and <code class="language-plaintext highlighter-rouge">latestParameterL2Norm</code>, making exploding or
+clipped gradients visible in ordinary SDK runs.</li>
+  <li>The trainer has a non-finite guard for NaN/Inf loss and gradients. It fails
+before unsafe backward/optimizer updates, clears pending gradients, avoids
+writing corrupted checkpoints, and reports <code class="language-plaintext highlighter-rouge">nonFinite*</code> metadata plus a
+<code class="language-plaintext highlighter-rouge">stopReason</code> such as <code class="language-plaintext highlighter-rouge">non-finite-train-loss</code>.</li>
+  <li>Summary and history metadata also include train/validation throughput
+counters such as <code class="language-plaintext highlighter-rouge">trainBatchCount</code>, <code class="language-plaintext highlighter-rouge">trainSampleCount</code>,
+<code class="language-plaintext highlighter-rouge">trainSamplesPerSecond</code>, <code class="language-plaintext highlighter-rouge">validationBatchCount</code>, and
+<code class="language-plaintext highlighter-rouge">validationSamplesPerSecond</code>.</li>
+  <li>When <code class="language-plaintext highlighter-rouge">checkpointDir(...)</code> is set, the same history is persisted as
+<code class="language-plaintext highlighter-rouge">canonical-history.csv</code> beside the checkpoint files for spreadsheet-friendly
+learning-curve inspection. Resumed runs reload existing rows and append new
+epochs so interrupted training keeps a continuous curve. Nested metric maps
+and detailed diagnostics are encoded as deterministic JSON cells, so
+dashboards can parse confusion matrices and similar payloads without scraping
+Java <code class="language-plaintext highlighter-rouge">Map.toString()</code> text. Malformed structured cells are surfaced through
+<code class="language-plaintext highlighter-rouge">trainingHistoryLoadError</code> and rejected by strict resume. Duplicate headers,
+blank headers, and rows with extra cells are treated as ambiguous history
+shape errors instead of being silently overwritten or ignored. The <code class="language-plaintext highlighter-rouge">epoch</code>
+column is required and must contain unique non-negative integers.</li>
+  <li>The checkpoint directory also receives <code class="language-plaintext highlighter-rouge">canonical-report.json</code>, a structured
+trainer report with final summary fields, epoch history, metric maps,
+checkpoint state, accelerator metadata, gradient diagnostics, and throughput
+counters for CLIs, dashboards, and JBang examples.</li>
+  <li>Optimizer checkpoints now preserve SGD momentum, Adam/AdamW moments, and
+RMSprop accumulators/velocity so <code class="language-plaintext highlighter-rouge">resumeFromCheckpoint()</code> can continue
+optimizer dynamics instead of only restoring model weights.</li>
+  <li>Optimizers and <code class="language-plaintext highlighter-rouge">GradientClipper</code> now validate finite hyperparameters,
+parameter values, and gradients before mutating state. Adam L2 weight decay
+leaves gradient buffers intact, and Adagrad applies weight decay uniformly
+across the full tensor.</li>
+  <li>StepLR, CosineAnnealingLR, WarmupCosineScheduler, and ReduceLROnPlateau now
+validate finite scheduler configuration and checkpoint payloads before
+restoring resumed learning rates, rejecting NaN LRs, negative counters, and
+infinite plateau metrics.</li>
+  <li>Trainer summaries now expose partial-resume diagnostics for checkpoint
+artifacts, so users can see whether model, optimizer, scheduler, GradScaler,
+or history files were missing when resume began even if the run recreates
+them later. Strict resume now fails closed on missing runtime state or
+required artifacts, while lenient loading records <code class="language-plaintext highlighter-rouge">checkpointResumePartial</code>
+and the missing names.</li>
+  <li>Model checkpoints now write <code class="language-plaintext highlighter-rouge">canonical-model.metadata</code> beside
+<code class="language-plaintext highlighter-rouge">canonical-model.safetensors</code>. Resume validates model class and parameter
+signatures plus byte-size/SHA-256 integrity when metadata exists, fails fast
+by default on incompatible or corrupted snapshots, and records
+<code class="language-plaintext highlighter-rouge">checkpointResumeCompatibilityMismatches</code> when lenient checkpoint loading is
+explicitly enabled.</li>
+  <li>Checkpoint directories now also write <code class="language-plaintext highlighter-rouge">canonical-checkpoints.metadata</code>, a
+byte-size/SHA-256 manifest for runtime, optimizer, scheduler, GradScaler,
+history, report, and model artifacts. Resume validates runtime-state files
+before deserializing them, so corrupted runtime/optimizer/scheduler state
+fails closed by default and is reported through lenient compatibility
+diagnostics. Best-model restore-at-end uses the same manifest guard before
+replacing current weights.</li>
+  <li>Train and validation batches now validate non-null, non-empty,
+sample-aligned, finite input/label tensors before forward or loss execution,
+so malformed or NaN/Infinity dataset values fail before they can poison
+gradients, optimizer state, or validation metrics.</li>
+  <li>Custom trainer loss functions must return a single-value tensor. Vector or
+matrix losses now fail before <code class="language-plaintext highlighter-rouge">backward()</code>, surfacing <code class="language-plaintext highlighter-rouge">invalidLossShape</code>
+instead of logging one value while autograd propagates another reduction.</li>
+  <li>Trainer model outputs are validated before loss and metric evaluation, so
+NaN/Infinity predictions fail as <code class="language-plaintext highlighter-rouge">nonFiniteKind=prediction</code> instead of
+leaking into custom losses or validation metrics.</li>
+  <li>Trainer metric snapshots now validate finite values after real
+train/validation batches have run. Duplicate names, NaN/Infinity, or throwing
+custom metrics stop the run, and <code class="language-plaintext highlighter-rouge">DetailedMetric</code> payloads are guarded the
+same way. Failures report <code class="language-plaintext highlighter-rouge">invalidMetric*</code> metadata and skip final checkpoint
+writes, while empty train/validation phases may remain undefined for
+compatibility.</li>
+  <li>Trainer metric contracts are now standalone <code class="language-plaintext highlighter-rouge">TrainingMetric</code> and
+<code class="language-plaintext highlighter-rouge">DetailedTrainingMetric</code> APIs, with <code class="language-plaintext highlighter-rouge">TrainingMetrics</code> as the public built-in
+catalog. Built-ins are split internally by regression, binary, multiclass,
+and multilabel metric families. The legacy <code class="language-plaintext highlighter-rouge">CanonicalTrainer.Metric</code>,
+<code class="language-plaintext highlighter-rouge">.DetailedMetric</code>, and <code class="language-plaintext highlighter-rouge">.Metrics</code> names remain as compatibility aliases
+instead of owning the implementation.</li>
+  <li><code class="language-plaintext highlighter-rouge">QuantizationEngine</code> now uses real supplied weights: either direct in-memory
+tensors or a simple text weight file. Missing model files fail fast instead
+of generating placeholder weights, and the output artifact includes quantized
+codes, dequantized values, compression estimates, and error metrics.</li>
+  <li><code class="language-plaintext highlighter-rouge">GradScaler</code> now performs real mixed-precision loss scaling: callers
+backpropagate the returned scaled loss, unscale optimizer/parameter
+gradients, skip unsafe steps on NaN/Inf, and let the scale grow/back off from
+observed overflow. The scaler can now be checkpointed/resumed with
+compatibility validation and overflow-safe unscale writes.</li>
+  <li><code class="language-plaintext highlighter-rouge">CanonicalTrainer.Builder.mixedPrecision(true)</code>, <code class="language-plaintext highlighter-rouge">.gradScaler(...)</code>, and
+<code class="language-plaintext highlighter-rouge">trainingOptions().mixedPrecision()</code> now use that scaler during the actual
+trainer step. Public <code class="language-plaintext highlighter-rouge">trainingOptions().gradScaler(customScaler)</code> /
+<code class="language-plaintext highlighter-rouge">.mixedPrecision(customScaler)</code> can tune the initial scale and growth policy,
+while overflowed updates are skipped and <code class="language-plaintext highlighter-rouge">canonical-grad-scaler.state</code>
+persists scaler state for resume. Incompatible saved scaler policies fail
+closed by default, with opt-in lenient loading surfacing the mismatch in
+trainer metadata and <code class="language-plaintext highlighter-rouge">gradScalerCheckpointFallbackUsed</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">GradTensor</code> now differentiates common composed training graphs including
+view ops, <code class="language-plaintext highlighter-rouge">sum</code>/<code class="language-plaintext highlighter-rouge">mean</code>, <code class="language-plaintext highlighter-rouge">pow</code>, unary math/activation ops, and last-dimension
+<code class="language-plaintext highlighter-rouge">softmax</code>, so custom Java losses can rely on autograd instead of manual hooks
+for basic expressions.</li>
+  <li><code class="language-plaintext highlighter-rouge">Gollek.cat(...)</code>, <code class="language-plaintext highlighter-rouge">Gollek.stack(...)</code>, and <code class="language-plaintext highlighter-rouge">Gollek.where(...)</code> now keep
+autograd links alive through concatenation, stacking, and broadcasted
+selection paths.</li>
+  <li>Transformer attention compatibility einsums (<code class="language-plaintext highlighter-rouge">bhid,bhjd-&gt;bhij</code> and
+<code class="language-plaintext highlighter-rouge">bhij,bhjd-&gt;bhid</code>) now keep gradients connected through attention score and
+context application paths for Java-side transformer training.</li>
+  <li>Public <code class="language-plaintext highlighter-rouge">MultiHeadAttention</code> keeps gradients through head split/merge reshapes
+and causal masks, and <code class="language-plaintext highlighter-rouge">TransformerBlock</code> dropout now applies a differentiable
+mask instead of returning detached tensors.</li>
+  <li><code class="language-plaintext highlighter-rouge">FlashAttention</code> uses differentiable exact attention when gradients are
+tracked, while the no-grad tiled inference path keeps its memory-efficient
+loop and correctly merges multi-head output order.</li>
+  <li><code class="language-plaintext highlighter-rouge">MultiHeadAttention(..., dropoutP)</code> now applies attention-probability
+dropout after softmax, and transformer encoder/decoder layers pass their
+dropout setting into internal self/cross attention modules.</li>
+  <li><code class="language-plaintext highlighter-rouge">TransformerBlock</code> now uses a registered GELU feed-forward activation, so
+the implementation matches the documented transformer FFN instead of silently
+behaving like a ReLU block.</li>
+  <li><code class="language-plaintext highlighter-rouge">RotaryEmbedding.apply(...)</code> now keeps RoPE gradients connected via the
+inverse rotation and validates rank, head dimension, and max sequence length
+before using the frequency cache.</li>
+  <li>Root <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.ml.nn.GroupNorm</code> now preserves gradients through
+differentiable reshape/mean/variance tensor ops and validates group/channel
+configuration before training.</li>
+  <li><code class="language-plaintext highlighter-rouge">Dropout</code> now rejects non-finite probabilities and handles <code class="language-plaintext highlighter-rouge">p=1</code> as an
+explicit zero-output/zero-gradient path, while layer <code class="language-plaintext highlighter-rouge">GroupNorm</code> validates
+group counts, epsilon, rank, and channel count.</li>
+  <li>Weighted <code class="language-plaintext highlighter-rouge">CrossEntropyLoss</code> now uses sample-weight mean normalization for
+both scalar loss and logits gradients instead of scaling by raw batch size.</li>
+  <li>CrossEntropy, Focal, LabelSmoothing, ArcFace, and CTC losses now validate
+class-index targets so wrongly-shaped, <code class="language-plaintext highlighter-rouge">NaN</code>, fractional, or out-of-range
+labels fail before training indexes logits.</li>
+  <li>CrossEntropy, LabelSmoothing, BCE-with-logits, and focal losses now reject
+non-finite logits before softmax/sigmoid loss computation, preventing bad
+activations from entering the trainer graph as silent <code class="language-plaintext highlighter-rouge">NaN</code> gradients.</li>
+  <li><code class="language-plaintext highlighter-rouge">FocalLoss</code> and <code class="language-plaintext highlighter-rouge">BinaryFocalWithLogitsLoss</code> now reject empty or non-finite
+logits before focal weighting, with finite-difference coverage for
+positive-weighted binary/multi-label focal gradients.</li>
+  <li>Regression losses (<code class="language-plaintext highlighter-rouge">MSELoss</code>, <code class="language-plaintext highlighter-rouge">L1Loss</code>, <code class="language-plaintext highlighter-rouge">SmoothL1Loss</code>, <code class="language-plaintext highlighter-rouge">HuberLoss</code>) now
+reject empty tensors and NaN/Inf predictions or targets before loss/gradient
+computation, and <code class="language-plaintext highlighter-rouge">SmoothL1Loss</code> uses standard beta-scaled semantics.</li>
+  <li><code class="language-plaintext highlighter-rouge">LabelSmoothingLoss</code> now keeps gradients connected with the standard
+<code class="language-plaintext highlighter-rouge">softmax - smoothedTarget</code> backward path for calibrated classification
+training.</li>
+  <li><code class="language-plaintext highlighter-rouge">BCEWithLogitsLoss</code> now uses a stable softplus formulation, preserving large
+losses for confident wrong binary predictions and rejecting non-finite logits
+or invalid targets before training.</li>
+  <li><code class="language-plaintext highlighter-rouge">DiceLoss</code> now backpropagates the overlap objective for segmentation training
+and validates probability predictions, binary masks, matching shapes, and
+smoothing values.</li>
+  <li><code class="language-plaintext highlighter-rouge">IoULoss</code> now backpropagates through predicted bounding boxes and validates
+<code class="language-plaintext highlighter-rouge">[batch, 4]</code> finite, ordered coordinates before computing object-detection
+overlap loss.</li>
+  <li><code class="language-plaintext highlighter-rouge">TripletLoss</code> now backpropagates active margin violations to anchor,
+positive, and negative embeddings and validates matching <code class="language-plaintext highlighter-rouge">[batch, dim]</code>
+embedding tensors.</li>
+  <li><code class="language-plaintext highlighter-rouge">ContrastiveLoss</code> now backpropagates positive pairs and active negative
+margin violations while validating binary labels and matching <code class="language-plaintext highlighter-rouge">[batch, dim]</code>
+embedding tensors.</li>
+  <li><code class="language-plaintext highlighter-rouge">CosineEmbeddingLoss</code> now backpropagates positive and active negative cosine
+pairs while validating strict <code class="language-plaintext highlighter-rouge">1.0</code>/<code class="language-plaintext highlighter-rouge">-1.0</code> labels, margin bounds, and
+matching <code class="language-plaintext highlighter-rouge">[batch, dim]</code> embedding tensors.</li>
+  <li><code class="language-plaintext highlighter-rouge">CTCLoss</code> now backpropagates log-probability inputs using log-space
+forward-backward posteriors and rejects blank/impossible target alignments
+before training.</li>
+  <li><code class="language-plaintext highlighter-rouge">ArcFaceLoss</code> now backpropagates through feature embeddings and learned class
+centers, including normalization and angular-margin derivatives.</li>
+  <li><code class="language-plaintext highlighter-rouge">KnowledgeDistillation</code> now trains student models from both soft teacher
+distributions and hard labels using teacher-to-student KL plus CrossEntropy,
+with teacher logits detached and student gradients preserved.</li>
+  <li>The default CPU NN backend now implements depthwise convolution, image
+resize/crop/normalize, scaled dot-product attention, and multi-head attention
+instead of returning null for these runtime paths.</li>
+  <li><code class="language-plaintext highlighter-rouge">classificationDataLoader(...)</code> and <code class="language-plaintext highlighter-rouge">classificationTrainValidationSplit(...)</code>
+accept Java <code class="language-plaintext highlighter-rouge">int[]</code> labels and produce CrossEntropy-compatible class-index
+tensors.</li>
+  <li><code class="language-plaintext highlighter-rouge">classificationStratifiedTrainValidationSplit(...)</code> and
+<code class="language-plaintext highlighter-rouge">binaryStratifiedTrainValidationSplit(...)</code> preserve class/binary label
+coverage across train and validation sets for small classification datasets.</li>
+  <li><code class="language-plaintext highlighter-rouge">multiLabelBinaryStratifiedTrainValidationSplit(...)</code> balances per-label
+positive counts while preserving exact train/validation sizes for
+multi-label BCE datasets.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().classificationMetrics()</code> records accuracy, macro
+precision, macro recall, and macro F1 into <code class="language-plaintext highlighter-rouge">TrainingSummary.metadata()</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">confusionMatrixMetric()</code> / <code class="language-plaintext highlighter-rouge">trainingOptions().confusionMatrixMetric()</code>
+records scalar <code class="language-plaintext highlighter-rouge">confusion_matrix_accuracy</code> plus structured matrix details in
+summary metadata, epoch history, <code class="language-plaintext highlighter-rouge">canonical-history.csv</code>, and
+<code class="language-plaintext highlighter-rouge">canonical-report.json</code>. Rows represent actual classes and columns represent
+predicted classes.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().topKAccuracyMetric(k)</code> records top-k accuracy, such as
+<code class="language-plaintext highlighter-rouge">top2_accuracy</code> or <code class="language-plaintext highlighter-rouge">top5_accuracy</code>, for logits shaped <code class="language-plaintext highlighter-rouge">[batch, classes]</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">classificationMacroRocAucMetric()</code>,
+<code class="language-plaintext highlighter-rouge">classificationMacroAveragePrecisionMetric()</code>, and
+<code class="language-plaintext highlighter-rouge">trainingOptions().classificationRankingMetrics()</code> report one-vs-rest
+multi-class ranking quality directly from CrossEntropy-style logits.</li>
+  <li><code class="language-plaintext highlighter-rouge">classWeights(...)</code> derives balanced weights for imbalanced multi-class
+datasets, <code class="language-plaintext highlighter-rouge">classWeightsFor(numClasses, ...)</code> supports explicit class counts,
+and <code class="language-plaintext highlighter-rouge">trainingOptions().crossEntropyClassWeights(...)</code> applies those weights
+to the one-call CrossEntropy trainer preset path.</li>
+  <li><code class="language-plaintext highlighter-rouge">TrainingPreset.CLASSIFICATION_FOCAL_*</code>, <code class="language-plaintext highlighter-rouge">focalLoss(...)</code>, and
+<code class="language-plaintext highlighter-rouge">trainingOptions().focalGamma(...)</code> / <code class="language-plaintext highlighter-rouge">.focalClassWeights(...)</code> support
+focal-loss classification for hard-example-focused imbalanced training, with
+finite-logit validation before softmax/focal weighting.</li>
+  <li><code class="language-plaintext highlighter-rouge">TrainingPreset.BINARY_FOCAL_WITH_LOGITS_*</code>,
+<code class="language-plaintext highlighter-rouge">binaryFocalWithLogitsLoss(...)</code>, and <code class="language-plaintext highlighter-rouge">trainingOptions().focalGamma(...)</code> /
+<code class="language-plaintext highlighter-rouge">.focalAlpha(...)</code> combine focal hard-example weighting with existing
+<code class="language-plaintext highlighter-rouge">.bcePositiveWeight(...)</code> / <code class="language-plaintext highlighter-rouge">.bcePositiveWeights(...)</code> controls for
+imbalanced binary and multi-label training, with finite-logit validation and
+tested positive-weight gradients.</li>
+  <li><code class="language-plaintext highlighter-rouge">binaryDataLoader(...)</code>, <code class="language-plaintext highlighter-rouge">binaryTrainValidationSplit(...)</code>,
+<code class="language-plaintext highlighter-rouge">binaryStratifiedTrainValidationSplit(...)</code>, and
+<code class="language-plaintext highlighter-rouge">TrainingPreset.BINARY_BCE_WITH_LOGITS_*</code> support one-output binary
+classifiers using BCE-with-logits targets shaped <code class="language-plaintext highlighter-rouge">[batch, 1]</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">binaryPositiveWeight(...)</code> derives <code class="language-plaintext highlighter-rouge">negatives / positives</code> for imbalanced
+binary datasets, and <code class="language-plaintext highlighter-rouge">trainingOptions().bcePositiveWeight(...)</code> applies it
+to the one-call BCE trainer preset path.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().binaryClassificationMetrics()</code> records thresholded
+binary accuracy, precision, recall, and F1 using logit <code class="language-plaintext highlighter-rouge">0.0</code> as the
+probability <code class="language-plaintext highlighter-rouge">0.5</code> boundary.</li>
+  <li><code class="language-plaintext highlighter-rouge">binaryAccuracyMetric(logitThreshold)</code>, <code class="language-plaintext highlighter-rouge">binaryF1Metric(logitThreshold)</code>,
+and <code class="language-plaintext highlighter-rouge">trainingOptions().binaryClassificationMetrics(logitThreshold)</code> evaluate
+binary BCE/focal logits at deployment-specific operating points.</li>
+  <li><code class="language-plaintext highlighter-rouge">binaryConfusionMatrixMetric(logitThreshold)</code> and
+<code class="language-plaintext highlighter-rouge">trainingOptions().binaryConfusionMatrixMetric(logitThreshold)</code> record
+scalar <code class="language-plaintext highlighter-rouge">binary_confusion_matrix_accuracy</code> plus TN/FP/FN/TP, specificity,
+balanced accuracy, and a structured <code class="language-plaintext highlighter-rouge">[[TN, FP], [FN, TP]]</code> matrix in
+trainer summaries, evaluation summaries, epoch history, and reports.</li>
+  <li><code class="language-plaintext highlighter-rouge">binaryRocAucMetric()</code>, <code class="language-plaintext highlighter-rouge">binaryAveragePrecisionMetric()</code>, and
+<code class="language-plaintext highlighter-rouge">trainingOptions().binaryRankingMetrics()</code> report ranking quality directly
+from logits for imbalanced binary datasets.</li>
+  <li><code class="language-plaintext highlighter-rouge">multiLabelBinaryDataLoader(...)</code>, <code class="language-plaintext highlighter-rouge">multiLabelBinaryTrainValidationSplit(...)</code>,
+and <code class="language-plaintext highlighter-rouge">multiLabelBinaryStratifiedTrainValidationSplit(...)</code> accept Java
+<code class="language-plaintext highlighter-rouge">int[][]</code>, <code class="language-plaintext highlighter-rouge">boolean[][]</code>, or <code class="language-plaintext highlighter-rouge">float[][]</code> targets while preserving
+<code class="language-plaintext highlighter-rouge">[batch, labels]</code> shape for multi-label BCE training.</li>
+  <li><code class="language-plaintext highlighter-rouge">multiLabelPositiveWeights(...)</code> derives per-label imbalance weights, and
+<code class="language-plaintext highlighter-rouge">trainingOptions().bcePositiveWeights(...)</code> applies those weights to
+multi-label BCE-with-logits presets.</li>
+  <li><code class="language-plaintext highlighter-rouge">trainingOptions().multiLabelBinaryMetrics()</code> records exact-match accuracy,
+Hamming loss, macro precision, macro recall, and macro F1 for multi-label
+BCE outputs.</li>
+  <li><code class="language-plaintext highlighter-rouge">multiLabelMacroF1Metric(logitThreshold)</code> and
+<code class="language-plaintext highlighter-rouge">trainingOptions().multiLabelBinaryMetrics(logitThreshold)</code> evaluate
+multi-label BCE/focal logits with custom thresholds when probability <code class="language-plaintext highlighter-rouge">0.5</code>
+is not the desired operating point.</li>
+  <li><code class="language-plaintext highlighter-rouge">multiLabelMacroRocAucMetric()</code>, <code class="language-plaintext highlighter-rouge">multiLabelMacroAveragePrecisionMetric()</code>,
+and <code class="language-plaintext highlighter-rouge">trainingOptions().multiLabelRankingMetrics()</code> report per-label macro
+ranking quality directly from multi-label logits.</li>
+  <li><code class="language-plaintext highlighter-rouge">evaluate(...)</code> runs no-grad validation/test passes with the same metric
+factories used by training.</li>
+</ul>
+
+<h3 id="trainer">Trainer</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Canonical Gradle module</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:trainer:gollek-trainer-api</code></td>
+      <td>trainer contracts such as config, session, listeners, summaries</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:trainer:gollek-trainer</code></td>
+      <td>canonical trainer runtime facade (module path: <code class="language-plaintext highlighter-rouge">trainer/gollek-trainer</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">training/gollek-train</code> (legacy source area)</td>
+      <td>compatibility source area while migration continues; new Gradle runtime module is <code class="language-plaintext highlighter-rouge">:trainer:gollek-trainer</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="deployment-and-model-distribution">Deployment and Model Distribution</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Canonical Gradle module</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-hub</code></td>
+      <td>pretrained model discovery and loading</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-export</code></td>
+      <td>export and benchmarking</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">:runner:onnx:gollek-ml-export-onnx</code></td>
+      <td>ONNX export bridge</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="public-api-direction">Public API Direction</h2>
+
+<p>For new framework code, prefer:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.ml.Gollek</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.ml.vision.*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.ml.optimize.*</code></li>
+</ul>
+
+<p>For trainer lifecycle contracts, prefer:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.trainer.api.*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.trainer.*</code></li>
+</ul>
+
+<p>For client/application SDK code, prefer:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.sdk.*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.sdk.feature.*</code> for ML Kit-style app features</li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.client.agent.*</code> when an external agent runtime needs only
+Gollek’s serving contract, validation, embeddings, MCP discovery, and
+OpenAI-compatible response views</li>
+</ul>
+
+<p>For compatibility during the migration, these older namespaces are still intentionally bridged:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.train.*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.export.*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.hub.*</code></li>
+</ul>
+
+<p>Those compatibility namespaces exist so older code and examples do not break while the canonical <code class="language-plaintext highlighter-rouge">ml/*</code> and <code class="language-plaintext highlighter-rouge">trainer/*</code> structure settles.</p>
+
+<hr />
+
+<h2 id="quick-start">Quick Start</h2>
+
+<h3 id="ml-kit-style-sdk-features">ML Kit-Style SDK Features</h3>
+
+<p>Gollek SDK now exposes a grouped feature kit for app-facing capabilities:</p>
+
+<ul>
+  <li>Face recognition</li>
+  <li>Natural language</li>
+  <li>Document scanner</li>
+</ul>
+
+<p>Preferred entrypoint:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.sdk.feature.GollekFeatureKit</span><span class="o">;</span>
+
+<span class="nc">GollekFeatureKit</span> <span class="n">features</span> <span class="o">=</span> <span class="n">sdk</span><span class="o">.</span><span class="na">featureKit</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>Recommended package direction:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.sdk.feature.GollekFeatureKit</code></li>
+  <li><code class="language-plaintext highlighter-rouge">tech.kayys.gollek.sdk.feature.*</code> request/response types</li>
+</ul>
+
+<p>For local runtime usage through <code class="language-plaintext highlighter-rouge">gollek-sdk-local</code>, these features route through:</p>
+
+<ul>
+  <li>multimodal processors when available (vision/doc pipelines)</li>
+  <li>local heuristic NLP fallback for language/sentiment/entity extraction</li>
+</ul>
+
+<h3 id="agent-serving-sdk">Agent Serving SDK</h3>
+
+<p>Use <code class="language-plaintext highlighter-rouge">gollek-sdk-agent</code> when the caller is an external agentic system such as
+Wayang-Gollek and only needs the Gollek serving boundary. This artifact keeps
+the bridge small: HTTP, JSON, typed capability and contract views, typed response
+views, serving readiness reports, trace headers, MCP discovery, tool schema
+validation, embeddings, OpenAI-compatible generation helpers, and JDK-only
+stream callbacks.</p>
+
+<p>Use <code class="language-plaintext highlighter-rouge">gollek-sdk-remote</code> when an application wants the broader remote Gollek SDK
+surface. It still exposes the same agent integration client through
+<code class="language-plaintext highlighter-rouge">client.agent()</code>, so existing remote SDK users do not need a second dependency.
+Use <code class="language-plaintext highlighter-rouge">servingReadiness(...)</code> when the caller wants the SDK to run capability,
+contract, model-route, MCP, tool, and request-validation preflight calls as one
+serving-only report. Use <code class="language-plaintext highlighter-rouge">AgentServingPreflightRequest</code> when that preflight
+needs to disable optional stages such as MCP discovery or tool validation.
+Use <code class="language-plaintext highlighter-rouge">servingPreflightReadiness(...)</code> when the Gollek server exposes
+<code class="language-plaintext highlighter-rouge">POST /v1/agent/preflight</code> and the caller wants the server to compose the same
+checks in one request.
+Non-Java callers can use the same server-side readiness shape through
+<code class="language-plaintext highlighter-rouge">POST /v1/agent/preflight</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentIntegrationClient</span> <span class="n">agent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AgentIntegrationClient</span><span class="o">(</span>
+    <span class="nc">HttpClient</span><span class="o">.</span><span class="na">newHttpClient</span><span class="o">(),</span>
+    <span class="k">new</span> <span class="nf">ObjectMapper</span><span class="o">(),</span>
+    <span class="s">"http://localhost:8080"</span><span class="o">,</span>
+    <span class="s">"community"</span><span class="o">);</span>
+
+<span class="nc">AgentCapabilitiesView</span> <span class="n">capabilities</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">capabilitiesView</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">capabilities</span><span class="o">.</span><span class="na">hasRequiredAgentServingCapabilities</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek capabilities mismatch: "</span>
+        <span class="o">+</span> <span class="n">capabilities</span><span class="o">.</span><span class="na">agentServingCapabilityIssues</span><span class="o">());</span>
+<span class="o">}</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">capabilities</span><span class="o">.</span><span class="na">supportsContractVersion</span><span class="o">(</span><span class="s">"v1"</span><span class="o">)</span>
+        <span class="o">||</span> <span class="o">!</span><span class="n">capabilities</span><span class="o">.</span><span class="na">featureNegotiation</span><span class="o">().</span><span class="na">supportsFeature</span><span class="o">(</span><span class="s">"agent_feature_negotiation"</span><span class="o">))</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek agent contract is not compatible with this orchestrator"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nc">AgentServingContract</span> <span class="n">contract</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">contractView</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">contract</span><span class="o">.</span><span class="na">hasRequiredServingBoundary</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Gollek serving boundary mismatch: "</span> <span class="o">+</span> <span class="n">contract</span><span class="o">.</span><span class="na">servingBoundaryIssues</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentModelCapabilitiesView</span> <span class="n">model</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">modelCapabilitiesView</span><span class="o">(</span><span class="s">"demo"</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">model</span><span class="o">.</span><span class="na">hasRequiredAgentServingRoute</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Model cannot serve this agent route: "</span>
+        <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="na">agentServingRouteIssues</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentMcpDiscoveryView</span> <span class="n">tools</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">mcpToolsView</span><span class="o">(</span><span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">tools</span><span class="o">.</span><span class="na">discoveryOnly</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"MCP discovery endpoint crossed the serving boundary"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nc">AgentToolValidationView</span> <span class="n">toolCheck</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">validateToolsView</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"tools"</span><span class="o">,</span> <span class="n">tools</span><span class="o">.</span><span class="na">openAiToolDefinitions</span><span class="o">()));</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">toolCheck</span><span class="o">.</span><span class="na">hasWarnings</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordToolSchemaWarnings</span><span class="o">(</span><span class="n">toolCheck</span><span class="o">.</span><span class="na">warnings</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nc">AgentValidationView</span> <span class="n">dryRun</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">validateRequestView</span><span class="o">(</span><span class="s">"chat"</span><span class="o">,</span> <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="s">"model"</span><span class="o">,</span> <span class="s">"demo"</span><span class="o">,</span>
+    <span class="s">"messages"</span><span class="o">,</span> <span class="n">messages</span><span class="o">,</span>
+    <span class="s">"tools"</span><span class="o">,</span> <span class="n">tools</span><span class="o">.</span><span class="na">openAiToolDefinitions</span><span class="o">()));</span>
+<span class="k">if</span> <span class="o">(!</span><span class="n">dryRun</span><span class="o">.</span><span class="na">validationOnly</span><span class="o">()</span> <span class="o">||</span> <span class="n">dryRun</span><span class="o">.</span><span class="na">modelInvoked</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Validation endpoint crossed the serving boundary"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nc">AgentServingReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="nc">AgentServingReadinessReport</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">capabilities</span><span class="o">(</span><span class="n">capabilities</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">contract</span><span class="o">(</span><span class="n">contract</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">modelRoute</span><span class="o">(</span><span class="n">model</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">mcpDiscovery</span><span class="o">(</span><span class="n">tools</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">toolValidation</span><span class="o">(</span><span class="n">toolCheck</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">requestValidation</span><span class="o">(</span><span class="n">dryRun</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek serving preflight failed"</span><span class="o">);</span>
+
+<span class="nc">AgentServingReadinessReport</span><span class="o">.</span><span class="na">Check</span> <span class="n">requestCheck</span> <span class="o">=</span>
+    <span class="n">readiness</span><span class="o">.</span><span class="na">requestValidationCheck</span><span class="o">();</span>
+<span class="nc">AgentServingReadinessReport</span><span class="o">.</span><span class="na">RequestDetails</span> <span class="n">requestDetails</span> <span class="o">=</span>
+    <span class="n">requestCheck</span><span class="o">.</span><span class="na">requestDetails</span><span class="o">();</span>
+<span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordValidatedShape</span><span class="o">(</span>
+    <span class="n">requestCheck</span><span class="o">.</span><span class="na">surface</span><span class="o">(),</span>
+    <span class="n">requestCheck</span><span class="o">.</span><span class="na">model</span><span class="o">(),</span>
+    <span class="n">requestDetails</span><span class="o">.</span><span class="na">messageCount</span><span class="o">(),</span>
+    <span class="n">requestDetails</span><span class="o">.</span><span class="na">toolCount</span><span class="o">(),</span>
+    <span class="n">requestDetails</span><span class="o">.</span><span class="na">rag</span><span class="o">().</span><span class="na">items</span><span class="o">());</span>
+
+<span class="nc">AgentStreamAccumulator</span><span class="o">.</span><span class="na">Snapshot</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">streamChatCompletion</span><span class="o">(</span>
+    <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"model"</span><span class="o">,</span> <span class="s">"demo"</span><span class="o">,</span> <span class="s">"messages"</span><span class="o">,</span> <span class="n">messages</span><span class="o">,</span> <span class="s">"tools"</span><span class="o">,</span> <span class="n">tools</span><span class="o">.</span><span class="na">openAiToolDefinitions</span><span class="o">()),</span>
+    <span class="n">event</span> <span class="o">-&gt;</span> <span class="n">wayangUi</span><span class="o">.</span><span class="na">appendDelta</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">delta</span><span class="o">()));</span>
+</code></pre></div></div>
+
+<p>When the server-side preflight endpoint is available, the same readiness report
+can be requested directly:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingReadinessReport</span> <span class="n">readiness</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="na">servingPreflightReadiness</span><span class="o">(</span>
+    <span class="nc">AgentServingPreflightRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"demo"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">surface</span><span class="o">(</span><span class="s">"chat"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">featureProfile</span><span class="o">(</span><span class="nc">AgentServingFeatureProfile</span><span class="o">.</span><span class="na">CHAT_AGENT</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">requiredContractVersion</span><span class="o">(</span><span class="s">"v1"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">requiredFeatures</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"rag_context"</span><span class="o">,</span> <span class="s">"mcp_tool_discovery"</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">optionalFeatures</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"stream_usage_reporting"</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"model"</span><span class="o">,</span> <span class="s">"demo"</span><span class="o">,</span> <span class="s">"messages"</span><span class="o">,</span> <span class="n">messages</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">());</span>
+<span class="n">readiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek serving preflight failed"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Use serving feature profiles when the caller wants a named Gollek capability
+bundle instead of spelling out every feature flag. The default profile is
+<code class="language-plaintext highlighter-rouge">agent_serving</code>, which checks the full agent-serving contract. More focused
+profiles include <code class="language-plaintext highlighter-rouge">chat_agent</code>, <code class="language-plaintext highlighter-rouge">responses_agent</code>, <code class="language-plaintext highlighter-rouge">embedding_rag</code>, and
+<code class="language-plaintext highlighter-rouge">mcp_tools</code>. Profiles are still serving-only: Wayang-Gollek owns planning,
+retrieval policy, vector-store state, memory, tool authorization, and tool
+execution.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingPreflightRequest</span> <span class="n">ragIndexingPreflight</span> <span class="o">=</span>
+    <span class="nc">AgentServingPreflightRequest</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">modelId</span><span class="o">(</span><span class="s">"demo-embed"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">surface</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">featureProfile</span><span class="o">(</span><span class="nc">AgentServingFeatureProfile</span><span class="o">.</span><span class="na">EMBEDDING_RAG</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+            <span class="s">"model"</span><span class="o">,</span> <span class="s">"demo-embed"</span><span class="o">,</span>
+            <span class="s">"input"</span><span class="o">,</span> <span class="n">documentsForIndexing</span><span class="o">))</span>
+        <span class="o">.</span><span class="na">discoverMcpTools</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">mcpDiscoveryRequired</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">validateTools</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">toolValidationRequired</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="nc">AgentServingReadinessReport</span> <span class="n">ragReadiness</span> <span class="o">=</span>
+    <span class="n">agent</span><span class="o">.</span><span class="na">servingPreflightReadiness</span><span class="o">(</span><span class="n">ragIndexingPreflight</span><span class="o">);</span>
+<span class="n">ragReadiness</span><span class="o">.</span><span class="na">requireReady</span><span class="o">(</span><span class="s">"Gollek embedding/RAG serving preflight failed"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Each readiness check preserves <code class="language-plaintext highlighter-rouge">details</code> as raw metadata and exposes typed
+helpers for operator dashboards and agent-platform health probes. Standard
+areas also have convenience accessors such as <code class="language-plaintext highlighter-rouge">modelRouteCheck()</code>,
+<code class="language-plaintext highlighter-rouge">featureNegotiationCheck()</code>, <code class="language-plaintext highlighter-rouge">mcpDiscoveryCheck()</code>, <code class="language-plaintext highlighter-rouge">toolValidationCheck()</code>, and
+<code class="language-plaintext highlighter-rouge">requestValidationCheck()</code>. The report metadata includes <code class="language-plaintext highlighter-rouge">checked_areas</code> so
+dashboards can show which preflight stages were evaluated without expanding the
+full <code class="language-plaintext highlighter-rouge">checks</code> map. Server-side preflight parsing accepts either the full
+<code class="language-plaintext highlighter-rouge">check_results</code> map or a compact response that exposes <code class="language-plaintext highlighter-rouge">checked_areas</code> plus a
+nested <code class="language-plaintext highlighter-rouge">readiness_report.checks</code> map.
+The report also groups active <code class="language-plaintext highlighter-rouge">issue_hints</code> by area and by stable code through
+<code class="language-plaintext highlighter-rouge">issueHintsByArea()</code> and <code class="language-plaintext highlighter-rouge">issueHintsByCode()</code>, while each <code class="language-plaintext highlighter-rouge">Check</code> exposes
+<code class="language-plaintext highlighter-rouge">issueHint(code)</code>, <code class="language-plaintext highlighter-rouge">remediationForCode(code)</code>, <code class="language-plaintext highlighter-rouge">remediationPlan()</code>,
+<code class="language-plaintext highlighter-rouge">remediationPlanByCode()</code>, and <code class="language-plaintext highlighter-rouge">remediationPlanForCode(code)</code> for direct UI or
+CI lookups.
+Use <code class="language-plaintext highlighter-rouge">remediationPlan()</code>, <code class="language-plaintext highlighter-rouge">blockingRemediationPlan()</code>,
+<code class="language-plaintext highlighter-rouge">warningRemediationPlan()</code>, <code class="language-plaintext highlighter-rouge">remediationPlanByArea()</code>,
+<code class="language-plaintext highlighter-rouge">remediationPlanByCode()</code>, or <code class="language-plaintext highlighter-rouge">remediationPlanForCode(code)</code> when an adapter
+needs deduplicated next actions instead of every raw issue message. Each
+remediation step preserves its source messages so CI output can stay compact
+while still showing the exact blocked checks. Serialized report and check maps
+also expose <code class="language-plaintext highlighter-rouge">blocking_remediation_plan</code> and <code class="language-plaintext highlighter-rouge">warning_remediation_plan</code> for
+wire-compatible severity filters.
+Agent-serving discovery also exposes explicit contract-version negotiation.
+Use <code class="language-plaintext highlighter-rouge">AgentCapabilitiesView.featureNegotiation()</code> or
+<code class="language-plaintext highlighter-rouge">AgentServingContract.featureNegotiation()</code> to check
+<code class="language-plaintext highlighter-rouge">supported_contract_versions</code>, <code class="language-plaintext highlighter-rouge">default_feature_profile</code>,
+<code class="language-plaintext highlighter-rouge">supported_feature_profiles</code>, <code class="language-plaintext highlighter-rouge">required_features</code>, and requested feature
+support before Wayang-Gollek starts an orchestration loop.
+Stable readiness codes can still be explained through the SDK catalog instead
+of a caller-owned lookup table:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">AgentServingReadinessReport</span><span class="o">.</span><span class="na">Check</span> <span class="n">check</span> <span class="o">=</span>
+    <span class="n">readiness</span><span class="o">.</span><span class="na">requestValidationCheck</span><span class="o">();</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">check</span><span class="o">.</span><span class="na">hasEmbeddingDetails</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">AgentServingReadinessReport</span><span class="o">.</span><span class="na">EmbeddingDetails</span> <span class="n">embedding</span> <span class="o">=</span>
+        <span class="n">check</span><span class="o">.</span><span class="na">embeddingDetails</span><span class="o">();</span>
+    <span class="k">assert</span> <span class="n">embedding</span><span class="o">.</span><span class="na">storageOwnedByOrchestrator</span><span class="o">();</span>
+    <span class="k">assert</span> <span class="o">!</span><span class="n">embedding</span><span class="o">.</span><span class="na">rag</span><span class="o">().</span><span class="na">retrievalExecution</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="nc">AgentReadinessIssueCodes</span><span class="o">.</span><span class="na">CatalogEntry</span> <span class="n">issue</span> <span class="o">=</span>
+    <span class="nc">AgentReadinessIssueCodes</span><span class="o">.</span><span class="na">describe</span><span class="o">(</span><span class="s">"AGENT_REQUEST_INVALID"</span><span class="o">);</span>
+<span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordIssueHint</span><span class="o">(</span>
+    <span class="n">issue</span><span class="o">.</span><span class="na">code</span><span class="o">(),</span>
+    <span class="n">issue</span><span class="o">.</span><span class="na">area</span><span class="o">(),</span>
+    <span class="n">issue</span><span class="o">.</span><span class="na">defaultSeverity</span><span class="o">(),</span>
+    <span class="n">issue</span><span class="o">.</span><span class="na">remediation</span><span class="o">());</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="nc">AgentServingReadinessReport</span><span class="o">.</span><span class="na">IssueHint</span> <span class="n">hint</span> <span class="o">:</span> <span class="n">readiness</span><span class="o">.</span><span class="na">issueHints</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">wayangDashboard</span><span class="o">.</span><span class="na">showReadinessHint</span><span class="o">(</span>
+        <span class="n">hint</span><span class="o">.</span><span class="na">code</span><span class="o">(),</span>
+        <span class="n">hint</span><span class="o">.</span><span class="na">summary</span><span class="o">(),</span>
+        <span class="n">hint</span><span class="o">.</span><span class="na">remediation</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="n">readiness</span><span class="o">.</span><span class="na">remediationForCode</span><span class="o">(</span><span class="s">"AGENT_REQUEST_INVALID"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">remediation</span> <span class="o">-&gt;</span> <span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordRemediation</span><span class="o">(</span>
+        <span class="s">"AGENT_REQUEST_INVALID"</span><span class="o">,</span>
+        <span class="n">remediation</span><span class="o">));</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="nc">AgentReadinessRemediation</span> <span class="n">step</span> <span class="o">:</span> <span class="n">readiness</span><span class="o">.</span><span class="na">blockingRemediationPlan</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">wayangDashboard</span><span class="o">.</span><span class="na">showNextAction</span><span class="o">(</span>
+        <span class="n">step</span><span class="o">.</span><span class="na">area</span><span class="o">(),</span>
+        <span class="n">step</span><span class="o">.</span><span class="na">code</span><span class="o">(),</span>
+        <span class="n">step</span><span class="o">.</span><span class="na">remediation</span><span class="o">(),</span>
+        <span class="n">step</span><span class="o">.</span><span class="na">messages</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="n">readiness</span><span class="o">.</span><span class="na">remediationPlanForCode</span><span class="o">(</span><span class="s">"TOOL_DEFINITIONS_INVALID"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">step</span> <span class="o">-&gt;</span> <span class="n">wayangAudit</span><span class="o">.</span><span class="na">recordNextAction</span><span class="o">(</span>
+        <span class="n">step</span><span class="o">.</span><span class="na">code</span><span class="o">(),</span>
+        <span class="n">step</span><span class="o">.</span><span class="na">messages</span><span class="o">(),</span>
+        <span class="n">step</span><span class="o">.</span><span class="na">remediation</span><span class="o">()));</span>
+</code></pre></div></div>
+
+<h3 id="ml-framework-entry-point">ML Framework Entry Point</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.Gollek</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.vision.models.ResNet</span><span class="o">;</span>
+
+<span class="nc">ResNet</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ResNet</span><span class="o">.</span><span class="na">resnet18</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+
+<span class="kt">var</span> <span class="n">exporter</span> <span class="o">=</span> <span class="nc">Gollek</span><span class="o">.</span><span class="na">Export</span><span class="o">.</span><span class="na">model</span><span class="o">(</span><span class="n">model</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">inputShape</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">224</span><span class="o">,</span> <span class="mi">224</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">exporter</span><span class="o">.</span><span class="na">toONNX</span><span class="o">(</span><span class="s">"model.onnx"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="model-hub">Model Hub</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.Gollek</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.ml.vision.models.ResNet</span><span class="o">;</span>
+
+<span class="nc">ResNet</span> <span class="n">model</span> <span class="o">=</span> <span class="nc">ResNet</span><span class="o">.</span><span class="na">resnet18</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+<span class="nc">Gollek</span><span class="o">.</span><span class="na">Hub</span><span class="o">.</span><span class="na">loadInto</span><span class="o">(</span><span class="n">model</span><span class="o">,</span> <span class="s">"hf:google/vit-base-patch16-224"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="compatibility-example">Compatibility Example</h3>
+
+<p>If you still have older code that imports the legacy compatibility bridge:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tech.kayys.gollek.export.ModelExporter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.hub.ModelHub</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p>that is still supported for now, but new code should move toward <code class="language-plaintext highlighter-rouge">Gollek.Export</code>, <code class="language-plaintext highlighter-rouge">Gollek.Hub</code>, and <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.ml.*</code>.</p>
+
+<hr />
+
+<h2 id="migration-map">Migration Map</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Legacy wording</th>
+      <th>Current canonical meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-sdk-train</code></td>
+      <td>trainer runtime split across <code class="language-plaintext highlighter-rouge">:trainer:gollek-trainer-api</code>, <code class="language-plaintext highlighter-rouge">:trainer:gollek-trainer</code>, plus legacy compatibility sources under <code class="language-plaintext highlighter-rouge">training/gollek-train</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-sdk-export</code></td>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-export</code> plus <code class="language-plaintext highlighter-rouge">Gollek.Export</code> and <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.export.*</code> compatibility</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-sdk-hub</code></td>
+      <td><code class="language-plaintext highlighter-rouge">:ml:gollek-ml-hub</code> plus <code class="language-plaintext highlighter-rouge">Gollek.Hub</code> and <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.hub.*</code> compatibility</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-sdk-core</code></td>
+      <td>shared ML/tensor/autograd foundations now spread across <code class="language-plaintext highlighter-rouge">gollek-ml-api</code>, <code class="language-plaintext highlighter-rouge">gollek-ml-core</code>, <code class="language-plaintext highlighter-rouge">gollek-ml-tensor</code>, and <code class="language-plaintext highlighter-rouge">gollek-ml-autograd</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-sdk-local</code></td>
+      <td>local application/client SDK, not the canonical ML framework root</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gollek-sdk-session</code></td>
+      <td>session/client compatibility surface; trainer contracts now belong under <code class="language-plaintext highlighter-rouge">gollek-trainer-*</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="jbang-examples">JBang Examples</h2>
+
+<p>The repository still contains JBang files whose names start with <code class="language-plaintext highlighter-rouge">gollek-sdk-*</code>.</p>
+
+<p>That does <strong>not</strong> mean the old SDK naming is the preferred future direction.</p>
+
+<p>Those files are kept for continuity while the public ML framework surface is migrated. Canonical trainer-aligned examples now start with:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_runtime_bootstrap.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_accelerated_autograd.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_resume_history.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_robust_regression_huber.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_classification_metrics.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_binary_bce_metrics.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/trainer/trainer_multilabel_bce_metrics.java</code></li>
+</ul>
+
+<p>Before running those trainer examples from <code class="language-plaintext highlighter-rouge">gollek/examples/jbang</code>, publish
+their local Gradle-built runtime graph with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew publishJbangTrainerExamplesToMavenLocal
+</code></pre></div></div>
+
+<p>Compatibility examples under older SDK naming include:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/sdk/gollek-quickstart.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/sdk/gollek-sdk-core-example.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/sdk/gollek-sdk-vision-example.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/sdk/gollek-sdk-train-example.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/sdk/gollek-sdk-augment-example.java</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gollek/examples/jbang/sdk/gollek-sdk-export-example.java</code></li>
+</ul>
+
+<p>should be read as compatibility samples during the rename, not as the final naming model.</p>
+
+<hr />
+
+<h2 id="recommended-reading">Recommended Reading</h2>
+
+<ul>
+  <li><a href="/docs/framework/index">Framework Overview</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/">API Reference Index</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api">gollek-trainer-api</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer">gollek-trainer</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub">gollek-ml-hub</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export">gollek-ml-export</a></li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

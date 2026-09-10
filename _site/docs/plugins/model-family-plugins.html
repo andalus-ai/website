@@ -1,0 +1,2297 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model Family Plugins | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Model Family Plugins</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="model-family-plugins">Model Family Plugins</h1>
+
+<p>Model family plugins are the detachable “model farm” layer in Gollek. They let Gollek understand Hugging Face style model families without forcing every architecture, tokenizer, or weight-layout adapter into every production inference build.</p>
+
+<p>Use this page when you want to:</p>
+
+<ul>
+  <li>Add a new family from <code class="language-plaintext highlighter-rouge">3rdparty/transformers/src/transformers/models</code>.</li>
+  <li>Package only selected families into the CLI or runtime.</li>
+  <li>Reuse tokenizer metadata across runners.</li>
+  <li>Keep experimental or metadata-only families out of lean production builds.</li>
+</ul>
+
+<hr />
+
+<h2 id="mental-model">Mental Model</h2>
+
+<p>Gollek separates model knowledge from execution:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Owns</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model family plugin</td>
+      <td>Architecture names, <code class="language-plaintext highlighter-rouge">model_type</code> claims, tokenizer profiles, support metadata, direct-runtime readiness</td>
+      <td>Llama, Gemma, Phi, Qwen, BERT, FLAVA, Mamba</td>
+    </tr>
+    <tr>
+      <td>Runner plugin</td>
+      <td>Artifact execution for a format</td>
+      <td>GGUF, SafeTensor, ONNX, LiteRT</td>
+    </tr>
+    <tr>
+      <td>Kernel/backend plugin</td>
+      <td>Hardware acceleration</td>
+      <td>Metal, CUDA, ROCm, DirectML</td>
+    </tr>
+    <tr>
+      <td>Extension</td>
+      <td>External installable package or higher-level feature</td>
+      <td>OCR, quantization labs, custom pipelines</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A model family plugin does not need to execute a model by itself. It advertises what Gollek can safely know about that family. A runner then decides whether a specific artifact can be executed.</p>
+
+<p>That split keeps production builds small. A server that only runs Llama/Gemma/Qwen can attach only those families; a research build can attach every family; a minimal proxy build can detach all model-family plugins.</p>
+
+<p>When debugging a real model route, start with the model-family bundle to confirm
+Gollek recognizes the architecture and tokenizer metadata, then inspect the runner
+route to see which artifact format will execute. The runner route report is owned
+by the runner plugin layer:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle | {bundlePreset, familyCount, productionSafety}'</span>
+
+gollek run <span class="se">\</span>
+  <span class="nt">--model</span> google/gemma-4-E2B-it <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"what is jakarta"</span> <span class="se">\</span>
+  <span class="nt">--route-report-json</span> <span class="se">\</span>
+  | jq <span class="s1">'{
+      provider,
+      format,
+      route_runner,
+      route_selection_source,
+      route_redirected,
+      route_artifact_cache_hit,
+      route_artifact_cache_state,
+      route_profile_status,
+      route_profile_source,
+      route_profile_provider,
+      family_route: .runner_route.runtime_redirect_reason
+    }'</span>
+</code></pre></div></div>
+
+<p>See <a href="/docs/plugins/runner-plugins">Runner Plugins</a> for <code class="language-plaintext highlighter-rouge">--runner</code>, <code class="language-plaintext highlighter-rouge">--provider</code>,
+hybrid routing, and route artifact cache semantics.</p>
+
+<hr />
+
+<h2 id="current-bundle-profiles">Current Bundle Profiles</h2>
+
+<p>The CLI Gradle build selects model families using <code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=&lt;selectors&gt;</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Profile</th>
+      <th>Default?</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">core</code></td>
+      <td>Yes</td>
+      <td>Production-friendly default families that Gollek should usually know about.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">optional</code></td>
+      <td>No</td>
+      <td>Useful families that are stable enough to opt into explicitly.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata_only</code></td>
+      <td>No</td>
+      <td>Family and tokenizer metadata exist, but direct production runtime support may still be pending.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">experimental</code></td>
+      <td>No</td>
+      <td>Research or vendor-specific families that should stay opt-in.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Current high-level grouping:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Profile</th>
+      <th>Families</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">core</code></td>
+      <td><code class="language-plaintext highlighter-rouge">gemma</code>, <code class="language-plaintext highlighter-rouge">llama</code>, <code class="language-plaintext highlighter-rouge">mistral</code>, <code class="language-plaintext highlighter-rouge">phi</code>, <code class="language-plaintext highlighter-rouge">qwen</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">optional</code></td>
+      <td><code class="language-plaintext highlighter-rouge">code_llama</code>, <code class="language-plaintext highlighter-rouge">cohere</code>, <code class="language-plaintext highlighter-rouge">gemma2</code>, <code class="language-plaintext highlighter-rouge">gemma3</code>, <code class="language-plaintext highlighter-rouge">gemma4</code>, <code class="language-plaintext highlighter-rouge">yi</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">experimental</code></td>
+      <td><code class="language-plaintext highlighter-rouge">deepseek</code>, <code class="language-plaintext highlighter-rouge">deepseek_v2</code>, <code class="language-plaintext highlighter-rouge">deepseek_v3</code>, <code class="language-plaintext highlighter-rouge">deepseek_vl</code>, <code class="language-plaintext highlighter-rouge">deepseek_vl_hybrid</code>, <code class="language-plaintext highlighter-rouge">kimi</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata_only</code></td>
+      <td><code class="language-plaintext highlighter-rouge">albert</code>, <code class="language-plaintext highlighter-rouge">align</code>, <code class="language-plaintext highlighter-rouge">altclip</code>, <code class="language-plaintext highlighter-rouge">arcee</code>, <code class="language-plaintext highlighter-rouge">bamba</code>, <code class="language-plaintext highlighter-rouge">bark</code>, <code class="language-plaintext highlighter-rouge">bart</code>, <code class="language-plaintext highlighter-rouge">barthez</code>, <code class="language-plaintext highlighter-rouge">bartpho</code>, <code class="language-plaintext highlighter-rouge">beit</code>, <code class="language-plaintext highlighter-rouge">bert</code>, <code class="language-plaintext highlighter-rouge">bert_generation</code>, <code class="language-plaintext highlighter-rouge">bert_japanese</code>, <code class="language-plaintext highlighter-rouge">bertweet</code>, <code class="language-plaintext highlighter-rouge">bigbird</code>, <code class="language-plaintext highlighter-rouge">bigbird_pegasus</code>, <code class="language-plaintext highlighter-rouge">biogpt</code>, <code class="language-plaintext highlighter-rouge">bitnet</code>, <code class="language-plaintext highlighter-rouge">blenderbot</code>, <code class="language-plaintext highlighter-rouge">blenderbot_small</code>, <code class="language-plaintext highlighter-rouge">blip</code>, <code class="language-plaintext highlighter-rouge">blip_2</code>, <code class="language-plaintext highlighter-rouge">bloom</code>, <code class="language-plaintext highlighter-rouge">bridgetower</code>, <code class="language-plaintext highlighter-rouge">bros</code>, <code class="language-plaintext highlighter-rouge">byt5</code>, <code class="language-plaintext highlighter-rouge">camembert</code>, <code class="language-plaintext highlighter-rouge">canine</code>, <code class="language-plaintext highlighter-rouge">chameleon</code>, <code class="language-plaintext highlighter-rouge">chinese_clip</code>, <code class="language-plaintext highlighter-rouge">clap</code>, <code class="language-plaintext highlighter-rouge">clip</code>, <code class="language-plaintext highlighter-rouge">clipseg</code>, <code class="language-plaintext highlighter-rouge">codegen</code>, <code class="language-plaintext highlighter-rouge">colmodernvbert</code>, <code class="language-plaintext highlighter-rouge">colpali</code>, <code class="language-plaintext highlighter-rouge">colqwen2</code>, <code class="language-plaintext highlighter-rouge">convbert</code>, <code class="language-plaintext highlighter-rouge">convnext</code>, <code class="language-plaintext highlighter-rouge">cpm</code>, <code class="language-plaintext highlighter-rouge">cpmant</code>, <code class="language-plaintext highlighter-rouge">ctrl</code>, <code class="language-plaintext highlighter-rouge">cvt</code>, <code class="language-plaintext highlighter-rouge">data2vec</code>, <code class="language-plaintext highlighter-rouge">dbrx</code>, <code class="language-plaintext highlighter-rouge">deberta</code>, <code class="language-plaintext highlighter-rouge">deberta_v2</code>, <code class="language-plaintext highlighter-rouge">deit</code>, <code class="language-plaintext highlighter-rouge">depth</code>, <code class="language-plaintext highlighter-rouge">detr</code>, <code class="language-plaintext highlighter-rouge">dialogpt</code>, <code class="language-plaintext highlighter-rouge">diffllama</code>, <code class="language-plaintext highlighter-rouge">dinov2</code>, <code class="language-plaintext highlighter-rouge">dinov2_with_registers</code>, <code class="language-plaintext highlighter-rouge">distilbert</code>, <code class="language-plaintext highlighter-rouge">donut</code>, <code class="language-plaintext highlighter-rouge">dpr</code>, <code class="language-plaintext highlighter-rouge">efficientnet</code>, <code class="language-plaintext highlighter-rouge">electra</code>, <code class="language-plaintext highlighter-rouge">encodec</code>, <code class="language-plaintext highlighter-rouge">ernie</code>, <code class="language-plaintext highlighter-rouge">esm</code>, <code class="language-plaintext highlighter-rouge">exaone</code>, <code class="language-plaintext highlighter-rouge">eurobert</code>, <code class="language-plaintext highlighter-rouge">falcon</code>, <code class="language-plaintext highlighter-rouge">falcon_h1</code>, <code class="language-plaintext highlighter-rouge">falcon_mamba</code>, <code class="language-plaintext highlighter-rouge">fast_vlm</code>, <code class="language-plaintext highlighter-rouge">flava</code>, <code class="language-plaintext highlighter-rouge">flaubert</code>, <code class="language-plaintext highlighter-rouge">florence2</code>, <code class="language-plaintext highlighter-rouge">focalnet</code>, <code class="language-plaintext highlighter-rouge">fnet</code>, <code class="language-plaintext highlighter-rouge">fsmt</code>, <code class="language-plaintext highlighter-rouge">funnel</code>, <code class="language-plaintext highlighter-rouge">fuyu</code>, <code class="language-plaintext highlighter-rouge">gemma3n</code>, <code class="language-plaintext highlighter-rouge">glm</code>, <code class="language-plaintext highlighter-rouge">glm_ocr</code>, <code class="language-plaintext highlighter-rouge">got_ocr2</code>, <code class="language-plaintext highlighter-rouge">gpt2</code>, <code class="language-plaintext highlighter-rouge">gpt_bigcode</code>, <code class="language-plaintext highlighter-rouge">gpt_neo</code>, <code class="language-plaintext highlighter-rouge">gpt_neox</code>, <code class="language-plaintext highlighter-rouge">gpt_neox_japanese</code>, <code class="language-plaintext highlighter-rouge">gpt_oss</code>, <code class="language-plaintext highlighter-rouge">gptj</code>, <code class="language-plaintext highlighter-rouge">granite</code>, <code class="language-plaintext highlighter-rouge">grounding_dino</code>, <code class="language-plaintext highlighter-rouge">groupvit</code>, <code class="language-plaintext highlighter-rouge">herbert</code>, <code class="language-plaintext highlighter-rouge">hubert</code>, <code class="language-plaintext highlighter-rouge">ibert</code>, <code class="language-plaintext highlighter-rouge">idefics</code>, <code class="language-plaintext highlighter-rouge">idefics2</code>, <code class="language-plaintext highlighter-rouge">idefics3</code>, <code class="language-plaintext highlighter-rouge">instructblip</code>, <code class="language-plaintext highlighter-rouge">instructblipvideo</code>, <code class="language-plaintext highlighter-rouge">internvl</code>, <code class="language-plaintext highlighter-rouge">jamba</code>, <code class="language-plaintext highlighter-rouge">jina_embeddings_v3</code>, <code class="language-plaintext highlighter-rouge">kosmos2</code>, <code class="language-plaintext highlighter-rouge">kosmos2_5</code>, <code class="language-plaintext highlighter-rouge">layoutlm</code>, <code class="language-plaintext highlighter-rouge">layoutxlm</code>, <code class="language-plaintext highlighter-rouge">levit</code>, <code class="language-plaintext highlighter-rouge">lighton_ocr</code>, <code class="language-plaintext highlighter-rouge">lilt</code>, <code class="language-plaintext highlighter-rouge">llama4</code>, <code class="language-plaintext highlighter-rouge">llava</code>, <code class="language-plaintext highlighter-rouge">llava_next</code>, <code class="language-plaintext highlighter-rouge">llava_next_video</code>, <code class="language-plaintext highlighter-rouge">llava_onevision</code>, <code class="language-plaintext highlighter-rouge">longformer</code>, <code class="language-plaintext highlighter-rouge">longt5</code>, <code class="language-plaintext highlighter-rouge">luke</code>, <code class="language-plaintext highlighter-rouge">lxmert</code>, <code class="language-plaintext highlighter-rouge">m2m100</code>, <code class="language-plaintext highlighter-rouge">mamba</code>, <code class="language-plaintext highlighter-rouge">mamba2</code>, <code class="language-plaintext highlighter-rouge">marian</code>, <code class="language-plaintext highlighter-rouge">markuplm</code>, <code class="language-plaintext highlighter-rouge">maskformer</code>, <code class="language-plaintext highlighter-rouge">mbart</code>, <code class="language-plaintext highlighter-rouge">megatron_bert</code>, <code class="language-plaintext highlighter-rouge">megatron_gpt2</code>, <code class="language-plaintext highlighter-rouge">metaclip_2</code>, <code class="language-plaintext highlighter-rouge">mgp_str</code>, <code class="language-plaintext highlighter-rouge">ministral</code>, <code class="language-plaintext highlighter-rouge">ministral3</code>, <code class="language-plaintext highlighter-rouge">mistral3</code>, <code class="language-plaintext highlighter-rouge">mistral4</code>, <code class="language-plaintext highlighter-rouge">mixtral</code>, <code class="language-plaintext highlighter-rouge">mllama</code>, <code class="language-plaintext highlighter-rouge">mobilebert</code>, <code class="language-plaintext highlighter-rouge">mobilenet</code>, <code class="language-plaintext highlighter-rouge">mobilevit</code>, <code class="language-plaintext highlighter-rouge">mobilevitv2</code>, <code class="language-plaintext highlighter-rouge">modernbert</code>, <code class="language-plaintext highlighter-rouge">modernbert_decoder</code>, <code class="language-plaintext highlighter-rouge">modernvbert</code>, <code class="language-plaintext highlighter-rouge">mpt</code>, <code class="language-plaintext highlighter-rouge">mpnet</code>, <code class="language-plaintext highlighter-rouge">mt5</code>, <code class="language-plaintext highlighter-rouge">musicgen</code>, <code class="language-plaintext highlighter-rouge">nemotron</code>, <code class="language-plaintext highlighter-rouge">nllb</code>, <code class="language-plaintext highlighter-rouge">nllb_moe</code>, <code class="language-plaintext highlighter-rouge">nomic_bert</code>, <code class="language-plaintext highlighter-rouge">nougat</code>, <code class="language-plaintext highlighter-rouge">olmo</code>, <code class="language-plaintext highlighter-rouge">olmo2</code>, <code class="language-plaintext highlighter-rouge">olmo3</code>, <code class="language-plaintext highlighter-rouge">olmo_hybrid</code>, <code class="language-plaintext highlighter-rouge">olmoe</code>, <code class="language-plaintext highlighter-rouge">oneformer</code>, <code class="language-plaintext highlighter-rouge">openai_gpt</code>, <code class="language-plaintext highlighter-rouge">opt</code>, <code class="language-plaintext highlighter-rouge">owlvit</code>, <code class="language-plaintext highlighter-rouge">owlv2</code>, <code class="language-plaintext highlighter-rouge">paligemma</code>, <code class="language-plaintext highlighter-rouge">pegasus</code>, <code class="language-plaintext highlighter-rouge">pegasus_x</code>, <code class="language-plaintext highlighter-rouge">persimmon</code>, <code class="language-plaintext highlighter-rouge">phi4_multimodal</code>, <code class="language-plaintext highlighter-rouge">phimoe</code>, <code class="language-plaintext highlighter-rouge">phobert</code>, <code class="language-plaintext highlighter-rouge">pix2struct</code>, <code class="language-plaintext highlighter-rouge">pixtral</code>, <code class="language-plaintext highlighter-rouge">plbart</code>, <code class="language-plaintext highlighter-rouge">poolformer</code>, <code class="language-plaintext highlighter-rouge">prophetnet</code>, <code class="language-plaintext highlighter-rouge">pvt</code>, <code class="language-plaintext highlighter-rouge">pvt_v2</code>, <code class="language-plaintext highlighter-rouge">qwen2_audio</code>, <code class="language-plaintext highlighter-rouge">qwen2_moe</code>, <code class="language-plaintext highlighter-rouge">qwen2_5_omni</code>, <code class="language-plaintext highlighter-rouge">qwen2_5_vl</code>, <code class="language-plaintext highlighter-rouge">qwen2_vl</code>, <code class="language-plaintext highlighter-rouge">qwen3_5</code>, <code class="language-plaintext highlighter-rouge">qwen3_5_moe</code>, <code class="language-plaintext highlighter-rouge">qwen3_moe</code>, <code class="language-plaintext highlighter-rouge">qwen3_next</code>, <code class="language-plaintext highlighter-rouge">qwen3_omni_moe</code>, <code class="language-plaintext highlighter-rouge">qwen3_vl</code>, <code class="language-plaintext highlighter-rouge">qwen3_vl_moe</code>, <code class="language-plaintext highlighter-rouge">qwen_vl</code>, <code class="language-plaintext highlighter-rouge">rag</code>, <code class="language-plaintext highlighter-rouge">recurrent_gemma</code>, <code class="language-plaintext highlighter-rouge">reformer</code>, <code class="language-plaintext highlighter-rouge">regnet</code>, <code class="language-plaintext highlighter-rouge">rembert</code>, <code class="language-plaintext highlighter-rouge">resnet</code>, <code class="language-plaintext highlighter-rouge">roberta</code>, <code class="language-plaintext highlighter-rouge">roberta_prelayernorm</code>, <code class="language-plaintext highlighter-rouge">roc_bert</code>, <code class="language-plaintext highlighter-rouge">roformer</code>, <code class="language-plaintext highlighter-rouge">rwkv</code>, <code class="language-plaintext highlighter-rouge">sam</code>, <code class="language-plaintext highlighter-rouge">segformer</code>, <code class="language-plaintext highlighter-rouge">seamless_m4t</code>, <code class="language-plaintext highlighter-rouge">shieldgemma2</code>, <code class="language-plaintext highlighter-rouge">siglip</code>, <code class="language-plaintext highlighter-rouge">siglip2</code>, <code class="language-plaintext highlighter-rouge">smollm3</code>, <code class="language-plaintext highlighter-rouge">smolvlm</code>, <code class="language-plaintext highlighter-rouge">speecht5</code>, <code class="language-plaintext highlighter-rouge">squeezebert</code>, <code class="language-plaintext highlighter-rouge">stablelm</code>, <code class="language-plaintext highlighter-rouge">starcoder2</code>, <code class="language-plaintext highlighter-rouge">switch_transformers</code>, <code class="language-plaintext highlighter-rouge">swin</code>, <code class="language-plaintext highlighter-rouge">t5</code>, <code class="language-plaintext highlighter-rouge">t5gemma</code>, <code class="language-plaintext highlighter-rouge">t5gemma2</code>, <code class="language-plaintext highlighter-rouge">trocr</code>, <code class="language-plaintext highlighter-rouge">umt5</code>, <code class="language-plaintext highlighter-rouge">upernet</code>, <code class="language-plaintext highlighter-rouge">vaultgemma</code>, <code class="language-plaintext highlighter-rouge">video_llama_3</code>, <code class="language-plaintext highlighter-rouge">video_llava</code>, <code class="language-plaintext highlighter-rouge">vipllava</code>, <code class="language-plaintext highlighter-rouge">vilt</code>, <code class="language-plaintext highlighter-rouge">vision_text_dual_encoder</code>, <code class="language-plaintext highlighter-rouge">vit</code>, <code class="language-plaintext highlighter-rouge">visual_bert</code>, <code class="language-plaintext highlighter-rouge">vits</code>, <code class="language-plaintext highlighter-rouge">wav2vec2</code>, <code class="language-plaintext highlighter-rouge">wav2vec2_bert</code>, <code class="language-plaintext highlighter-rouge">wavlm</code>, <code class="language-plaintext highlighter-rouge">whisper</code>, <code class="language-plaintext highlighter-rouge">x_clip</code>, <code class="language-plaintext highlighter-rouge">xglm</code>, <code class="language-plaintext highlighter-rouge">xlm</code>, <code class="language-plaintext highlighter-rouge">xlm_roberta</code>, <code class="language-plaintext highlighter-rouge">xlm_roberta_xl</code>, <code class="language-plaintext highlighter-rouge">xlnet</code>, <code class="language-plaintext highlighter-rouge">xmod</code>, <code class="language-plaintext highlighter-rouge">yolos</code>, <code class="language-plaintext highlighter-rouge">zamba</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Metadata-only is deliberate. It allows tokenizer routing, architecture detection, diagnostics, and conversion planning without pretending that every family has efficient direct SafeTensor inference yet.</p>
+
+<p>Capability-oriented selector aliases are also available for production bundle design:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Alias</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">direct</code></td>
+      <td>Text-oriented families with direct SafeTensor adapters or guarded direct-runtime paths.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">vlm</code></td>
+      <td>Vision-language and multimodal generation families.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">vision</code></td>
+      <td>Image, detection, document-vision, and vision-language families.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">audio</code></td>
+      <td>Speech, audio-codec, audio-language, and omni multimodal families.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">embedding</code></td>
+      <td>Encoder, retrieval, and embedding-oriented families.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">moe</code></td>
+      <td>Sparse expert, hybrid, and router-heavy families that should be explicitly opted into.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">research</code></td>
+      <td>All non-core families: <code class="language-plaintext highlighter-rouge">optional</code>, <code class="language-plaintext highlighter-rouge">metadata_only</code>, and <code class="language-plaintext highlighter-rouge">experimental</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Aliases are composable with profiles and family ids. For example, <code class="language-plaintext highlighter-rouge">core,vlm</code> keeps text production families attached while adding VLM metadata, and <code class="language-plaintext highlighter-rouge">core,moe</code> adds sparse expert families without attaching every research model.</p>
+
+<hr />
+
+<h2 id="select-families-for-a-build">Select Families for a Build</h2>
+
+<p>Run these commands from the <code class="language-plaintext highlighter-rouge">gollek</code> repo root.</p>
+
+<p>Attach the default production model farm:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core :ui:gollek-cli:printModelFamilyBundle
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">printModelFamilyBundle</code> includes preset conformance details when a preset is active, so local builds can see
+selector or policy drift without opening the JSON report.</p>
+
+<p>Attach one family:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>llama :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Attach several families:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>llama,qwen,gemma :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Attach a profile:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>metadata_only :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Attach a capability-oriented alias:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core,vlm :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Attach a lean direct-runtime bundle:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>direct :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Attach everything for research, diagnostics, or release validation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>all :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Detach all model-family plugins:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>none :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Write the selected bundle report for CI:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core,metadata_only :ui:gollek-cli:writeModelFamilyBundleReport
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core,metadata_only :ui:gollek-cli:writeModelFamilyBundleGateReport
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core,metadata_only :ui:gollek-cli:validateModelFamilyBundleGate
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core,metadata_only :ui:gollek-cli:writePluginGatesReport
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core,metadata_only :ui:gollek-cli:validatePluginGates
+</code></pre></div></div>
+
+<p>The reports are written to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+ui/gollek-cli/build/reports/gollek/model-family-bundle-gate.json
+ui/gollek-cli/build/reports/gollek/plugin-gates.json
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">model-family-bundle.json</code> describes the selected build inputs, policies, aliases, presets, fixture status, and
+selection rows. <code class="language-plaintext highlighter-rouge">model-family-bundle-gate.json</code> runs the packaged runtime classpath through ServiceLoader,
+combines bundle availability with model-family plugin contract validation, and emits <code class="language-plaintext highlighter-rouge">gate</code>, <code class="language-plaintext highlighter-rouge">availability</code>,
+<code class="language-plaintext highlighter-rouge">contract</code>, <code class="language-plaintext highlighter-rouge">manifest</code>, <code class="language-plaintext highlighter-rouge">discoveredFamilies</code>, and <code class="language-plaintext highlighter-rouge">families</code> for CI archival. <code class="language-plaintext highlighter-rouge">validateModelFamilyBundleGate</code>
+uses the same runtime gate and fails the build when a selected family is missing, fixture or preset health is bad,
+or a packaged model-family plugin violates the reusable family contract.</p>
+
+<p>For an external model-family bundle, run the report writer with the output path first and one or more plugin
+classpath entries after it. Path-separator lists are accepted too:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-cp</span> <span class="s2">"&lt;gollek-cli-runtime-classpath&gt;"</span> <span class="se">\</span>
+  tech.kayys.gollek.cli.util.ModelFamilyBundleGateReportWriter <span class="se">\</span>
+  /tmp/model-family-bundle-gate.json <span class="se">\</span>
+  /opt/gollek/plugins/gollek-model-example.jar
+</code></pre></div></div>
+
+<p>The Gradle gate tasks expose the same path through <code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilyPluginClasspath</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyPluginClasspath<span class="o">=</span>/opt/gollek/plugins/gollek-model-example.jar <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundleGate <span class="se">\</span>
+  :ui:gollek-cli:writeModelFamilyBundleGateReport
+</code></pre></div></div>
+
+<p>The generated report records those extra paths in <code class="language-plaintext highlighter-rouge">externalPluginClasspath</code>, then validates discovery, tokenizer
+metadata, architecture adapters, and model-family contracts through that same external classloader. Missing
+classpath entries fail fast so CI does not accidentally validate a packaged-only runtime when an external bundle
+path was mistyped.
+When one external bundle contains both extension providers and model-family plugins, use the common
+<code class="language-plaintext highlighter-rouge">-Pgollek.pluginClasspath</code> property and the combined gate tasks:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.pluginClasspath<span class="o">=</span>/opt/gollek/plugins/gollek-bundle.jar <span class="se">\</span>
+  :ui:gollek-cli:validatePluginGates <span class="se">\</span>
+  :ui:gollek-cli:writePluginGatesReport
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">plugin-gates.json</code> embeds the extension-availability report and the model-family bundle report, then exposes one
+top-level <code class="language-plaintext highlighter-rouge">gate</code> with <code class="language-plaintext highlighter-rouge">extensionStatus</code>, <code class="language-plaintext highlighter-rouge">modelFamilyStatus</code>, prefixed violations, and a single pass/fail status.</p>
+
+<p>Use policy gates for production builds:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>core <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.requiredModelFamilies<span class="o">=</span>llama,qwen <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.forbiddenModelFamilies<span class="o">=</span>experimental,metadata_only <span class="se">\</span>
+  :ui:gollek-cli:check
+</code></pre></div></div>
+
+<p>Policy gates fail the build if a required family is missing or a forbidden family is selected.</p>
+
+<p>Use alias policy gates when CI should validate a whole curated bundle, not only individual
+families:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>direct <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.requiredModelFamilyAliases<span class="o">=</span>direct <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.forbiddenModelFamilyAliases<span class="o">=</span>embedding <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundlePolicy
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">requiredModelFamilyAliases</code> requires every family in that alias to be attached. <code class="language-plaintext highlighter-rouge">forbiddenModelFamilyAliases</code>
+fails if any selected family overlaps the alias. This is stricter and more explicit than checking a single
+family id, which is useful when aliases evolve over time.</p>
+
+<p>The JSON report includes a CI-friendly <code class="language-plaintext highlighter-rouge">policyStatus</code> block:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="nt">-e</span> <span class="s1">'.policyStatus.passed == true'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+jq <span class="s1">'.policyStatus'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+jq <span class="s1">'{policySource,presetRequiredAliases,explicitRequiredFamilies}'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">policyStatus.passed</code> for a one-line release gate, then inspect <code class="language-plaintext highlighter-rouge">policyViolations</code> only when the gate
+fails. <code class="language-plaintext highlighter-rouge">policySource</code> tells whether the required/forbidden gates came from the selected preset, explicit
+Gradle policy flags, both, or no policy at all.</p>
+
+<p>The same report also embeds fixture health so release tooling can check bundle policy and fixture coverage from one artifact:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="nt">-e</span> <span class="s1">'.fixtureStatus.passed == true'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+jq <span class="s1">'.fixtureStatus.coverage'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+jq <span class="s1">'.selection[] | select(.fixture.required) | {id, fixture: .fixture.passed}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+</code></pre></div></div>
+
+<p>Use production presets when CI should apply selectors and policy gates from one reviewed name. Hyphenated
+values such as <code class="language-plaintext highlighter-rouge">prod-llm</code> are accepted and normalized to <code class="language-plaintext highlighter-rouge">prod_llm</code> in reports and locks:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundlePolicy
+</code></pre></div></div>
+
+<p>Available presets:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Preset</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">prod_llm</code></td>
+      <td>Lean direct-runtime LLM bundle with embedding metadata detached.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">prod_embedding</code></td>
+      <td>Encoder/retrieval bundle with direct LLM and MoE families detached.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">prod_vlm_metadata</code></td>
+      <td>Core text stack plus VLM metadata for routing and conversion planning.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata_inspection</code></td>
+      <td>Metadata-only model farm without direct-runtime families.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">research_all</code></td>
+      <td>Attach every model-family plugin for diagnostics and release validation.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">runtime_proxy</code></td>
+      <td>Detach all model-family plugins for runtime-only proxy builds.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="production-tokenizer-safety">Production tokenizer safety</h3>
+
+<p>Production presets whose ids start with <code class="language-plaintext highlighter-rouge">prod_</code> have an extra safety rule: they must not select families whose
+tokenizer adapter metadata is still pending. This lets the same model farm support broad research discovery while
+keeping production inference engines lean, predictable, and free of half-wired tokenizer routes.</p>
+
+<p>The generated bundle report exposes this as <code class="language-plaintext highlighter-rouge">productionSafety</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  :ui:gollek-cli:writeModelFamilyBundleReport
+
+jq <span class="s1">'.productionSafety'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+jq <span class="s1">'.availabilityStatus | {status,productionSafetyStatus,productionPendingTokenizerFamilies}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+</code></pre></div></div>
+
+<p>The gate is considered passed when either the active bundle is not a production preset or every selected family
+has ready tokenizer metadata. When it fails, <code class="language-plaintext highlighter-rouge">availabilityStatus.status</code> is <code class="language-plaintext highlighter-rouge">production_safety_failed</code>, and the
+report lists the exact pending families plus their reasons. The higher-level <code class="language-plaintext highlighter-rouge">modelFamilyBundle.gate.status</code>
+also preserves this as <code class="language-plaintext highlighter-rouge">production_safety_failed</code>, or <code class="language-plaintext highlighter-rouge">production_safety_and_contract_failed</code> when a plugin
+contract violation is present too. The combined <code class="language-plaintext highlighter-rouge">pluginGates.status</code> promotes the same reason as
+<code class="language-plaintext highlighter-rouge">model_family_production_safety_failed</code>, while <code class="language-plaintext highlighter-rouge">pluginGates.modelFamilyStatus</code> keeps the exact model-family gate
+status for dashboards that need the sub-gate detail.</p>
+
+<p>Use these checks before shipping a production binary:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundlePresets <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundlePolicy <span class="se">\</span>
+  :ui:gollek-cli:writeModelFamilyBundleGateReport
+</code></pre></div></div>
+
+<p>At runtime, <code class="language-plaintext highlighter-rouge">gollek modules</code> surfaces the same decision:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.productionSafety'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.availabilityStatus | {status,productionSafetyStatus,productionPendingTokenizerFamilies}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.gate | {status,violations}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.pluginGates | {status,modelFamilyStatus,violations}'</span>
+gollek modules <span class="nt">--plugin-doctor</span>
+gollek modules <span class="nt">--plugin-doctor</span> <span class="nt">--json</span> | jq <span class="s1">'.modelFamilies.productionSafety'</span>
+</code></pre></div></div>
+
+<p>Recommended production pattern:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Build lane</th>
+      <th>Preset/selector</th>
+      <th>Tokenizer rule</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Production text LLM</td>
+      <td><code class="language-plaintext highlighter-rouge">prod_llm</code> or <code class="language-plaintext highlighter-rouge">direct</code></td>
+      <td>Pending-tokenizer families must be excluded or completed first.</td>
+    </tr>
+    <tr>
+      <td>Production embedding</td>
+      <td><code class="language-plaintext highlighter-rouge">prod_embedding</code></td>
+      <td>Encoder tokenizer metadata must be ready before release.</td>
+    </tr>
+    <tr>
+      <td>VLM routing metadata</td>
+      <td><code class="language-plaintext highlighter-rouge">prod_vlm_metadata</code></td>
+      <td>VLM metadata may be attached for routing, but pending tokenizer families stay visible in reports.</td>
+    </tr>
+    <tr>
+      <td>Research diagnostics</td>
+      <td><code class="language-plaintext highlighter-rouge">research_all</code> or <code class="language-plaintext highlighter-rouge">all</code></td>
+      <td>Pending-tokenizer families are allowed so discovery can continue.</td>
+    </tr>
+    <tr>
+      <td>Runtime proxy</td>
+      <td><code class="language-plaintext highlighter-rouge">runtime_proxy</code> or <code class="language-plaintext highlighter-rouge">none</code></td>
+      <td>No model-family tokenizer metadata is packaged.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If the gate fails, either move that family out of the <code class="language-plaintext highlighter-rouge">prod_*</code> preset or complete the plugin’s tokenizer
+descriptor metadata before using the build for production inference.</p>
+
+<p>Validate all preset definitions, not only the preset selected for the current build:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> :ui:gollek-cli:validateModelFamilyBundlePresets
+./gradlew <span class="nt">--no-daemon</span> :ui:gollek-cli:printModelFamilyBundlePresets
+</code></pre></div></div>
+
+<p>This simulates each preset’s selectors and checks its required families, forbidden families, required aliases,
+and forbidden aliases. Use it after changing alias membership or preset policy so production presets cannot
+silently drift into incomplete or oversized bundles.</p>
+
+<p><code class="language-plaintext highlighter-rouge">writeModelFamilyBundleReport</code> also includes <code class="language-plaintext highlighter-rouge">bundlePresets[].selectedCount</code> and
+<code class="language-plaintext highlighter-rouge">bundlePresets[].policyStatus</code>, so release tooling can audit every preset from the generated JSON.
+It also includes <code class="language-plaintext highlighter-rouge">activeBundlePresetConformance</code>, which compares the current selectors and policy inputs
+against the active preset before the CLI is launched.</p>
+
+<p>Validate active preset conformance in CI:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundlePresetConformance
+</code></pre></div></div>
+
+<p>Add the conformance gate to the normal <code class="language-plaintext highlighter-rouge">check</code> lifecycle:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.enforceModelFamilyBundlePresetConformance<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+  :ui:gollek-cli:check
+</code></pre></div></div>
+
+<p>By default, the task allows explicit overrides only when they still reproduce the preset exactly. For release
+pipelines that require the preset to be the sole source of truth, add
+<code class="language-plaintext highlighter-rouge">-Pgollek.requireCleanModelFamilyBundlePresetConformance=true</code>; this fails even if explicit selectors or policy
+flags happen to match the preset.</p>
+
+<p>Pin a production bundle with a lock file when CI should catch unintended drift in selectors, selected
+families, profiles, active preset conformance, policy inputs, or required fixture coverage:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundleLock<span class="o">=</span>model-family-bundle.direct.lock.properties <span class="se">\</span>
+  :ui:gollek-cli:writeModelFamilyBundleLock
+</code></pre></div></div>
+
+<p>Validate the current build against that lock:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundleLock<span class="o">=</span>model-family-bundle.direct.lock.properties <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundleLock
+</code></pre></div></div>
+
+<p>Write a CI artifact without failing the build:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundleLock<span class="o">=</span>model-family-bundle.direct.lock.properties <span class="se">\</span>
+  :ui:gollek-cli:writeModelFamilyBundleLockDriftReport
+
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundleLock<span class="o">=</span>model-family-bundle.direct.lock.properties <span class="se">\</span>
+  :ui:gollek-cli:printModelFamilyBundleLockDriftJson
+</code></pre></div></div>
+
+<p>Validate the drift report contract used by CI/release dashboards:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundleLockDriftReportContract
+</code></pre></div></div>
+
+<p>The JSON report is written to <code class="language-plaintext highlighter-rouge">ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json</code>.
+<code class="language-plaintext highlighter-rouge">validateModelFamilyBundleLock</code> writes the same report before failing, so CI can upload it as an artifact.
+The report includes <code class="language-plaintext highlighter-rouge">currentBundleStatus</code>, which captures the active selectors, selected families, policy status,
+preset conformance, production tokenizer safety, and fixture status from the current build.
+<code class="language-plaintext highlighter-rouge">writeModelFamilyBundleLock</code> runs bundle policy and fixture validation before writing, so the lock is only
+generated after the selected production bundle and required fixture set are healthy.
+<code class="language-plaintext highlighter-rouge">check</code> also runs <code class="language-plaintext highlighter-rouge">validateModelFamilyBundleLockDriftReportContract</code>, which exercises synthetic scalar,
+selection, and fixture fingerprint drift so dashboard-facing JSON fields do not change accidentally.</p>
+
+<p>Inspect the high-signal drift summaries first:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="s1">'.conformanceSummaries'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.selectionSummaries'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.productionSafetySummaries'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.fixtureSummaries'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'{driftCount,bundleScalarDriftCount,bundleSelectionDriftCount,productionSafetyDriftCount,conformanceDriftCount,fixtureDriftCount,expectedFixtureStatus,actualFixtureStatus}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.currentBundleStatus | {bundlePreset,familyCount,productionSafety,policyStatus,fixtureStatus}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.productionSafetyDrift'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.bundleScalarDrift'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.bundleSelectionDrift'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.fixtureFingerprintDrift'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+jq <span class="s1">'.drift[] | select(.key | startswith("fixture"))'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle-lock-drift.json
+</code></pre></div></div>
+
+<p>The default lock path is <code class="language-plaintext highlighter-rouge">ui/gollek-cli/model-family-bundle.lock.properties</code>. Override it with
+<code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilyBundleLock=&lt;relative-path&gt;</code> when maintaining separate production locks such as
+<code class="language-plaintext highlighter-rouge">model-family-bundle.direct.lock.properties</code> or <code class="language-plaintext highlighter-rouge">model-family-bundle.embedding.lock.properties</code>.
+The lock includes <code class="language-plaintext highlighter-rouge">presetConformanceStatus</code> and the selector/policy additions or omissions that explain drift,
+plus <code class="language-plaintext highlighter-rouge">fixtureRequiredSelectors</code>, <code class="language-plaintext highlighter-rouge">fixtureRequiredFamilies</code>, <code class="language-plaintext highlighter-rouge">fixturePassed</code>, and fixture coverage counts.
+It also stores <code class="language-plaintext highlighter-rouge">fixtureRequiredFingerprint</code>, <code class="language-plaintext highlighter-rouge">fixtureInventoryFingerprint</code>, <code class="language-plaintext highlighter-rouge">fixtureRequiredContentFingerprints</code>,
+and <code class="language-plaintext highlighter-rouge">fixturePresentContentFingerprints</code>, so code review can distinguish a clean preset build from an intentional
+override and can see which family fixture was required, lost, or quietly edited. When validation fails, the error
+starts with preset conformance and fixture coverage drift summaries before listing the raw key-level lock
+differences. The <code class="language-plaintext highlighter-rouge">bundleScalarDrift</code> array captures non-list changes such as bundle preset, bundle fingerprint,
+family count, policy booleans, preset conformance booleans, and fixture coverage counts with <code class="language-plaintext highlighter-rouge">scope</code>, <code class="language-plaintext highlighter-rouge">label</code>,
+<code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">expected</code>, and <code class="language-plaintext highlighter-rouge">actual</code> fields. <code class="language-plaintext highlighter-rouge">productionSafetySummaries</code> and <code class="language-plaintext highlighter-rouge">productionSafetyDrift</code> isolate
+production tokenizer requirement, readiness, pending-family, and pending-reason changes from the generic scalar
+and selection drift arrays. The <code class="language-plaintext highlighter-rouge">fixtureFingerprintDrift</code> array provides the same fixture content drift as
+structured JSON with <code class="language-plaintext highlighter-rouge">scope</code>, <code class="language-plaintext highlighter-rouge">familyId</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">expected</code>, and <code class="language-plaintext highlighter-rouge">actual</code> fields for release dashboards.</p>
+
+<hr />
+
+<h2 id="runtime-discovery">Runtime Discovery</h2>
+
+<p>Model family plugins are regular Gollek plugins:</p>
+
+<ul>
+  <li>They implement <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.spi.model.ModelFamilyPlugin</code>.</li>
+  <li>They also satisfy <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.spi.plugin.GollekPlugin</code>.</li>
+  <li>They register with <code class="language-plaintext highlighter-rouge">ModelFamilyPluginRegistry.global()</code> during plugin initialization.</li>
+  <li>They are discovered by CDI, ServiceLoader, and the plugin manager path used by <code class="language-plaintext highlighter-rouge">gollek-plugin-core</code>.</li>
+</ul>
+
+<p>The CLI also checks them through <code class="language-plaintext highlighter-rouge">PluginAvailabilityChecker</code>, so missing provider errors can show:</p>
+
+<ul>
+  <li>Available model-family plugin ids.</li>
+  <li>Bundle profiles such as <code class="language-plaintext highlighter-rouge">core</code> or <code class="language-plaintext highlighter-rouge">metadata_only</code>.</li>
+  <li>Current bundle policy status, active bundle preset policy status, and preset-level violations.</li>
+  <li>Bundle availability status, including detached builds, missing selected plugins, policy failures, fixture failures, and preset drift.</li>
+  <li>Fixture status for the required model-family fixture set packaged into the binary.</li>
+  <li>Direct SafeTensor support status.</li>
+  <li>Missing bundled families.</li>
+  <li>Duplicate <code class="language-plaintext highlighter-rouge">model_type</code> claim conflicts.</li>
+</ul>
+
+<p>Use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules <span class="nt">--all</span>
+</code></pre></div></div>
+
+<p>to inspect packaged runtime modules and model-family availability in a built CLI.</p>
+
+<p>External model-family bundles should be discovered through the same classloader that will serve production
+requests. This keeps attach/detach semantics consistent even when the CLI or inference engine has already scanned
+its packaged classpath:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ModelFamilyPluginRegistry</span><span class="o">.</span><span class="na">global</span><span class="o">().</span><span class="na">discoverServiceLoaderPlugins</span><span class="o">(</span><span class="n">pluginClassLoader</span><span class="o">);</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">familyIds</span> <span class="o">=</span> <span class="nc">PluginAvailabilityChecker</span><span class="o">.</span><span class="na">getGlobalModelFamilyPluginIds</span><span class="o">(</span><span class="n">pluginClassLoader</span><span class="o">);</span>
+<span class="nc">ModelFamilyBundleGate</span> <span class="n">gate</span> <span class="o">=</span> <span class="nc">PluginAvailabilityChecker</span><span class="o">.</span><span class="na">getGlobalModelFamilyBundleGate</span><span class="o">(</span><span class="n">pluginClassLoader</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">gate</span><span class="o">.</span><span class="na">failed</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="n">gate</span><span class="o">.</span><span class="na">failureMessage</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The external JAR still uses the same model-family ServiceLoader descriptor:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>META-INF/services/tech.kayys.gollek.spi.model.ModelFamilyPlugin
+</code></pre></div></div>
+
+<p>Use the explicit classloader path for detached tokenizer, architecture, VLM, embedding, or research-family bundles
+that should be installed beside the production engine instead of compiled into every binary.</p>
+
+<p>Build selector aliases are also packaged into the CLI manifest. Automation can inspect the alias definitions that were available when the binary was built:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.bundleAliases[] | {id,familyCount,families}'</span>
+</code></pre></div></div>
+
+<p>Bundle presets are packaged too, so release tooling can verify the binary was built from the reviewed preset:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules <span class="nt">--fail-on-plugin-gates</span>
+gollek modules <span class="nt">--fail-on-model-family-gate</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.pluginGates'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle | {bundlePreset, activeBundlePreset, availableBundlePresets}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.gate'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.availabilityStatus'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.productionSafety'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.fixtureStatus'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle | {selectorSource, selectors, explicitSelectors, presetSelectors}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle | {policySource,presetRequiredAliases,explicitRequiredFamilies}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.activeBundlePresetConformance'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle | {policyStatus, policyViolations}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.activeBundlePreset | {id,selectedCount,policyStatus}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.bundlePresets[] | {id,selectors,selectedCount,policyStatus,productionSafety}'</span>
+gollek modules <span class="nt">--plugin-doctor</span>
+gollek modules <span class="nt">--plugin-doctor</span> <span class="nt">--json</span> | jq <span class="s1">'.modelFamilies | {bundleAvailability,productionSafety}'</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">selectorSource</code> tells whether the bundle came from an explicit <code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies</code>, the active preset,
+or the default <code class="language-plaintext highlighter-rouge">core</code> fallback. <code class="language-plaintext highlighter-rouge">policySource</code> separately tells whether the bundle policy came from preset
+policy, explicit Gradle policy flags such as <code class="language-plaintext highlighter-rouge">-Pgollek.requiredModelFamilies</code>, both, or neither. The
+bundle-level policy reflects the exact selectors and required/forbidden gates used for this binary.
+<code class="language-plaintext highlighter-rouge">activeBundlePresetConformance</code> compares the shipped binary back to the reviewed preset and reports <code class="language-plaintext highlighter-rouge">clean</code>,
+<code class="language-plaintext highlighter-rouge">matched</code>, or <code class="language-plaintext highlighter-rouge">drifted</code> with selector and policy-input additions or omissions.
+<code class="language-plaintext highlighter-rouge">gate</code> combines runtime bundle availability with model-family plugin contract validation. It reports <code class="language-plaintext highlighter-rouge">passed</code>,
+<code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">violationCount</code>, and prefixed <code class="language-plaintext highlighter-rouge">violations</code>, making it the single CI field to archive or fail on for a
+model-family bundle release. Use <code class="language-plaintext highlighter-rouge">--fail-on-model-family-gate</code> when CI should print the same diagnostics and then
+exit non-zero on bundle availability, fixture, preset-conformance, or model-family contract failures.
+The top-level <code class="language-plaintext highlighter-rouge">pluginGates</code> object combines <code class="language-plaintext highlighter-rouge">extensionAvailability.gate</code> and <code class="language-plaintext highlighter-rouge">modelFamilyBundle.gate</code>; use
+<code class="language-plaintext highlighter-rouge">--fail-on-plugin-gates</code> when the whole plugin surface should be treated as one runtime release decision.
+<code class="language-plaintext highlighter-rouge">fixtureStatus</code> captures the required fixture selectors/families, fixture fingerprints, pass/fail status, and
+missing/problem fixture families that were packaged into the binary. <code class="language-plaintext highlighter-rouge">availabilityStatus</code> condenses the runtime
+view into <code class="language-plaintext highlighter-rouge">ready</code>, <code class="language-plaintext highlighter-rouge">detached</code>, <code class="language-plaintext highlighter-rouge">missing_plugins</code>, <code class="language-plaintext highlighter-rouge">policy_failed</code>, <code class="language-plaintext highlighter-rouge">production_safety_failed</code>, <code class="language-plaintext highlighter-rouge">fixture_failed</code>,
+or <code class="language-plaintext highlighter-rouge">preset_drifted</code>, plus counts for selected, discovered, missing, and omitted families. It also includes
+<code class="language-plaintext highlighter-rouge">productionSafetyStatus</code>, <code class="language-plaintext highlighter-rouge">productionSafetyPassed</code>, <code class="language-plaintext highlighter-rouge">productionPendingTokenizerFamilies</code>, <code class="language-plaintext highlighter-rouge">problems</code>, and
+<code class="language-plaintext highlighter-rouge">remediationHints</code>, so dashboards and provider-not-found errors can point directly at missing plugin artifacts,
+policy flag mismatches, pending-tokenizer production gates, fixture gate failures, or preset drift. This is the
+field to check first when a production binary starts but a selected model-family plugin was not actually
+discovered at runtime.
+Human-facing provider errors also print the same fixture summary and list missing/problem fixture families, so
+operators can identify fixture-gate failures without switching to JSON first.
+Preset entries include the selected families and policy violations computed when the CLI was built, so runtime
+diagnostics can confirm whether a shipped binary still matches the production preset that CI reviewed.</p>
+
+<p>Each alias row also includes <code class="language-plaintext highlighter-rouge">selectedFamilies</code>, <code class="language-plaintext highlighter-rouge">missingFamilies</code>, <code class="language-plaintext highlighter-rouge">complete</code>, and <code class="language-plaintext highlighter-rouge">partial</code>, so CI can distinguish a bundle that fully satisfies <code class="language-plaintext highlighter-rouge">direct</code> from one that only overlaps it through shared families like Gemma 4.</p>
+
+<p>The bundle report also classifies selector intent with <code class="language-plaintext highlighter-rouge">requestedFamilies</code>, <code class="language-plaintext highlighter-rouge">requestedProfiles</code>, <code class="language-plaintext highlighter-rouge">requestedAliases</code>, <code class="language-plaintext highlighter-rouge">reservedSelectors</code>, and <code class="language-plaintext highlighter-rouge">unknownSelectors</code>. That makes it easy to tell whether a build explicitly requested <code class="language-plaintext highlighter-rouge">direct</code> or merely satisfies it because <code class="language-plaintext highlighter-rouge">all</code> was selected.</p>
+
+<h3 id="optional-audio-extensions">Optional Audio Extensions</h3>
+
+<p>The same attach/detach rule applies to higher-level extensions. Suling is the optional audio adapter used by the
+MOSS TTS ONNX runtime. A production text-only inference engine can leave it detached, while an audio-serving build
+can attach the external Suling module for FLAC and MP3 encoding.</p>
+
+<p>Source builds prefer the external extension when it exists, then fall back to a tiny WAV-only stub:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">includeOptionalProject</span><span class="p">(</span><span class="s">"suling"</span><span class="p">,</span> <span class="s">"../extensions/audio/suling"</span><span class="p">,</span> <span class="s">"stubs/suling"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Inspect the packaged audio-extension state with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.totals'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.policy'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.policy.configuration'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.contract'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.gate'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.contractViolations'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.byKind.audio'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.byId.suling'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.audioExtensions.suling'</span>
+gollek run <span class="nt">--model</span> &lt;moss-tts-id&gt; <span class="nt">--tts-diagnostics</span> <span class="nt">--json</span> | jq <span class="s1">'.suling'</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">extensionAvailability</code> is the generic plugin-core view for any detachable extension. <code class="language-plaintext highlighter-rouge">audioExtensions.suling</code>
+keeps the audio-specific convenience fields for existing automation. <code class="language-plaintext highlighter-rouge">gollek modules</code> uses camelCase fields
+such as <code class="language-plaintext highlighter-rouge">productionReady</code>, <code class="language-plaintext highlighter-rouge">flacAvailable</code>, and <code class="language-plaintext highlighter-rouge">mp3EncodingAvailable</code>; <code class="language-plaintext highlighter-rouge">gollek run --tts-diagnostics --json</code>
+uses snake_case fields such as
+<code class="language-plaintext highlighter-rouge">production_ready</code>, <code class="language-plaintext highlighter-rouge">flac_available</code>, and <code class="language-plaintext highlighter-rouge">mp3_encoding_available</code>.
+The text form prints an <code class="language-plaintext highlighter-rouge">Extension Availability</code> section with the same summary counts and provider rows.
+Release gates can configure the same report as a policy check:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">GOLLEK_REQUIRED_PRODUCTION_EXTENSIONS</span><span class="o">=</span>suling gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.policy'</span>
+<span class="nv">GOLLEK_FORBIDDEN_EXTENSIONS</span><span class="o">=</span>suling gollek modules <span class="nt">--json</span> | jq <span class="s1">'.extensionAvailability.policy'</span>
+<span class="nv">GOLLEK_REQUIRED_PRODUCTION_EXTENSIONS</span><span class="o">=</span>suling gollek modules <span class="nt">--fail-on-extension-gate</span>
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">GOLLEK_REQUIRED_EXTENSIONS</code> when an extension only needs to be attached and healthy,
+<code class="language-plaintext highlighter-rouge">GOLLEK_REQUIRED_PRODUCTION_EXTENSIONS</code> when fallback modes are not acceptable, and
+<code class="language-plaintext highlighter-rouge">GOLLEK_FORBIDDEN_EXTENSIONS</code> for lean inference binaries where an extension must stay detached.
+The policy JSON includes <code class="language-plaintext highlighter-rouge">configuration.requiredExtensions</code>, <code class="language-plaintext highlighter-rouge">configuration.requiredProductionExtensions</code>,
+and <code class="language-plaintext highlighter-rouge">configuration.forbiddenExtensions</code> entries so CI can see whether each gate came from a JVM system
+property, an environment variable, or was left unset.
+<code class="language-plaintext highlighter-rouge">gate</code> combines policy and provider-contract status into one production-friendly decision. It reports
+<code class="language-plaintext highlighter-rouge">passed</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">violationCount</code>, and prefixed <code class="language-plaintext highlighter-rouge">violations</code>; use <code class="language-plaintext highlighter-rouge">--fail-on-extension-gate</code> when CI should
+exit non-zero after printing the diagnostic report.
+Runtime code can use the same gate without shelling out:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ExtensionAvailabilityGate</span> <span class="n">gate</span> <span class="o">=</span> <span class="nc">PluginAvailabilityChecker</span><span class="o">.</span><span class="na">getGlobalExtensionAvailabilityGate</span><span class="o">(</span><span class="n">pluginClassLoader</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">gate</span><span class="o">.</span><span class="na">failed</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="n">gate</span><span class="o">.</span><span class="na">failureMessage</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Any detachable extension can publish the same health contract by implementing
+<code class="language-plaintext highlighter-rouge">tech.kayys.gollek.plugin.core.ExtensionAvailabilityProvider</code> and adding a standard service descriptor:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>META-INF/services/tech.kayys.gollek.plugin.core.ExtensionAvailabilityProvider
+</code></pre></div></div>
+
+<p>The file contains one provider implementation class per line, for example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tech.kayys.gollek.cli.util.SulingAudioExtensionAvailabilityProvider
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ExtensionAvailabilityRegistry.global().discoverServiceLoaderProviders()</code> then makes classpath extensions visible
+to <code class="language-plaintext highlighter-rouge">gollek modules --json</code> without hardcoding that extension into the CLI. Runtime plugin loaders can use the
+explicit classloader overload when the extension lives in an external bundle:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ExtensionAvailabilityRegistry</span><span class="o">.</span><span class="na">global</span><span class="o">().</span><span class="na">discoverServiceLoaderProviders</span><span class="o">(</span><span class="n">pluginClassLoader</span><span class="o">);</span>
+<span class="nc">PluginAvailabilityChecker</span><span class="o">.</span><span class="na">getGlobalExtensionAvailabilityReports</span><span class="o">(</span><span class="n">pluginClassLoader</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>This is the preferred attach/detach path for optional audio, vision, tokenizer, accelerator, or future
+model-serving extensions that should not be bundled into every production inference engine.
+External bundles should be validated through the same classloader they will use in production: the provider must be
+discoverable only from the bundle classpath, its contract must pass, and the combined gate must fail when the
+bundle publishes unstable ids, mismatched availability reports, or impossible readiness states.
+The Gradle gate tasks can validate those external providers with <code class="language-plaintext highlighter-rouge">-Pgollek.extensionPluginClasspath</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.extensionPluginClasspath<span class="o">=</span>/opt/gollek/plugins/gollek-extension-tokenizer.jar <span class="se">\</span>
+  :ui:gollek-cli:validateExtensionAvailabilityProviderContracts <span class="se">\</span>
+  :ui:gollek-cli:writeExtensionAvailabilityGateReport
+</code></pre></div></div>
+
+<p>The registry also validates each provider contract. <code class="language-plaintext highlighter-rouge">contract</code> gives CI one gate-shaped summary with
+<code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">passed</code>, <code class="language-plaintext highlighter-rouge">violationCount</code>, <code class="language-plaintext highlighter-rouge">summaries</code>, and <code class="language-plaintext highlighter-rouge">byExtensionId</code>; <code class="language-plaintext highlighter-rouge">contractViolations</code> keeps the
+flat machine-readable rows. The generated report records external provider paths in <code class="language-plaintext highlighter-rouge">externalPluginClasspath</code>.
+Missing classpath entries fail fast so CI does not accidentally validate a packaged-only runtime when an external
+extension bundle path was mistyped. Violations report unstable ids or kinds, provider/report id mismatches,
+impossible attached/detached states, and production-ready reports that are unhealthy or detached. Treat a
+failed contract as a release-gate failure for production extension bundles.</p>
+
+<p>For CLI-packaged providers, keep the descriptor guarded with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew :ui:gollek-cli:validateExtensionAvailabilityProviders
+./gradlew :ui:gollek-cli:validateExtensionAvailabilityProviderContracts
+./gradlew :ui:gollek-cli:writeExtensionAvailabilityGateReport
+./gradlew :ui:gollek-cli:validateModelFamilyBundleGate
+./gradlew :ui:gollek-cli:writeModelFamilyBundleGateReport
+./gradlew :ui:gollek-cli:validatePluginGates
+./gradlew :ui:gollek-cli:writePluginGatesReport
+</code></pre></div></div>
+
+<p>The first task checks ServiceLoader descriptors and provider source shape before compile. The second task runs
+the packaged providers on the compiled CLI runtime classpath and fails if <code class="language-plaintext highlighter-rouge">contract.status</code> is <code class="language-plaintext highlighter-rouge">failed</code>.
+The report task writes <code class="language-plaintext highlighter-rouge">ui/gollek-cli/build/reports/gollek/extension-availability-gate.json</code> with the same
+<code class="language-plaintext highlighter-rouge">gate</code>, <code class="language-plaintext highlighter-rouge">policy</code>, <code class="language-plaintext highlighter-rouge">contract</code>, and extension rows that production CI can archive. The model-family gate tasks
+write <code class="language-plaintext highlighter-rouge">ui/gollek-cli/build/reports/gollek/model-family-bundle-gate.json</code> and fail on the same combined
+<code class="language-plaintext highlighter-rouge">modelFamilyBundle.gate</code> decision exposed by <code class="language-plaintext highlighter-rouge">gollek modules --fail-on-model-family-gate</code>. The combined plugin
+gate tasks write <code class="language-plaintext highlighter-rouge">ui/gollek-cli/build/reports/gollek/plugin-gates.json</code> and fail when either the extension gate or
+the model-family gate fails.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">totals</code></td>
+      <td>CI-friendly aggregate counts for attached, detached, healthy, unhealthy, production-ready, status, and kind.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">policy</code></td>
+      <td>Optional release-gate result driven by <code class="language-plaintext highlighter-rouge">GOLLEK_REQUIRED_EXTENSIONS</code>, <code class="language-plaintext highlighter-rouge">GOLLEK_REQUIRED_PRODUCTION_EXTENSIONS</code>, and <code class="language-plaintext highlighter-rouge">GOLLEK_FORBIDDEN_EXTENSIONS</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">policy.configuration</code></td>
+      <td>Source metadata for each policy input, including the JVM property name, environment variable name, and active source.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">contract</code></td>
+      <td>Aggregate provider-contract gate with <code class="language-plaintext highlighter-rouge">passed</code>, <code class="language-plaintext highlighter-rouge">status</code>, <code class="language-plaintext highlighter-rouge">violationCount</code>, <code class="language-plaintext highlighter-rouge">summaries</code>, and <code class="language-plaintext highlighter-rouge">byExtensionId</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gate</code></td>
+      <td>Combined policy plus contract release gate used by <code class="language-plaintext highlighter-rouge">--fail-on-extension-gate</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">contractViolations</code></td>
+      <td>Machine-readable provider contract problems that should be fixed before shipping an extension bundle.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">byKind</code></td>
+      <td>Extension reports grouped by kind, such as <code class="language-plaintext highlighter-rouge">audio</code>, so future tokenizer, vision, or accelerator extensions can share the same shape.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">byId</code></td>
+      <td>Extension reports keyed by stable extension id.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">status</code></td>
+      <td><code class="language-plaintext highlighter-rouge">detached</code>, <code class="language-plaintext highlighter-rouge">fallback</code>, or <code class="language-plaintext highlighter-rouge">ready</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">attached</code> / <code class="language-plaintext highlighter-rouge">detached</code></td>
+      <td>Whether an audio adapter is on the runtime classpath.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">healthy</code></td>
+      <td>Whether the current modular state is valid. Detached and fallback are healthy for lean builds.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">productionReady</code> / <code class="language-plaintext highlighter-rouge">production_ready</code></td>
+      <td>True only when the external, non-fallback Suling module is attached.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">formats</code></td>
+      <td>Encoded output formats exposed by the active adapter. The fallback advertises <code class="language-plaintext highlighter-rouge">wav</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">flacAvailable</code> / <code class="language-plaintext highlighter-rouge">flac_available</code></td>
+      <td>Whether the libFLAC-backed encoder is usable.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mp3EncodingAvailable</code> / <code class="language-plaintext highlighter-rouge">mp3_encoding_available</code></td>
+      <td>Whether the FFmpeg/libmp3lame encoder is usable.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">remediationHints</code> / <code class="language-plaintext highlighter-rouge">remediation_hints</code></td>
+      <td>Operator hints, such as attaching the external Suling module or using WAV.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This keeps the model farm and adjacent runtime extensions consistent: unsupported production features are not
+silently packaged into every binary, and diagnostics can still explain exactly what is missing when an operator
+asks for MP3 or FLAC from a lean build.</p>
+
+<p>Build-time catalog readiness is available before launching a CLI binary. Generate the catalog report when a
+release wants to prune the model farm or audit which families are safe to attach:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> :ui:gollek-cli:writeModelFamilyModuleCatalogReport
+
+jq <span class="s1">'.readinessCounts'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-module-catalog.json
+jq <span class="s1">'.catalog[] | {id, profile, readiness, tokenizerReady, productionReady, directSafetensorReady}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-module-catalog.json
+jq <span class="s1">'.catalog[] | select(.productionReady) | {id, readiness, tokenizerKinds}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-module-catalog.json
+jq <span class="s1">'.catalog[] | select(.directSafetensorReady) | {id, readiness}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-module-catalog.json
+jq <span class="s1">'{passed, productionReadinessPendingFamilyCount, directSafetensorPendingFamilyCount, productionReadinessPendingFamilies, directSafetensorPendingFamilies}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-module-catalog.json
+</code></pre></div></div>
+
+<p>Each catalog entry carries the derived fields production gates usually need:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">tokenizerReady</code></td>
+      <td>The family is included, has tokenizer metadata, and is not marked pending.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">productionReady</code></td>
+      <td>The family is included, has complete service descriptors, is not metadata-only or experimental, and has ready tokenizer metadata.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">directSafetensorReady</code></td>
+      <td>The family is production-ready and belongs to the guarded direct SafeTensor alias.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadataOnly</code></td>
+      <td>The plugin is useful for resolution, docs, conversion planning, or diagnostics, but should stay out of production inference bundles by default.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">readiness</code></td>
+      <td>One compact state such as <code class="language-plaintext highlighter-rouge">direct_safetensor_ready</code>, <code class="language-plaintext highlighter-rouge">production_ready</code>, <code class="language-plaintext highlighter-rouge">metadata_only</code>, <code class="language-plaintext highlighter-rouge">tokenizer_pending</code>, <code class="language-plaintext highlighter-rouge">tokenizer_missing</code>, <code class="language-plaintext highlighter-rouge">service_incomplete</code>, or <code class="language-plaintext highlighter-rouge">not_included</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="language-plaintext highlighter-rouge">validateModelFamilyModuleCatalog</code> treats <code class="language-plaintext highlighter-rouge">productionReadinessPendingFamilies</code> and
+<code class="language-plaintext highlighter-rouge">directSafetensorPendingFamilies</code> as release blockers. This lets experimental families stay visible as
+<code class="language-plaintext highlighter-rouge">tokenizer_pending</code> without weakening the hard gate for core, optional, and direct-runtime production bundles.</p>
+
+<p>Use the catalog report for packaging decisions and the live CLI matrix below for runtime classpath decisions.
+They intentionally answer different questions: the catalog says what the source tree can produce, while
+<code class="language-plaintext highlighter-rouge">gollek modules --json</code> says what the current binary actually attached.
+The generated <code class="language-plaintext highlighter-rouge">META-INF/gollek-model-family-bundle.properties</code> manifest also carries
+<code class="language-plaintext highlighter-rouge">productionReadinessPassed</code>, <code class="language-plaintext highlighter-rouge">productionReadinessPendingFamilies</code>, <code class="language-plaintext highlighter-rouge">directSafetensorReadinessPassed</code>,
+and <code class="language-plaintext highlighter-rouge">directSafetensorPendingFamilies</code>, so packaged CLI/plugin diagnostics can reuse the same build-time gate
+without re-scanning Gradle project metadata.
+At runtime, the same signal is exposed through <code class="language-plaintext highlighter-rouge">gollek modules --json</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.catalogReadiness'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyBundle.availabilityStatus | {catalogReadinessStatus,catalogReadinessPassed,productionReadinessPendingFamilies,directSafetensorPendingFamilies}'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.pluginGates | {status,modelFamilyStatus,violations}'</span>
+</code></pre></div></div>
+
+<p>When those packaged blockers fail, the model-family gate uses <code class="language-plaintext highlighter-rouge">catalog_readiness_failed</code>, and the combined
+plugin gate preserves the scope as <code class="language-plaintext highlighter-rouge">model_family_catalog_readiness_failed</code>.</p>
+
+<p>The same command exposes a capability matrix summary for attached model-family plugins. The JSON form is intended for automation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyPlugins.capabilityTotals'</span>
+gollek modules <span class="nt">--json</span> | jq <span class="s1">'.modelFamilyPlugins.capabilityMatrix[] | {id,bundleProfile,tokenizer,gguf,architectureAdapterCount,directSafetensorStatus,onnx,training,multimodal}'</span>
+</code></pre></div></div>
+
+<p>Use this matrix to decide whether a production bundle should attach or detach a family before shipping an inference engine. The matrix is derived from the SPI support report, so tokenizer reuse, direct SafeTensor readiness, GGUF/ONNX flags, training metadata, and multimodal modality claims stay consistent across CLI diagnostics and plugin checks.
+The matrix also carries <code class="language-plaintext highlighter-rouge">architectureAdapterIds</code>, <code class="language-plaintext highlighter-rouge">architectureAdapterCount</code>, and <code class="language-plaintext highlighter-rouge">architectureAdapterPresent</code> so release gates can verify that direct-runtime families actually ship the adapter surface they advertise.</p>
+
+<p>Runtime code can use the same SPI registry after parsing a Hugging Face <code class="language-plaintext highlighter-rouge">config.json</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ModelConfig</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">ModelConfig</span><span class="o">.</span><span class="na">fromDirectory</span><span class="o">(</span><span class="n">modelDir</span><span class="o">,</span> <span class="n">objectMapper</span><span class="o">);</span>
+<span class="nc">ModelFamilyResolution</span> <span class="n">resolution</span> <span class="o">=</span> <span class="nc">ModelFamilyPluginRegistry</span><span class="o">.</span><span class="na">global</span><span class="o">().</span><span class="na">resolve</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">resolution</span><span class="o">.</span><span class="na">resolved</span><span class="o">())</span> <span class="o">{</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">ModelFamilySupportReport</span><span class="o">&gt;</span> <span class="n">family</span> <span class="o">=</span> <span class="n">resolution</span><span class="o">.</span><span class="na">primarySupportReport</span><span class="o">();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ModelTokenizerDescriptor</span><span class="o">&gt;</span> <span class="n">tokenizers</span> <span class="o">=</span> <span class="n">resolution</span><span class="o">.</span><span class="na">tokenizerDescriptors</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">resolution.status()</code> is <code class="language-plaintext highlighter-rouge">RESOLVED</code>, <code class="language-plaintext highlighter-rouge">NOT_FOUND</code>, or <code class="language-plaintext highlighter-rouge">AMBIGUOUS</code>. The <code class="language-plaintext highlighter-rouge">familyIds()</code>,
+<code class="language-plaintext highlighter-rouge">primaryFamilyId()</code>, <code class="language-plaintext highlighter-rouge">supportReports()</code>, <code class="language-plaintext highlighter-rouge">primarySupportReport()</code>, and <code class="language-plaintext highlighter-rouge">tokenizerDescriptors()</code>
+results are immutable or optional-safe to pass into tokenizer routing, conversion planning, provider
+selection, or production policy checks.</p>
+
+<p>Tokenizer runtimes can use the higher-level helper when they only have a model directory:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">ModelFamilyResolution</span><span class="o">&gt;</span> <span class="n">resolution</span> <span class="o">=</span> <span class="nc">TokenizerFactory</span><span class="o">.</span><span class="na">resolveModelFamily</span><span class="o">(</span><span class="n">modelDir</span><span class="o">);</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">ModelFamilyTokenizerInspection</span><span class="o">&gt;</span> <span class="n">tokenizers</span> <span class="o">=</span> <span class="nc">TokenizerFactory</span><span class="o">.</span><span class="na">inspectModelFamilyTokenizers</span><span class="o">(</span><span class="n">modelDir</span><span class="o">);</span>
+<span class="nc">Tokenizer</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="nc">TokenizerFactory</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">modelDir</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">TokenizerFactory.load</code> now uses the same model-family resolution result before falling back to generic
+tokenizer file detection, so family-specific tokenizer descriptors and runtime diagnostics stay aligned.
+<code class="language-plaintext highlighter-rouge">inspectModelFamilyTokenizers</code> checks each advertised tokenizer descriptor against the files on disk. When a
+family resolves but no descriptor file group is usable, it reports <code class="language-plaintext highlighter-rouge">model_family_tokenizer_files_missing</code>
+with remediation hints that name the required file groups.</p>
+
+<p>Direct architecture resolution follows the same shape. <code class="language-plaintext highlighter-rouge">ModelArchitectureRegistry.resolve(config)</code> first
+asks the matched model-family plugin for architecture adapters, then falls back to globally registered
+adapters. That keeps detachable production bundles predictable: an unrelated plugin can advertise a broad
+adapter, but the family that claimed the checkpoint gets first chance to resolve it.
+If no direct adapter can be selected, the failure message includes the model-family resolver summary,
+<code class="language-plaintext highlighter-rouge">problemCodes</code>, <code class="language-plaintext highlighter-rouge">remediationHints</code>, and compact direct SafeTensor support reports.</p>
+
+<p>For production runners, use the shared runtime compatibility gate instead of duplicating these checks:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ModelFamilyRuntimeCompatibility</span> <span class="n">compatibility</span> <span class="o">=</span>
+        <span class="nc">ModelFamilyPluginRegistry</span><span class="o">.</span><span class="na">global</span><span class="o">().</span><span class="na">directSafetensorCompatibility</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="n">modelDir</span><span class="o">);</span>
+
+<span class="k">if</span> <span class="o">(!</span><span class="n">compatibility</span><span class="o">.</span><span class="na">compatible</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="nc">String</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="s">", "</span><span class="o">,</span> <span class="n">compatibility</span><span class="o">.</span><span class="na">problemCodes</span><span class="o">()));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The direct SafeTensor gate requires a resolved family, ready direct SafeTensor support, a selected architecture
+adapter, tokenizer descriptors, and, when a model directory is provided, a usable tokenizer file group. It returns
+the selected adapter id, usable tokenizer ids, problem codes, and remediation hints as one reusable decision object
+for CLI diagnostics, release policy, and runtime provider gating.</p>
+
+<p>Operators can inspect the same resolution result for a pulled or local checkpoint:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek show &lt;model-id-or-path&gt;
+gollek show &lt;model-id-or-path&gt; <span class="nt">--json</span> | jq <span class="s1">'.modelFamily'</span>
+</code></pre></div></div>
+
+<p>The JSON object includes the resolution <code class="language-plaintext highlighter-rouge">status</code>, matched <code class="language-plaintext highlighter-rouge">familyIds</code>, compact support reports, and tokenizer
+descriptor metadata. If the checkpoint has no readable <code class="language-plaintext highlighter-rouge">config.json</code>, the field is <code class="language-plaintext highlighter-rouge">null</code>.
+When <code class="language-plaintext highlighter-rouge">requiresAttention</code> is true, <code class="language-plaintext highlighter-rouge">problemCodes</code> and <code class="language-plaintext highlighter-rouge">remediationHints</code> explain whether the checkpoint is
+missing a family plugin, matched multiple overlapping families, or resolved to a plugin that did not publish a
+support report.
+For local checkpoints, each <code class="language-plaintext highlighter-rouge">.modelFamily.tokenizers[]</code> entry also includes <code class="language-plaintext highlighter-rouge">fileStatusAvailable</code>, <code class="language-plaintext highlighter-rouge">usable</code>,
+<code class="language-plaintext highlighter-rouge">existingFileGroup</code>, and <code class="language-plaintext highlighter-rouge">missingFileGroups</code>, so scripts can tell whether an advertised tokenizer profile
+actually matches the files on disk before starting inference.
+The <code class="language-plaintext highlighter-rouge">.modelFamily.directArchitecture</code> object shows whether direct SafeTensor support is expected, which matched
+family architecture adapters are attached, which adapter would be selected for this checkpoint, and any direct
+adapter problem codes such as <code class="language-plaintext highlighter-rouge">model_family_architecture_adapters_missing</code>.
+For production automation, prefer <code class="language-plaintext highlighter-rouge">.modelFamily.runtimeCompatibility.directSafetensor</code>: it is backed by the shared
+SPI compatibility gate and includes <code class="language-plaintext highlighter-rouge">compatible</code>, selected architecture adapter details, usable tokenizer ids,
+runtime problem codes, and remediation hints.</p>
+
+<hr />
+
+<h2 id="what-a-family-descriptor-contains">What a Family Descriptor Contains</h2>
+
+<p>Every family publishes a <code class="language-plaintext highlighter-rouge">ModelFamilyDescriptor</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">new</span> <span class="nc">ModelFamilyDescriptor</span><span class="o">(</span>
+        <span class="s">"mamba"</span><span class="o">,</span>
+        <span class="s">"Mamba / Mamba2"</span><span class="o">,</span>
+        <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"mamba"</span><span class="o">,</span> <span class="s">"mamba2"</span><span class="o">),</span>
+        <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"MambaForCausalLM"</span><span class="o">,</span> <span class="s">"MambaModel"</span><span class="o">,</span> <span class="s">"Mamba2ForCausalLM"</span><span class="o">,</span> <span class="s">"Mamba2Model"</span><span class="o">),</span>
+        <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+                <span class="nc">ModelFamilyCapability</span><span class="o">.</span><span class="na">CAUSAL_LM</span><span class="o">,</span>
+                <span class="nc">ModelFamilyCapability</span><span class="o">.</span><span class="na">TOKENIZER</span><span class="o">,</span>
+                <span class="nc">ModelFamilyCapability</span><span class="o">.</span><span class="na">TRAINING</span><span class="o">,</span>
+                <span class="nc">ModelFamilyCapability</span><span class="o">.</span><span class="na">ONNX</span><span class="o">),</span>
+        <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+                <span class="s">"bundle_profile"</span><span class="o">,</span> <span class="s">"metadata_only"</span><span class="o">,</span>
+                <span class="s">"origin"</span><span class="o">,</span> <span class="s">"3rdparty/transformers/src/transformers/models/mamba"</span><span class="o">,</span>
+                <span class="s">"tokenizer"</span><span class="o">,</span> <span class="s">"byte_level_bpe"</span><span class="o">,</span>
+                <span class="s">"direct_safetensor"</span><span class="o">,</span> <span class="s">"pending_selective_state_space_runtime"</span><span class="o">,</span>
+                <span class="s">"version"</span><span class="o">,</span> <span class="s">"0.1.0-SNAPSHOT"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>Important fields:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">id</code></td>
+      <td>Stable Gollek family id, usually lowercase snake case.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">displayName</code></td>
+      <td>Human-readable name for diagnostics.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">modelTypes</code></td>
+      <td>Hugging Face <code class="language-plaintext highlighter-rouge">config.json</code> <code class="language-plaintext highlighter-rouge">model_type</code> values claimed by this plugin.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">architectureClassNames</code></td>
+      <td>Hugging Face architecture names such as <code class="language-plaintext highlighter-rouge">LlamaForCausalLM</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">capabilities</code></td>
+      <td>What this family advertises: causal LM, encoder, vision, audio, tokenizer, GGUF, ONNX, and so on.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata.bundle_profile</code></td>
+      <td>Build profile used by the CLI selector.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata.origin</code></td>
+      <td>Transformer source directory used as the implementation reference.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata.direct_safetensor</code></td>
+      <td>Readiness reason for direct SafeTensor runtime support.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">metadata.&lt;scope&gt;_direct_safetensor</code></td>
+      <td>Partial-support caveat surfaced by diagnostics, for example <code class="language-plaintext highlighter-rouge">moe_direct_safetensor=pending_packed_expert_router_runtime</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Use <code class="language-plaintext highlighter-rouge">DIRECT_SAFETENSOR_INFERENCE</code> only when the family has a real architecture adapter and the runtime path is safe. If runtime work is pending, keep the descriptor metadata-only and set a clear pending reason.</p>
+
+<p>Scoped direct SafeTensor caveats should use status-style values: <code class="language-plaintext highlighter-rouge">pending_*</code>, <code class="language-plaintext highlighter-rouge">experimental_*</code>, <code class="language-plaintext highlighter-rouge">not_*</code>, or a reason containing <code class="language-plaintext highlighter-rouge">_pending</code>. The bundle validator checks this convention so CLI diagnostics can classify partial runtime gaps consistently.</p>
+
+<p>Descriptor contract checks also run through the SPI registry and <code class="language-plaintext highlighter-rouge">gollek modules --all</code>. They report machine-readable violations for malformed family ids, unknown bundle profiles, missing <code class="language-plaintext highlighter-rouge">origin</code> metadata, unsafe tokenizer file groups, missing tokenizer descriptors, duplicate tokenizer ids, direct SafeTensor capability without an architecture adapter, and duplicate <code class="language-plaintext highlighter-rouge">model_type</code> claims.</p>
+
+<p>If a plugin overrides <code class="language-plaintext highlighter-rouge">supportReport()</code>, the report must stay consistent with the descriptor, architecture adapters, tokenizer descriptors, bundle profile, and direct SafeTensor readiness. The validator treats drift as a contract violation because that report drives CLI diagnostics, bundle matrices, and production attach/detach policy gates.</p>
+
+<hr />
+
+<h2 id="tokenizer-reuse">Tokenizer Reuse</h2>
+
+<p>Tokenizer profiles are reusable descriptors, not one-off code paths. A family can advertise one or more tokenizers:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ModelTokenizerDescriptor</span><span class="o">&gt;</span> <span class="nf">tokenizerDescriptors</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">ModelTokenizerDescriptor</span><span class="o">.</span><span class="na">sentencePieceBpe</span><span class="o">(</span><span class="s">"llama-spm-bpe"</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Built-in helpers:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Helper</th>
+      <th>Looks for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">huggingFaceBpe(id)</code></td>
+      <td><code class="language-plaintext highlighter-rouge">tokenizer.json</code>, <code class="language-plaintext highlighter-rouge">vocab.json + merges.txt</code>, or nested <code class="language-plaintext highlighter-rouge">tokenizer/</code> variants.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sentencePieceBpe(id)</code></td>
+      <td><code class="language-plaintext highlighter-rouge">tokenizer.json</code> or nested <code class="language-plaintext highlighter-rouge">tokenizer/tokenizer.json</code>; native SentencePiece remains explicitly marked as unsupported until provided.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">wordPiece(id)</code></td>
+      <td><code class="language-plaintext highlighter-rouge">tokenizer.json</code>, <code class="language-plaintext highlighter-rouge">vocab.txt</code>, or nested tokenizer variants.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For unusual tokenizers, use a custom descriptor:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">ModelTokenizerDescriptor</span><span class="o">(</span>
+        <span class="s">"rwkv-tokenizer"</span><span class="o">,</span>
+        <span class="nc">ModelTokenizerKind</span><span class="o">.</span><span class="na">CUSTOM</span><span class="o">,</span>
+        <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(),</span>
+        <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"status"</span><span class="o">,</span> <span class="s">"metadata_only"</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>At runtime, tokenizer code can ask the registry for descriptors that match a model type or architecture name. Each descriptor can then find the first complete file group inside a model directory.</p>
+
+<hr />
+
+<h2 id="fixture-validation">Fixture Validation</h2>
+
+<p>Each model-family module can carry tiny Hugging Face style fixtures under:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/test/resources/model-family-fixtures/&lt;family-id&gt;/
+</code></pre></div></div>
+
+<p>A useful starter fixture is only:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>config.json
+tokenizer.json
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ModelFamilyFixtureValidator</code> checks that the fixture is still aligned with the plugin:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Check</th>
+      <th>Why it matters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">model_type</code> is claimed by <code class="language-plaintext highlighter-rouge">ModelFamilyDescriptor.modelTypes()</code></td>
+      <td>The family can be selected from HF configs.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">architectures</code> intersects <code class="language-plaintext highlighter-rouge">architectureClassNames()</code></td>
+      <td>The family can route common Transformers exports.</td>
+    </tr>
+    <tr>
+      <td>Tokenizer files satisfy one descriptor file group</td>
+      <td>Reusable tokenizer routing is not just metadata.</td>
+    </tr>
+    <tr>
+      <td>Direct SafeTensor adapters match the fixture when advertised</td>
+      <td>Runtime-ready families do not drift from their adapter claims.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example test:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">ModelFamilyContractViolation</span><span class="o">&gt;</span> <span class="n">violations</span> <span class="o">=</span> <span class="nc">ModelFamilyFixtureValidator</span><span class="o">.</span><span class="na">validate</span><span class="o">(</span>
+        <span class="k">new</span> <span class="nf">ExampleModelFamilyPlugin</span><span class="o">(),</span>
+        <span class="nc">Path</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getResource</span><span class="o">(</span><span class="s">"/model-family-fixtures/example"</span><span class="o">).</span><span class="na">toURI</span><span class="o">()));</span>
+
+<span class="n">assertEquals</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(),</span> <span class="n">violations</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">ModelFamilyContractViolation:</span><span class="o">:</span><span class="n">summary</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>Use real shapes from representative community checkpoints when they are known, but keep fixtures lightweight. Do not commit weights; fixture validation is for config, tokenizer-file layout, and plugin metadata drift.</p>
+
+<p>Generate the fixture inventory report:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> :ui:gollek-cli:writeModelFamilyFixtureReport
+</code></pre></div></div>
+
+<p>The report is written to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ui/gollek-cli/build/reports/gollek/model-family-fixtures.json
+</code></pre></div></div>
+
+<p>Generate the compact fingerprint report when CI only needs fixture hashes:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> :ui:gollek-cli:writeModelFamilyFixtureFingerprintReport
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> :ui:gollek-cli:printModelFamilyFixtureFingerprintJson
+</code></pre></div></div>
+
+<p>The compact report is written to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ui/gollek-cli/build/reports/gollek/model-family-fixture-fingerprints.json
+</code></pre></div></div>
+
+<p>Pin fixture fingerprints independently from a production bundle lock:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyFixtureFingerprintLock<span class="o">=</span>model-family-fixture-fingerprints.lock.properties <span class="se">\</span>
+  :ui:gollek-cli:writeModelFamilyFixtureFingerprintLock
+
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyFixtureFingerprintLock<span class="o">=</span>model-family-fixture-fingerprints.lock.properties <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyFixtureFingerprintLock
+
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyFixtureFingerprintLock<span class="o">=</span>model-family-fixture-fingerprints.lock.properties <span class="se">\</span>
+  :ui:gollek-cli:printModelFamilyFixtureFingerprintLockDriftJson
+</code></pre></div></div>
+
+<p>The drift artifact is written to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ui/gollek-cli/build/reports/gollek/model-family-fixture-fingerprint-lock-drift.json
+</code></pre></div></div>
+
+<p>The drift JSON includes <code class="language-plaintext highlighter-rouge">currentFingerprintStatus</code>, so CI can render the current pass state, aggregate hashes,
+coverage counts, and per-family fixture hashes from the same artifact that reports drift.
+<code class="language-plaintext highlighter-rouge">writeModelFamilyFixtureFingerprintLock</code> runs <code class="language-plaintext highlighter-rouge">validateModelFamilyFixtures</code> first, so a lock is only generated
+after the required fixture set passes config/tokenizer validation.
+Use <code class="language-plaintext highlighter-rouge">-Pgollek.enforceModelFamilyFixtureFingerprintLock=true</code> to include the fixture fingerprint lock in
+<code class="language-plaintext highlighter-rouge">:ui:gollek-cli:check</code>.</p>
+
+<p>Validate required fixture coverage:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> :ui:gollek-cli:validateModelFamilyFixtures
+</code></pre></div></div>
+
+<p>By default this gates the <code class="language-plaintext highlighter-rouge">core</code> model farm. Tighten or relax the gate with the same selector style used by bundles:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.requiredModelFamilyFixtures<span class="o">=</span>direct <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyFixtures
+
+./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.requiredModelFamilyFixtures<span class="o">=</span>none <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyFixtures
+</code></pre></div></div>
+
+<p>The bundle report and bundle lock both include this fixture health. Use the report for live CI checks and the lock
+to catch unintended changes to the required fixture surface or fixture contents:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="s1">'.fixtureStatus'</span> ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+jq <span class="s1">'.fixtureStatus.requiredContentFingerprints'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+jq <span class="s1">'{passed, requiredFixtureFingerprint, fixtureInventoryFingerprint}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-fixture-fingerprints.json
+jq <span class="s1">'.fixtures[] | {id, contentFingerprint}'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-fixtures.json
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="add-a-new-model-family">Add a New Model Family</h2>
+
+<p>Use this checklist when adapting a new family from Transformers.</p>
+
+<h3 id="1-choose-the-family-boundary">1. Choose the Family Boundary</h3>
+
+<p>Keep one plugin per family cluster when the tokenizer and weight-layout story is shared:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Good family boundary</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">llama</code> covers base Llama and Llama 3</td>
+      <td>Code Llama is an optional detachable plugin; Llama 4, DiffLlama, MLLama, and Video-LLaMA 3 are separate because their tokenizer, MoE, vision, or attention paths differ.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">gemma</code> covers base Gemma</td>
+      <td>Gemma 2, Gemma 3 text, and Gemma 4 are optional detachable plugins; Gemma 4 owns <code class="language-plaintext highlighter-rouge">gemma4</code>, <code class="language-plaintext highlighter-rouge">gemma4_text</code>, <code class="language-plaintext highlighter-rouge">gemma4_vision</code>, <code class="language-plaintext highlighter-rouge">gemma4_audio</code>, and <code class="language-plaintext highlighter-rouge">gemma4_unified</code> metadata, but only the guarded dense text adapter is experimental direct SafeTensor. Gemma 4 MoE/A4B configs are parsed from <code class="language-plaintext highlighter-rouge">text_config</code>, then guarded because Transformers stores their expert branch as packed <code class="language-plaintext highlighter-rouge">experts.gate_up_proj</code> plus router scale tensors that need a dedicated runtime path. Gemma 4 12B Unified keeps tokenizer, processor, and family-resolution support in the Gemma 4 plugin while full unified multimodal embedder execution remains a runtime-plugin concern. Gemma 3n, PaliGemma, RecurrentGemma, ShieldGemma2, T5Gemma/T5Gemma2, and VaultGemma stay separate because their multimodal, recurrent, encoder-decoder, or safety-classifier paths differ.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">qwen</code> covers dense Qwen2/Qwen2.5/Qwen3</td>
+      <td>MoE, VL, audio, and omni variants are separate plugins to keep production bundles lean. Qwen2-VL, Qwen2.5-VL, Qwen3-VL, and Qwen3-VL-MoE are separate because their processors, vision stacks, and sparse expert paths differ.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mistral</code> covers base Mistral</td>
+      <td>Mixtral, Ministral, Mistral 3, and Mistral 4 are separate plugins because their MoE, Tekken, and multimodal paths differ.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">deepseek</code> covers R1 compatibility</td>
+      <td>DeepSeek-V2, DeepSeek-V3, DeepSeek-VL, and DeepSeek-VL-Hybrid are separate experimental plugins because MLA/MoE and vision-alignment paths should stay opt-in.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">mamba</code> covers <code class="language-plaintext highlighter-rouge">mamba</code>, <code class="language-plaintext highlighter-rouge">mamba2</code></td>
+      <td>Same state-space family, different runtime maturity.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">bert</code>, <code class="language-plaintext highlighter-rouge">bert_generation</code>, <code class="language-plaintext highlighter-rouge">roberta</code>, <code class="language-plaintext highlighter-rouge">deberta</code>, <code class="language-plaintext highlighter-rouge">electra</code> are separate</td>
+      <td>Encoder and encoder-decoder families differ enough to keep claims clear. BERT-adjacent variants such as <code class="language-plaintext highlighter-rouge">modernvbert</code>, <code class="language-plaintext highlighter-rouge">roc_bert</code>, and <code class="language-plaintext highlighter-rouge">wav2vec2_bert</code> stay separate because their tokenizer, embedding, or audio processor paths differ.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">clip</code>, <code class="language-plaintext highlighter-rouge">clipseg</code>, <code class="language-plaintext highlighter-rouge">metaclip_2</code>, <code class="language-plaintext highlighter-rouge">x_clip</code>, and <code class="language-plaintext highlighter-rouge">vision_text_dual_encoder</code> are separate</td>
+      <td>CLIP derivatives share concepts, but segmentation heads, video processors, newer MetaCLIP layouts, and generic delegated dual-encoder configs should be detachable from the base CLIP plugin.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If two families claim the same <code class="language-plaintext highlighter-rouge">model_type</code>, <code class="language-plaintext highlighter-rouge">validateModelFamilyBundle</code> and runtime diagnostics can report conflicts. Do not use overlapping claims unless you are intentionally replacing a plugin.</p>
+
+<h3 id="gemma-4-12b-unified-scope">Gemma 4 12B Unified Scope</h3>
+
+<p><code class="language-plaintext highlighter-rouge">google/gemma-4-12B-it</code> is claimed by the optional <code class="language-plaintext highlighter-rouge">gollek-model-gemma4</code> plugin as <code class="language-plaintext highlighter-rouge">gemma4_unified</code>. The plugin recognizes the HF unified wrapper names (<code class="language-plaintext highlighter-rouge">Gemma4ForMultimodalLM</code>, <code class="language-plaintext highlighter-rouge">Gemma4ForImageTextToText</code>) and keeps the reusable <code class="language-plaintext highlighter-rouge">Gemma4Processor</code>, image/video processors, audio feature extractor, tokenizer descriptor, chat-template routing, and nested <code class="language-plaintext highlighter-rouge">gemma4_text</code> config parsing together.</p>
+
+<p>This is not the same as declaring every runtime production-ready. Direct SafeTensor support remains scoped to the guarded dense text path; unified image/audio/video embedding is advertised as <code class="language-plaintext highlighter-rouge">metadata_processor_only_until_unified_embedder_runtime</code>. Production bundles that do not need Gemma 4 multimodal should keep the plugin detached or block the <code class="language-plaintext highlighter-rouge">vlm</code>/<code class="language-plaintext highlighter-rouge">audio</code> aliases during bundle validation.</p>
+
+<p>The runtime attachment point is intentionally separate from the model-family plugin. A Gemma 4 unified execution plugin should implement <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.spi.multimodal.UnifiedMultimodalRuntime</code>, expose a <code class="language-plaintext highlighter-rouge">UnifiedRuntimeManifest</code> that claims <code class="language-plaintext highlighter-rouge">gemma4_unified</code>, and register itself through <code class="language-plaintext highlighter-rouge">META-INF/services/tech.kayys.gollek.spi.multimodal.UnifiedMultimodalRuntime</code>. The CLI exposes the built-in <code class="language-plaintext highlighter-rouge">gemma4-unified-runtime</code> extension availability report through plugin-core; until a runtime implementation is present, <code class="language-plaintext highlighter-rouge">gollek modules --json</code> reports it as <code class="language-plaintext highlighter-rouge">detached</code> and <code class="language-plaintext highlighter-rouge">productionReady=false</code>. When the runtime is supplied through <code class="language-plaintext highlighter-rouge">--external-plugin-classpath</code> or an external plugin directory, the availability checker evaluates that scoped classloader so the same report flips to the runtime manifest readiness state.</p>
+
+<p>External plugin directory inspection also reports unified runtime jars separately from model-family install candidates through <code class="language-plaintext highlighter-rouge">pluginDirectoryReadiness.unifiedRuntimePluginCandidates</code>, <code class="language-plaintext highlighter-rouge">unifiedRuntimeReady</code>, <code class="language-plaintext highlighter-rouge">unifiedRuntimeNotReady</code>, <code class="language-plaintext highlighter-rouge">unifiedRuntimePluginJars</code>, <code class="language-plaintext highlighter-rouge">hasUnifiedMultimodalRuntimeServiceEntry</code>, <code class="language-plaintext highlighter-rouge">unifiedRuntimeReady</code>, <code class="language-plaintext highlighter-rouge">unifiedRuntimeErrors</code>, <code class="language-plaintext highlighter-rouge">unifiedMultimodalRuntimeProviders</code>, and <code class="language-plaintext highlighter-rouge">unifiedMultimodalRuntimeMissingProviderClasses</code>. This lets CI verify that a runtime jar is present, declares ServiceLoader providers, and packages those provider class entries without pretending it is a model-family metadata plugin.</p>
+
+<p><code class="language-plaintext highlighter-rouge">gollek modules --json</code>, <code class="language-plaintext highlighter-rouge">gollek modules --plugin-doctor --json</code>, and the plugin-gates CI artifact also expose a <code class="language-plaintext highlighter-rouge">unifiedRuntimes</code> section with <code class="language-plaintext highlighter-rouge">runtimeCount</code>, <code class="language-plaintext highlighter-rouge">productionReadyCount</code>, discovered <code class="language-plaintext highlighter-rouge">modelTypes</code>, per-runtime manifest details, <code class="language-plaintext highlighter-rouge">contractViolations</code>, duplicate-claim <code class="language-plaintext highlighter-rouge">conflicts</code>, and selected model-family <code class="language-plaintext highlighter-rouge">modelFamilyRequirements</code>. The text command prints the same registry as <strong>Unified Multimodal Runtimes</strong>, and plugin doctor text includes the same selected requirement summary, so operators can spot a missing runtime, invalid manifest, or duplicate <code class="language-plaintext highlighter-rouge">gemma4_unified</code> claim without reading plugin jars by hand.</p>
+
+<p>The combined plugin gate fails on invalid unified runtime manifests, duplicate runtime <code class="language-plaintext highlighter-rouge">model_type</code> claims, and selected model-family unified-runtime requirements that resolve to <code class="language-plaintext highlighter-rouge">missing_runtime</code>, <code class="language-plaintext highlighter-rouge">conflicting_runtime</code>, <code class="language-plaintext highlighter-rouge">invalid_runtime</code>, <code class="language-plaintext highlighter-rouge">insufficient_modalities</code>, or <code class="language-plaintext highlighter-rouge">not_production_ready</code>. That means <code class="language-plaintext highlighter-rouge">gollek modules --fail-on-plugin-gates</code> and the standalone plugin-gates check can block an unsafe production bundle even when the runtime jar itself is ServiceLoader-ready. Gate JSON also includes <code class="language-plaintext highlighter-rouge">violationCategories</code> for <code class="language-plaintext highlighter-rouge">extension</code>, <code class="language-plaintext highlighter-rouge">modelFamily</code>, <code class="language-plaintext highlighter-rouge">pluginDirectory</code>, <code class="language-plaintext highlighter-rouge">unifiedRuntime</code>, and <code class="language-plaintext highlighter-rouge">unifiedRuntimeRequirement</code>, while text output prints the same breakdown as <code class="language-plaintext highlighter-rouge">Gate categories</code>, so CI and operators can route failures without parsing human-readable violation strings.</p>
+
+<p>Model-family plugins can now declare unified runtime requirements through <code class="language-plaintext highlighter-rouge">ModelFamilyUnifiedRuntimeRequirement</code>. The default adapter derives a requirement from descriptor metadata such as <code class="language-plaintext highlighter-rouge">unified_model_type</code> and <code class="language-plaintext highlighter-rouge">unified_runtime_required_modalities</code>, while families with richer needs can override <code class="language-plaintext highlighter-rouge">unifiedRuntimeRequirements()</code>. Gemma 4 declares <code class="language-plaintext highlighter-rouge">gemma4_unified</code> with <code class="language-plaintext highlighter-rouge">text</code>, <code class="language-plaintext highlighter-rouge">image</code>, <code class="language-plaintext highlighter-rouge">audio</code>, and <code class="language-plaintext highlighter-rouge">video</code> modalities, so tooling can distinguish “family metadata is installed” from “the multimodal execution runtime is attached and production-ready.”</p>
+
+<p>The CLI compares those requirements against <code class="language-plaintext highlighter-rouge">UnifiedRuntimeRegistry</code> and reports each selected family requirement as <code class="language-plaintext highlighter-rouge">ready</code>, <code class="language-plaintext highlighter-rouge">missing_runtime</code>, <code class="language-plaintext highlighter-rouge">conflicting_runtime</code>, <code class="language-plaintext highlighter-rouge">invalid_runtime</code>, <code class="language-plaintext highlighter-rouge">insufficient_modalities</code>, or <code class="language-plaintext highlighter-rouge">not_production_ready</code> under <code class="language-plaintext highlighter-rouge">unifiedRuntimes.modelFamilyRequirements</code>; the CI artifact also includes <code class="language-plaintext highlighter-rouge">modelFamilyRequirementTotals</code> with counts, status totals, selected family IDs, selected model types, and attention-only family/model-type lists. Plugin doctor and plugin gates use the same compatibility result for remediation hints and fail-closed enforcement, making it clear whether to attach a runtime plugin, fix a runtime manifest, or detach duplicate runtime owners.</p>
+
+<p>After ServiceLoader attaches a runtime, the built-in availability provider validates the <code class="language-plaintext highlighter-rouge">UnifiedRuntimeManifest</code>. Invalid manifests remain visible as attached extensions, but report <code class="language-plaintext highlighter-rouge">status=invalid</code>, <code class="language-plaintext highlighter-rouge">healthy=false</code>, <code class="language-plaintext highlighter-rouge">productionReady=false</code>, and include machine-readable manifest violations such as <code class="language-plaintext highlighter-rouge">missing_input_modalities</code>.</p>
+
+<p>Runtime-aware tooling should use <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.spi.multimodal.UnifiedRuntimeRegistry</code> to discover providers and retrieve validated manifest reports. This keeps Gemma 4, Qwen, LLaVA-style, and future unified runtimes on the same reusable ServiceLoader path.</p>
+
+<p>Only one attached runtime should claim a given unified <code class="language-plaintext highlighter-rouge">model_type</code>. If multiple providers claim <code class="language-plaintext highlighter-rouge">gemma4_unified</code>, the built-in availability report fails closed with <code class="language-plaintext highlighter-rouge">status=conflict</code> so production inference never depends on ServiceLoader ordering.</p>
+
+<p>This split is the production safety rail: the Gemma 4 family plugin can still provide tokenizer, processor, chat-template, and config inspection support for tools, while inference engines only attach the unified runtime when they explicitly package the image/audio/video embedder path.</p>
+
+<h3 id="2-create-the-module">2. Create the Module</h3>
+
+<p>Create a module under:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>models/gollek-model-&lt;family&gt;
+</code></pre></div></div>
+
+<p>The minimal Gradle file is:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">plugins</span> <span class="p">{</span>
+    <span class="n">`java-library`</span>
+    <span class="n">`maven-publish`</span>
+<span class="p">}</span>
+
+<span class="n">group</span> <span class="p">=</span> <span class="s">"tech.kayys.gollek"</span>
+<span class="n">version</span> <span class="p">=</span> <span class="s">"0.1.0-SNAPSHOT"</span>
+
+<span class="nf">java</span> <span class="p">{</span>
+    <span class="nf">toolchain</span> <span class="p">{</span>
+        <span class="n">languageVersion</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="nc">JavaLanguageVersion</span><span class="p">.</span><span class="nf">of</span><span class="p">(</span><span class="mi">25</span><span class="p">))</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nf">repositories</span> <span class="p">{</span>
+    <span class="nf">mavenCentral</span><span class="p">()</span>
+    <span class="nf">mavenLocal</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="nf">dependencies</span> <span class="p">{</span>
+    <span class="nf">implementation</span><span class="p">(</span><span class="nf">project</span><span class="p">(</span><span class="s">":spi:gollek-spi-model"</span><span class="p">))</span>
+    <span class="nf">implementation</span><span class="p">(</span><span class="n">group</span> <span class="p">=</span> <span class="s">"jakarta.enterprise"</span><span class="p">,</span> <span class="n">name</span> <span class="p">=</span> <span class="s">"jakarta.enterprise.cdi-api"</span><span class="p">)</span>
+    <span class="nf">implementation</span><span class="p">(</span><span class="n">group</span> <span class="p">=</span> <span class="s">"jakarta.inject"</span><span class="p">,</span> <span class="n">name</span> <span class="p">=</span> <span class="s">"jakarta.inject-api"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="3-implement-modelfamilyplugin">3. Implement <code class="language-plaintext highlighter-rouge">ModelFamilyPlugin</code></h3>
+
+<p>Start metadata-only unless direct inference is truly ready:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">tech.kayys.gollek.models.example</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.spi.model.ModelFamilyCapability</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.spi.model.ModelFamilyDescriptor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.spi.model.ModelFamilyPlugin</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">tech.kayys.gollek.spi.model.ModelTokenizerDescriptor</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+
+<span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleModelFamilyPlugin</span> <span class="kd">implements</span> <span class="nc">ModelFamilyPlugin</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">ModelFamilyDescriptor</span> <span class="nf">descriptor</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ModelFamilyDescriptor</span><span class="o">(</span>
+                <span class="s">"example"</span><span class="o">,</span>
+                <span class="s">"Example Model"</span><span class="o">,</span>
+                <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"example"</span><span class="o">),</span>
+                <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"ExampleForCausalLM"</span><span class="o">,</span> <span class="s">"ExampleModel"</span><span class="o">),</span>
+                <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+                        <span class="nc">ModelFamilyCapability</span><span class="o">.</span><span class="na">CAUSAL_LM</span><span class="o">,</span>
+                        <span class="nc">ModelFamilyCapability</span><span class="o">.</span><span class="na">TOKENIZER</span><span class="o">,</span>
+                        <span class="nc">ModelFamilyCapability</span><span class="o">.</span><span class="na">ONNX</span><span class="o">),</span>
+                <span class="nc">Map</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+                        <span class="s">"bundle_profile"</span><span class="o">,</span> <span class="s">"metadata_only"</span><span class="o">,</span>
+                        <span class="s">"origin"</span><span class="o">,</span> <span class="s">"3rdparty/transformers/src/transformers/models/example"</span><span class="o">,</span>
+                        <span class="s">"tokenizer"</span><span class="o">,</span> <span class="s">"byte_level_bpe"</span><span class="o">,</span>
+                        <span class="s">"direct_safetensor"</span><span class="o">,</span> <span class="s">"pending_runtime_adapter"</span><span class="o">,</span>
+                        <span class="s">"version"</span><span class="o">,</span> <span class="s">"0.1.0-SNAPSHOT"</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ModelTokenizerDescriptor</span><span class="o">&gt;</span> <span class="nf">tokenizerDescriptors</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">ModelTokenizerDescriptor</span><span class="o">.</span><span class="na">huggingFaceBpe</span><span class="o">(</span><span class="s">"example-bpe"</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>If direct SafeTensor support is ready, add architecture adapters:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ModelArchitecture</span><span class="o">&gt;</span> <span class="nf">architectureAdapters</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="nc">ExampleArchitecture</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Then add <code class="language-plaintext highlighter-rouge">ModelFamilyCapability.DIRECT_SAFETENSOR_INFERENCE</code> only when the adapter is real and covered by tests.</p>
+
+<h3 id="4-add-pluginjson">4. Add <code class="language-plaintext highlighter-rouge">plugin.json</code></h3>
+
+<p>Place it at:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>models/gollek-model-example/src/main/resources/plugin.json
+</code></pre></div></div>
+
+<p>Example:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"model-family/example"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example Model Family"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1.0-SNAPSHOT"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example model-family metadata and tokenizer routing"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"vendor"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kayys.tech"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"mainClass"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tech.kayys.gollek.models.example.ExampleModelFamilyPlugin"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nl">"optionalDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"extensionPoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"model-family"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"bundleProfile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"metadata_only"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"families"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">properties.bundleProfile</code> value must match the Gradle <code class="language-plaintext highlighter-rouge">ModelFamilyModule</code> profile.</p>
+
+<h3 id="5-add-serviceloader-entries">5. Add ServiceLoader Entries</h3>
+
+<p>Create both files:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>models/gollek-model-example/src/main/resources/META-INF/services/tech.kayys.gollek.spi.model.ModelFamilyPlugin
+models/gollek-model-example/src/main/resources/META-INF/services/tech.kayys.gollek.spi.plugin.GollekPlugin
+</code></pre></div></div>
+
+<p>Each file should contain the implementation class:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tech.kayys.gollek.models.example.ExampleModelFamilyPlugin
+</code></pre></div></div>
+
+<p>The dual entry is intentional. It lets model-family discovery work through the model SPI and lets the core plugin manager treat the same class as a regular Gollek plugin.</p>
+
+<h3 id="6-register-the-module">6. Register the Module</h3>
+
+<p>Add the module to <code class="language-plaintext highlighter-rouge">settings.gradle.kts</code>:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">include</span><span class="p">(</span><span class="s">"models:gollek-model-example"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Add it to <code class="language-plaintext highlighter-rouge">ui/gollek-cli/build.gradle.kts</code>:</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ModelFamilyModule</span><span class="p">(</span><span class="s">"example"</span><span class="p">,</span> <span class="s">":models:gollek-model-example"</span><span class="p">,</span> <span class="s">"metadata_only"</span><span class="p">),</span>
+</code></pre></div></div>
+
+<h3 id="7-add-config-architecture-fallbacks">7. Add Config Architecture Fallbacks</h3>
+
+<p>Update <code class="language-plaintext highlighter-rouge">ModelConfig</code> so config-only loading can infer the right architecture:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="s">"example"</span> <span class="o">-&gt;</span> <span class="s">"ExampleForCausalLM"</span><span class="o">;</span>
+</code></pre></div></div>
+
+<p>Add separate cases for variants when needed:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="s">"example_v2"</span> <span class="o">-&gt;</span> <span class="s">"ExampleV2ForCausalLM"</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h3 id="8-validate-the-family">8. Validate the Family</h3>
+
+<p>Compile the module:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> :models:gollek-model-example:compileJava
+</code></pre></div></div>
+
+<p>Validate model-family metadata:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> :ui:gollek-cli:validateModelFamilyBundle
+</code></pre></div></div>
+
+<p>Validate fixture coverage:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> :ui:gollek-cli:validateModelFamilyFixtures
+</code></pre></div></div>
+
+<p>Add a fixture test:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>models/gollek-model-example/src/test/resources/model-family-fixtures/example/config.json
+models/gollek-model-example/src/test/resources/model-family-fixtures/example/tokenizer.json
+</code></pre></div></div>
+
+<p>Run the model-family module test:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> :models:gollek-model-example:test
+</code></pre></div></div>
+
+<p>Compile the CLI with the new family selected:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>example :ui:gollek-cli:compileJava
+</code></pre></div></div>
+
+<p>Generate a CI-readable report:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="nt">-q</span> <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>example :ui:gollek-cli:writeModelFamilyBundleReport
+</code></pre></div></div>
+
+<p>Confirm the report contains the family:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="nt">-e</span> <span class="s1">'(.families | index("example") != null)'</span> <span class="se">\</span>
+  ui/gollek-cli/build/reports/gollek/model-family-bundle.json
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="promote-a-family-from-metadata-only-to-runtime-ready">Promote a Family from Metadata-Only to Runtime-Ready</h2>
+
+<p>Do not promote a family just because its descriptor compiles. Promote only after the runner path is accurate and fast enough for production.</p>
+
+<p>Checklist:</p>
+
+<ul>
+  <li>Add architecture adapters that map config and tensor names correctly.</li>
+  <li>Validate tokenizer selection with real model directories.</li>
+  <li>Add weight-layout tests for representative checkpoints.</li>
+  <li>Verify runner compatibility for the target artifact format.</li>
+  <li>Add direct inference smoke tests for a small checkpoint or fixture.</li>
+  <li>Change <code class="language-plaintext highlighter-rouge">direct_safetensor</code> metadata from <code class="language-plaintext highlighter-rouge">pending_*</code> to ready behavior by adding <code class="language-plaintext highlighter-rouge">DIRECT_SAFETENSOR_INFERENCE</code> and adapters.</li>
+  <li>Move the bundle profile only when production owners agree the family belongs in default builds.</li>
+</ul>
+
+<p>Recommended profile movement:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>metadata_only -&gt; optional -&gt; core
+</code></pre></div></div>
+
+<p>Experimental families should not jump directly to <code class="language-plaintext highlighter-rouge">core</code>.</p>
+
+<hr />
+
+<h2 id="production-packaging-patterns">Production Packaging Patterns</h2>
+
+<p>Use these common selector patterns:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Build type</th>
+      <th>Selector</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lean production LLM server</td>
+      <td><code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=direct</code></td>
+    </tr>
+    <tr>
+      <td>Production LLM plus VLM metadata</td>
+      <td><code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=core,vlm</code></td>
+    </tr>
+    <tr>
+      <td>Retrieval or embedding service</td>
+      <td><code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=embedding</code></td>
+    </tr>
+    <tr>
+      <td>Default Gollek CLI</td>
+      <td>no selector, equivalent to <code class="language-plaintext highlighter-rouge">core</code></td>
+    </tr>
+    <tr>
+      <td>Research model farm</td>
+      <td><code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=all</code></td>
+    </tr>
+    <tr>
+      <td>Metadata inspection build</td>
+      <td><code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=metadata_only</code></td>
+    </tr>
+    <tr>
+      <td>Runtime-only proxy without model-family metadata</td>
+      <td><code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=none</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For production CI, prefer presets when one reviewed name should drive both bundle selection and policy gates:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilyBundlePreset<span class="o">=</span>prod-llm <span class="se">\</span>
+  :ui:gollek-cli:check
+</code></pre></div></div>
+
+<p>For strict production CI, combine selectors with policies:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>llama,qwen <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.requiredModelFamilies<span class="o">=</span>llama,qwen <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.forbiddenModelFamilies<span class="o">=</span>experimental,metadata_only <span class="se">\</span>
+  :ui:gollek-cli:check
+</code></pre></div></div>
+
+<p>This keeps the model farm modular and makes accidental model bloat visible before it ships.</p>
+
+<p>If the production target is an alias-defined bundle, assert the alias directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew <span class="nt">--no-daemon</span> <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.modelFamilies<span class="o">=</span>direct <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.requiredModelFamilyAliases<span class="o">=</span>direct <span class="se">\</span>
+  <span class="nt">-Pgollek</span>.forbiddenModelFamilyAliases<span class="o">=</span>embedding <span class="se">\</span>
+  :ui:gollek-cli:validateModelFamilyBundlePolicy
+</code></pre></div></div>
+
+<p>Avoid assuming aliases are mutually exclusive. For example, <code class="language-plaintext highlighter-rouge">direct</code> and <code class="language-plaintext highlighter-rouge">vlm</code> intentionally overlap through
+Gemma 4, so <code class="language-plaintext highlighter-rouge">-Pgollek.modelFamilies=direct -Pgollek.forbiddenModelFamilyAliases=vlm</code> fails and shows the
+overlapping selected families.</p>
+
+<p>Release automation can use <code class="language-plaintext highlighter-rouge">.policyStatus.passed</code> from
+<code class="language-plaintext highlighter-rouge">ui/gollek-cli/build/reports/gollek/model-family-bundle.json</code> as the high-level signal and reserve
+<code class="language-plaintext highlighter-rouge">.policyViolations</code> for debugging details. Use <code class="language-plaintext highlighter-rouge">.policySource</code> when CI needs to prove whether those policy
+gates came from a reviewed preset, explicit Gradle flags, or a deliberate mix of both.</p>
+
+<p>For drift protection, generate a lock with <code class="language-plaintext highlighter-rouge">writeModelFamilyBundleLock</code>, commit it, and validate it in CI
+with <code class="language-plaintext highlighter-rouge">validateModelFamilyBundleLock</code>. To include the lock guard in the normal Gradle check lifecycle, pass
+<code class="language-plaintext highlighter-rouge">-Pgollek.enforceModelFamilyBundleLock=true</code> alongside the same preset or selectors and lock path.
+If the build is preset-driven, also pass <code class="language-plaintext highlighter-rouge">-Pgollek.enforceModelFamilyBundlePresetConformance=true</code> so CI catches
+preset drift before comparing the lower-level lock file.</p>
+
+<hr />
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symptom</th>
+      <th>Likely Cause</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Unknown gollek.modelFamilies selector</code></td>
+      <td>Family id or selector alias was not added to <code class="language-plaintext highlighter-rouge">ui/gollek-cli/build.gradle.kts</code>.</td>
+      <td>Add a <code class="language-plaintext highlighter-rouge">ModelFamilyModule</code> entry, or add the id to <code class="language-plaintext highlighter-rouge">modelFamilyBundleAliases</code> if it is a curated alias.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">missing plugin.json</code></td>
+      <td>Module resources are incomplete.</td>
+      <td>Add <code class="language-plaintext highlighter-rouge">src/main/resources/plugin.json</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ServiceLoader file does not list mainClass</code></td>
+      <td>Service file class name differs from <code class="language-plaintext highlighter-rouge">plugin.json</code>.</td>
+      <td>Keep both ServiceLoader files and <code class="language-plaintext highlighter-rouge">mainClass</code> identical.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">bundleProfile is ... expected ...</code></td>
+      <td><code class="language-plaintext highlighter-rouge">plugin.json</code> and Gradle profile disagree.</td>
+      <td>Use one profile in both places.</td>
+    </tr>
+    <tr>
+      <td>Direct SafeTensor says <code class="language-plaintext highlighter-rouge">DECLARED_NO_ADAPTER</code></td>
+      <td>Capability was advertised without architecture adapters.</td>
+      <td>Add adapters or remove <code class="language-plaintext highlighter-rouge">DIRECT_SAFETENSOR_INFERENCE</code>.</td>
+    </tr>
+    <tr>
+      <td>Duplicate <code class="language-plaintext highlighter-rouge">model_type</code> claim</td>
+      <td>Two plugins claim the same Hugging Face model type.</td>
+      <td>Split claims or choose one owner.</td>
+    </tr>
+    <tr>
+      <td>Family selected but not discovered at runtime</td>
+      <td>Dependency was selected in Gradle but ServiceLoader/CDI metadata is missing.</td>
+      <td>Run <code class="language-plaintext highlighter-rouge">validateModelFamilyBundle</code> and inspect service files.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="design-rules">Design Rules</h2>
+
+<ul>
+  <li>Keep model-family plugins small and dependency-light.</li>
+  <li>Treat Transformers source as the reference for config, tokenizer, architecture names, and tensor layout.</li>
+  <li>Prefer metadata-only descriptors over unsafe runtime claims.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">bundle_profile</code> as a production boundary, not just a label.</li>
+  <li>Keep tokenizer descriptors reusable and file-group based.</li>
+  <li>Register through both model SPI and core plugin SPI so the family can be used by runtime diagnostics, CLI checks, and future dynamic plugin loading.</li>
+  <li>Do not let model-family modules pull heavyweight inference dependencies into every CLI build. Runners own execution dependencies.</li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>

@@ -3,804 +3,1524 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Features | Wayang AI</title>
-  <meta name="description" content="Wayang AI documentation and platform guides for building agentic workflows.">
+  <title>Gollek SDK Features | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
   <script>
     (function () {
       try {
-        var stored = localStorage.getItem('wayang-theme');
-        var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-        var theme = stored || (prefersLight ? 'light' : 'dark');
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', theme);
       } catch (e) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.setAttribute('data-theme', 'light');
       }
     })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/site.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
   <script src="/assets/js/site.js" defer></script>
 </head>
 <body>
-  <div class="site-bg" aria-hidden="true"></div>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="/" class="brand">Wayang AI</a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="/docs/">Docs</a>
-        <a href="/javadoc/">Javadoc</a>
-        <a href="/features/">Features</a>
-        <a href="/about/">About</a>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">Theme</button>
-        <a href="https://github.com/wayang-ai/wayang-platform">GitHub</a>
-      </nav>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
     </div>
-  </header>
 
-  <main class="container content-shell">
-    <h1 id="features">Features</h1>
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
 
-<p>Wayang AI provides a comprehensive set of tools for building and deploying AI agent workflows.</p>
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">Gollek SDK Features</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="gollek-sdk-features">Gollek SDK Features</h1>
+
+<p>Comprehensive feature set for building AI-powered applications with flexibility and performance.</p>
 
 <hr />
 
-<h2 id="core-capabilities">Core Capabilities</h2>
+<h2 id="core-features">Core Features</h2>
 
-<h3 id="-visual-workflow-designer">🎨 Visual Workflow Designer</h3>
+<h3 id="unified-inference-api">Unified Inference API</h3>
 
-<p>Design complex AI workflows with an intuitive drag-and-drop interface.</p>
+<p>Single consistent interface for all inference providers and model formats.</p>
 
+<p><strong>Benefits:</strong></p>
 <ul>
-  <li><strong>Node-Based Editor</strong> - Connect agents, tools, and logic blocks visually</li>
-  <li><strong>Real-Time Preview</strong> - See your workflow structure as you build</li>
-  <li><strong>Template Library</strong> - Start from pre-built templates for common patterns</li>
-  <li><strong>Version Control</strong> - Track changes and collaborate with your team</li>
+  <li>Write once, run anywhere</li>
+  <li>Easy provider switching</li>
+  <li>Reduced vendor lock-in</li>
+  <li>Simplified testing and development</li>
 </ul>
 
-<h3 id="-intelligent-agent-system">🤖 Intelligent Agent System</h3>
-
-<p>Build sophisticated agents powered by state-of-the-art AI models and a flexible architecture.</p>
-
+<p><strong>Supported Formats:</strong></p>
 <ul>
-  <li><strong>Skill-Based Architecture</strong> - Data-driven personas (JSON) replace hardcoded agent types</li>
-  <li><strong>Unified Executor</strong> - One engine handles all agent skills with optimized inference</li>
-  <li><strong>Multi-LLM Support</strong> - Works with OpenAI, Anthropic, Google, and open-source models</li>
-  <li><strong>Memory &amp; Context</strong> - Persistent memory for long-running conversations</li>
-  <li><strong>Tool Integration</strong> - Connect agents to APIs, databases, and external services</li>
-  <li><strong>Orchestrator-Controlled Loops</strong> - Orchestrator coordinates planner -&gt; executor -&gt; evaluator iterations until done</li>
-</ul>
-
-<h3 id="-execution-engine">⚡ Execution Engine</h3>
-
-<p>High-performance runtime for reliable workflow execution.</p>
-
-<ul>
-  <li><strong>Parallel Processing</strong> - Run multiple agents concurrently</li>
-  <li><strong>Error Handling</strong> - Built-in retry logic and graceful failure recovery</li>
-  <li><strong>State Management</strong> - Track workflow state across executions</li>
-  <li><strong>Scalability</strong> - From local development to production clusters</li>
-  <li><strong>Sandbox Runtime</strong> - Isolated execution with configurable security and resource quotas</li>
-</ul>
-
-<h3 id="-wayang-assistant">🧭 Wayang Assistant</h3>
-
-<p>An internal assistant that helps users build, understand, and troubleshoot Wayang.</p>
-
-<ul>
-  <li><strong>Ask &amp; Learn</strong> - Answers questions using official documentation</li>
-  <li><strong>Interactive Chat (RAG)</strong> - Stateful conversations with context-aware document retrieval</li>
-  <li><strong>Project Generator</strong> - Builds Wayang projects from natural language intent</li>
-  <li><strong>Troubleshooting</strong> - Automated error diagnosis with step-by-step guidance</li>
-</ul>
-
-<h3 id="-extensible-architecture">🔌 Extensible Architecture</h3>
-
-<p>Extend Wayang AI to fit your needs.</p>
-
-<ul>
-  <li><strong>Plugin System</strong> - Add custom agents, tools, and connectors</li>
-  <li><strong>API Access</strong> - Full REST and GraphQL APIs for programmatic control</li>
-  <li><strong>Webhooks</strong> - Trigger workflows from external events</li>
-  <li><strong>SDK</strong> - TypeScript and Python SDKs for custom integrations</li>
+  <li>GGUF (llama.cpp)</li>
+  <li>ONNX Runtime, including Stable Diffusion and MOSS TTS audio pipelines with streamed artifacts</li>
+  <li>TensorFlow Lite</li>
+  <li>Cloud APIs (Gemini, Anthropic, OpenAI)</li>
+  <li><strong>Audio Models (Whisper STT, MOSS TTS ONNX)</strong></li>
+  <li><strong>Quantized Models (INT4, INT8, FP8)</strong></li>
 </ul>
 
 <hr />
 
-<h2 id="platform-features">Platform Features</h2>
+<h3 id="gpu-kernel-acceleration">GPU Kernel Acceleration</h3>
+
+<p>Native GPU acceleration for optimal inference performance.</p>
+
+<p><strong>Supported Platforms:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Architecture</th>
+      <th>Key Features</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>NVIDIA CUDA</strong></td>
+      <td>A100/H100/H200</td>
+      <td>FlashAttention-2/3, FP8/FP4, Tensor Cores</td>
+    </tr>
+    <tr>
+      <td><strong>NVIDIA Blackwell</strong></td>
+      <td>B100/B200/GB200</td>
+      <td>FA3+TMEM, FP4, 192GB HBM3e, Async Exec</td>
+    </tr>
+    <tr>
+      <td><strong>AMD ROCm</strong></td>
+      <td>MI300X/MI250X</td>
+      <td>HIP Kernels, Unified Memory, FlashAttention</td>
+    </tr>
+    <tr>
+      <td><strong>Apple Metal</strong></td>
+      <td>M1/M2/M3/M4</td>
+      <td>MPS Graph, Unified Memory, AMX Blocks</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>FlashAttention-2/3 for 2-3x speedup</li>
+  <li>FP4/FP8 tensor core acceleration</li>
+  <li>Unified memory zero-copy on A100/H100/B200/MI300X</li>
+  <li>Paged KV cache for long contexts</li>
+  <li>Multi-GPU support</li>
+</ul>
+
+<p><a href="/docs/gpu-kernels">Learn more</a></p>
+
+<hr />
+
+<h3 id="cloud-provider-integration">Cloud Provider Integration</h3>
+
+<p>Seamless integration with leading cloud LLM providers via dynamic plugin system.</p>
+
+<p><strong>Plugin Architecture:</strong></p>
+<ul>
+  <li><strong>Dynamic Loading</strong>: Add/remove providers via JAR files at runtime</li>
+  <li><strong>Hot-Reload</strong>: Update providers without restarting the application</li>
+  <li><strong>ClassLoader Isolation</strong>: Each provider runs in isolated ClassLoader</li>
+  <li><strong>Auto-Discovery</strong>: Plugins automatically discovered from <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/</code></li>
+  <li><strong>Unified API</strong>: Consistent interface across all providers</li>
+</ul>
+
+<p><strong>Supported Providers:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Models</th>
+      <th>Context</th>
+      <th>Key Features</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>OpenAI</strong></td>
+      <td>GPT-4, GPT-3.5-Turbo, o1</td>
+      <td>128K</td>
+      <td>Function calling, Vision, 128K context</td>
+    </tr>
+    <tr>
+      <td><strong>Anthropic</strong></td>
+      <td>Claude 3 (Opus/Sonnet/Haiku)</td>
+      <td>200K</td>
+      <td>200K context, Vision, Low hallucination</td>
+    </tr>
+    <tr>
+      <td><strong>Google Gemini</strong></td>
+      <td>Gemini Pro/Ultra</td>
+      <td>1M+</td>
+      <td>Multimodal, Long context</td>
+    </tr>
+    <tr>
+      <td><strong>Cerebras</strong></td>
+      <td>Llama 3.1</td>
+      <td>8K</td>
+      <td>~400 tokens/s speed</td>
+    </tr>
+    <tr>
+      <td><strong>Mistral</strong></td>
+      <td>Mistral, Mixtral</td>
+      <td>32K</td>
+      <td>Open weights, Efficient</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Plugin Features:</strong></p>
+<ul>
+  <li>JAR auto-discovery from <code class="language-plaintext highlighter-rouge">~/.gollek/plugins/</code></li>
+  <li>Hot-reload on file changes</li>
+  <li>Dynamic load/unload without restart</li>
+  <li>Plugin manifest (<code class="language-plaintext highlighter-rouge">plugin.json</code>) support</li>
+  <li>Per-plugin configuration</li>
+  <li>Health monitoring</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Plugins automatically loaded on startup</span>
+<span class="nc">PluginManager</span> <span class="n">manager</span> <span class="o">=</span> <span class="no">CDI</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">select</span><span class="o">(</span><span class="nc">PluginManager</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+<span class="n">manager</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+
+<span class="c1">// Get provider</span>
+<span class="nc">OpenAiCloudProvider</span> <span class="n">openai</span> <span class="o">=</span> <span class="o">(</span><span class="nc">OpenAiCloudProvider</span><span class="o">)</span> 
+    <span class="n">manager</span><span class="o">.</span><span class="na">byId</span><span class="o">(</span><span class="s">"openai-cloud-provider"</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+
+<span class="c1">// Use for inference</span>
+<span class="nc">InferenceResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="na">complete</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><a href="/docs/cloud-providers">Learn more</a> <a href="/docs/plugin-system">Plugin Guide</a></p>
+
+<hr />
+
+<h3 id="extension-system">Extension System</h3>
+
+<p>Installable extension packages add user-visible features without changing the core runtime.</p>
+
+<p><strong>Naming:</strong></p>
+<ul>
+  <li><strong>Extension</strong>: installable external package</li>
+  <li><strong>Plugin</strong>: low-level runtime or built-in module</li>
+  <li><strong>Feature</strong>: user-visible capability</li>
+  <li><strong>Adapter</strong>: technical SPI implementation</li>
+  <li><strong>Pipeline</strong>: inference orchestration adapter</li>
+</ul>
+
+<p><strong>Supported Capability Kinds:</strong></p>
+<ul>
+  <li>Inference pipelines for OCR, TTS, document, vision, audio, or multimodal models</li>
+  <li>Training and dataset adapters</li>
+  <li>Quantization and optimization adapters</li>
+  <li>Backend bridges and model exporters</li>
+  <li>Evaluators and research tooling</li>
+</ul>
+
+<p><strong>CLI:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek extensions kinds
+gollek extensions init features/gollek-ocr-lab <span class="nt">--kind</span> pipeline <span class="nt">--pipeline-id</span> ocr-lab <span class="nt">--gollek-path</span> gollek
+gollek extensions init features/gollek-awq-lab <span class="nt">--kind</span> quantization <span class="nt">--adapter-id</span> awq-quantizer <span class="nt">--input</span> model <span class="nt">--output</span> model <span class="nt">--target</span> llm <span class="nt">--format</span> safetensors,gguf <span class="nt">--gollek-path</span> gollek
+gollek extensions inspect path/to/extension.jar <span class="nt">--strict</span>
+gollek extensions <span class="nb">install </span>path/to/extension.jar <span class="nt">--force</span>
+gollek extensions index <span class="nt">--output</span> gollek-extensions.index.json
+gollek extensions migrate <span class="nt">--dry-run</span>
+gollek extensions finalize-migration <span class="nt">--dry-run</span>
+gollek extensions doctor <span class="nt">--strict</span> <span class="nt">--json</span>
+</code></pre></div></div>
+
+<p>Extension manifests use <code class="language-plaintext highlighter-rouge">META-INF/gollek-extension.json</code>; legacy <code class="language-plaintext highlighter-rouge">META-INF/gollek-feature.json</code> files are still supported.</p>
+
+<p><code class="language-plaintext highlighter-rouge">gollek extensions kinds</code> shows available scaffold templates. <code class="language-plaintext highlighter-rouge">gollek extensions init</code> defaults to a pipeline project, while non-pipeline kinds scaffold <code class="language-plaintext highlighter-rouge">FeatureAdapter</code> services for global capabilities such as training, quantization, optimization, backend bridges, exporters, datasets, and evaluators. <code class="language-plaintext highlighter-rouge">gollek extensions index</code> produces a native/AOT-friendly inventory for launchers, CI, and GraalVM build inputs.</p>
+
+<p><code class="language-plaintext highlighter-rouge">gollek extensions doctor</code> detects collisions across extension ids, feature ids, pipeline ids, adapter ids, provider classes, and implementation classes. <code class="language-plaintext highlighter-rouge">gollek extensions finalize-migration --dry-run</code> previews cleanup for migrated legacy jars before archiving them. JVM builds can load installed extension jars dynamically; GraalVM native builds use AOT-linked extensions and keep installed jars as manifest-inspectable assets.</p>
+
+<p><a href="/docs/extensions/">Learn more</a></p>
+
+<hr />
+
+<h3 id="multi-provider-support">Multi-Provider Support</h3>
+
+<p>Seamlessly integrate with multiple inference providers.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Type</th>
+      <th>Capabilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GGUF</td>
+      <td>Local</td>
+      <td>Streaming, Async, Batch</td>
+    </tr>
+    <tr>
+      <td>ONNX</td>
+      <td>Local</td>
+      <td>Text, image, audio/TTS, streaming artifacts, WAV/FLAC/MP3</td>
+    </tr>
+    <tr>
+      <td>TFLite</td>
+      <td>Local</td>
+      <td>Streaming, Batch</td>
+    </tr>
+    <tr>
+      <td>OpenAI</td>
+      <td>Cloud</td>
+      <td>Streaming, Async, Functions, Vision</td>
+    </tr>
+    <tr>
+      <td>Anthropic</td>
+      <td>Cloud</td>
+      <td>Streaming, Async, Tools, Vision</td>
+    </tr>
+    <tr>
+      <td>Google Gemini</td>
+      <td>Cloud</td>
+      <td>Streaming, Async, Multimodal</td>
+    </tr>
+    <tr>
+      <td>Ollama</td>
+      <td>Local/Cloud</td>
+      <td>Streaming, Async</td>
+    </tr>
+    <tr>
+      <td>Cerebras</td>
+      <td>Cloud</td>
+      <td>Streaming, High-throughput</td>
+    </tr>
+    <tr>
+      <td>Mistral</td>
+      <td>Cloud</td>
+      <td>Streaming, Function calling</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="reactive-streaming">Reactive Streaming</h3>
+
+<p>Real-time token streaming with backpressure support.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Non-blocking I/O</li>
+  <li>Mutiny reactive streams</li>
+  <li>Token-by-token delivery</li>
+  <li>Flow control for slow consumers</li>
+  <li>Graceful error handling</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">client</span><span class="o">.</span><span class="na">streamCompletion</span><span class="o">(</span><span class="n">request</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">onItem</span><span class="o">().</span><span class="na">invoke</span><span class="o">(</span><span class="n">chunk</span> <span class="o">-&gt;</span> 
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">chunk</span><span class="o">.</span><span class="na">getToken</span><span class="o">())</span>
+    <span class="o">)</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">().</span><span class="na">with</span><span class="o">(</span><span class="n">ignored</span> <span class="o">-&gt;</span> <span class="o">{});</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="async-job-processing">Async Job Processing</h3>
+
+<p>Background job execution with status tracking.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Submit long-running requests asynchronously</li>
+  <li>Poll for status updates</li>
+  <li>Wait for completion with timeout</li>
+  <li>Automatic retry on failure</li>
+  <li>Result caching</li>
+</ul>
+
+<p><strong>Use Cases:</strong></p>
+<ul>
+  <li>Large document processing</li>
+  <li>Batch data analysis</li>
+  <li>Long-form content generation</li>
+  <li>Complex reasoning tasks</li>
+</ul>
+
+<hr />
+
+<h3 id="batch-inference">Batch Inference</h3>
+
+<p>Process multiple requests efficiently in a single call.</p>
+
+<p><strong>Benefits:</strong></p>
+<ul>
+  <li>Reduced network overhead</li>
+  <li>Better throughput</li>
+  <li>Simplified parallel processing</li>
+  <li>Cost optimization</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">InferenceResponse</span><span class="o">&gt;</span> <span class="n">responses</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">batchInference</span><span class="o">(</span>
+    <span class="k">new</span> <span class="nf">BatchInferenceRequest</span><span class="o">(</span><span class="n">requests</span><span class="o">)</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="model-management">Model Management</h2>
+
+<h3 id="centralized-model-life-cycle">Centralized Model Life-cycle</h3>
+
+<p>Programmatic management of models from discovery to inference.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li><strong>One-Call Preparation</strong>: <code class="language-plaintext highlighter-rouge">prepareModel</code> handles local resolution, pulling from HuggingFace/S3, and SHA-256 verification.</li>
+  <li><strong>Provider Auto-Selection</strong>: Automatically routes models to GGUF, ONNX, or Cloud based on format.</li>
+  <li><strong>Detailed Statistics</strong>: Access model usage, version history, and storage metrics.</li>
+</ul>
+
+<h3 id="local-model-repository">Local Model Repository</h3>
+
+<p>Persistent storage for downloaded models.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Automatic model caching</li>
+  <li>No re-downloads on restart</li>
+  <li>Progress tracking during download</li>
+  <li>Multiple source support (HF, S3, local)</li>
+  <li>Model metadata management</li>
+</ul>
+
+<hr />
+
+<h3 id="model-discovery">Model Discovery</h3>
+
+<p>Browse and query available models.</p>
+
+<p><strong>Capabilities:</strong></p>
+<ul>
+  <li>List all available models</li>
+  <li>Paginated model listing</li>
+  <li>Filter by format, size, provider</li>
+  <li>Detailed model information</li>
+  <li>Version tracking</li>
+</ul>
+
+<hr />
+
+<h2 id="provider-management">Provider Management</h2>
+
+<h3 id="provider-discovery">Provider Discovery</h3>
+
+<p>Auto-discover and query available providers.</p>
+
+<p><strong>Information Available:</strong></p>
+<ul>
+  <li>Provider capabilities</li>
+  <li>Health status</li>
+  <li>Supported models</li>
+  <li>Version and vendor info</li>
+  <li>Performance metrics</li>
+</ul>
+
+<hr />
+
+<h3 id="provider-selection">Provider Selection</h3>
+
+<p>Flexible provider routing strategies.</p>
+
+<p><strong>Options:</strong></p>
+<ul>
+  <li>Global default provider</li>
+  <li>Per-request provider override</li>
+  <li>Automatic failover</li>
+  <li>Load balancing (enterprise)</li>
+  <li>Cost-based routing (enterprise)</li>
+</ul>
+
+<hr />
+
+<h2 id="audio-processing">Audio Processing</h2>
+
+<h3 id="speech-to-text-whisper">Speech-to-Text (Whisper)</h3>
+
+<p>Production-ready speech transcription with 99+ language support.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Complete Whisper encoder-decoder implementation</li>
+  <li>Beam search decoding for accuracy</li>
+  <li>Word-level timestamps</li>
+  <li>Language auto-detection</li>
+  <li>Voice activity detection (VAD)</li>
+  <li>Streaming transcription</li>
+  <li>Multi-format support (WAV, MP3, FLAC, OGG, M4A, WebM)</li>
+</ul>
+
+<p><strong>Supported Models:</strong></p>
+<ul>
+  <li>tiny (39M), base (74M), small (244M), medium (769M), large-v3 (1.55B)</li>
+</ul>
+
+<p><strong>Performance:</strong></p>
+<ul>
+  <li>RTF: 0.15x - 1.5x (model dependent)</li>
+  <li>WER: 2.9% - 8.5% on LibriSpeech</li>
+</ul>
+
+<h3 id="text-to-speech-moss-tts-onnx">Text-to-Speech (MOSS TTS ONNX)</h3>
+
+<p>Local text-to-speech synthesis through the MOSS TTS Nano ONNX pipeline.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Multi-session ONNX orchestration: prefill, decode-step, local frame sampling, and audio codec decode</li>
+  <li>Companion MOSS Audio Tokenizer repository discovery, with optional automatic pull</li>
+  <li>Built-in voice presets with exact names, language aliases, and language/gender selectors</li>
+  <li>Suling audio output for WAV, FLAC, and MP3, with MP3 encoded through the FFmpeg FFM bridge</li>
+  <li>Audio quality presets for compact speech, balanced MP3, high-bitrate MP3, and lossless FLAC</li>
+  <li>Mono/stereo/native channel modes, duplicate-channel collapse, DC removal, fades, and peak normalization</li>
+  <li>Streaming progress, encoded audio chunks, and optional live PCM preview while generation is running</li>
+  <li>Reproducible audio with deterministic seed default, explicit <code class="language-plaintext highlighter-rouge">--seed</code>, or <code class="language-plaintext highlighter-rouge">--random-seed</code></li>
+  <li>Audio-specific run metrics: generated duration, synthesis duration, realtime speed, RTF, and frames per second</li>
+</ul>
+
+<p><strong>CLI Example:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek pull OpenMOSS-Team/MOSS-TTS-Nano-100M-ONNX
+gollek run <span class="nt">--model</span> 71e8f7 <span class="se">\</span>
+  <span class="nt">--prompt</span> <span class="s2">"apa kabar dunia"</span> <span class="se">\</span>
+  <span class="nt">--voice</span> <span class="s2">"en Trump"</span> <span class="se">\</span>
+  <span class="nt">--audio-quality</span> balanced <span class="se">\</span>
+  <span class="nt">--output</span> ~/Downloads/hello.mp3
+</code></pre></div></div>
+
+<p><strong>Voice UX:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--list-voices</code> prints available presets without generating audio.</li>
+  <li><code class="language-plaintext highlighter-rouge">--voice "en Trump"</code> resolves the exact English Trump preset.</li>
+  <li><code class="language-plaintext highlighter-rouge">--voice-lang en --voice-gender female</code> selects an English female preset.</li>
+  <li>Unknown selector terms fail clearly and show nearby valid choices.</li>
+</ul>
+
+<p><strong>Audio UX:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--audio-quality compact</code> writes a small MP3 for quick sharing.</li>
+  <li><code class="language-plaintext highlighter-rouge">--audio-quality lossless</code> writes FLAC with high compression.</li>
+  <li><code class="language-plaintext highlighter-rouge">--live-audio</code> plays decoded PCM chunks while the final artifact is generated.</li>
+  <li><code class="language-plaintext highlighter-rouge">--audio-channels auto</code> collapses near-duplicate stereo output to cleaner mono by default.</li>
+</ul>
+
+<h3 id="audio-processing-pipeline">Audio Processing Pipeline</h3>
+
+<p>Comprehensive audio utilities for speech applications.</p>
+
+<p><strong>Feature Extraction:</strong></p>
+<ul>
+  <li>Log-Mel spectrogram (80 mel bins)</li>
+  <li>MFCC (13 cepstral coefficients)</li>
+  <li>F0 (fundamental frequency)</li>
+  <li>Energy contour</li>
+</ul>
+
+<p><strong>Audio Utilities:</strong></p>
+<ul>
+  <li>High-quality resampling (sinc interpolation)</li>
+  <li>Format conversion (int16 ↔ float32)</li>
+  <li>Peak and RMS normalization</li>
+  <li>Voice activity detection</li>
+  <li>Silence removal</li>
+  <li>Utterance segmentation</li>
+</ul>
+
+<p><a href="/docs/audio-processing">Learn more</a></p>
+
+<hr />
+
+<h2 id="model-quantization">Model Quantization</h2>
+
+<h3 id="gptq-int4">GPTQ (INT4)</h3>
+
+<p>4-bit integer quantization with 8x compression.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Group-wise quantization (configurable group size)</li>
+  <li>Per-channel scaling</li>
+  <li>Activation ordering (ActOrder)</li>
+  <li>Hessian-based optimization</li>
+  <li>SafeTensors format</li>
+</ul>
+
+<p><strong>Compression:</strong> ~8x
+<strong>Quality Loss:</strong> Low-Medium
+<strong>Best For:</strong> CPU inference, large models (7B+)</p>
+
+<h3 id="int8-quantization">INT8 Quantization</h3>
+
+<p>8-bit integer quantization with 4x compression.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Per-channel or per-tensor scaling</li>
+  <li>Symmetric or asymmetric quantization</li>
+  <li>Fast calibration</li>
+  <li>Minimal quality loss</li>
+</ul>
+
+<p><strong>Compression:</strong> ~4x
+<strong>Quality Loss:</strong> Very Low
+<strong>Best For:</strong> Production inference, balanced quality/speed</p>
+
+<h3 id="fp8-quantization">FP8 Quantization</h3>
+
+<p>8-bit floating point for GPU tensor cores.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>E4M3 and E5M2 formats</li>
+  <li>Optimized for H100/MI300</li>
+  <li>Near-lossless quality</li>
+  <li>Tensor core acceleration</li>
+</ul>
+
+<p><strong>Compression:</strong> ~4x
+<strong>Quality Loss:</strong> Minimal
+<strong>Best For:</strong> GPU inference with FP8 support</p>
+
+<h3 id="quantization-pipeline">Quantization Pipeline</h3>
+
+<p>End-to-end quantization workflow.</p>
+
+<p><strong>REST API:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">POST /api/v1/quantization/quantize</code> - Quantize model</li>
+  <li><code class="language-plaintext highlighter-rouge">POST /api/v1/quantization/quantize/stream</code> - Stream progress</li>
+  <li><code class="language-plaintext highlighter-rouge">GET /api/v1/quantization/recommend</code> - Get strategy recommendation</li>
+  <li><code class="language-plaintext highlighter-rouge">GET /api/v1/quantization/strategies</code> - List strategies</li>
+</ul>
+
+<p><strong>Performance:</strong></p>
+<ul>
+  <li>7B model: ~90s (INT4), ~45s (INT8)</li>
+  <li>13B model: ~180s (INT4), ~90s (INT8)</li>
+  <li>70B model: ~900s (INT4), ~450s (INT8)</li>
+</ul>
+
+<p><a href="/docs/quantization">Learn more</a></p>
+
+<hr />
+
+<h2 id="native-integration">Native Integration</h2>
+
+<h3 id="graalvm-native-image">GraalVM Native Image</h3>
+
+<p>Compile to native code for optimal performance.</p>
+
+<p><strong>Benefits:</strong></p>
+<ul>
+  <li>Instant startup (no JVM warmup)</li>
+  <li>Reduced memory footprint</li>
+  <li>Smaller deployment size</li>
+  <li>Enhanced security (no bytecode)</li>
+</ul>
+
+<p><strong>Output:</strong></p>
+<ul>
+  <li>Shared libraries (.so, .dylib, .dll)</li>
+  <li>Static executables</li>
+  <li>Embedded system binaries</li>
+</ul>
+
+<hr />
+
+<h3 id="c-ffi-interface">C FFI Interface</h3>
+
+<p>Direct C/C++ integration via function entrypoints.</p>
+
+<p><strong>Functions:</strong></p>
+<ul>
+  <li>Client lifecycle management</li>
+  <li>Synchronous and async inference</li>
+  <li>Streaming support</li>
+  <li>Job management</li>
+  <li>Model and provider queries</li>
+</ul>
+
+<p><strong>Language Bindings:</strong></p>
+<ul>
+  <li>C/C++ (native)</li>
+  <li>Python (via ctypes)</li>
+  <li>Rust (via FFI)</li>
+  <li>Go (via cgo)</li>
+  <li>Node.js (via node-ffi)</li>
+</ul>
+
+<hr />
+
+<h2 id="enterprise-features">Enterprise Features</h2>
+
+<h3 id="multi-tenancy">Multi-Tenancy</h3>
+
+<p>Tenant isolation and resource management.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Tenant-scoped API keys</li>
+  <li>Isolated model pools</li>
+  <li>Per-tenant quotas and rate limits</li>
+  <li>Usage tracking and billing</li>
+  <li>Compliance audit trails</li>
+</ul>
+
+<p><strong>Activation:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">WAYANG_MULTITENANCY_ENABLED</span><span class="o">=</span><span class="nb">true
+export </span><span class="nv">GOLLEK_TENANT_ID</span><span class="o">=</span>tenant-123
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="security">Security</h3>
+
+<p>Enterprise-grade security features.</p>
+
+<p><strong>Capabilities:</strong></p>
+<ul>
+  <li>Secure credential management</li>
+  <li>API key rotation</li>
+  <li>Encrypted model storage</li>
+  <li>Network isolation</li>
+  <li>Access control policies</li>
+  <li>Audit logging</li>
+</ul>
+
+<hr />
+
+<h3 id="observability">Observability</h3>
+
+<p>Comprehensive monitoring and debugging.</p>
+
+<p><strong>Engine Metrics:</strong></p>
+<ul>
+  <li><strong>P95 Latency</strong>: Track 95th percentile response times per provider/model.</li>
+  <li><strong>Error Rate Tracking</strong>: Real-time failure monitoring for proactive failover.</li>
+  <li><strong>Circuit Breaker Status</strong>: Monitor automated throttling state.</li>
+  <li><strong>Token Usage</strong>: Granular counters for input/output tokens.</li>
+</ul>
+
+<p><strong>Tracing:</strong></p>
+<ul>
+  <li>OpenTelemetry integration</li>
+  <li>Distributed trace propagation</li>
+  <li>Span annotations</li>
+  <li>Context propagation</li>
+</ul>
+
+<p><strong>Logging:</strong></p>
+<ul>
+  <li>Structured JSON logging</li>
+  <li>Correlation IDs</li>
+  <li>Configurable log levels</li>
+  <li>Sensitive data redaction</li>
+</ul>
+
+<hr />
+
+<h2 id="developer-experience">Developer Experience</h2>
+
+<h3 id="cdi-integration">CDI Integration</h3>
+
+<p>Seamless Jakarta EE integration.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Automatic bean discovery</li>
+  <li>Dependency injection</li>
+  <li>CDI scopes support</li>
+  <li>Event integration</li>
+  <li>Interceptor support</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@ApplicationScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyService</span> <span class="o">{</span>
+    <span class="nd">@Inject</span>
+    <span class="nc">GollekLocalClient</span> <span class="n">client</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">generate</span><span class="o">(</span><span class="nc">String</span> <span class="n">prompt</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Use injected client</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="modular-architecture">Modular Architecture</h3>
+
+<p>Include only what you need.</p>
+
+<p><strong>Benefits:</strong></p>
+<ul>
+  <li>Minimal dependencies</li>
+  <li>Reduced attack surface</li>
+  <li>Faster builds</li>
+  <li>Smaller deployments</li>
+</ul>
+
+<p><strong>Optional Modules:</strong></p>
+<ul>
+  <li>Provider-specific extensions</li>
+  <li>Model repository implementations</li>
+  <li>Format converters</li>
+  <li>MCP integrations</li>
+</ul>
+
+<hr />
+
+<h3 id="type-safe-apis">Type-Safe APIs</h3>
+
+<p>Full Java type safety with builders.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Immutable request/response objects</li>
+  <li>Builder pattern for construction</li>
+  <li>Compile-time validation</li>
+  <li>IDE autocomplete support</li>
+  <li>Clear error messages</li>
+</ul>
+
+<hr />
+
+<h2 id="performance-features">Performance Features</h2>
+
+<h3 id="non-blocking-io">Non-Blocking I/O</h3>
+
+<p>Reactive architecture throughout.</p>
+
+<p><strong>Benefits:</strong></p>
+<ul>
+  <li>High concurrency</li>
+  <li>Efficient resource utilization</li>
+  <li>Better throughput</li>
+  <li>Responsive under load</li>
+</ul>
+
+<hr />
+
+<h3 id="connection-pooling">Connection Pooling</h3>
+
+<p>Efficient connection management for cloud providers.</p>
+
+<p><strong>Features:</strong></p>
+<ul>
+  <li>Reusable HTTP connections</li>
+  <li>Configurable pool sizes</li>
+  <li>Connection keepalive</li>
+  <li>Automatic reconnection</li>
+</ul>
+
+<hr />
+
+<h3 id="response-caching">Response Caching</h3>
+
+<p>Optional caching for repeated requests.</p>
+
+<p><strong>Use Cases:</strong></p>
+<ul>
+  <li>FAQ responses</li>
+  <li>Common queries</li>
+  <li>Static content generation</li>
+  <li>Test data</li>
+</ul>
+
+<hr />
+
+<h2 id="integration-features">Integration Features</h2>
+
+<h3 id="mcp-support">MCP Support</h3>
+
+<p>Model Context Protocol integration for tools.</p>
+
+<p><strong>Capabilities:</strong></p>
+<ul>
+  <li>Tool discovery</li>
+  <li>Tool invocation</li>
+  <li>Context management</li>
+  <li>Multi-tool workflows</li>
+</ul>
+
+<hr />
+
+<h3 id="plugin-system">Plugin System</h3>
+
+<p>Low-level runtime architecture via built-in and dynamic plugins.</p>
+
+<p><strong>Extension Points:</strong></p>
+<ul>
+  <li>Custom providers</li>
+  <li>Model repositories</li>
+  <li>Format converters</li>
+  <li>Authentication schemes</li>
+  <li>Pre/post processors</li>
+</ul>
+
+<hr />
+
+<hr />
+
+<h3 id="embedded-ml-sdk">Embedded ML SDK</h3>
+
+<p>A PyTorch-like deep learning framework built natively for the Java ecosystem.</p>
+
+<p><strong>Key Components:</strong></p>
+
+<h4 id="autograd-engine-gollek-sdk-autograd">Autograd Engine (<code class="language-plaintext highlighter-rouge">gollek-sdk-autograd</code>)</h4>
+<p>Define-by-run dynamic computation graphs with support for complex backpropagation.</p>
+<ul>
+  <li><strong>GradTensor</strong>: Tensors that track operations for gradient calculation.</li>
+  <li><strong>Dynamic Graphs</strong>: Build computation graphs on the fly during the forward pass.</li>
+  <li><strong>Context Management</strong>: Use <code class="language-plaintext highlighter-rouge">NoGrad</code> to disable gradient tracking during inference.</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GradTensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">scalar</span><span class="o">(</span><span class="mf">2.0f</span><span class="o">).</span><span class="na">requiresGrad</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+<span class="nc">GradTensor</span> <span class="n">w</span> <span class="o">=</span> <span class="nc">GradTensor</span><span class="o">.</span><span class="na">scalar</span><span class="o">(</span><span class="mf">3.0f</span><span class="o">).</span><span class="na">requiresGrad</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+<span class="nc">GradTensor</span> <span class="n">y</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="na">mul</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+<span class="n">y</span><span class="o">.</span><span class="na">backward</span><span class="o">();</span> <span class="c1">// Calculate gradients</span>
+</code></pre></div></div>
+
+<h4 id="neural-network-modules-gollek-sdk-nn">Neural Network Modules (<code class="language-plaintext highlighter-rouge">gollek-sdk-nn</code>)</h4>
+<p>High-level abstractions for building and training complex models.</p>
+<ul>
+  <li><strong>Standard Layers</strong>: Linear, LayerNorm, Dropout, Embedding, MultiHeadAttention.</li>
+  <li><strong>Transformer Blocks</strong>: Pre-built Encoder and Decoder layers.</li>
+  <li><strong>Loss Functions</strong>: MSE, CrossEntropy, CosineEmbedding.</li>
+  <li><strong>Optimizers</strong>: AdamW, SGD with parameter grouping.</li>
+</ul>
+
+<h4 id="nlp-pipelines-gollek-sdk-nlp">NLP Pipelines (<code class="language-plaintext highlighter-rouge">gollek-sdk-nlp</code>)</h4>
+<p>Task-oriented pipelines for common NLP operations.</p>
+<ul>
+  <li><strong>Text Generation</strong>: LLM-powered sequence completion.</li>
+  <li><strong>Embeddings</strong>: High-quality vector representations.</li>
+  <li><strong>Classification</strong>: Sentiment analysis and zero-shot categorization.</li>
+</ul>
+
+<h4 id="data-loading-gollek-sdk-data">Data Loading (<code class="language-plaintext highlighter-rouge">gollek-sdk-data</code>)</h4>
+<p>Scalable data pipelines for model training.</p>
+<ul>
+  <li><strong>Dataset API</strong>: Abstract interface for indexed data.</li>
+  <li><strong>DataLoader</strong>: Multithreaded batching and shuffling.</li>
+  <li><strong>Format Support</strong>: CSV, Text, and custom implementations.</li>
+</ul>
+
+<hr />
+
+<h2 id="comparison-table">Comparison Table</h2>
 
 <table>
   <thead>
     <tr>
       <th>Feature</th>
-      <th>Description</th>
+      <th>Community</th>
+      <th>Enterprise</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>Workflow Orchestration</strong></td>
-      <td>Coordinate multiple agents with complex dependencies and conditions</td>
+      <td>Multi-provider support</td>
+      <td>Yes</td>
+      <td>Yes</td>
     </tr>
     <tr>
-      <td><strong>Agent Role Separation</strong></td>
-      <td>Keep planning, execution, evaluation, and control-loop decisions in dedicated agents</td>
+      <td>Streaming inference</td>
+      <td>Yes</td>
+      <td>Yes</td>
     </tr>
     <tr>
-      <td><strong>Human-in-the-Loop</strong></td>
-      <td>Pause workflows for human review and approval</td>
+      <td>Async jobs</td>
+      <td>Yes</td>
+      <td>Yes</td>
     </tr>
     <tr>
-      <td><strong>Scheduling</strong></td>
-      <td>Run workflows on cron schedules or triggered events</td>
+      <td>Batch processing</td>
+      <td>Yes</td>
+      <td>Yes</td>
     </tr>
     <tr>
-      <td><strong>Monitoring</strong></td>
-      <td>Real-time dashboards and alerting for workflow execution</td>
+      <td>Native FFI</td>
+      <td>Yes</td>
+      <td>Yes</td>
     </tr>
     <tr>
-      <td><strong>Logging</strong></td>
-      <td>Comprehensive audit trails and execution logs</td>
+      <td>Model management</td>
+      <td>Yes</td>
+      <td>Yes</td>
     </tr>
     <tr>
-      <td><strong>Secrets Management</strong></td>
-      <td>Secure storage for API keys and credentials</td>
+      <td>CDI integration</td>
+      <td>Yes</td>
+      <td>Yes</td>
     </tr>
     <tr>
-      <td><strong>Team Collaboration</strong></td>
-      <td>Shared workspaces, roles, and permissions</td>
+      <td><strong>Audio Processing</strong></td>
+      <td><strong>Yes</strong></td>
+      <td><strong>Yes</strong></td>
     </tr>
     <tr>
-      <td><strong>Export/Import</strong></td>
-      <td>Share workflows as portable JSON configurations</td>
+      <td><strong>Model Quantization</strong></td>
+      <td><strong>Yes</strong></td>
+      <td><strong>Yes</strong></td>
     </tr>
     <tr>
-      <td><strong>Sandbox Execution</strong></td>
-      <td>Isolated workflow execution with security policies and resource quotas</td>
+      <td><strong>Embedded ML SDK</strong></td>
+      <td><strong>Yes</strong></td>
+      <td><strong>Yes</strong></td>
     </tr>
     <tr>
-      <td><strong>Multi-Tenancy</strong></td>
-      <td>Tenant-scoped sandboxes with complete isolation</td>
+      <td>GPU acceleration</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Multi-tenancy</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Advanced security</td>
+      <td>Basic</td>
+      <td>Full</td>
+    </tr>
+    <tr>
+      <td>Audit logging</td>
+      <td>Basic</td>
+      <td>Comprehensive</td>
+    </tr>
+    <tr>
+      <td>Priority support</td>
+      <td>Community</td>
+      <td>24/7</td>
+    </tr>
+    <tr>
+      <td>SLA</td>
+      <td>No</td>
+      <td>Yes</td>
     </tr>
   </tbody>
 </table>
 
 <hr />
 
-<h2 id="integration-ecosystem">Integration Ecosystem</h2>
+<h2 id="getting-started">Getting Started</h2>
 
-<h3 id="supported-ai-models">Supported AI Models</h3>
+<p>Ready to explore these features?</p>
 
-<ul>
-  <li>OpenAI GPT-4, GPT-4 Turbo, GPT-3.5</li>
-  <li>Anthropic Claude 3, Claude 2</li>
-  <li>Google Gemini Pro, PaLM 2</li>
-  <li>Meta Llama 2, Llama 3</li>
-  <li>Mistral AI models</li>
-  <li>Local models via Ollama, LM Studio</li>
-</ul>
-
-<h3 id="built-in-connectors">Built-in Connectors</h3>
-
-<ul>
-  <li><strong>Databases</strong> - PostgreSQL, MySQL, MongoDB, Redis</li>
-  <li><strong>Cloud Storage</strong> - AWS S3, Google Cloud Storage, Azure Blob</li>
-  <li><strong>Communication</strong> - Slack, Discord, Email, SMS</li>
-  <li><strong>Productivity</strong> - Notion, Confluence, Google Workspace</li>
-  <li><strong>Development</strong> - GitHub, GitLab, Jira, Linear</li>
-</ul>
+<p><a href="/docs/">View Documentation</a>   <a href="/docs/examples">See Examples</a></p>
 
 <hr />
 
-<h2 id="security--compliance">Security &amp; Compliance</h2>
+<p><a href="/">Back to Home</a>   <a href="/docs/">View Documentation</a></p>
 
-<ul>
-  <li>🔒 <strong>End-to-End Encryption</strong> - All data encrypted in transit and at rest</li>
-  <li>🔐 <strong>SSO/SAML</strong> - Enterprise authentication integration</li>
-  <li>📋 <strong>Audit Logs</strong> - Complete history of all actions and changes</li>
-  <li>🛡️ <strong>Role-Based Access</strong> - Fine-grained permissions and access control</li>
-  <li>✅ <strong>SOC 2 Ready</strong> - Built with enterprise compliance in mind</li>
-</ul>
+      </div>
+    </main>
 
-<hr />
-
-<h2 id="performance-benchmarks">Performance Benchmarks</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Metric</th>
-      <th>Performance</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Workflow Startup</td>
-      <td>&lt; 100ms</td>
-    </tr>
-    <tr>
-      <td>Agent Response Time</td>
-      <td>&lt; 500ms (typical)</td>
-    </tr>
-    <tr>
-      <td>Concurrent Workflows</td>
-      <td>10,000+</td>
-    </tr>
-    <tr>
-      <td>API Throughput</td>
-      <td>50,000+ req/sec</td>
-    </tr>
-    <tr>
-      <td>Uptime SLA</td>
-      <td>99.9%</td>
-    </tr>
-  </tbody>
-</table>
-
-<hr />
-
-<p><a href="/docs/">Get Started</a>   <a href="/docs/">View Documentation</a></p>
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <span>Wayang AI Docs</span>
-      <a href="https://github.com/wayang-ai/wayang-platform">wayang-ai/wayang-platform</a>
-    </div>
-    <div class="container footer-links">
-      <a href="/cookies-policy.html">Cookies Policy</a>
-      <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="/terms-of-service.html">Terms of Service</a>
-    </div>
-  </footer>
-
-  <!-- Cookie Consent Banner -->
-<div id="cookie-consent-banner" class="cookie-consent-banner" style="display: none;">
-  <div class="cookie-consent-content">
-    <div class="cookie-consent-text">
-      <h3>🍪 We Use Cookies</h3>
-      <p>
-        We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. 
-        By continuing to use this site, you consent to our use of cookies.
-      </p>
-      <p class="cookie-consent-link">
-        <a href="/cookies-policy.html">Learn more</a> about our cookies policy.
-      </p>
-    </div>
-    <div class="cookie-consent-buttons">
-      <button id="cookie-reject" class="btn-cookie-reject">Reject Non-Essential</button>
-      <button id="cookie-customize" class="btn-cookie-customize">Customize</button>
-      <button id="cookie-accept" class="btn-cookie-accept">Accept All</button>
-    </div>
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
   </div>
-</div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
 
-<!-- Cookie Preferences Modal -->
-<div id="cookie-preferences-modal" class="cookie-modal" style="display: none;">
-  <div class="cookie-modal-content">
-    <div class="cookie-modal-header">
-      <h2>Cookie Preferences</h2>
-      <button id="cookie-modal-close" class="cookie-modal-close">&times;</button>
-    </div>
-    <div class="cookie-modal-body">
-      <p class="cookie-modal-description">
-        Manage your cookie preferences below. Note that essential cookies cannot be disabled 
-        as they are necessary for the site to function properly.
-      </p>
-      
-      <div class="cookie-category">
-        <div class="cookie-category-header">
-          <div class="cookie-category-info">
-            <h4>Essential Cookies</h4>
-            <p>Required for basic site functionality and security</p>
-          </div>
-          <div class="cookie-category-toggle">
-            <input type="checkbox" id="cookie-essential" checked disabled>
-            <label for="cookie-essential" class="cookie-toggle-label">Always Active</label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="cookie-category">
-        <div class="cookie-category-header">
-          <div class="cookie-category-info">
-            <h4>Performance & Analytics Cookies</h4>
-            <p>Help us understand how visitors use our site</p>
-          </div>
-          <div class="cookie-category-toggle">
-            <input type="checkbox" id="cookie-analytics">
-            <label for="cookie-analytics" class="cookie-toggle-label"></label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="cookie-category">
-        <div class="cookie-category-header">
-          <div class="cookie-category-info">
-            <h4>Functionality Cookies</h4>
-            <p>Remember your preferences and settings</p>
-          </div>
-          <div class="cookie-category-toggle">
-            <input type="checkbox" id="cookie-functionality">
-            <label for="cookie-functionality" class="cookie-toggle-label"></label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="cookie-modal-footer">
-      <button id="cookie-save-preferences" class="btn-cookie-save">Save Preferences</button>
-    </div>
-  </div>
-</div>
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
 
-<style>
-/* Cookie Consent Banner Styles */
-.cookie-consent-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: #ffffff;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
-  border-top: 3px solid #0f3460;
-  animation: slideUp 0.3s ease-out;
-}
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
 
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
 
-.cookie-consent-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.cookie-consent-text {
-  flex: 1;
-  min-width: 300px;
-}
-
-.cookie-consent-text h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-  color: #e94560;
-  font-weight: 600;
-}
-
-.cookie-consent-text p {
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #e0e0e0;
-}
-
-.cookie-consent-link a {
-  color: #0f3460;
-  background: #e94560;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.cookie-consent-link a:hover {
-  background: #ff6b6b;
-}
-
-.cookie-consent-buttons {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.cookie-consent-buttons button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-cookie-accept {
-  background: #e94560;
-  color: white;
-}
-
-.btn-cookie-accept:hover {
-  background: #ff6b6b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
-}
-
-.btn-cookie-reject {
-  background: transparent;
-  color: #e0e0e0;
-  border: 2px solid #e0e0e0;
-}
-
-.btn-cookie-reject:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-}
-
-.btn-cookie-customize {
-  background: #0f3460;
-  color: white;
-}
-
-.btn-cookie-customize:hover {
-  background: #1a4a7a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(15, 52, 96, 0.4);
-}
-
-/* Cookie Modal Styles */
-.cookie-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  animation: fadeIn 0.2s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.cookie-modal-content {
-  background: white;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.cookie-modal-header {
-  padding: 1.5rem 2rem;
-  border-bottom: 2px solid #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: white;
-  border-radius: 12px 12px 0 0;
-}
-
-.cookie-modal-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #e94560;
-}
-
-.cookie-modal-close {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #e0e0e0;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s;
-}
-
-.cookie-modal-close:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.cookie-modal-body {
-  padding: 2rem;
-}
-
-.cookie-modal-description {
-  margin-bottom: 1.5rem;
-  color: #555;
-  line-height: 1.6;
-}
-
-.cookie-category {
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  overflow: hidden;
-  transition: all 0.2s;
-}
-
-.cookie-category:hover {
-  border-color: #0f3460;
-}
-
-.cookie-category-header {
-  padding: 1rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  background: #f8f9fa;
-}
-
-.cookie-category-info h4 {
-  margin: 0 0 0.25rem 0;
-  color: #1a1a2e;
-  font-size: 1rem;
-}
-
-.cookie-category-info p {
-  margin: 0;
-  color: #666;
-  font-size: 0.85rem;
-}
-
-.cookie-category-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cookie-category-toggle input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: #e94560;
-}
-
-.cookie-category-toggle input:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.cookie-toggle-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #e94560;
-  cursor: pointer;
-}
-
-.cookie-modal-footer {
-  padding: 1.5rem 2rem;
-  border-top: 2px solid #e0e0e0;
-  background: #f8f9fa;
-  border-radius: 0 0 12px 12px;
-  text-align: right;
-}
-
-.btn-cookie-save {
-  padding: 0.75rem 2rem;
-  background: #e94560;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-cookie-save:hover {
-  background: #ff6b6b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .cookie-consent-content {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .cookie-consent-buttons {
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .cookie-consent-buttons button {
-    flex: 1;
-    min-width: 120px;
-  }
-  
-  .cookie-modal-content {
-    width: 95%;
-    max-height: 90vh;
-  }
-  
-  .cookie-category-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-</style>
-
-<script>
-// Cookie Consent Management
-(function() {
-  const COOKIE_CONSENT_KEY = 'wayang_cookie_consent';
-  const COOKIE_VERSION = '1.0';
-  
-  // DOM Elements
-  const banner = document.getElementById('cookie-consent-banner');
-  const modal = document.getElementById('cookie-preferences-modal');
-  const acceptBtn = document.getElementById('cookie-accept');
-  const rejectBtn = document.getElementById('cookie-reject');
-  const customizeBtn = document.getElementById('cookie-customize');
-  const modalClose = document.getElementById('cookie-modal-close');
-  const savePrefsBtn = document.getElementById('cookie-save-preferences');
-  const analyticsCheckbox = document.getElementById('cookie-analytics');
-  const functionalityCheckbox = document.getElementById('cookie-functionality');
-  
-  // Check if consent already given
-  function getConsent() {
-    const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-    return consent ? JSON.parse(consent) : null;
-  }
-  
-  // Save consent preferences
-  function saveConsent(preferences) {
-    const consent = {
-      version: COOKIE_VERSION,
-      timestamp: new Date().toISOString(),
-      preferences: preferences
-    };
-    localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
-    
-    // Apply cookie settings
-    applyCookieSettings(preferences);
-  }
-  
-  // Apply cookie settings
-  function applyCookieSettings(preferences) {
-    // Analytics cookies
-    if (!preferences.analytics) {
-      // Disable Google Analytics if rejected
-      if (window.ga) {
-        window.ga('set', 'anonymizeIp', true);
-        window.gaOptout = true;
-      }
-    }
-    
-    // Functionality cookies
-    if (!preferences.functionality) {
-      // Clear functionality cookies
-      document.cookie.split(";").forEach(function(c) {
-        if (c.trim().startsWith('_preferred_') || c.trim().startsWith('_theme_')) {
-          document.cookie = c.split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-        }
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
       });
-    }
-  }
-  
-  // Show banner if no consent
-  function showBanner() {
-    const consent = getConsent();
-    if (!consent) {
-      setTimeout(function() {
-        banner.style.display = 'block';
-      }, 1000);
-    }
-  }
-  
-  // Show modal
-  function showModal() {
-    const consent = getConsent();
-    if (consent) {
-      analyticsCheckbox.checked = consent.preferences.analytics || false;
-      functionalityCheckbox.checked = consent.preferences.functionality || false;
-    }
-    modal.style.display = 'flex';
-  }
-  
-  // Hide modal
-  function hideModal() {
-    modal.style.display = 'none';
-  }
-  
-  // Accept all cookies
-  acceptBtn.addEventListener('click', function() {
-    saveConsent({
-      essential: true,
-      analytics: true,
-      functionality: true
-    });
-    banner.style.display = 'none';
-  });
-  
- // Reject non-essential cookies
-  rejectBtn.addEventListener('click', function() {
-    saveConsent({
-      essential: true,
-      analytics: false,
-      functionality: false
-    });
-    banner.style.display = 'none';
-  });
-  
-  // Customize cookies
-  customizeBtn.addEventListener('click', function() {
-    showModal();
-  });
-  
-  // Close modal
-  modalClose.addEventListener('click', hideModal);
-  
-  // Save preferences
-  savePrefsBtn.addEventListener('click', function() {
-    saveConsent({
-      essential: true,
-      analytics: analyticsCheckbox.checked,
-      functionality: functionalityCheckbox.checked
-    });
-    hideModal();
-    banner.style.display = 'none';
-  });
-  
-  // Close modal on outside click
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      hideModal();
-    }
-  });
-  
-  // Keyboard navigation
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modal.style.display === 'flex') {
-      hideModal();
-    }
-  });
-  
-  // Initialize
-  showBanner();
-  
-  // Expose function to reopen preferences
-  window.openCookiePreferences = showModal;
-})();
-</script>
-
+    </script>
 </body>
 </html>

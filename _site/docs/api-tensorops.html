@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TensorOps API Reference | Gollek</title>
+  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/favicon.svg">
+
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('gollek-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" defer></script>
+  <script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
+        <span class="brand-text">Gollek</span>
+      </a>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Section: Overview -->
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+          <span>Welcome</span>
+        </a>
+        <a href="/docs/setup/jbang-examples" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <span>Examples Catalog</span>
+        </a>
+      </div>
+
+      <!-- Section: Setup -->
+      <div class="nav-section">
+        <div class="nav-section-title">Setup & CLI</div>
+        <a href="/docs/setup/cli-installation" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Installation</span>
+        </a>
+        <a href="/docs/setup/cli-reference" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>CLI Commands</span>
+        </a>
+      </div>
+
+      <!-- Section: Tutorial -->
+      <div class="nav-section">
+        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <span>Learning Paths</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/basic/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Basic Tier</span>
+          </a>
+          <a href="/docs/tutorials/intermediate/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Intermediate Tier</span>
+          </a>
+          <a href="/docs/tutorials/advanced/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Advanced Tier</span>
+          </a>
+        </div>
+
+        <!-- Platform Integrations Section -->
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 7h-9l-3-3H2a2 2 0 00-2 2v12a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2z"/>
+          </svg>
+          <span>Platform Integrations</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/tutorials/integrations/agent-serving" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Agent Serving</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jbang" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>JBang</span>
+          </a>
+          <a href="/docs/tutorials/integrations/jupyter" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Jupyter</span>
+          </a>
+          <a href="/docs/tutorials/integrations/langchain4j" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>LangChain4j</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Framework -->
+      <div class="nav-section">
+        <div class="nav-section-title">ML Framework</div>
+        <a href="/docs/framework/framework" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Neural Networks</span>
+        </a>
+        <a href="/docs/framework/training-fast-gate" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>Training Gate</span>
+        </a>
+        <a href="/docs/framework/multimodal-sdk" class="nav-item nav-multimodal ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M12 22l10-5-10-5-10 5 10 5z"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          <span>Multimodal AI</span>
+        </a>
+        <a href="/docs/framework/quantization" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+          </svg>
+          <span>Quantization</span>
+        </a>
+      </div>
+
+      <!-- Section: API REferences -->
+      <div class="nav-section">
+        <div class="nav-section-title">API REferences</div>
+        <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <span>0.1.0-SNAPSHOT</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <!-- Version Sub-menu -->
+        <div class="nav-sub-menu collapsed">
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>Overview</span>
+          </a>
+
+          <div class="nav-category-header">Core Framework</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-tensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-autograd</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer-api" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer-api</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-trainer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>trainer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-train" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-train (legacy)</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-optimize" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-optimize</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-metrics" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-metrics</span>
+          </a>
+
+          <div class="nav-category-header">Architectures</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-cnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-cnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-rnn" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-rnn</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-transformer" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-transformer</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-models" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-models</span>
+          </a>
+
+          <div class="nav-category-header">Data & Domains</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-data" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-data</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-augment" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-augment</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-vision</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-audio" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-audio</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-nlp" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-nlp</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-multimodal" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-multimodal</span>
+          </a>
+
+          <div class="nav-category-header">Deployment & Hub</div>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-hub" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-hub</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-export" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-export</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-onnx" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-onnx</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-litert" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-litert</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-gguf" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-gguf</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-safetensor" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-safetensor</span>
+          </a>
+          <a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-examples" class="nav-sub-item ">
+            <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="3"/></svg>
+            <span>ml-examples</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section: Runtime -->
+      <div class="nav-section">
+        <div class="nav-section-title">Inference Runtime</div>
+        <a href="/docs/runtime/core-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          <span>Unified SDK</span>
+        </a>
+        <a href="/docs/agent-integration-api" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16"/>
+            <path d="M4 17h16"/>
+            <circle cx="8" cy="7" r="2"/>
+            <circle cx="16" cy="17" r="2"/>
+          </svg>
+          <span>Agent Integration</span>
+        </a>
+        <a href="/docs/runtime/architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Architecture</span>
+        </a>
+        <a href="/docs/runtime/moss-tts-onnx" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 9v6"/>
+            <path d="M8 5v14"/>
+            <path d="M12 3v18"/>
+            <path d="M16 7v10"/>
+            <path d="M20 10v4"/>
+          </svg>
+          <span>ONNX Audio/TTS</span>
+        </a>
+        <a href="/docs/runtime/gpu-kernels" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <rect x="9" y="9" width="6" height="6"/>
+          </svg>
+          <span>GPU Acceleration</span>
+        </a>
+      </div>
+
+      <!-- Section: Plugins -->
+      <div class="nav-section">
+        <div class="nav-section-title">Plugins & SPI</div>
+        <a href="/docs/extensions/" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l7 4v8c0 4-3 7-7 8-4-1-7-4-7-8V6l7-4z"/>
+            <path d="M9 12l2 2 4-5"/>
+          </svg>
+          <span>Extensions</span>
+        </a>
+        <a href="/docs/plugins/plugin-architecture" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+          </svg>
+          <span>Plugin System</span>
+        </a>
+        <a href="/docs/plugins/model-family-plugins" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 5h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 19h16"/>
+            <circle cx="8" cy="5" r="1.5"/>
+            <circle cx="14" cy="12" r="1.5"/>
+            <circle cx="10" cy="19" r="1.5"/>
+          </svg>
+          <span>Model Families</span>
+        </a>
+      </div>
+
+      <!-- Section: Support -->
+      <div class="nav-section">
+        <div class="nav-section-title">Support</div>
+        <a href="/docs/setup/troubleshooting" class="nav-item ">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+          </svg>
+          <span>Troubleshooting</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="dark" aria-label="Dark theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="light" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button class="theme-option" data-theme="auto" aria-label="Auto theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="version-info">
+        <span class="version-label">v1.0.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-content">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-title">
+          
+          <h1 class="page-title">TensorOps API Reference</h1>
+          
+        </div>
+        <div class="header-actions">
+          <a href="/docs/setup/cli-installation" class="btn btn-sm btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install
+          </a>
+          <a href="/blog/" class="btn btn-sm btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Blog
+          </a>
+          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <h1 id="tensorops---advanced-tensor-operations">TensorOps - Advanced Tensor Operations</h1>
+
+<p>Complete API reference for <code class="language-plaintext highlighter-rouge">tech.kayys.gollek.sdk.core.TensorOps</code> - PyTorch-equivalent tensor indexing and manipulation.</p>
+
+<h2 id="module-location">Module Location</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gollek-sdk-tensor/src/main/java/tech/kayys/gollek/sdk/core/TensorOps.java
+</code></pre></div></div>
+
+<h2 id="overview">Overview</h2>
+
+<p><code class="language-plaintext highlighter-rouge">TensorOps</code> provides comprehensive tensor manipulation operations:</p>
+
+<ul>
+  <li><strong>Slicing &amp; Indexing</strong> - Extract subarrays along dimensions</li>
+  <li><strong>Concatenation &amp; Stacking</strong> - Combine multiple tensors</li>
+  <li><strong>Gathering &amp; Scattering</strong> - Index-based selection and updates</li>
+  <li><strong>Boolean Operations</strong> - Conditional selection and filling</li>
+  <li><strong>Comparisons</strong> - Element-wise comparison operations</li>
+</ul>
+
+<p>All operations maintain gradient tracking and work with autograd.</p>
+
+<hr />
+
+<h2 id="slicing-operations">Slicing Operations</h2>
+
+<h3 id="slice">slice()</h3>
+
+<p>Extract a contiguous slice along a dimension.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">slice</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="kt">long</span> <span class="n">start</span><span class="o">,</span> <span class="kt">long</span> <span class="n">end</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tensor</code> - Input tensor to slice</li>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> - Dimension along which to slice (0-based)</li>
+  <li><code class="language-plaintext highlighter-rouge">start</code> - Start index (inclusive)</li>
+  <li><code class="language-plaintext highlighter-rouge">end</code> - End index (exclusive)</li>
+</ul>
+
+<p><strong>Returns:</strong> Sliced tensor with shape <code class="language-plaintext highlighter-rouge">[..., end-start, ...]</code></p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">,</span> <span class="mi">30</span><span class="o">);</span>
+
+<span class="c1">// Select indices 5-15 along dimension 1</span>
+<span class="nc">Tensor</span> <span class="n">sliced</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">slice</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">15</span><span class="o">);</span>
+<span class="c1">// Result shape: (10, 10, 30)</span>
+
+<span class="c1">// Select first 5 elements along dimension 0</span>
+<span class="nc">Tensor</span> <span class="n">first5</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">slice</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="c1">// Result shape: (5, 20, 30)</span>
+</code></pre></div></div>
+
+<p><strong>Errors:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">IndexOutOfBoundsException</code> if indices are invalid</li>
+</ul>
+
+<p><strong>Implementation:</strong> Uses stride-based indexing for efficient memory access</p>
+
+<hr />
+
+<h3 id="index">index()</h3>
+
+<p>Get single element along dimension.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">index</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="kt">long</span> <span class="n">index</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tensor</code> - Input tensor</li>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> - Dimension</li>
+  <li><code class="language-plaintext highlighter-rouge">index</code> - Index value</li>
+</ul>
+
+<p><strong>Returns:</strong> Tensor with dimension removed and size reduced by 1</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">,</span> <span class="mi">30</span><span class="o">);</span>
+
+<span class="c1">// Get element at index 5 along dimension 1</span>
+<span class="nc">Tensor</span> <span class="n">selected</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">index</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="c1">// Result shape: (10, 30) - middle dimension removed</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="indexselect">indexSelect()</h3>
+
+<p>Select multiple elements by indices along a dimension.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">indexSelect</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">indices</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tensor</code> - Input tensor</li>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> - Dimension to index</li>
+  <li><code class="language-plaintext highlighter-rouge">indices</code> - 1D tensor of indices to select</li>
+</ul>
+
+<p><strong>Returns:</strong> Tensor with selected indices along dimension</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">,</span> <span class="mi">30</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">idx</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">15</span><span class="o">},</span> <span class="mi">4</span><span class="o">);</span>
+
+<span class="c1">// Select indices [0, 5, 10, 15] along dimension 1</span>
+<span class="nc">Tensor</span> <span class="n">selected</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">indexSelect</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">idx</span><span class="o">);</span>
+<span class="c1">// Result shape: (10, 4, 30)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="concatenation--stacking">Concatenation &amp; Stacking</h2>
+
+<h3 id="cat">cat()</h3>
+
+<p>Concatenate tensors along an existing dimension.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">cat</span><span class="o">(</span><span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Tensor</span><span class="o">&gt;</span> <span class="n">tensors</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> - Dimension to concatenate along</li>
+  <li><code class="language-plaintext highlighter-rouge">tensors</code> - List of tensors to concatenate</li>
+</ul>
+
+<p><strong>Returns:</strong> Concatenated tensor</p>
+
+<p><strong>Requirements:</strong></p>
+<ul>
+  <li>All tensors must have same number of dimensions</li>
+  <li>All dimensions except <code class="language-plaintext highlighter-rouge">dim</code> must have matching sizes</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">y</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">15</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">z</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+
+<span class="c1">// Concatenate along dimension 1</span>
+<span class="nc">Tensor</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">cat</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">));</span>
+<span class="c1">// Result shape: (2, 30, 20) - 10 + 15 + 5 = 30</span>
+
+<span class="c1">// Concatenate along dimension 0</span>
+<span class="nc">Tensor</span> <span class="n">stacked</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">cat</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">));</span>
+<span class="c1">// Result shape: (4, 10, 20)</span>
+</code></pre></div></div>
+
+<p><strong>Performance:</strong> O(n) where n is total elements</p>
+
+<hr />
+
+<h3 id="stack">stack()</h3>
+
+<p>Stack tensors into a new dimension.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">stack</span><span class="o">(</span><span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Tensor</span><span class="o">&gt;</span> <span class="n">tensors</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> - Position to create new dimension (0-based)</li>
+  <li><code class="language-plaintext highlighter-rouge">tensors</code> - List of tensors with identical shapes</li>
+</ul>
+
+<p><strong>Returns:</strong> Stacked tensor with new dimension</p>
+
+<p><strong>Requirements:</strong></p>
+<ul>
+  <li>All tensors must have <strong>identical</strong> shapes</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">y</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">z</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+
+<span class="c1">// Stack along new dimension 0</span>
+<span class="nc">Tensor</span> <span class="n">stacked</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">stack</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">z</span><span class="o">));</span>
+<span class="c1">// Result shape: (3, 10, 20)</span>
+
+<span class="c1">// Stack along new dimension 2</span>
+<span class="nc">Tensor</span> <span class="n">stacked2</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">stack</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">));</span>
+<span class="c1">// Result shape: (10, 20, 2)</span>
+</code></pre></div></div>
+
+<p><strong>vs. cat():</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">cat()</code>: Combines along existing dimension</li>
+  <li><code class="language-plaintext highlighter-rouge">stack()</code>: Creates new dimension</li>
+</ul>
+
+<hr />
+
+<h2 id="gathering--scattering">Gathering &amp; Scattering</h2>
+
+<h3 id="gather">gather()</h3>
+
+<p>Select elements using index tensor (PyTorch torch.gather equivalent).</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">gather</span><span class="o">(</span><span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">indices</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> - Dimension to gather along</li>
+  <li><code class="language-plaintext highlighter-rouge">tensor</code> - Source tensor</li>
+  <li><code class="language-plaintext highlighter-rouge">indices</code> - Index tensor (same shape as output except in <code class="language-plaintext highlighter-rouge">dim</code>)</li>
+</ul>
+
+<p><strong>Returns:</strong> Gathered tensor</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span><span class="mi">11</span><span class="o">,</span><span class="mi">12</span><span class="o">},</span>
+    <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span>
+<span class="o">);</span>  <span class="c1">// Shape: (3, 4)</span>
+
+<span class="nc">Tensor</span> <span class="n">idx</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">},</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>  <span class="c1">// Shape: (3, 1)</span>
+
+<span class="c1">// Gather along dimension 1</span>
+<span class="nc">Tensor</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">gather</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">idx</span><span class="o">);</span>
+<span class="c1">// Selects [1, 3, 2] from row 1, [5, 7, 6] from row 2, etc.</span>
+</code></pre></div></div>
+
+<p><strong>Common Use Case:</strong> Select top-k predictions in classification</p>
+
+<hr />
+
+<h3 id="scatter">scatter()</h3>
+
+<p>Scatter updates into a tensor using indices.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">scatter</span><span class="o">(</span><span class="kt">int</span> <span class="n">dim</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">indices</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">updates</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dim</code> - Dimension to scatter along</li>
+  <li><code class="language-plaintext highlighter-rouge">tensor</code> - Destination tensor (will be cloned)</li>
+  <li><code class="language-plaintext highlighter-rouge">indices</code> - Index tensor</li>
+  <li><code class="language-plaintext highlighter-rouge">updates</code> - Values to scatter</li>
+</ul>
+
+<p><strong>Returns:</strong> New tensor with scattered updates</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">dest</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">idx</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">},</span> <span class="mi">2</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">vals</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">},</span> <span class="mi">2</span><span class="o">);</span>
+
+<span class="c1">// Scatter along dimension 1</span>
+<span class="nc">Tensor</span> <span class="n">result</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">scatter</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">dest</span><span class="o">,</span> <span class="n">idx</span><span class="o">,</span> <span class="n">vals</span><span class="o">);</span>
+<span class="c1">// Updates indices [0, 2] in each row with values</span>
+</code></pre></div></div>
+
+<p><strong>Note:</strong> Inverse operation of <code class="language-plaintext highlighter-rouge">gather()</code></p>
+
+<hr />
+
+<h2 id="boolean-operations">Boolean Operations</h2>
+
+<h3 id="maskedselect">maskedSelect()</h3>
+
+<p>Select elements where mask is true.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">maskedSelect</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">mask</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tensor</code> - Input tensor</li>
+  <li><code class="language-plaintext highlighter-rouge">mask</code> - Boolean mask (same shape as tensor, non-zero = true)</li>
+</ul>
+
+<p><strong>Returns:</strong> 1D tensor with selected elements</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+
+<span class="c1">// Create mask for positive elements</span>
+<span class="nc">Tensor</span> <span class="n">mask</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">gt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+<span class="c1">// Select positive elements</span>
+<span class="nc">Tensor</span> <span class="n">positive</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">maskedSelect</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">mask</span><span class="o">);</span>
+<span class="c1">// Result shape: (n,) where n = number of positive elements</span>
+</code></pre></div></div>
+
+<p><strong>Use Cases:</strong></p>
+<ul>
+  <li>Filter outliers</li>
+  <li>Select top-k elements</li>
+  <li>Conditional sampling</li>
+</ul>
+
+<hr />
+
+<h3 id="maskedfill">maskedFill()</h3>
+
+<p>Fill elements where mask is true with a scalar value.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">maskedFill</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="nc">Tensor</span> <span class="n">mask</span><span class="o">,</span> <span class="kt">float</span> <span class="n">value</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tensor</code> - Input tensor</li>
+  <li><code class="language-plaintext highlighter-rouge">mask</code> - Boolean mask</li>
+  <li><code class="language-plaintext highlighter-rouge">value</code> - Value to fill</li>
+</ul>
+
+<p><strong>Returns:</strong> New tensor with selected elements filled</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+
+<span class="c1">// Create mask for negative elements</span>
+<span class="nc">Tensor</span> <span class="n">mask</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">lt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+<span class="c1">// Replace negative with 0 (ReLU-like)</span>
+<span class="nc">Tensor</span> <span class="n">clipped</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">maskedFill</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">mask</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+
+<span class="c1">// Replace values &gt; 1 with 1 (clipping)</span>
+<span class="nc">Tensor</span> <span class="n">bounded</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">maskedFill</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">gt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">),</span> <span class="mi">1</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><strong>Use Cases:</strong></p>
+<ul>
+  <li>Thresholding</li>
+  <li>Clipping</li>
+  <li>Masking padded sequences</li>
+</ul>
+
+<hr />
+
+<h2 id="comparison-operations">Comparison Operations</h2>
+
+<h3 id="gt">gt()</h3>
+
+<p>Element-wise greater-than comparison.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">gt</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">float</span> <span class="n">other</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Returns:</strong> Boolean tensor (1.0 for true, 0.0 for false)</p>
+
+<p><strong>Example:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Tensor</span> <span class="n">x</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">},</span> <span class="mi">5</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">mask</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">gt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+<span class="c1">// Result: [0, 0, 0, 1, 1]</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="lt">lt()</h3>
+
+<p>Element-wise less-than comparison.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">lt</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">float</span> <span class="n">other</span><span class="o">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="ge">ge()</h3>
+
+<p>Element-wise greater-than-or-equal comparison.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">ge</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">float</span> <span class="n">other</span><span class="o">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="le">le()</h3>
+
+<p>Element-wise less-than-or-equal comparison.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">le</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">float</span> <span class="n">other</span><span class="o">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="eq">eq()</h3>
+
+<p>Element-wise equality comparison.</p>
+
+<p><strong>Signature:</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">Tensor</span> <span class="nf">eq</span><span class="o">(</span><span class="nc">Tensor</span> <span class="n">tensor</span><span class="o">,</span> <span class="kt">float</span> <span class="n">other</span><span class="o">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="1-use-slice-for-contiguous-subarrays">1. Use slice() for contiguous subarrays</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ✅ Good - Efficient contiguous slice</span>
+<span class="nc">Tensor</span> <span class="n">sliced</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">slice</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+
+<span class="c1">// ❌ Avoid - Creates intermediate tensors</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Tensor</span><span class="o">&gt;</span> <span class="n">parts</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">parts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">TensorOps</span><span class="o">.</span><span class="na">index</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">i</span><span class="o">));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="2-pre-allocate-gather-indices">2. Pre-allocate gather indices</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ✅ Good - Single gather operation</span>
+<span class="nc">Tensor</span> <span class="n">indices</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">topKIndices</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">topK</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">gather</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">logits</span><span class="o">,</span> <span class="n">indices</span><span class="o">);</span>
+
+<span class="c1">// ❌ Avoid - Loop creates overhead</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="nc">TensorOps</span><span class="o">.</span><span class="na">index</span><span class="o">(</span><span class="n">logits</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">topKIndices</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="3-chain-comparisons-efficiently">3. Chain comparisons efficiently</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ✅ Good - Single masked operation</span>
+<span class="nc">Tensor</span> <span class="n">inRange</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">maskedSelect</span><span class="o">(</span>
+    <span class="n">x</span><span class="o">,</span>
+    <span class="nc">TensorOps</span><span class="o">.</span><span class="na">ge</span><span class="o">(</span><span class="nc">TensorOps</span><span class="o">.</span><span class="na">le</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">),</span> <span class="mi">0</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="c1">// ❌ Avoid - Multiple allocations</span>
+<span class="nc">Tensor</span> <span class="n">gt0</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">gt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">lt1</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">lt</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+<span class="c1">// ... combine manually</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="performance-characteristics">Performance Characteristics</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Time Complexity</th>
+      <th>Space Complexity</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>slice()</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+      <td>n = output elements</td>
+    </tr>
+    <tr>
+      <td>cat()</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+      <td>n = total elements</td>
+    </tr>
+    <tr>
+      <td>stack()</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+      <td>Creates new dimension</td>
+    </tr>
+    <tr>
+      <td>gather()</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+      <td>Index-based selection</td>
+    </tr>
+    <tr>
+      <td>maskedSelect()</td>
+      <td>O(n)</td>
+      <td>O(k)</td>
+      <td>k = selected elements</td>
+    </tr>
+    <tr>
+      <td>maskedFill()</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+      <td>n = tensor elements</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="common-patterns">Common Patterns</h2>
+
+<h3 id="batch-selection">Batch Selection</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Select specific samples from batch</span>
+<span class="nc">Tensor</span> <span class="n">batch</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">randn</span><span class="o">(</span><span class="mi">64</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+<span class="nc">Tensor</span> <span class="n">selectedIdx</span> <span class="o">=</span> <span class="nc">Tensor</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="kt">float</span><span class="o">[]{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">10</span><span class="o">},</span> <span class="mi">3</span><span class="o">);</span>
+
+<span class="nc">Tensor</span> <span class="n">selected</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">indexSelect</span><span class="o">(</span><span class="n">batch</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">selectedIdx</span><span class="o">);</span>
+<span class="c1">// Result: (3, 10, 20)</span>
+</code></pre></div></div>
+
+<h3 id="top-k-selection">Top-K Selection</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Get top-k logits (pseudo-code)</span>
+<span class="nc">Tensor</span> <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>  <span class="c1">// (batch, 1000)</span>
+<span class="nc">Tensor</span> <span class="n">topKVals</span><span class="o">,</span> <span class="n">topKIdx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="na">topk</span><span class="o">(</span><span class="n">logits</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+<span class="nc">Tensor</span> <span class="n">topK</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">gather</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">logits</span><span class="o">,</span> <span class="n">topKIdx</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="sequence-masking">Sequence Masking</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Mask padding tokens</span>
+<span class="nc">Tensor</span> <span class="n">tokens</span> <span class="o">=</span> <span class="o">...;</span>  <span class="c1">// (batch, seq_len)</span>
+<span class="nc">Tensor</span> <span class="n">padMask</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">ne</span><span class="o">(</span><span class="n">tokens</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>  <span class="c1">// 1 for real tokens</span>
+
+<span class="nc">Tensor</span> <span class="n">masked</span> <span class="o">=</span> <span class="nc">TensorOps</span><span class="o">.</span><span class="na">maskedFill</span><span class="o">(</span>
+    <span class="n">attentionWeights</span><span class="o">,</span>
+    <span class="nc">TensorOps</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="n">padMask</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+    <span class="nc">Float</span><span class="o">.</span><span class="na">NEGATIVE_INFINITY</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-tensor">Tensor API</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-autograd">GradTensor Autograd</a></li>
+  <li><a href="/docs/api-references/0.1.0-SNAPSHOT/modules/gollek-ml-vision">Vision Transforms</a></li>
+  <li><a href="/docs/setup/examples-docs">Examples Docs</a></li>
+</ul>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <div class="footer-links">
+          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="/blog/">Blog</a>
+          <a href="/docs/setup/">Docs</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Find all collapsible sections
+        const triggers = document.querySelectorAll('.nav-collapsible-trigger');
+
+        triggers.forEach(trigger => {
+          const menu = trigger.nextElementSibling;
+          if (!menu || !menu.classList.contains('nav-sub-menu')) return;
+
+          // Auto-expand if current page is inside this menu
+          const hasActiveChild = menu.querySelector('.nav-sub-item.active') ||
+                                 menu.querySelector('.nav-item.active');
+
+          if (hasActiveChild) {
+            menu.classList.remove('collapsed');
+            trigger.classList.add('expanded');
+          }
+
+          trigger.addEventListener('click', function() {
+            menu.classList.toggle('collapsed');
+            trigger.classList.toggle('expanded');
+          });
+        });
+      });
+    </script>
+</body>
+</html>
