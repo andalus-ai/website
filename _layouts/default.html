@@ -66,6 +66,33 @@
           </svg>
           <span>Examples Catalog</span>
         </a>
+        <a href="{{ '/projects/' | relative_url }}" class="nav-item {% if page.url contains '/projects' and page.url != '/projects/wayang/' %}active{% endif %}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+          </svg>
+          <span>Projects</span>
+        </a>
+      </div>
+
+      <!-- Section: Projects -->
+      <div class="nav-section">
+        <div class="nav-section-title">Projects</div>
+        <a href="{{ '/projects/wayang/' | relative_url }}" class="nav-item {% if page.url contains '/projects/wayang' %}active{% endif %}">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/>
+            <path d="M4 7.5l8 4.5 8-4.5M12 12v9"/>
+          </svg>
+          <span>Wayang</span>
+        </a>
+        <a href="https://bhangun.github.io/wayang/" class="nav-sub-item" target="_blank" rel="noopener">
+          <svg class="nav-sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span>Wayang Javadoc</span>
+        </a>
       </div>
 
       <!-- Section: Setup -->

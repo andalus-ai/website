@@ -467,6 +467,12 @@ gollek-sdk-v0.2.0/
 
 ---
 
+## Wayang project pages
+
+Wayang is included as a first-class project under [`/projects/wayang/`](/projects/wayang/). Its generated Javadoc is owned and published by the Wayang repository at [bhangun.github.io/wayang](https://bhangun.github.io/wayang/).
+
+---
+
 ## 🎯 Next Steps
 
 1. **[Install SDK](/docs/setup/sdk-installation)** - Get started in 5 minutes

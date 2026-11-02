@@ -203,6 +203,10 @@ node.execute(nodeExecutionContext)
 
 
 <section class="quick-grid">
+  <a class="quick-card quick-card-wayang" href="/projects/wayang/">
+    <h3>Wayang Agent Platform</h3>
+    <p>Explore the modular agent framework, runtime integrations, project overview, and generated Java API reference.</p>
+  </a>
   <a class="quick-card" href="/docs/framework/framework">
     <h3>🧠 ML Framework</h3>
     <p>PyTorch-like API: Tensors, Autograd, 118+ NN modules, Advanced Tensor Ops, and Multimodal layers.</p>
