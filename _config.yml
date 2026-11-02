@@ -1,7 +1,7 @@
 title: Andalus AI
 description: "An open-source Java AI/ML ecosystem for building, training and running machine-learning applications."
 baseurl: ""
-url: "https://andalus-ai.github.io"
+url: "" # Set the canonical host when GitHub Pages or a custom domain is configured.
 
 # Build settings
 plugins: []
