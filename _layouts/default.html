@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if page.title %}{{ page.title }} | {% endif %}Gollek</title>
-  <meta name="description" content="Gollek SDK and CLI documentation for local and cloud inference workflows.">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}Andalus AI</title>
+  <meta name="description" content="Andalus AI is an open-source Java AI/ML ecosystem for building, training and running machine-learning applications.">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
@@ -15,7 +15,7 @@
   <script>
     (function () {
       try {
-        var stored = localStorage.getItem('gollek-theme');
+        var stored = localStorage.getItem('andalus-theme');
         var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         var theme = stored || (prefersDark ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', theme);
@@ -39,8 +39,8 @@
   <aside class="sidebar" id="sidebar" aria-label="Main navigation">
     <div class="sidebar-header">
       <a href="{{ '/' | relative_url }}" class="sidebar-brand">
-        <img src="https://raw.githubusercontent.com/bhangun/repo-assets/master/gollek%404x.png" alt="Gollek Logo" class="brand-logo">
-        <span class="brand-text">Gollek</span>
+        
+        <span class="brand-text">Andalus AI</span>
       </a>
       <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -64,7 +64,7 @@
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
           </svg>
-          <span>Examples Catalog</span>
+          <span>Gollek Examples (legacy)</span>
         </a>
         <a href="{{ '/projects/' | relative_url }}" class="nav-item {% if page.url contains '/projects' and page.url != '/projects/wayang/' %}active{% endif %}">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -80,6 +80,9 @@
       <!-- Section: Projects -->
       <div class="nav-section">
         <div class="nav-section-title">Projects</div>
+        <a href="https://github.com/andalus-ai/aljabr" class="nav-item" target="_blank" rel="noopener"><span>Aljabr</span></a>
+        <a href="https://github.com/andalus-ai/tafkir" class="nav-item" target="_blank" rel="noopener"><span>Tafkir</span></a>
+        <a href="https://github.com/andalus-ai/aqli" class="nav-item" target="_blank" rel="noopener"><span>AQLI</span></a>
         <a href="{{ '/projects/wayang/' | relative_url }}" class="nav-item {% if page.url contains '/projects/wayang' %}active{% endif %}">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/>
@@ -97,7 +100,7 @@
 
       <!-- Section: Setup -->
       <div class="nav-section">
-        <div class="nav-section-title">Setup & CLI</div>
+        <div class="nav-section-title">Legacy Gollek Setup &amp; CLI</div>
         <a href="{{ '/docs/setup/cli-installation' | relative_url }}" class="nav-item {% if page.url contains 'cli-installation' %}active{% endif %}">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="4,17 10,11 4,5"/>
@@ -116,7 +119,7 @@
 
       <!-- Section: Tutorial -->
       <div class="nav-section">
-        <div class="nav-section-title">Tutorial</div>
+        <div class="nav-section-title">Legacy Gollek Tutorials</div>
         <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -175,7 +178,7 @@
 
       <!-- Section: Framework -->
       <div class="nav-section">
-        <div class="nav-section-title">ML Framework</div>
+        <div class="nav-section-title">Historical Gollek Framework Docs</div>
         <a href="{{ '/docs/framework/framework' | relative_url }}" class="nav-item {% if page.url contains '/docs/framework/framework' %}active{% endif %}">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -210,7 +213,7 @@
 
       <!-- Section: API REferences -->
       <div class="nav-section">
-        <div class="nav-section-title">API REferences</div>
+        <div class="nav-section-title">Historical Gollek API References</div>
         <div class="nav-item nav-collapsible-trigger" style="cursor: pointer;">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -345,7 +348,7 @@
 
       <!-- Section: Runtime -->
       <div class="nav-section">
-        <div class="nav-section-title">Inference Runtime</div>
+        <div class="nav-section-title">Historical Gollek Runtime Docs</div>
         <a href="{{ '/docs/runtime/core-api' | relative_url }}" class="nav-item {% if page.url contains 'core-api' %}active{% endif %}">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="5,3 19,12 5,21"/>
@@ -497,7 +500,7 @@
             </svg>
             Blog
           </a>
-          <a href="https://github.com/bhangun/gollek" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
+          <a href="https://github.com/andalus-ai" class="btn btn-sm btn-ghost" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
             </svg>
@@ -517,9 +520,9 @@
     <!-- Footer -->
     <footer class="main-footer">
       <div class="footer-content">
-        <p>&copy; 2026 Gollek AI. Open source under Apache 2.0 License.</p>
+        <p>&copy; 2026 Andalus AI. Individual projects retain their respective licenses.</p>
         <div class="footer-links">
-          <a href="https://github.com/bhangun/gollek">GitHub</a>
+          <a href="https://github.com/andalus-ai">GitHub</a>
           <a href="{{ '/blog/' | relative_url }}">Blog</a>
           <a href="{{ '/docs/setup/' | relative_url }}">Docs</a>
         </div>

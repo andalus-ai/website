@@ -1,7 +1,7 @@
-title: Aqli SDK
-description: "Universal Inference SDK for AI Models - Build AI features once. Run local or cloud with the same API."
+title: Andalus AI
+description: "An open-source Java AI/ML ecosystem for building, training and running machine-learning applications."
 baseurl: ""
-url: "https://gollek-ai.github.io"
+url: "" # Set the canonical host when GitHub Pages or a custom domain is configured.
 
 # Build settings
 plugins: []
