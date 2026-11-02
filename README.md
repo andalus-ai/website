@@ -25,7 +25,7 @@ The public website and documentation hub for the Andalus AI ecosystem.
 
 ## Historical Gollek content
 
-The former root README has been preserved at [Historical Gollek SDK README](docs/archive/gollek-sdk-readme.md).
+The former root README has been preserved at [Historical Gollek SDK README](docs/archive/gollek-sdk-readme.md.txt).
 
 The website previously described the ML framework, training capabilities and inference runtime as one Gollek product. That architecture has since been split across Aljabr, Tafkir and AQLI.
 
