@@ -6,6 +6,8 @@ permalink: /docs/migration/
 
 # Documentation ownership and migration map
 
+**Audit baseline:** 2026-11-02
+
 This page is the working index for migrating the former Gollek documentation into the current Andalus AI project boundaries. It records where current documentation lives, what can be reused, and what must be audited before being presented as current guidance.
 
 **Migration rule:** project repositories are the source of truth for current APIs, build instructions and capability status. A historical Gollek page is not current merely because it still builds or appears in the website.
