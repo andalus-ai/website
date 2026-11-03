@@ -108,6 +108,12 @@ title: Andalus AI — Java AI/ML Ecosystem
   <p class="eyebrow">Infrastructure and integration</p>
   <h2 class="section-title-alt">Connect the ecosystem</h2>
   <div class="project-grid">
+    <a class="project-card project-card-featured" href="/projects/gamelan/">
+      <span class="project-card-kicker">Durable workflow engine</span>
+      <h2>Gamelan</h2>
+      <p>Workflow definitions and runs, DAG scheduling, execution dispatch, recovery, executor registration and workflow lifecycle management.</p>
+      <span class="project-card-link">Explore Gamelan &rarr;</span>
+    </a>
     <a class="project-card" href="https://github.com/andalus-ai/iket">
       <span class="project-card-kicker">API gateway</span>
       <h2>Iket</h2>
@@ -125,6 +131,7 @@ title: Andalus AI — Java AI/ML Ecosystem
     <a class="quick-card" href="https://github.com/andalus-ai/aqli"><h3>Serve models</h3><p>Explore AQLI's inference APIs and deployment workflows.</p></a>
     <a class="quick-card" href="/projects/andalus/"><h3>Build agent applications</h3><p>Use Andalus Framework or run the Andalus agent runtime.</p></a>
     <a class="quick-card" href="/projects/wayang/"><h3>Automate business processes</h3><p>Model decisions, integrations and agentic workflows with Wayang.</p></a>
+    <a class="quick-card" href="/projects/gamelan/"><h3>Execute durable workflows</h3><p>Run, schedule, recover and monitor long-lived workflows with Gamelan.</p></a>
   </div>
 </section>
 
