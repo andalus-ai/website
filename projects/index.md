@@ -28,6 +28,11 @@ permalink: /projects/
   <a class="project-card project-card-featured" href="/projects/wayang/"><span class="project-card-kicker">Low-code automation platform</span><h2>Wayang</h2><p>Business-process, decision, enterprise-integration and agent definitions, with execution delegated to Gamelan and Andalus.</p><span class="project-card-link">Explore Wayang &rarr;</span></a>
 </section>
 
+<h2 class="section-title-alt">Workflow and infrastructure engines</h2>
+<section class="project-grid">
+  <a class="project-card project-card-featured" href="/projects/gamelan/"><span class="project-card-kicker">Durable workflow engine</span><h2>Gamelan</h2><p>Workflow definitions and runs, DAG scheduling, execution dispatch, recovery and executor management.</p><span class="project-card-link">Explore Gamelan &rarr;</span></a>
+</section>
+
 <h2 class="section-title-alt">Infrastructure</h2>
 <section class="project-grid">
   <a class="project-card" href="https://github.com/andalus-ai/iket"><span class="project-card-kicker">API gateway</span><h2>Iket</h2><p>A separate gateway project for routing and governing service traffic.</p><span class="project-card-link">Explore Iket &rarr;</span></a>
