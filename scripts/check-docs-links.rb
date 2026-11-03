@@ -8,6 +8,7 @@ ROOT = Pathname.new(File.expand_path("..", __dir__))
 SITE = ROOT.join("_site")
 DOC_GLOB = ROOT.join("docs/**/*.md").to_s
 SKIPPED_PREFIXES = ["/examples/"].freeze
+SKIPPED_SOURCE_PREFIXES = ["docs/archive/"].freeze
 
 def markdown_targets(text)
   text.scan(/!?\[[^\]]*\]\(([^)]+)\)/).flatten.map do |target|
@@ -71,6 +72,9 @@ missing_files = []
 missing_anchors = []
 
 Dir[DOC_GLOB].sort.each do |source_file|
+  relative_source = Pathname.new(source_file).relative_path_from(ROOT).to_s
+  next if SKIPPED_SOURCE_PREFIXES.any? { |prefix| relative_source.start_with?(prefix) }
+
   text = File.read(source_file)
   targets = (markdown_targets(text) + html_href_targets(text)).uniq
 
