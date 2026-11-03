@@ -12,6 +12,7 @@ permalink: /projects/wayang/
     <a class="btn btn-primary" href="https://github.com/andalus-ai/wayang" target="_blank" rel="noopener">View Wayang repository</a>
     <a class="btn btn-ghost" href="https://github.com/andalus-ai/wayang/blob/main/README.md" target="_blank" rel="noopener">Read project overview</a>
     <a class="btn btn-ghost" href="https://github.com/andalus-ai/wayang/tree/main/docs" target="_blank" rel="noopener">Browse design guides</a>
+    <a class="btn btn-ghost" href="/projects/gamelan/">Gamelan workflow engine</a>
   </div>
 </section>
 
